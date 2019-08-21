@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.5.18"/>
+		<Timestamp>2019-08-20T19:49:41Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="mpg" optype="continuous" dataType="double"/>
+		<DataField name="cylinders" optype="categorical" dataType="integer">
+			<Value value="3"/>
+			<Value value="4"/>
+			<Value value="5"/>
+			<Value value="6"/>
+			<Value value="8"/>
+		</DataField>
+		<DataField name="model_year" optype="categorical" dataType="integer">
+			<Value value="70"/>
+			<Value value="71"/>
+			<Value value="72"/>
+			<Value value="73"/>
+			<Value value="74"/>
+			<Value value="75"/>
+			<Value value="76"/>
+			<Value value="77"/>
+			<Value value="78"/>
+			<Value value="79"/>
+			<Value value="80"/>
+			<Value value="81"/>
+			<Value value="82"/>
+		</DataField>
+		<DataField name="origin" optype="categorical" dataType="integer">
+			<Value value="1"/>
+			<Value value="2"/>
+			<Value value="3"/>
+		</DataField>
+		<DataField name="displacement" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="68.0" rightMargin="455.0"/>
+		</DataField>
+		<DataField name="horsepower" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="46" rightMargin="230"/>
+		</DataField>
+		<DataField name="weight" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="1613" rightMargin="5140"/>
+		</DataField>
+		<DataField name="acceleration" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="8.0" rightMargin="24.8"/>
+		</DataField>
+	</DataDictionary>
+	<RegressionModel functionName="regression">
+		<MiningSchema>
+			<MiningField name="mpg" usageType="target"/>
+			<MiningField name="cylinders" missingValueTreatment="asIs"/>
+			<MiningField name="model_year" missingValueTreatment="asIs"/>
+			<MiningField name="origin" missingValueTreatment="asIs"/>
+			<MiningField name="displacement" missingValueTreatment="asIs"/>
+			<MiningField name="horsepower" missingValueTreatment="asIs"/>
+			<MiningField name="weight" missingValueTreatment="asIs"/>
+			<MiningField name="acceleration" missingValueTreatment="asIs"/>
+		</MiningSchema>
+		<ModelStats>
+			<UnivariateStats field="cylinders">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">3 4 5 6 8</Array>
+					<Array type="int">4 199 3 83 103</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="model_year">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">70 71 72 73 74 75 76 77 78 79 80 81 82</Array>
+					<Array type="int">29 27 28 40 26 30 34 28 36 29 27 28 30</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="origin">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">1 2 3</Array>
+					<Array type="int">245 68 79</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="displacement">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="68.0" maximum="455.0" mean="194.41198979591837" standardDeviation="104.51044418133284" median="151.0" interQuartileRange="170.75"/>
+			</UnivariateStats>
+			<UnivariateStats field="horsepower">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="46" maximum="230" mean="104.46938775510205" standardDeviation="38.44203271442593" median="93.5" interQuartileRange="51.0"/>
+			</UnivariateStats>
+			<UnivariateStats field="weight">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="1613" maximum="5140" mean="2977.5841836734694" standardDeviation="848.3184465698362" median="2803.5" interQuartileRange="1389.5"/>
+			</UnivariateStats>
+			<UnivariateStats field="acceleration">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="8.0" maximum="24.8" mean="15.541326530612244" standardDeviation="2.7553429127509967" median="15.5" interQuartileRange="3.2499999999999964"/>
+			</UnivariateStats>
+		</ModelStats>
+		<RegressionTable intercept="39.99390503752615">
+			<NumericPredictor name="displacement" coefficient="0.011824591874187163"/>
+			<NumericPredictor name="horsepower" coefficient="-0.039232281550604486"/>
+			<NumericPredictor name="weight" coefficient="-0.0051801793614632"/>
+			<NumericPredictor name="acceleration" coefficient="0.0036079828590064224"/>
+			<CategoricalPredictor name="cylinders" value="3" coefficient="-4.848355877607463"/>
+			<CategoricalPredictor name="cylinders" value="4" coefficient="2.091565682312324"/>
+			<CategoricalPredictor name="cylinders" value="5" coefficient="1.78937511484452"/>
+			<CategoricalPredictor name="cylinders" value="6" coefficient="-0.551041971655245"/>
+			<CategoricalPredictor name="cylinders" value="8" coefficient="1.51845705210605"/>
+			<CategoricalPredictor name="model_year" value="70" coefficient="-2.8999703004586985"/>
+			<CategoricalPredictor name="model_year" value="71" coefficient="-1.9895417871952654"/>
+			<CategoricalPredictor name="model_year" value="72" coefficient="-3.3902764546988493"/>
+			<CategoricalPredictor name="model_year" value="73" coefficient="-3.4528636913507538"/>
+			<CategoricalPredictor name="model_year" value="74" coefficient="-1.6579727068156762"/>
+			<CategoricalPredictor name="model_year" value="75" coefficient="-2.029568722725099"/>
+			<CategoricalPredictor name="model_year" value="76" coefficient="-1.403310515298292"/>
+			<CategoricalPredictor name="model_year" value="77" coefficient="0.09872644481618696"/>
+			<CategoricalPredictor name="model_year" value="78" coefficient="0.07380804893941778"/>
+			<CategoricalPredictor name="model_year" value="79" coefficient="1.99620602799813"/>
+			<CategoricalPredictor name="model_year" value="80" coefficient="6.15896126722052"/>
+			<CategoricalPredictor name="model_year" value="81" coefficient="3.558187732214281"/>
+			<CategoricalPredictor name="model_year" value="82" coefficient="4.9376146573541115"/>
+			<CategoricalPredictor name="origin" value="1" coefficient="-1.3287373704783703"/>
+			<CategoricalPredictor name="origin" value="2" coefficient="0.3645479632873153"/>
+			<CategoricalPredictor name="origin" value="3" coefficient="0.9641894071910394"/>
+		</RegressionTable>
+		<ModelVerification recordCount="3">
+			<VerificationFields>
+				<VerificationField field="cylinders" column="data:cylinders"/>
+				<VerificationField field="displacement" column="data:displacement"/>
+				<VerificationField field="horsepower" column="data:horsepower"/>
+				<VerificationField field="weight" column="data:weight"/>
+				<VerificationField field="acceleration" column="data:acceleration"/>
+				<VerificationField field="model_year" column="data:model_year"/>
+				<VerificationField field="origin" column="data:origin"/>
+				<VerificationField field="mpg" column="data:mpg" precision="1.0E-13" zeroThreshold="1.0E-13"/>
+			</VerificationFields>
+			<InlineTable>
+				<row>
+					<data:cylinders>6.0</data:cylinders>
+					<data:displacement>258.0</data:displacement>
+					<data:horsepower>110.0</data:horsepower>
+					<data:weight>2962.0</data:weight>
+					<data:acceleration>13.5</data:acceleration>
+					<data:model_year>71.0</data:model_year>
+					<data:origin>1.0</data:origin>
+					<data:mpg>19.56479414111365</data:mpg>
+				</row>
+				<row>
+					<data:cylinders>6.0</data:cylinders>
+					<data:displacement>198.0</data:displacement>
+					<data:horsepower>95.0</data:horsepower>
+					<data:weight>2904.0</data:weight>
+					<data:acceleration>16.0</data:acceleration>
+					<data:model_year>73.0</data:model_year>
+					<data:origin>1.0</data:origin>
+					<data:mpg>18.289951307878383</data:mpg>
+				</row>
+				<row>
+					<data:cylinders>8.0</data:cylinders>
+					<data:displacement>350.0</data:displacement>
+					<data:horsepower>165.0</data:horsepower>
+					<data:weight>4209.0</data:weight>
+					<data:acceleration>12.0</data:acceleration>
+					<data:model_year>71.0</data:model_year>
+					<data:origin>1.0</data:origin>
+					<data:mpg>14.099284493983795</data:mpg>
+				</row>
+			</InlineTable>
+		</ModelVerification>
+	</RegressionModel>
+</PMML>

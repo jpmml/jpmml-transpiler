@@ -1,0 +1,1264 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.5.18"/>
+		<Timestamp>2019-08-20T19:49:32Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="mpg" optype="continuous" dataType="double"/>
+		<DataField name="cylinders" optype="categorical" dataType="integer">
+			<Value value="3"/>
+			<Value value="4"/>
+			<Value value="5"/>
+			<Value value="6"/>
+			<Value value="8"/>
+		</DataField>
+		<DataField name="model_year" optype="categorical" dataType="integer">
+			<Value value="70"/>
+			<Value value="71"/>
+			<Value value="72"/>
+			<Value value="73"/>
+			<Value value="74"/>
+			<Value value="75"/>
+			<Value value="76"/>
+			<Value value="77"/>
+			<Value value="78"/>
+			<Value value="79"/>
+			<Value value="80"/>
+			<Value value="81"/>
+			<Value value="82"/>
+		</DataField>
+		<DataField name="origin" optype="categorical" dataType="integer">
+			<Value value="1"/>
+			<Value value="2"/>
+			<Value value="3"/>
+		</DataField>
+		<DataField name="displacement" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="68.0" rightMargin="455.0"/>
+		</DataField>
+		<DataField name="horsepower" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="46" rightMargin="230"/>
+		</DataField>
+		<DataField name="weight" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="1613" rightMargin="5140"/>
+		</DataField>
+		<DataField name="acceleration" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="8.0" rightMargin="24.8"/>
+		</DataField>
+	</DataDictionary>
+	<TransformationDictionary/>
+	<MiningModel functionName="regression">
+		<MiningSchema>
+			<MiningField name="mpg" usageType="target"/>
+			<MiningField name="cylinders" missingValueTreatment="asIs"/>
+			<MiningField name="model_year" missingValueTreatment="asIs"/>
+			<MiningField name="origin" missingValueTreatment="asIs"/>
+			<MiningField name="horsepower" missingValueTreatment="asIs"/>
+			<MiningField name="weight" missingValueTreatment="asIs"/>
+			<MiningField name="acceleration" missingValueTreatment="asIs"/>
+			<MiningField name="displacement" missingValueTreatment="asIs"/>
+		</MiningSchema>
+		<ModelStats>
+			<UnivariateStats field="cylinders">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">3 4 5 6 8</Array>
+					<Array type="int">4 199 3 83 103</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="model_year">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">70 71 72 73 74 75 76 77 78 79 80 81 82</Array>
+					<Array type="int">29 27 28 40 26 30 34 28 36 29 27 28 30</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="origin">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">1 2 3</Array>
+					<Array type="int">245 68 79</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="horsepower">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="46" maximum="230" mean="104.46938775510205" standardDeviation="38.44203271442593" median="93.5" interQuartileRange="51.0"/>
+			</UnivariateStats>
+			<UnivariateStats field="weight">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="1613" maximum="5140" mean="2977.5841836734694" standardDeviation="848.3184465698362" median="2803.5" interQuartileRange="1389.5"/>
+			</UnivariateStats>
+			<UnivariateStats field="acceleration">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="8.0" maximum="24.8" mean="15.541326530612244" standardDeviation="2.7553429127509967" median="15.5" interQuartileRange="3.2499999999999964"/>
+			</UnivariateStats>
+			<UnivariateStats field="displacement">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="68.0" maximum="455.0" mean="194.41198979591837" standardDeviation="104.51044418133284" median="151.0" interQuartileRange="170.75"/>
+			</UnivariateStats>
+		</ModelStats>
+		<LocalTransformations>
+			<DerivedField name="float(horsepower)" optype="continuous" dataType="float">
+				<FieldRef field="horsepower"/>
+			</DerivedField>
+			<DerivedField name="double(float(horsepower))" optype="continuous" dataType="double">
+				<FieldRef field="float(horsepower)"/>
+			</DerivedField>
+			<DerivedField name="float(weight)" optype="continuous" dataType="float">
+				<FieldRef field="weight"/>
+			</DerivedField>
+			<DerivedField name="double(float(weight))" optype="continuous" dataType="double">
+				<FieldRef field="float(weight)"/>
+			</DerivedField>
+			<DerivedField name="float(acceleration)" optype="continuous" dataType="float">
+				<FieldRef field="acceleration"/>
+			</DerivedField>
+			<DerivedField name="double(float(acceleration))" optype="continuous" dataType="double">
+				<FieldRef field="float(acceleration)"/>
+			</DerivedField>
+			<DerivedField name="float(displacement)" optype="continuous" dataType="float">
+				<FieldRef field="displacement"/>
+			</DerivedField>
+			<DerivedField name="double(float(displacement))" optype="continuous" dataType="double">
+				<FieldRef field="float(displacement)"/>
+			</DerivedField>
+		</LocalTransformations>
+		<Segmentation multipleModelMethod="x-weightedMedian">
+			<Segment id="1" weight="1.7040734250798888">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="13.293103448275861">
+						<True/>
+						<Node score="24.879746835443036">
+							<SimplePredicate field="cylinders" operator="equal" value="4"/>
+							<Node score="44.0">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2149.5"/>
+								<Node score="33.589230769230774">
+									<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="23.40000057220459"/>
+								</Node>
+							</Node>
+							<Node score="28.288524590163934">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="84.5"/>
+							</Node>
+						</Node>
+						<Node score="19.846067415730335">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="127.0"/>
+							<Node score="36.4">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="69.5"/>
+							</Node>
+						</Node>
+						<Node score="14.890476190476189">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="4344.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="2" weight="1.0616550248646106">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="12.625">
+						<True/>
+						<Node score="25.2370786516854">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3018.0"/>
+							<Node score="31.314705882352932">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="78.5"/>
+								<Node score="38.24999999999999">
+									<SimplePredicate field="model_year" operator="equal" value="80"/>
+								</Node>
+							</Node>
+							<Node score="32.09090909090909">
+								<SimplePredicate field="model_year" operator="equal" value="82"/>
+							</Node>
+						</Node>
+						<Node score="18.968627450980392">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="127.0"/>
+							<Node score="26.5">
+								<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="156.5"/>
+							</Node>
+						</Node>
+						<Node score="15.614925373134326">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="4361.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="3" weight="0.8038130801415728">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="13.869444444444444">
+						<True/>
+						<Node score="24.108571428571423">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3027.0"/>
+							<Node score="34.015789473684194">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="69.5"/>
+								<Node score="41.665000000000006">
+									<SimplePredicate field="model_year" operator="equal" value="80"/>
+								</Node>
+							</Node>
+							<Node score="29.312592592592594">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="93.5"/>
+							</Node>
+						</Node>
+						<Node score="24.75714285714286">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="129.5"/>
+							<Node score="18.518918918918924">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="19.40000057220459"/>
+							</Node>
+						</Node>
+						<Node score="18.71666666666667">
+							<SimplePredicate field="model_year" operator="equal" value="78"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="4" weight="0.818235248441466">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="12.125">
+						<True/>
+						<Node score="25.657407407407412">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3018.0"/>
+							<Node score="33.006756756756744">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="70.5"/>
+								<Node score="42.50769230769232">
+									<SimplePredicate field="model_year" operator="equal" value="80"/>
+								</Node>
+							</Node>
+							<Node score="34.182352941176475">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+							</Node>
+						</Node>
+						<Node score="30.03333333333333">
+							<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="154.5"/>
+							<Node score="19.0">
+								<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="130.5"/>
+							</Node>
+						</Node>
+						<Node score="17.30384615384616">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="4286.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="5" weight="0.9220723138615685">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="20.699999999999996">
+						<True/>
+						<Node score="26.07639751552796">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3037.5"/>
+							<Node score="32.75921052631581">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="71.5"/>
+								<Node score="39.411111111111104">
+									<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="52.5"/>
+								</Node>
+							</Node>
+							<Node score="35.25714285714286">
+								<SimplePredicate field="model_year" operator="equal" value="82"/>
+							</Node>
+						</Node>
+						<Node score="14.194444444444445">
+							<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="17.050000190734863"/>
+							<Node score="18.355">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3617.0"/>
+							</Node>
+						</Node>
+						<Node score="26.378571428571426">
+							<SimplePredicate field="model_year" operator="equal" value="81"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="6" weight="1.2011084310947788">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="14.5">
+						<True/>
+						<Node score="25.28375">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="96.5"/>
+							<Node score="28.139999999999997">
+								<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="93.5"/>
+								<Node score="39.56964285714285">
+									<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="70.5"/>
+								</Node>
+							</Node>
+							<Node score="31.53671875">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="17.100000381469727"/>
+							</Node>
+						</Node>
+						<Node score="21.80740740740741">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2920.0"/>
+							<Node score="32.2125">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="12.099999904632568"/>
+							</Node>
+						</Node>
+						<Node score="18.583333333333336">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3740.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="7" weight="1.097186975340247">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="12.5">
+						<True/>
+						<Node score="23.628571428571426">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3018.0"/>
+							<Node score="34.44761904761906">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+								<Node score="42.07692307692309">
+									<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="102.5"/>
+								</Node>
+							</Node>
+							<Node score="31.565838509316777">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="85.5"/>
+							</Node>
+						</Node>
+						<Node score="17.2280701754386">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3951.0"/>
+							<Node score="24.325">
+								<SimplePredicate field="model_year" operator="equal" value="81"/>
+							</Node>
+						</Node>
+						<Node score="14.816666666666668">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="4371.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="8" weight="1.2528199386585281">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="12.96551724137931">
+						<True/>
+						<Node score="43.60909090909089">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2162.0"/>
+							<Node score="34.50105263157894">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="21.25"/>
+								<Node score="24.0">
+									<SimplePredicate field="model_year" operator="equal" value="73"/>
+								</Node>
+							</Node>
+							<Node score="29.0">
+								<SimplePredicate field="model_year" operator="equal" value="76"/>
+							</Node>
+						</Node>
+						<Node score="38.0">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3018.0"/>
+							<Node score="25.943859649122814">
+								<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="247.0"/>
+							</Node>
+						</Node>
+						<Node score="20.882352941176475">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="127.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="9" weight="0.8882157506646752">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="14.033333333333333">
+						<True/>
+						<Node score="32.3770642201835">
+							<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="120.5"/>
+							<Node score="19.076923076923077">
+								<SimplePredicate field="model_year" operator="equal" value="73"/>
+								<Node score="26.444444444444443">
+									<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="81.5"/>
+								</Node>
+							</Node>
+							<Node score="39.52531645569618">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="66.5"/>
+							</Node>
+						</Node>
+						<Node score="22.294244604316546">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="133.5"/>
+							<Node score="32.074999999999996">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+							</Node>
+						</Node>
+						<Node score="18.425">
+							<SimplePredicate field="model_year" operator="equal" value="79"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="10" weight="0.9395398566547204">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="17.4275">
+						<True/>
+						<Node score="33.43035714285713">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2216.5"/>
+							<Node score="26.5">
+								<SimplePredicate field="model_year" operator="equal" value="73"/>
+								<Node score="18.0">
+									<SimplePredicate field="cylinders" operator="equal" value="3"/>
+								</Node>
+							</Node>
+							<Node score="39.612499999999976">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+							</Node>
+						</Node>
+						<Node score="25.333333333333332">
+							<SimplePredicate field="model_year" operator="equal" value="82"/>
+							<Node score="35.6">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="89.0"/>
+							</Node>
+						</Node>
+						<Node score="25.94859813084112">
+							<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="169.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="11" weight="0.6491347515674502">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="origin"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+					</MiningSchema>
+					<Node score="14.744444444444444">
+						<True/>
+						<Node score="29.6653409090909">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3257.0"/>
+							<Node score="33.15595238095237">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="70.5"/>
+								<Node score="40.53749999999998">
+									<SimplePredicate field="origin" operator="equal" value="3"/>
+								</Node>
+							</Node>
+							<Node score="19.88888888888889">
+								<SimplePredicate field="model_year" operator="equal" value="73"/>
+							</Node>
+						</Node>
+						<Node score="18.2625">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="142.5"/>
+							<Node score="25.399999999999995">
+								<SimplePredicate field="cylinders" operator="equal" value="5"/>
+							</Node>
+						</Node>
+						<Node score="10.0">
+							<SimplePredicate field="model_year" operator="equal" value="70"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="12" weight="1.2823959205686706">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="10.833333333333334">
+						<True/>
+						<Node score="25.622777777777774">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3018.0"/>
+							<Node score="35.95416666666667">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+								<Node score="44.69166666666667">
+									<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="87.5"/>
+								</Node>
+							</Node>
+							<Node score="36.97014925373134">
+								<SimplePredicate field="model_year" operator="equal" value="82"/>
+							</Node>
+						</Node>
+						<Node score="24.481818181818177">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="127.0"/>
+							<Node score="17.576923076923077">
+								<SimplePredicate field="cylinders" operator="equal" value="6"/>
+							</Node>
+						</Node>
+						<Node score="15.450000000000001">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="4330.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="13" weight="1.1785331616072388">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(acceleration))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="12.766666666666667">
+						<True/>
+						<Node score="44.0">
+							<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="119.5"/>
+							<Node score="31.35542857142856">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="23.600000381469727"/>
+								<Node score="41.86521739130435">
+									<SimplePredicate field="model_year" operator="equal" value="78"/>
+								</Node>
+							</Node>
+							<Node score="43.399999999999984">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="50.0"/>
+							</Node>
+						</Node>
+						<Node score="38.0">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="96.5"/>
+							<Node score="25.310843373493977">
+								<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="256.0"/>
+							</Node>
+						</Node>
+						<Node score="20.532692307692304">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="147.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="14" weight="1.1619460275500153">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="19.216176470588234">
+						<True/>
+						<Node score="41.220879120879104">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2162.0"/>
+							<Node score="30.087719298245602">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="1977.5"/>
+								<Node score="44.6">
+									<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="13.900000095367432"/>
+								</Node>
+							</Node>
+							<Node score="18.75">
+								<SimplePredicate field="model_year" operator="equal" value="73"/>
+							</Node>
+						</Node>
+						<Node score="43.39999999999999">
+							<SimplePredicate field="model_year" operator="equal" value="80"/>
+							<Node score="32.80370370370371">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="22.75"/>
+							</Node>
+						</Node>
+						<Node score="26.082442748091612">
+							<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="190.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="15" weight="1.1026450706525694">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="16.486363636363638">
+						<True/>
+						<Node score="28.107189542483663">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="93.0"/>
+							<Node score="37.63703703703703">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+								<Node score="45.876190476190494">
+									<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="87.5"/>
+								</Node>
+							</Node>
+							<Node score="37.0">
+								<SimplePredicate field="model_year" operator="equal" value="82"/>
+							</Node>
+						</Node>
+						<Node score="23.550000000000004">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2912.0"/>
+							<Node score="32.9">
+								<SimplePredicate field="model_year" operator="equal" value="81"/>
+							</Node>
+						</Node>
+						<Node score="26.2">
+							<SimplePredicate field="model_year" operator="equal" value="81"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="16" weight="1.2525785769796993">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="origin"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="21.19866666666667">
+						<True/>
+						<Node score="39.26640624999998">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2217.5"/>
+							<Node score="29.5">
+								<SimplePredicate field="model_year" operator="equal" value="74"/>
+								<Node score="24.428571428571427">
+									<SimplePredicate field="origin" operator="equal" value="2"/>
+								</Node>
+							</Node>
+							<Node score="30.44838709677418">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="1847.5"/>
+							</Node>
+						</Node>
+						<Node score="43.4">
+							<SimplePredicate field="model_year" operator="equal" value="80"/>
+							<Node score="32.243750000000006">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="22.75"/>
+							</Node>
+						</Node>
+						<Node score="33.6551724137931">
+							<SimplePredicate field="model_year" operator="equal" value="82"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="17" weight="0.9340994780728151">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="origin"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="14.437499999999998">
+						<True/>
+						<Node score="41.28874999999997">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="71.0"/>
+							<Node score="26.04736842105263">
+								<SimplePredicate field="origin" operator="equal" value="1"/>
+								<Node score="36.43333333333333">
+									<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="16.699999809265137"/>
+								</Node>
+							</Node>
+							<Node score="32.442499999999995">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="1969.0"/>
+							</Node>
+						</Node>
+						<Node score="28.357222222222212">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3164.5"/>
+							<Node score="19.032258064516128">
+								<SimplePredicate field="model_year" operator="equal" value="73"/>
+							</Node>
+						</Node>
+						<Node score="25.550000000000004">
+							<SimplePredicate field="model_year" operator="equal" value="81"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="18" weight="0.6396706933649277">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="17.076315789473682">
+						<True/>
+						<Node score="24.800000000000004">
+							<SimplePredicate field="model_year" operator="equal" value="80"/>
+							<Node score="43.386885245901624">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2377.5"/>
+								<Node score="29.800000000000008">
+									<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="1847.5"/>
+								</Node>
+							</Node>
+							<Node score="35.09285714285714">
+								<SimplePredicate field="cylinders" operator="equal" value="4"/>
+							</Node>
+						</Node>
+						<Node score="43.35312499999999">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="53.0"/>
+							<Node score="27.48">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="21.25"/>
+							</Node>
+						</Node>
+						<Node score="27.427884615384617">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3050.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="19" weight="0.8489915169368497">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="origin"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+					</MiningSchema>
+					<Node score="12.207142857142857">
+						<True/>
+						<Node score="31.83205741626793">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="89.0"/>
+							<Node score="42.78695652173909">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+								<Node score="29.8">
+									<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="1847.5"/>
+								</Node>
+							</Node>
+							<Node score="15.727272727272727">
+								<SimplePredicate field="model_year" operator="equal" value="75"/>
+							</Node>
+						</Node>
+						<Node score="31.443243243243238">
+							<SimplePredicate field="cylinders" operator="equal" value="4"/>
+							<Node score="19.657894736842106">
+								<SimplePredicate field="origin" operator="equal" value="2"/>
+							</Node>
+						</Node>
+						<Node score="20.75">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="142.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="20" weight="0.9088125452140773">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="16.405">
+						<True/>
+						<Node score="38.40814814814814">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2162.0"/>
+							<Node score="18.0">
+								<SimplePredicate field="model_year" operator="equal" value="73"/>
+								<Node score="26.0">
+									<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="68.0"/>
+								</Node>
+							</Node>
+							<Node score="25.333333333333332">
+								<SimplePredicate field="model_year" operator="equal" value="74"/>
+							</Node>
+						</Node>
+						<Node score="29.1">
+							<SimplePredicate field="model_year" operator="equal" value="82"/>
+							<Node score="36.96969696969697">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="86.5"/>
+							</Node>
+						</Node>
+						<Node score="26.75098039215687">
+							<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="191.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="21" weight="0.9993152094685686">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(acceleration))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="19.453012048192765">
+						<True/>
+						<Node score="27.46511627906977">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="67.5"/>
+							<Node score="43.07826086956517">
+								<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="94.0"/>
+								<Node score="36.00625000000001">
+									<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="85.5"/>
+								</Node>
+							</Node>
+							<Node score="43.57142857142857">
+								<SimplePredicate field="model_year" operator="equal" value="82"/>
+							</Node>
+						</Node>
+						<Node score="24.382432432432434">
+							<SimplePredicate field="cylinders" operator="equal" value="4"/>
+							<Node score="32.32658227848102">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="15.75"/>
+							</Node>
+						</Node>
+						<Node score="35.92857142857143">
+							<SimplePredicate field="model_year" operator="equal" value="82"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="22" weight="1.0503059848757401">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="21.59391891891892">
+						<True/>
+						<Node score="41.76551724137931">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2214.5"/>
+							<Node score="44.040476190476184">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+								<Node score="29.800000000000004">
+									<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="1847.5"/>
+								</Node>
+							</Node>
+							<Node score="31.047524752475244">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="21.25"/>
+							</Node>
+						</Node>
+						<Node score="23.666666666666668">
+							<SimplePredicate field="model_year" operator="equal" value="82"/>
+							<Node score="36.5">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="90.0"/>
+							</Node>
+						</Node>
+						<Node score="33.086666666666666">
+							<SimplePredicate field="model_year" operator="equal" value="80"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="23" weight="0.37349860509748395">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="9.153846153846153">
+						<True/>
+						<Node score="37.05573770491804">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2162.0"/>
+							<Node score="18.0">
+								<SimplePredicate field="model_year" operator="equal" value="73"/>
+								<Node score="24.666666666666668">
+									<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="82.5"/>
+								</Node>
+							</Node>
+							<Node score="24.571428571428573">
+								<SimplePredicate field="model_year" operator="equal" value="74"/>
+							</Node>
+						</Node>
+						<Node score="24.94083769633507">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="136.0"/>
+							<Node score="32.369230769230775">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+							</Node>
+						</Node>
+						<Node score="12.181818181818182">
+							<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="14.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="24" weight="0.3102547411340216">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+					</MiningSchema>
+					<Node score="11.545454545454545">
+						<True/>
+						<Node score="24.269565217391307">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2149.5"/>
+							<Node score="43.87142857142857">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+								<Node score="29.8">
+									<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="1847.5"/>
+								</Node>
+							</Node>
+							<Node score="35.60909090909091">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="72.5"/>
+							</Node>
+						</Node>
+						<Node score="25.925414364640865">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3260.0"/>
+							<Node score="34.813333333333325">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+							</Node>
+						</Node>
+						<Node score="19.74285714285714">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3971.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="25" weight="0.5965033908913763">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="26.243478260869562">
+						<True/>
+						<Node score="31.298936170212766">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2920.0"/>
+							<Node score="32.680952380952384">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+								<Node score="42.698148148148135">
+									<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="77.0"/>
+								</Node>
+							</Node>
+							<Node score="19.4375">
+								<SimplePredicate field="model_year" operator="equal" value="73"/>
+							</Node>
+						</Node>
+						<Node score="38.0">
+							<SimplePredicate field="model_year" operator="equal" value="82"/>
+							<Node score="25.0">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2980.0"/>
+							</Node>
+						</Node>
+						<Node score="16.01746031746032">
+							<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="19.550000190734863"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="26" weight="0.8365148013099966">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="origin"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(acceleration))"/>
+					</MiningSchema>
+					<Node score="18.5923076923077">
+						<True/>
+						<Node score="43.823529411764696">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="71.0"/>
+							<Node score="38.46206896551725">
+								<SimplePredicate field="origin" operator="equal" value="3"/>
+								<Node score="45.40000000000001">
+									<SimplePredicate field="model_year" operator="equal" value="80"/>
+								</Node>
+							</Node>
+							<Node score="31.086904761904748">
+								<SimplePredicate field="double(float(acceleration))" operator="lessOrEqual" value="23.600000381469727"/>
+							</Node>
+						</Node>
+						<Node score="27.8">
+							<SimplePredicate field="model_year" operator="equal" value="82"/>
+							<Node score="37.0">
+								<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="85.5"/>
+							</Node>
+						</Node>
+						<Node score="27.006617647058835">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2921.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="27" weight="0.6074098454044817">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+					</MiningSchema>
+					<Node score="10.416666666666666">
+						<True/>
+						<Node score="39.682291666666664">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2162.0"/>
+							<Node score="18.0">
+								<SimplePredicate field="model_year" operator="equal" value="73"/>
+								<Node score="25.333333333333332">
+									<SimplePredicate field="cylinders" operator="equal" value="4"/>
+								</Node>
+							</Node>
+							<Node score="31.68214285714284">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="1964.0"/>
+							</Node>
+						</Node>
+						<Node score="25.07988826815642">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="132.5"/>
+							<Node score="33.228125">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+							</Node>
+						</Node>
+						<Node score="15.675">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="165.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="28" weight="0.8171444610319549">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="23.44277777777777">
+						<True/>
+						<Node score="27.660975609756097">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="71.0"/>
+							<Node score="41.850980392156835">
+								<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="94.0"/>
+								<Node score="34.949999999999996">
+									<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="1974.0"/>
+								</Node>
+							</Node>
+							<Node score="41.111111111111114">
+								<SimplePredicate field="model_year" operator="equal" value="82"/>
+							</Node>
+						</Node>
+						<Node score="27.066666666666663">
+							<SimplePredicate field="model_year" operator="equal" value="80"/>
+							<Node score="37.34571428571428">
+								<SimplePredicate field="cylinders" operator="equal" value="4"/>
+							</Node>
+						</Node>
+						<Node score="35.5">
+							<SimplePredicate field="model_year" operator="equal" value="82"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="29" weight="0.6134145578403478">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+					</MiningSchema>
+					<Node score="9.772727272727273">
+						<True/>
+						<Node score="26.950261780104693">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3164.5"/>
+							<Node score="37.28514851485146">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2117.0"/>
+								<Node score="24.857142857142858">
+									<SimplePredicate field="model_year" operator="equal" value="74"/>
+								</Node>
+							</Node>
+							<Node score="35.94444444444444">
+								<SimplePredicate field="model_year" operator="equal" value="82"/>
+							</Node>
+						</Node>
+						<Node score="26.874999999999996">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="112.5"/>
+							<Node score="16.87142857142857">
+								<SimplePredicate field="cylinders" operator="equal" value="6"/>
+							</Node>
+						</Node>
+						<Node score="14.684615384615382">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="147.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="30" weight="0.9300038743485736">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="cylinders"/>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="9.6875">
+						<True/>
+						<Node score="27.736994219653173">
+							<SimplePredicate field="cylinders" operator="equal" value="4"/>
+							<Node score="26.675">
+								<SimplePredicate field="model_year" operator="equal" value="80"/>
+								<Node score="40.11333333333333">
+									<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="128.0"/>
+								</Node>
+							</Node>
+							<Node score="39.996">
+								<SimplePredicate field="model_year" operator="equal" value="78"/>
+							</Node>
+						</Node>
+						<Node score="23.875308641975312">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="132.5"/>
+							<Node score="14.904761904761905">
+								<SimplePredicate field="model_year" operator="equal" value="75"/>
+							</Node>
+						</Node>
+						<Node score="13.275">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="4335.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="31" weight="0.7281426133040566">
+				<True/>
+				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+					<MiningSchema>
+						<MiningField name="model_year"/>
+						<MiningField name="double(float(horsepower))"/>
+						<MiningField name="double(float(weight))"/>
+						<MiningField name="double(float(displacement))"/>
+					</MiningSchema>
+					<Node score="11.0">
+						<True/>
+						<Node score="41.5375">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2151.5"/>
+							<Node score="18.0">
+								<SimplePredicate field="double(float(displacement))" operator="lessOrEqual" value="74.5"/>
+							</Node>
+							<Node score="34.15357142857143">
+								<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="2109.0"/>
+							</Node>
+						</Node>
+						<Node score="29.497849462365572">
+							<SimplePredicate field="double(float(weight))" operator="lessOrEqual" value="3164.5"/>
+							<Node score="20.272727272727273">
+								<SimplePredicate field="model_year" operator="equal" value="72"/>
+							</Node>
+						</Node>
+						<Node score="18.929411764705883">
+							<SimplePredicate field="double(float(horsepower))" operator="lessOrEqual" value="124.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+		</Segmentation>
+		<ModelVerification recordCount="3">
+			<VerificationFields>
+				<VerificationField field="cylinders" column="data:cylinders"/>
+				<VerificationField field="displacement" column="data:displacement"/>
+				<VerificationField field="horsepower" column="data:horsepower"/>
+				<VerificationField field="weight" column="data:weight"/>
+				<VerificationField field="acceleration" column="data:acceleration"/>
+				<VerificationField field="model_year" column="data:model_year"/>
+				<VerificationField field="origin" column="data:origin"/>
+				<VerificationField field="mpg" column="data:mpg" precision="1.0E-13" zeroThreshold="1.0E-13"/>
+			</VerificationFields>
+			<InlineTable>
+				<row>
+					<data:cylinders>6.0</data:cylinders>
+					<data:displacement>258.0</data:displacement>
+					<data:horsepower>110.0</data:horsepower>
+					<data:weight>2962.0</data:weight>
+					<data:acceleration>13.5</data:acceleration>
+					<data:model_year>71.0</data:model_year>
+					<data:origin>1.0</data:origin>
+					<data:mpg>22.294244604316546</data:mpg>
+				</row>
+				<row>
+					<data:cylinders>6.0</data:cylinders>
+					<data:displacement>198.0</data:displacement>
+					<data:horsepower>95.0</data:horsepower>
+					<data:weight>2904.0</data:weight>
+					<data:acceleration>16.0</data:acceleration>
+					<data:model_year>73.0</data:model_year>
+					<data:origin>1.0</data:origin>
+					<data:mpg>23.628571428571426</data:mpg>
+				</row>
+				<row>
+					<data:cylinders>8.0</data:cylinders>
+					<data:displacement>350.0</data:displacement>
+					<data:horsepower>165.0</data:horsepower>
+					<data:weight>4209.0</data:weight>
+					<data:acceleration>12.0</data:acceleration>
+					<data:model_year>71.0</data:model_year>
+					<data:origin>1.0</data:origin>
+					<data:mpg>14.890476190476189</data:mpg>
+				</row>
+			</InlineTable>
+		</ModelVerification>
+	</MiningModel>
+</PMML>

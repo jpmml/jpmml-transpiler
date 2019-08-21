@@ -1,0 +1,3433 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.5.18"/>
+		<Timestamp>2019-08-20T19:49:23Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="Adjusted" optype="categorical" dataType="integer">
+			<Value value="0"/>
+			<Value value="1"/>
+		</DataField>
+		<DataField name="Employment" optype="categorical" dataType="string">
+			<Value value="Consultant"/>
+			<Value value="PSFederal"/>
+			<Value value="PSLocal"/>
+			<Value value="PSState"/>
+			<Value value="Private"/>
+			<Value value="SelfEmp"/>
+			<Value value="Volunteer"/>
+		</DataField>
+		<DataField name="Education" optype="categorical" dataType="string">
+			<Value value="Associate"/>
+			<Value value="Bachelor"/>
+			<Value value="College"/>
+			<Value value="Doctorate"/>
+			<Value value="HSgrad"/>
+			<Value value="Master"/>
+			<Value value="Preschool"/>
+			<Value value="Professional"/>
+			<Value value="Vocational"/>
+			<Value value="Yr10"/>
+			<Value value="Yr11"/>
+			<Value value="Yr12"/>
+			<Value value="Yr1t4"/>
+			<Value value="Yr5t6"/>
+			<Value value="Yr7t8"/>
+			<Value value="Yr9"/>
+		</DataField>
+		<DataField name="Marital" optype="categorical" dataType="string">
+			<Value value="Absent"/>
+			<Value value="Divorced"/>
+			<Value value="Married"/>
+			<Value value="Married-spouse-absent"/>
+			<Value value="Unmarried"/>
+			<Value value="Widowed"/>
+		</DataField>
+		<DataField name="Occupation" optype="categorical" dataType="string">
+			<Value value="Cleaner"/>
+			<Value value="Clerical"/>
+			<Value value="Executive"/>
+			<Value value="Farming"/>
+			<Value value="Home"/>
+			<Value value="Machinist"/>
+			<Value value="Military"/>
+			<Value value="Professional"/>
+			<Value value="Protective"/>
+			<Value value="Repair"/>
+			<Value value="Sales"/>
+			<Value value="Service"/>
+			<Value value="Support"/>
+			<Value value="Transport"/>
+		</DataField>
+		<DataField name="Gender" optype="categorical" dataType="string">
+			<Value value="Female"/>
+			<Value value="Male"/>
+		</DataField>
+		<DataField name="Age" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="17" rightMargin="83"/>
+		</DataField>
+		<DataField name="Income" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="609.72" rightMargin="481259.5"/>
+		</DataField>
+		<DataField name="Hours" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="1" rightMargin="99"/>
+		</DataField>
+	</DataDictionary>
+	<TransformationDictionary/>
+	<MiningModel functionName="classification" algorithmName="XGBoost (GBTree)" x-mathContext="float">
+		<MiningSchema>
+			<MiningField name="Adjusted" usageType="target"/>
+			<MiningField name="Employment" missingValueTreatment="asIs"/>
+			<MiningField name="Education" missingValueTreatment="asIs"/>
+			<MiningField name="Marital" missingValueTreatment="asIs"/>
+			<MiningField name="Occupation" missingValueTreatment="asIs"/>
+			<MiningField name="Gender" missingValueTreatment="asIs"/>
+			<MiningField name="Age" missingValueTreatment="asIs"/>
+			<MiningField name="Income" missingValueTreatment="asIs"/>
+			<MiningField name="Hours" missingValueTreatment="asIs"/>
+		</MiningSchema>
+		<ModelStats>
+			<UnivariateStats field="Employment">
+				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">Consultant PSFederal PSLocal PSState Private SelfEmp Volunteer</Array>
+					<Array type="int">148 69 119 72 1411 79 1</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="Education">
+				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">Associate Bachelor College Doctorate HSgrad Master Preschool Professional Vocational Yr10 Yr11 Yr12 Yr1t4 Yr5t6 Yr7t8 Yr9</Array>
+					<Array type="int">67 332 418 24 633 98 6 23 81 54 65 15 5 21 32 25</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="Marital">
+				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">Absent Divorced Married Married-spouse-absent Unmarried Widowed</Array>
+					<Array type="int">633 256 878 21 64 47</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="Occupation">
+				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">Cleaner Clerical Executive Farming Home Machinist Military Professional Protective Repair Sales Service Support Transport</Array>
+					<Array type="int">91 232 289 58 5 139 1 247 40 225 206 210 49 107</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="Gender">
+				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
+				<DiscrStats>
+					<Array type="string">Female Male</Array>
+					<Array type="int">592 1307</Array>
+				</DiscrStats>
+			</UnivariateStats>
+			<UnivariateStats field="Age">
+				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="17" maximum="83" mean="38.30279094260137" standardDeviation="13.010323102003973" median="37.0" interQuartileRange="19.0"/>
+			</UnivariateStats>
+			<UnivariateStats field="Income">
+				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="609.72" maximum="481259.5" mean="84404.87069510268" standardDeviation="69670.62788525566" median="59534.87" interQuartileRange="79343.92"/>
+			</UnivariateStats>
+			<UnivariateStats field="Hours">
+				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="1" maximum="99" mean="40.56714060031596" standardDeviation="11.656262333704255" median="40.0" interQuartileRange="5.0"/>
+			</UnivariateStats>
+		</ModelStats>
+		<Segmentation multipleModelMethod="modelChain" x-missingPredictionTreatment="returnMissing">
+			<Segment id="1">
+				<True/>
+				<MiningModel functionName="regression" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="Employment"/>
+						<MiningField name="Education"/>
+						<MiningField name="Marital"/>
+						<MiningField name="Occupation"/>
+						<MiningField name="Gender"/>
+						<MiningField name="Age"/>
+						<MiningField name="Income"/>
+						<MiningField name="Hours"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="xgbValue" optype="continuous" dataType="float" isFinalResult="false"/>
+					</Output>
+					<LocalTransformations>
+						<DerivedField name="float(Age)" optype="continuous" dataType="float">
+							<FieldRef field="Age"/>
+						</DerivedField>
+						<DerivedField name="float(Income)" optype="continuous" dataType="float">
+							<FieldRef field="Income"/>
+						</DerivedField>
+						<DerivedField name="float(Hours)" optype="continuous" dataType="float">
+							<FieldRef field="Hours"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Segmentation multipleModelMethod="sum">
+						<Segment id="1">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="Gender"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.17968129">
+									<True/>
+									<Node score="-0.0707483">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.05">
+											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+											<Node score="0.086419754">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+											</Node>
+										</Node>
+										<Node score="0.06666667">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.1">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="0.09090909">
+											<SimplePredicate field="Gender" operator="equal" value="Male"/>
+										</Node>
+									</Node>
+									<Node score="-0.0">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="2">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.16313718">
+									<True/>
+									<Node score="-0.063803755">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.0889952">
+											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+											<Node score="-0.015138228">
+												<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+											</Node>
+										</Node>
+										<Node score="0.06028933">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.065439366">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="0.076554924">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.0">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="3">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.15570186">
+									<True/>
+									<Node score="-0.05766317">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.07247951">
+											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+											<Node score="-0.06421308">
+												<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
+											</Node>
+										</Node>
+										<Node score="0.054622907">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="0.07497456">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="-0.06502848">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="101243.266"/>
+										</Node>
+									</Node>
+									<Node score="-0.105788074">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="4">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.1497956">
+									<True/>
+									<Node score="-0.05070361">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.011346159">
+											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+											<Node score="0.0964701">
+												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.0"/>
+											</Node>
+										</Node>
+										<Node score="0.11208884">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+										</Node>
+									</Node>
+									<Node score="-0.09473291">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+										<Node score="0.05972237">
+											<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.098588765">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="5">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.14087223">
+									<True/>
+									<Node score="-0.048849925">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.056494385">
+											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+											<Node score="0.06606045">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+											</Node>
+										</Node>
+										<Node score="0.047263335">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.08770942">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+										<Node score="0.056569465">
+											<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.09120631">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="6">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.13816662">
+									<True/>
+									<Node score="-0.04333465">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.013600069">
+											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+											<Node score="0.072808675">
+												<SimplePredicate field="Employment" operator="equal" value="Private"/>
+											</Node>
+										</Node>
+										<Node score="0.09976077">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+										</Node>
+									</Node>
+									<Node score="-0.098137446">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<Node score="0.07313232">
+											<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.0990568">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.0"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="7">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.12746184">
+									<True/>
+									<Node score="-0.019733798">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.09883895">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+											<Node score="-0.0244899">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											</Node>
+										</Node>
+										<Node score="0.049754344">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.087702714">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										<Node score="0.0052633067">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.0784607">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="8">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.12406675">
+									<True/>
+									<Node score="-0.039514136">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.0587623">
+											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+											<Node score="-0.059646916">
+												<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
+											</Node>
+										</Node>
+										<Node score="0.03975017">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.093825735">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<Node score="-0.016654182">
+											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+										</Node>
+									</Node>
+									<Node score="-0.056255646">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="9">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.11752605">
+									<True/>
+									<Node score="-0.08726844">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.06741902">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<Node score="0.023161491">
+												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.0015789419">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.061936617">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+										<Node score="0.062874444">
+											<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.065448545">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="10">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.118197374">
+									<True/>
+									<Node score="-0.034120783">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.012976247">
+											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+											<Node score="0.064561926">
+												<SimplePredicate field="Employment" operator="equal" value="Private"/>
+											</Node>
+										</Node>
+										<Node score="0.08846261">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+										</Node>
+									</Node>
+									<Node score="-0.08285033">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<Node score="-0.007633805">
+											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+										</Node>
+									</Node>
+									<Node score="-0.076624505">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.0"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="11">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.10945507">
+									<True/>
+									<Node score="-0.07883706">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.06028636">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<Node score="0.021769596">
+												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+											</Node>
+										</Node>
+										<Node score="-7.9070404E-4">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.065160915">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										<Node score="0.02206992">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.05694283">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="12">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.111219145">
+									<True/>
+									<Node score="-0.012338671">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.08905887">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+											<Node score="-0.023385024">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="26964.48"/>
+											</Node>
+										</Node>
+										<Node score="0.04157483">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+										</Node>
+									</Node>
+									<Node score="0.00970024">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<Node score="-0.07266428">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="47019.25"/>
+										</Node>
+									</Node>
+									<Node score="-0.06842686">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.0"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="13">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.10269636">
+									<True/>
+									<Node score="-0.05780523">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.06644084">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="59640.008"/>
+											<Node score="-0.094153315">
+												<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+											</Node>
+										</Node>
+										<Node score="0.0011802035">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.045578208">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										<Node score="0.07249885">
+											<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
+										</Node>
+									</Node>
+									<Node score="-0.04836794">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="14">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.10191609">
+									<True/>
+									<Node score="-0.027871376">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.029204566">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+											<Node score="0.09294956">
+												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="26.0"/>
+											</Node>
+										</Node>
+										<Node score="0.038927432">
+											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+										</Node>
+									</Node>
+									<Node score="-0.013658461">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<Node score="-0.075419866">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="78501.945"/>
+										</Node>
+									</Node>
+									<Node score="-0.020599982">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="15">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.091301806">
+									<True/>
+									<Node score="-0.028175319">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.04671953">
+											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+											<Node score="0.05199181">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+											</Node>
+										</Node>
+										<Node score="0.04118147">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="60801.25"/>
+										</Node>
+									</Node>
+									<Node score="-0.100749455">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+										<Node score="0.0020557314">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="26.5"/>
+										</Node>
+									</Node>
+									<Node score="0.07692785">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="16">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.100600146">
+									<True/>
+									<Node score="-0.09361601">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.029486433">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+											<Node score="0.020354496">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											</Node>
+										</Node>
+										<Node score="0.020756248">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105568.625"/>
+										</Node>
+									</Node>
+									<Node score="-0.048813403">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<Node score="0.101278655">
+											<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.050770987">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.0"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="17">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.09522694">
+									<True/>
+									<Node score="-0.023997402">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.021738496">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+											<Node score="0.08524231">
+												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="26.0"/>
+											</Node>
+										</Node>
+										<Node score="0.03597203">
+											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+										</Node>
+									</Node>
+									<Node score="0.013499585">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										<Node score="-0.07112623">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105720.125"/>
+										</Node>
+									</Node>
+									<Node score="-0.041367143">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.0"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="18">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.091318585">
+									<True/>
+									<Node score="-0.009457501">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.09987349">
+											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+											<Node score="-0.02608507">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="52.5"/>
+											</Node>
+										</Node>
+										<Node score="0.057511743">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="59640.008"/>
+										</Node>
+									</Node>
+									<Node score="0.00260153">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<Node score="-0.061410047">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="78501.945"/>
+										</Node>
+									</Node>
+									<Node score="-0.0012140211">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="19">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.06590038">
+									<True/>
+									<Node score="0.009584481">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+										<Node score="-0.09748029">
+											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+											<Node score="-0.029468996">
+												<SimplePredicate field="Education" operator="equal" value="Yr11"/>
+											</Node>
+										</Node>
+										<Node score="-0.0367777">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+										</Node>
+									</Node>
+									<Node score="0.028991655">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="66.5"/>
+									</Node>
+									<Node score="-0.10340517">
+										<SimplePredicate field="Marital" operator="equal" value="Absent"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="20">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.08516708">
+									<True/>
+									<Node score="-0.046587165">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.008529658">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+											<Node score="0.06294989">
+												<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+											</Node>
+										</Node>
+										<Node score="0.010065936">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+										</Node>
+									</Node>
+									<Node score="0.014136679">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+										<Node score="-0.091733314">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="128252.984"/>
+										</Node>
+									</Node>
+									<Node score="-0.022205723">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="21">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.059218436">
+									<True/>
+									<Node score="-0.013750848">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+										<Node score="-0.09154745">
+											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+											<Node score="-0.02530815">
+												<SimplePredicate field="Education" operator="equal" value="Yr11"/>
+											</Node>
+										</Node>
+										<Node score="0.032671474">
+											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+										</Node>
+									</Node>
+									<Node score="0.026006687">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="66.5"/>
+									</Node>
+									<Node score="-0.10032751">
+										<SimplePredicate field="Marital" operator="equal" value="Absent"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="22">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.07354332">
+									<True/>
+									<Node score="-0.08189071">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.021655021">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+											<Node score="0.020687452">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											</Node>
+										</Node>
+										<Node score="0.022547567">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105568.625"/>
+										</Node>
+									</Node>
+									<Node score="-0.086105">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+										<Node score="0.02002076">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="26.5"/>
+										</Node>
+									</Node>
+									<Node score="0.08348765">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="23">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.096567236">
+									<True/>
+									<Node score="-0.016916571">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+										<Node score="-0.08887961">
+											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+											<Node score="-0.030980999">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+											</Node>
+										</Node>
+										<Node score="0.02115709">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.06837239">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<Node score="0.020438364">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.0"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="24">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.07934148">
+									<True/>
+									<Node score="-0.07077308">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.060282934">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="59640.008"/>
+											<Node score="-0.07609111">
+												<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
+											</Node>
+										</Node>
+										<Node score="-0.0016503135">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										</Node>
+									</Node>
+									<Node score="0.046833258">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<Node score="-0.036824048">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="47019.25"/>
+										</Node>
+									</Node>
+									<Node score="0.020623477">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="25">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.10522299">
+									<True/>
+									<Node score="-0.018840922">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+										<Node score="0.04334205">
+											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+											<Node score="-0.0419034">
+												<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
+											</Node>
+										</Node>
+										<Node score="0.11306466">
+											<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.062138148">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="39.5"/>
+										<Node score="0.015949834">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="26">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.071646124">
+									<True/>
+									<Node score="0.011619317">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+										<Node score="-0.026581207">
+											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+											<Node score="-0.08243471">
+												<SimplePredicate field="Employment" operator="equal" value="Private"/>
+											</Node>
+										</Node>
+										<Node score="-0.112266295">
+											<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+										</Node>
+									</Node>
+									<Node score="-0.07817968">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+										<Node score="0.017886497">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="25.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.009928228">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="27">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.0729679">
+									<True/>
+									<Node score="-0.01244445">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.057777025">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="59640.008"/>
+											<Node score="-0.06778919">
+												<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
+											</Node>
+										</Node>
+										<Node score="0.064831644">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+										</Node>
+									</Node>
+									<Node score="0.025544053">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+										<Node score="-0.08474666">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="128252.984"/>
+										</Node>
+									</Node>
+									<Node score="-0.008490639">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="28">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.10794258">
+									<True/>
+									<Node score="-0.037396047">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="0.014207149">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<Node score="-0.112679854">
+												<SimplePredicate field="Education" operator="equal" value="Yr9"/>
+											</Node>
+										</Node>
+										<Node score="0.03166">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.053740937">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<Node score="0.02977019">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="197030.47"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="29">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.089912765">
+									<True/>
+									<Node score="0.0041268347">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<Node score="-0.083946876">
+											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+											<Node score="-0.029773554">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.06060558">
+											<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
+										</Node>
+									</Node>
+									<Node score="-0.032009557">
+										<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="30">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.10583448">
+									<True/>
+									<Node score="-0.019985888">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="0.010685856">
+											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+											<Node score="0.07058663">
+												<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+											</Node>
+										</Node>
+										<Node score="0.02804023">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.01008975">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<Node score="-0.08545538">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="31">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.03545347">
+									<True/>
+									<Node score="-0.008801459">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.057380307">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="60990.605"/>
+											<Node score="-0.058566637">
+												<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
+											</Node>
+										</Node>
+										<Node score="0.059263963">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+										</Node>
+									</Node>
+									<Node score="-0.0805796">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105708.875"/>
+										<Node score="0.04106375">
+											<SimplePredicate field="Education" operator="equal" value="Associate"/>
+										</Node>
+									</Node>
+									<Node score="0.03311987">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="32">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.10451515">
+									<True/>
+									<Node score="-0.037949402">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="0.016580997">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<Node score="-0.051398493">
+												<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
+											</Node>
+										</Node>
+										<Node score="0.0069366223">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.009575198">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<Node score="-0.0815029">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="33">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.09290315">
+									<True/>
+									<Node score="-0.02187918">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<Node score="0.004151894">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+											<Node score="0.052258946">
+												<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+											</Node>
+										</Node>
+										<Node score="0.056910176">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+										</Node>
+									</Node>
+									<Node score="-0.06975029">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="23.5"/>
+										<Node score="0.025467778">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="114189.86"/>
+										</Node>
+									</Node>
+									<Node score="-0.021011598">
+										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="34">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-6.602305E-4">
+									<True/>
+									<Node score="-0.05969761">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.053014185">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="59640.008"/>
+											<Node score="-0.066074036">
+												<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+											</Node>
+										</Node>
+										<Node score="0.001509101">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="33.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.07655287">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105708.875"/>
+										<Node score="0.0407719">
+											<SimplePredicate field="Education" operator="equal" value="Associate"/>
+										</Node>
+									</Node>
+									<Node score="-0.07702976">
+										<SimplePredicate field="Education" operator="equal" value="College"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="35">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.096860625">
+									<True/>
+									<Node score="-0.0010164361">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<Node score="-0.076949954">
+											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+											<Node score="-0.021645272">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+											</Node>
+										</Node>
+										<Node score="0.10328164">
+											<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="0.02768653">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="79548.2"/>
+										<Node score="-0.07428729">
+											<SimplePredicate field="Marital" operator="equal" value="Absent"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="36">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.10212459">
+									<True/>
+									<Node score="-0.018159797">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="-0.11195107">
+											<SimplePredicate field="Education" operator="equal" value="Yr9"/>
+										</Node>
+										<Node score="0.013639587">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.004557094">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<Node score="-0.07548588">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="37">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="9.824851E-4">
+									<True/>
+									<Node score="0.0021117034">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="-0.108619235">
+											<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+										</Node>
+										<Node score="0.06530126">
+											<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
+										</Node>
+									</Node>
+									<Node score="-0.072912864">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105708.875"/>
+										<Node score="0.039496697">
+											<SimplePredicate field="Education" operator="equal" value="Associate"/>
+										</Node>
+									</Node>
+									<Node score="-0.07354816">
+										<SimplePredicate field="Education" operator="equal" value="College"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="38">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="7.074296E-4">
+									<True/>
+									<Node score="-0.026298253">
+										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+										<Node score="-0.06526294">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+											<Node score="0.018954664">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="40015.203"/>
+											</Node>
+										</Node>
+										<Node score="-0.085925706">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27157.488"/>
+										</Node>
+									</Node>
+									<Node score="-0.10289516">
+										<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
+										<Node score="0.005531448">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+										</Node>
+									</Node>
+									<Node score="0.096108824">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="39">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.093718186">
+									<True/>
+									<Node score="-0.01799757">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<Node score="0.0045657842">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+											<Node score="0.04798652">
+												<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+											</Node>
+										</Node>
+										<Node score="0.053765982">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+										</Node>
+									</Node>
+									<Node score="0.029238878">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="79548.2"/>
+										<Node score="-0.06833778">
+											<SimplePredicate field="Marital" operator="equal" value="Absent"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="40">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.10022479">
+									<True/>
+									<Node score="0.0053238412">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="-0.10640406">
+											<SimplePredicate field="Education" operator="equal" value="Yr9"/>
+										</Node>
+										<Node score="-0.10208453">
+											<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+										</Node>
+									</Node>
+									<Node score="-0.04328399">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<Node score="0.022545187">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105121.91"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="41">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.022363877">
+									<True/>
+									<Node score="-0.08896197">
+										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+										<Node score="-0.06442085">
+											<SimplePredicate field="Marital" operator="equal" value="Married"/>
+											<Node score="-0.0034432474">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="40015.203"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.12086165">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="0.024260994">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="49228.32"/>
+										</Node>
+									</Node>
+									<Node score="0.007322193">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="42">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="0.0028301158">
+									<True/>
+									<Node score="-0.005649907">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.071099274">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="60990.605"/>
+											<Node score="0.002088801">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="167403.16"/>
+											</Node>
+										</Node>
+										<Node score="0.049930952">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+										</Node>
+									</Node>
+									<Node score="-0.095674954">
+										<SimplePredicate field="Education" operator="equal" value="College"/>
+										<Node score="-0.020725595">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.052666772">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105708.875"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="43">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.015455513">
+									<True/>
+									<Node score="0.0460368">
+										<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+										<Node score="0.030300403">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+											<Node score="-0.09558157">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="46216.074"/>
+											</Node>
+										</Node>
+										<Node score="-0.042938165">
+											<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
+										</Node>
+									</Node>
+									<Node score="0.10400597">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="0.004479447">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="93906.16"/>
+										</Node>
+									</Node>
+									<Node score="0.07010419">
+										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="44">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.045204878">
+									<True/>
+									<Node score="0.1019866">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+										<Node score="0.012375711">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+										</Node>
+									</Node>
+									<Node score="-0.03285375">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+										<Node score="0.045117185">
+											<SimplePredicate field="Employment" operator="equal" value="Private"/>
+										</Node>
+									</Node>
+									<Node score="-0.002211776">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="45">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.07400313">
+									<True/>
+									<Node score="0.010937683">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="23.5"/>
+										<Node score="-0.10060572">
+											<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+										</Node>
+										<Node score="-0.01831246">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="46">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="0.007393726">
+									<True/>
+									<Node score="-0.03768934">
+										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+										<Node score="-0.058362808">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+											<Node score="0.028751254">
+												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="39.0"/>
+											</Node>
+										</Node>
+										<Node score="-0.09237081">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="59761.797"/>
+										</Node>
+									</Node>
+									<Node score="-0.09657544">
+										<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
+										<Node score="0.008322741">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.061908692">
+										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="47">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.098018885">
+									<True/>
+									<Node score="0.010756618">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="0.035644587">
+											<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
+											<Node score="-0.057425987">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="19578.129"/>
+											</Node>
+										</Node>
+										<Node score="-0.042754926">
+											<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
+										</Node>
+									</Node>
+									<Node score="0.040576827">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<Node score="-0.035478782">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27061.68"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="48">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="4.3620108E-4">
+									<True/>
+									<Node score="-0.08459637">
+										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+										<Node score="-0.0535338">
+											<SimplePredicate field="Marital" operator="equal" value="Married"/>
+											<Node score="0.008537783">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="48465.766"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.096309185">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="0.07918215">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="49">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.040987354">
+									<True/>
+									<Node score="0.09103819">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+										<Node score="0.010040822">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+										</Node>
+									</Node>
+									<Node score="-0.003136738">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.040652655">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="60990.605"/>
+										</Node>
+									</Node>
+									<Node score="0.011910461">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="50">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.07959468">
+									<True/>
+									<Node score="0.06295165">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+										<Node score="0.17621666">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="81989.875"/>
+											<Node score="0.0066852807">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="194154.08"/>
+											</Node>
+										</Node>
+										<Node score="-0.03018026">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="47933.297"/>
+										</Node>
+									</Node>
+									<Node score="-0.012746657">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<Node score="0.015124383">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="51">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.02498056">
+									<True/>
+									<Node score="-0.09364539">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="0.0052748895">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+										<Node score="0.1102909">
+											<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
+										</Node>
+									</Node>
+									<Node score="0.03372502">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="55.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="52">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.095360175">
+									<True/>
+									<Node score="0.0069639753">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="-0.100877285">
+											<SimplePredicate field="Education" operator="equal" value="Yr9"/>
+										</Node>
+										<Node score="-0.061805643">
+											<SimplePredicate field="Occupation" operator="equal" value="Farming"/>
+										</Node>
+									</Node>
+									<Node score="0.0032459372">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<Node score="-0.065392256">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="53">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="0.0069461367">
+									<True/>
+									<Node score="-0.012201103">
+										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+										<Node score="0.005444529">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+										</Node>
+										<Node score="-0.070132576">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="26828.398"/>
+										</Node>
+									</Node>
+									<Node score="-0.09048895">
+										<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
+										<Node score="0.011404899">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.057021547">
+										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="54">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.07536148">
+									<True/>
+									<Node score="-0.0909102">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="0.022332191">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+										<Node score="0.09448301">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="81989.875"/>
+										</Node>
+									</Node>
+									<Node score="2.4935938E-4">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="55">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.012636329">
+									<True/>
+									<Node score="0.040773027">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+										<Node score="0.008848383">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+										</Node>
+										<Node score="0.10669807">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.0"/>
+										</Node>
+									</Node>
+									<Node score="-0.002808903">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.038861006">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="60990.605"/>
+										</Node>
+									</Node>
+									<Node score="-0.07627109">
+										<SimplePredicate field="Education" operator="equal" value="College"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="56">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.013606802">
+									<True/>
+									<Node score="9.339189E-4">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="0.102751665">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="44.0"/>
+										</Node>
+									</Node>
+									<Node score="0.087260574">
+										<SimplePredicate field="Education" operator="equal" value="Master"/>
+										<Node score="-0.009353235">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="0.01675483">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="57">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="0.062812544">
+									<True/>
+									<Node score="0.008265422">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="-0.096202">
+											<SimplePredicate field="Education" operator="equal" value="Yr9"/>
+										</Node>
+										<Node score="-0.035266887">
+											<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
+										</Node>
+									</Node>
+									<Node score="-0.08084619">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27061.68"/>
+										<Node score="-0.0043052365">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="91074.44"/>
+										</Node>
+									</Node>
+									<Node score="-0.07722015">
+										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="58">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.07233009">
+									<True/>
+									<Node score="0.038433876">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+										<Node score="0.010325483">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+										</Node>
+										<Node score="0.10172272">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.0"/>
+										</Node>
+									</Node>
+									<Node score="0.06491178">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+										<Node score="-0.0032325685">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.0"/>
+										</Node>
+									</Node>
+									<Node score="-0.00282757">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="59">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="0.0056996383">
+									<True/>
+									<Node score="-0.087206654">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="-0.059756186">
+										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+										<Node score="0.0017634698">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.036176946">
+										<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="60">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.012051348">
+									<True/>
+									<Node score="7.2315586E-4">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="0.09650112">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="44.0"/>
+										</Node>
+									</Node>
+									<Node score="0.080934614">
+										<SimplePredicate field="Education" operator="equal" value="Master"/>
+										<Node score="-0.008341407">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="0.014860935">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="61">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.0051975343">
+									<True/>
+									<Node score="0.036052313">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+										<Node score="0.010090142">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+										</Node>
+										<Node score="0.097274624">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.0"/>
+										</Node>
+									</Node>
+									<Node score="-1.2396794E-4">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.05390044">
+											<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
+										</Node>
+									</Node>
+									<Node score="-0.056041457">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105490.266"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="62">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.0667686">
+									<True/>
+									<Node score="-0.08429521">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="0.005824927">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="-0.09190617">
+											<SimplePredicate field="Education" operator="equal" value="Yr9"/>
+										</Node>
+									</Node>
+									<Node score="-3.4108697E-4">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="63">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.015000701">
+									<True/>
+									<Node score="0.019789886">
+										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
+										<Node score="0.1448611">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											<Node score="-0.03161968">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.0"/>
+											</Node>
+										</Node>
+										<Node score="-0.045706972">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.5"/>
+										</Node>
+									</Node>
+									<Node score="0.0529159">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+										<Node score="0.0043836273">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="20620.316"/>
+										</Node>
+									</Node>
+									<Node score="0.060284197">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="64">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.05591428">
+									<True/>
+									<Node score="0.024355767">
+										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
+										<Node score="-0.08381214">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+											<Node score="0.00960505">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.006638247">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+										<Node score="-0.05890296">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.009998945">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="64044.586"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="65">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.013038493">
+									<True/>
+									<Node score="-0.08174122">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="-0.01429887">
+										<SimplePredicate field="Education" operator="equal" value="Yr5t6"/>
+										<Node score="-0.09396767">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.5"/>
+										</Node>
+									</Node>
+									<Node score="0.0089774225">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="66">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.023063282">
+									<True/>
+									<Node score="0.0017796895">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="0.091156915">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="44.0"/>
+										</Node>
+									</Node>
+									<Node score="0.020317724">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+										<Node score="0.07734641">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="39855.6"/>
+										</Node>
+									</Node>
+									<Node score="0.0025317417">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="67">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.029607072">
+									<True/>
+									<Node score="-0.09202097">
+										<SimplePredicate field="Occupation" operator="equal" value="Farming"/>
+										<Node score="0.025336673">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.0"/>
+											<Node score="-0.009101244">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.022110749">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="65927.56"/>
+										</Node>
+									</Node>
+									<Node score="-0.089945026">
+										<SimplePredicate field="Education" operator="equal" value="Yr9"/>
+									</Node>
+									<Node score="0.005749322">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="34.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="68">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.0120007675">
+									<True/>
+									<Node score="-0.025569325">
+										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
+										<Node score="0.12149115">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="32.5"/>
+											<Node score="-0.028754696">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.0"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.036956705">
+										<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+										<Node score="0.024539337">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="30.5"/>
+										</Node>
+									</Node>
+									<Node score="0.023242548">
+										<SimplePredicate field="Occupation" operator="equal" value="Sales"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="69">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="0.004417748">
+									<True/>
+									<Node score="-0.07919714">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="-0.05443902">
+										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+										<Node score="0.005425351">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.047734603">
+										<SimplePredicate field="Occupation" operator="equal" value="Farming"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="70">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="0.057975847">
+									<True/>
+									<Node score="-0.065222345">
+										<SimplePredicate field="Education" operator="equal" value="Master"/>
+										<Node score="0.078596644">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+											<Node score="-0.08872884">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="28671.11"/>
+											</Node>
+										</Node>
+										<Node score="0.0899919">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="22307.814"/>
+										</Node>
+									</Node>
+									<Node score="-0.06757157">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="20620.316"/>
+										<Node score="-9.777817E-4">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="25931.586"/>
+										</Node>
+									</Node>
+									<Node score="-0.04165113">
+										<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="71">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="0.0020849826">
+									<True/>
+									<Node score="-0.07189551">
+										<SimplePredicate field="Education" operator="equal" value="Yr5t6"/>
+									</Node>
+									<Node score="-0.016613191">
+										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
+										<Node score="0.09156131">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.030602409">
+										<SimplePredicate field="Marital" operator="equal" value="Divorced"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="72">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.065937474">
+									<True/>
+									<Node score="0.001868815">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="0.086256556">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="44.0"/>
+										</Node>
+									</Node>
+									<Node score="0.013128169">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+										<Node score="0.07877209">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="81989.875"/>
+										</Node>
+									</Node>
+									<Node score="-0.0019188136">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="73">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="0.036182433">
+									<True/>
+									<Node score="-0.042882573">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+										<Node score="0.071526304">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="39855.6"/>
+										</Node>
+										<Node score="0.0801974">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.5"/>
+										</Node>
+									</Node>
+									<Node score="0.0033345264">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+										<Node score="-0.061413206">
+											<SimplePredicate field="Education" operator="equal" value="Yr10"/>
+										</Node>
+									</Node>
+									<Node score="-0.044329517">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27061.68"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="74">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.011216643">
+									<True/>
+									<Node score="-0.076842375">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="-0.023399508">
+										<SimplePredicate field="Education" operator="equal" value="Yr5t6"/>
+										<Node score="-0.080393486">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.5"/>
+										</Node>
+									</Node>
+									<Node score="0.007931943">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="75">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+								</MiningSchema>
+								<Node score="-0.07463395">
+									<True/>
+									<Node score="0.02779661">
+										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
+										<Node score="-0.07885953">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+											<Node score="0.010545761">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.0042725666">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="23.5"/>
+										<Node score="-0.05418658">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.019010702">
+										<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="76">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.002992246">
+									<True/>
+									<Node score="-0.090024605">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="98.5"/>
+									</Node>
+									<Node score="0.107397415">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="69.0"/>
+										<Node score="-0.039699852">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.0"/>
+										</Node>
+									</Node>
+									<Node score="0.06335054">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="77">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.08278469">
+									<True/>
+									<Node score="0.080536366">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="13304.09"/>
+										<Node score="-0.05394581">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="20620.316"/>
+											<Node score="0.0018938341">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="25931.586"/>
+											</Node>
+										</Node>
+										<Node score="-0.002270534">
+											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+										</Node>
+									</Node>
+									<Node score="0.10088414">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="57.5"/>
+									</Node>
+									<Node score="0.04039858">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="78">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.009648284">
+									<True/>
+									<Node score="0.0019589805">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="0.081083566">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="44.0"/>
+										</Node>
+									</Node>
+									<Node score="0.07115196">
+										<SimplePredicate field="Education" operator="equal" value="Master"/>
+										<Node score="-0.008146791">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="0.012998466">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="79">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.008418518">
+									<True/>
+									<Node score="0.045172684">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+										<Node score="0.12813638">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="81989.875"/>
+											<Node score="-0.0043958416">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="194154.08"/>
+											</Node>
+										</Node>
+										<Node score="-0.033997063">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="47933.297"/>
+										</Node>
+									</Node>
+									<Node score="-0.077948034">
+										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
+										<Node score="0.015445143">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="44.5"/>
+										</Node>
+									</Node>
+									<Node score="0.010887149">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="80">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-4.855604E-4">
+									<True/>
+									<Node score="-0.07399612">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="-0.08692839">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="98.5"/>
+									</Node>
+									<Node score="0.042859312">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="81">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="0.0056567616">
+									<True/>
+									<Node score="-0.011643159">
+										<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
+										<Node score="0.04764117">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+											<Node score="-0.07558932">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="50143.53"/>
+											</Node>
+										</Node>
+										<Node score="-0.091802426">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.07436103">
+										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+										<Node score="-0.015561602">
+											<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										</Node>
+									</Node>
+									<Node score="-0.044095676">
+										<SimplePredicate field="Occupation" operator="equal" value="Farming"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="82">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.012694351">
+									<True/>
+									<Node score="-0.07666016">
+										<SimplePredicate field="Education" operator="equal" value="Yr5t6"/>
+										<Node score="-0.020098053">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="49004.086"/>
+										</Node>
+									</Node>
+									<Node score="-0.072018586">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="0.006275779">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="83">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.0015884094">
+									<True/>
+									<Node score="-0.07850065">
+										<SimplePredicate field="Occupation" operator="equal" value="Support"/>
+										<Node score="0.10337319">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<Node score="0.028461853">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="43394.35"/>
+											</Node>
+										</Node>
+										<Node score="0.033153977">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="44386.59"/>
+										</Node>
+									</Node>
+									<Node score="0.07152436">
+										<SimplePredicate field="Education" operator="equal" value="Master"/>
+										<Node score="-0.007982884">
+											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
+										</Node>
+									</Node>
+									<Node score="-0.0446825">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="209925.28"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="84">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.053182393">
+									<True/>
+									<Node score="0.08219942">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="-0.04147127">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="49228.32"/>
+											<Node score="0.04663407">
+												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="46.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.04993948">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="13304.09"/>
+										<Node score="-0.0037737552">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="20620.316"/>
+										</Node>
+									</Node>
+									<Node score="0.09440288">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="57.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="85">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.020612156">
+									<True/>
+									<Node score="-0.07900791">
+										<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
+										<Node score="0.07850362">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+											<Node score="-0.07041188">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="42015.465"/>
+											</Node>
+										</Node>
+										<Node score="-0.018481446">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+										</Node>
+									</Node>
+									<Node score="0.061125398">
+										<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
+										<Node score="-0.04654334">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="19578.129"/>
+										</Node>
+									</Node>
+									<Node score="0.0077827587">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="86">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.0022557024">
+									<True/>
+									<Node score="0.0227168">
+										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
+										<Node score="0.11461166">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											<Node score="-0.02952532">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.0"/>
+											</Node>
+										</Node>
+										<Node score="-0.04420402">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.036590766">
+										<SimplePredicate field="Marital" operator="equal" value="Divorced"/>
+										<Node score="0.039192587">
+											<SimplePredicate field="Education" operator="equal" value="Master"/>
+										</Node>
+									</Node>
+									<Node score="0.03467419">
+										<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="87">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="0.0028418244">
+									<True/>
+									<Node score="-0.0740323">
+										<SimplePredicate field="Education" operator="equal" value="Yr5t6"/>
+										<Node score="-0.018383523">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="49004.086"/>
+										</Node>
+									</Node>
+									<Node score="-0.069216125">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="-0.04453609">
+										<SimplePredicate field="Education" operator="equal" value="Yr10"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="88">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.06281164">
+									<True/>
+									<Node score="0.07846253">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="-0.039385095">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="49228.32"/>
+											<Node score="0.04464555">
+												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="46.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.026251629">
+										<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
+										<Node score="-0.016422054">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.0036688203">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="9063.1"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="89">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.008794248">
+									<True/>
+									<Node score="-0.075265124">
+										<SimplePredicate field="Occupation" operator="equal" value="Support"/>
+										<Node score="0.09365895">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<Node score="0.022552283">
+												<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+											</Node>
+										</Node>
+										<Node score="0.031172222">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="44386.59"/>
+										</Node>
+									</Node>
+									<Node score="-0.040468033">
+										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
+										<Node score="0.037320863">
+											<SimplePredicate field="Employment" operator="equal" value="Private"/>
+										</Node>
+									</Node>
+									<Node score="0.053949255">
+										<SimplePredicate field="Employment" operator="equal" value="PSState"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="90">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.065588854">
+									<True/>
+									<Node score="-0.021121742">
+										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
+										<Node score="0.09730319">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="32.5"/>
+											<Node score="-0.027361853">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.0"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.07075258">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
+										<Node score="0.004153798">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="44.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.004405762">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="13589.54"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="91">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Gender"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.039396934">
+									<True/>
+									<Node score="-0.046093937">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+										<Node score="0.06268077">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="39855.6"/>
+										</Node>
+										<Node score="0.0725505">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.0032011673">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.038653433">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="60990.605"/>
+										</Node>
+									</Node>
+									<Node score="0.007306336">
+										<SimplePredicate field="Gender" operator="equal" value="Male"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="92">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.01600021">
+									<True/>
+									<Node score="-0.07138529">
+										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
+										<Node score="-0.04498774">
+											<SimplePredicate field="Marital" operator="equal" value="Married"/>
+											<Node score="0.020117551">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="40015.203"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.019001687">
+										<SimplePredicate field="Education" operator="equal" value="Yr11"/>
+										<Node score="-0.09388404">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+										</Node>
+									</Node>
+									<Node score="0.005669962">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="93">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.071412124">
+									<True/>
+									<Node score="0.029442972">
+										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
+										<Node score="-0.005903791">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+											<Node score="-0.08375379">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="31847.41"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.0038626883">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="23.5"/>
+										<Node score="-0.049147137">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.0143196015">
+										<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="94">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.0039291265">
+									<True/>
+									<Node score="-0.067169756">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="-0.07068729">
+										<SimplePredicate field="Education" operator="equal" value="Yr5t6"/>
+										<Node score="-0.016697643">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="49004.086"/>
+										</Node>
+									</Node>
+									<Node score="0.011148495">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="95">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Employment"/>
+									<MiningField name="Education"/>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.023017295">
+									<True/>
+									<Node score="-0.08655189">
+										<SimplePredicate field="Occupation" operator="equal" value="Farming"/>
+										<Node score="0.03130932">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.0"/>
+											<Node score="5.7340704E-4">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.026216948">
+											<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
+										</Node>
+									</Node>
+									<Node score="-0.08404449">
+										<SimplePredicate field="Education" operator="equal" value="Yr9"/>
+									</Node>
+									<Node score="0.0045222044">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="34.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="96">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="-0.05788508">
+									<True/>
+									<Node score="0.020882217">
+										<SimplePredicate field="Education" operator="equal" value="Professional"/>
+										<Node score="-0.013224015">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="101243.266"/>
+										</Node>
+										<Node score="0.08061932">
+											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.5"/>
+										</Node>
+									</Node>
+									<Node score="0.006530702">
+										<SimplePredicate field="Education" operator="equal" value="Associate"/>
+										<Node score="0.06633323">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="81989.875"/>
+										</Node>
+									</Node>
+									<Node score="-0.0015759284">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="97">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.07349268">
+									<True/>
+									<Node score="0.00830607">
+										<SimplePredicate field="Occupation" operator="equal" value="Sales"/>
+										<Node score="-0.07271899">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="39080.836"/>
+											<Node score="0.0013843202">
+												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+											</Node>
+										</Node>
+										<Node score="0.07357996">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="35.5"/>
+										</Node>
+									</Node>
+									<Node score="0.03869124">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="12646.99"/>
+										<Node score="-0.0043249773">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="20632.773"/>
+										</Node>
+									</Node>
+									<Node score="0.062357683">
+										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="98">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Occupation"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="0.0027970555">
+									<True/>
+									<Node score="-0.07492321">
+										<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
+										<Node score="0.07251054">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+											<Node score="-0.06566175">
+												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="42015.465"/>
+											</Node>
+										</Node>
+										<Node score="-0.01613587">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+										</Node>
+									</Node>
+									<Node score="0.12085769">
+										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="36186.867"/>
+										<Node score="0.0049894205">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="37065.258"/>
+										</Node>
+									</Node>
+									<Node score="-0.043275014">
+										<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="99">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="float(Age)"/>
+									<MiningField name="float(Hours)"/>
+								</MiningSchema>
+								<Node score="0.0020502312">
+									<True/>
+									<Node score="-0.065394744">
+										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
+									</Node>
+									<Node score="-0.017881185">
+										<SimplePredicate field="Education" operator="equal" value="Yr5t6"/>
+										<Node score="-0.06745655">
+											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.06358584">
+										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="82.0"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="100">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="Education"/>
+									<MiningField name="Marital"/>
+									<MiningField name="float(Income)"/>
+								</MiningSchema>
+								<Node score="-0.0047771093">
+									<True/>
+									<Node score="0.0394592">
+										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
+										<Node score="0.057641257">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="39855.6"/>
+										</Node>
+										<Node score="-0.021808675">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="25700.324"/>
+										</Node>
+									</Node>
+									<Node score="-0.0032681886">
+										<SimplePredicate field="Marital" operator="equal" value="Married"/>
+										<Node score="0.03500546">
+											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="60990.605"/>
+										</Node>
+									</Node>
+									<Node score="-0.06826096">
+										<SimplePredicate field="Education" operator="equal" value="College"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+					</Segmentation>
+				</MiningModel>
+			</Segment>
+			<Segment id="2">
+				<True/>
+				<RegressionModel functionName="classification" normalizationMethod="logit" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="Adjusted" usageType="target"/>
+						<MiningField name="xgbValue"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="probability(0)" optype="continuous" dataType="float" feature="probability" value="0"/>
+						<OutputField name="probability(1)" optype="continuous" dataType="float" feature="probability" value="1"/>
+					</Output>
+					<RegressionTable intercept="0.0" targetCategory="1">
+						<NumericPredictor name="xgbValue" coefficient="1.0"/>
+					</RegressionTable>
+					<RegressionTable intercept="0.0" targetCategory="0"/>
+				</RegressionModel>
+			</Segment>
+		</Segmentation>
+		<ModelVerification recordCount="3">
+			<VerificationFields>
+				<VerificationField field="Age" column="data:Age"/>
+				<VerificationField field="Employment" column="data:Employment"/>
+				<VerificationField field="Education" column="data:Education"/>
+				<VerificationField field="Marital" column="data:Marital"/>
+				<VerificationField field="Occupation" column="data:Occupation"/>
+				<VerificationField field="Income" column="data:Income"/>
+				<VerificationField field="Gender" column="data:Gender"/>
+				<VerificationField field="Hours" column="data:Hours"/>
+				<VerificationField field="probability(0)" column="data:probability_0" precision="1.0E-5" zeroThreshold="1.0E-5"/>
+				<VerificationField field="probability(1)" column="data:probability_1" precision="1.0E-5" zeroThreshold="1.0E-5"/>
+			</VerificationFields>
+			<InlineTable>
+				<row>
+					<data:Age>60</data:Age>
+					<data:Employment>PSState</data:Employment>
+					<data:Education>Master</data:Education>
+					<data:Marital>Married</data:Marital>
+					<data:Occupation>Professional</data:Occupation>
+					<data:Income>25719.5</data:Income>
+					<data:Gender>Male</data:Gender>
+					<data:Hours>38</data:Hours>
+					<data:probability_0>0.22327453</data:probability_0>
+					<data:probability_1>0.7767255</data:probability_1>
+				</row>
+				<row>
+					<data:Age>65</data:Age>
+					<data:Employment>PSState</data:Employment>
+					<data:Education>HSgrad</data:Education>
+					<data:Marital>Married</data:Marital>
+					<data:Occupation>Clerical</data:Occupation>
+					<data:Income>49027.46</data:Income>
+					<data:Gender>Male</data:Gender>
+					<data:Hours>40</data:Hours>
+					<data:probability_0>0.57991</data:probability_0>
+					<data:probability_1>0.42009002</data:probability_1>
+				</row>
+				<row>
+					<data:Age>40</data:Age>
+					<data:Employment>Private</data:Employment>
+					<data:Education>College</data:Education>
+					<data:Marital>Married</data:Marital>
+					<data:Occupation>Clerical</data:Occupation>
+					<data:Income>58086.76</data:Income>
+					<data:Gender>Male</data:Gender>
+					<data:Hours>55</data:Hours>
+					<data:probability_0>0.5159365</data:probability_0>
+					<data:probability_1>0.48406354</data:probability_1>
+				</row>
+			</InlineTable>
+		</ModelVerification>
+	</MiningModel>
+</PMML>

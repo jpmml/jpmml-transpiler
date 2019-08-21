@@ -1,0 +1,1099 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.5.18"/>
+		<Timestamp>2019-08-20T19:49:25Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="Species" optype="categorical" dataType="string">
+			<Value value="setosa"/>
+			<Value value="versicolor"/>
+			<Value value="virginica"/>
+		</DataField>
+		<DataField name="Sepal.Length" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="4.3" rightMargin="7.9"/>
+		</DataField>
+		<DataField name="Sepal.Width" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="2.0" rightMargin="4.4"/>
+		</DataField>
+		<DataField name="Petal.Length" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="6.9"/>
+		</DataField>
+		<DataField name="Petal.Width" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="0.1" rightMargin="2.5"/>
+		</DataField>
+	</DataDictionary>
+	<TransformationDictionary/>
+	<MiningModel functionName="classification">
+		<MiningSchema>
+			<MiningField name="Species" usageType="target"/>
+			<MiningField name="Petal.Width" missingValueTreatment="asIs"/>
+			<MiningField name="Petal.Length" missingValueTreatment="asIs"/>
+			<MiningField name="Sepal.Length" missingValueTreatment="asIs"/>
+			<MiningField name="Sepal.Width" missingValueTreatment="asIs"/>
+		</MiningSchema>
+		<ModelStats>
+			<UnivariateStats field="Petal.Width">
+				<Counts totalFreq="150" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="0.1" maximum="2.5" mean="1.1993333333333336" standardDeviation="0.7596926279021594" median="1.3" interQuartileRange="1.5"/>
+			</UnivariateStats>
+			<UnivariateStats field="Petal.Length">
+				<Counts totalFreq="150" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="1.0" maximum="6.9" mean="3.7580000000000005" standardDeviation="1.759404065775303" median="4.35" interQuartileRange="3.4999999999999996"/>
+			</UnivariateStats>
+			<UnivariateStats field="Sepal.Length">
+				<Counts totalFreq="150" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="4.3" maximum="7.9" mean="5.843333333333334" standardDeviation="0.8253012917851409" median="5.8" interQuartileRange="1.3000000000000007"/>
+			</UnivariateStats>
+			<UnivariateStats field="Sepal.Width">
+				<Counts totalFreq="150" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="2.0" maximum="4.4" mean="3.0573333333333337" standardDeviation="0.4344109677354946" median="3.0" interQuartileRange="0.5"/>
+			</UnivariateStats>
+		</ModelStats>
+		<LocalTransformations>
+			<DerivedField name="float(Sepal.Length)" optype="continuous" dataType="float">
+				<FieldRef field="Sepal.Length"/>
+			</DerivedField>
+			<DerivedField name="float(Sepal.Width)" optype="continuous" dataType="float">
+				<FieldRef field="Sepal.Width"/>
+			</DerivedField>
+			<DerivedField name="float(Petal.Length)" optype="continuous" dataType="float">
+				<FieldRef field="Petal.Length"/>
+			</DerivedField>
+			<DerivedField name="float(Petal.Width)" optype="continuous" dataType="float">
+				<FieldRef field="Petal.Width"/>
+			</DerivedField>
+			<DerivedField name="double(float(Petal.Width))" optype="continuous" dataType="double">
+				<FieldRef field="float(Petal.Width)"/>
+			</DerivedField>
+			<DerivedField name="double(float(Petal.Length))" optype="continuous" dataType="double">
+				<FieldRef field="float(Petal.Length)"/>
+			</DerivedField>
+			<DerivedField name="double(float(Sepal.Length))" optype="continuous" dataType="double">
+				<FieldRef field="float(Sepal.Length)"/>
+			</DerivedField>
+			<DerivedField name="double(float(Sepal.Width))" optype="continuous" dataType="double">
+				<FieldRef field="float(Sepal.Width)"/>
+			</DerivedField>
+		</LocalTransformations>
+		<Segmentation multipleModelMethod="modelChain" x-missingPredictionTreatment="returnMissing">
+			<Segment id="1">
+				<True/>
+				<MiningModel functionName="regression">
+					<MiningSchema>
+						<MiningField name="double(float(Petal.Width))"/>
+						<MiningField name="double(float(Petal.Length))"/>
+						<MiningField name="double(float(Sepal.Length))"/>
+						<MiningField name="double(float(Sepal.Width))"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="decisionFunction(setosa)" optype="continuous" dataType="double" isFinalResult="false"/>
+						<OutputField name="expDecisionFunction(setosa)" optype="continuous" dataType="double" feature="transformedValue" isFinalResult="false">
+							<Apply function="exp">
+								<FieldRef field="decisionFunction(setosa)"/>
+							</Apply>
+						</OutputField>
+					</Output>
+					<Targets>
+						<Target rescaleConstant="-1.0986122886681098" rescaleFactor="0.1"/>
+					</Targets>
+					<Segmentation multipleModelMethod="sum">
+						<Segment id="1">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+								</MiningSchema>
+								<Node score="-1.0000000000000002">
+									<True/>
+									<Node score="2.0">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="2">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
+								</MiningSchema>
+								<Node score="-0.9518605817710228">
+									<True/>
+									<Node score="1.6544242942422902">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.9143777566951282">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.9513907025680941">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.450000047683716"/>
+										</Node>
+									</Node>
+									<Node score="-0.9502831742004956">
+										<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.850000023841858"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="3">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
+								</MiningSchema>
+								<Node score="-0.9120076993614799">
+									<True/>
+									<Node score="1.4278947666851596">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.8570932442572089">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.9106465690541399">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
+										</Node>
+									</Node>
+									<Node score="-0.909306117390313">
+										<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.950000047683716"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="4">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
+								</MiningSchema>
+								<Node score="-0.878486763459273">
+									<True/>
+									<Node score="1.2692383115262686">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.816478336141472">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.876315743223271">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
+										</Node>
+									</Node>
+									<Node score="-0.8749150778859232">
+										<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.950000047683716"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="5">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
+								</MiningSchema>
+								<Node score="-0.8465086992279797">
+									<True/>
+									<Node score="1.152960038522332">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.7867853493029409">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.8479082619019592">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.450000047683716"/>
+										</Node>
+									</Node>
+									<Node score="-0.8509531879300348">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.950000047683716"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="6">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.819876269707553">
+									<True/>
+									<Node score="1.0648978974041992">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.7641905268292811">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.8237485002280834">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
+										</Node>
+									</Node>
+									<Node score="-0.8254422089069018">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="7">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.7985799358986154">
+									<True/>
+									<Node score="0.9964857032788876">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.7495261995820459">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.8020736432656116">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
+										</Node>
+									</Node>
+									<Node score="-0.8048372636242895">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="8">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.7804681877119208">
+									<True/>
+									<Node score="0.9422825735348582">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.7373606474041835">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.7836012082226158">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
+										</Node>
+									</Node>
+									<Node score="-0.7873262972060221">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="9">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.7650720637239842">
+									<True/>
+									<Node score="0.8986564214437072">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									</Node>
+									<Node score="-0.727993981084628">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.7678114948902092">
+											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.350000023841858"/>
+										</Node>
+									</Node>
+									<Node score="-0.77243545260271">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="10">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
+								</MiningSchema>
+								<Node score="-0.7519459004503426">
+									<True/>
+									<Node score="0.8630916360866475">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									</Node>
+									<Node score="-0.7180893994379933">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.7549384550154049">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.450000047683716"/>
+										</Node>
+									</Node>
+									<Node score="-0.7594426802272806">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="11">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.7408057623773888">
+									<True/>
+									<Node score="0.8337920816536498">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									</Node>
+									<Node score="-0.7126321323469995">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.7432197695852192">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
+										</Node>
+									</Node>
+									<Node score="-0.7485719774522355">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+					</Segmentation>
+				</MiningModel>
+			</Segment>
+			<Segment id="2">
+				<True/>
+				<MiningModel functionName="regression">
+					<MiningSchema>
+						<MiningField name="double(float(Petal.Width))"/>
+						<MiningField name="double(float(Petal.Length))"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="decisionFunction(versicolor)" optype="continuous" dataType="double" isFinalResult="false"/>
+						<OutputField name="expDecisionFunction(versicolor)" optype="continuous" dataType="double" feature="transformedValue" isFinalResult="false">
+							<Apply function="exp">
+								<FieldRef field="decisionFunction(versicolor)"/>
+							</Apply>
+						</OutputField>
+					</Output>
+					<Targets>
+						<Target rescaleConstant="-1.0986122886681098" rescaleFactor="0.1"/>
+					</Targets>
+					<Segmentation multipleModelMethod="sum">
+						<Segment id="1">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-1.0000000000000002">
+									<True/>
+									<Node score="-0.9999999999999999">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="1.6653345369377346E-16">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.9375000000000002">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										</Node>
+									</Node>
+									<Node score="1.1102230246251565E-16">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="2">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.9503716554588936">
+									<True/>
+									<Node score="-0.9503716554588938">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									</Node>
+									<Node score="0.0038202575627446075">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.6062616988237863">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										</Node>
+									</Node>
+									<Node score="0.004355969283885231">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="3">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.9089662539014763">
+									<True/>
+									<Node score="-0.9089620164762351">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="0.009297598404632245">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.3864298765992482">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										</Node>
+									</Node>
+									<Node score="0.010068163749361933">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="4">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.874202989759498">
+									<True/>
+									<Node score="-0.8741917995402393">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									</Node>
+									<Node score="-0.9984818449893911">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.1824665976358442">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.349999904632568"/>
+										</Node>
+									</Node>
+									<Node score="0.016461848287834233">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="5">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.8448770270399263">
+									<True/>
+									<Node score="-0.8448590640762464">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.9583083660372864">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.0686238076514156">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.349999904632568"/>
+										</Node>
+									</Node>
+									<Node score="0.02305623094724596">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="6">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.7441600452477481">
+									<True/>
+									<Node score="-0.8200105456408745">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									</Node>
+									<Node score="-0.37107566231864436">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="1.077759708316842">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										</Node>
+									</Node>
+									<Node score="0.17588226096775628">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="7">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.716218315284572">
+									<True/>
+									<Node score="-0.7988908225699728">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.3328969459253056">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="1.0065435919086254">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										</Node>
+									</Node>
+									<Node score="0.16715716458719104">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="8">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.7827148395176413">
+									<True/>
+									<Node score="-0.7808826384592991">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.2972220363200126">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="0.9502722567616185">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										</Node>
+									</Node>
+									<Node score="-0.19200301773993886">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.049999952316284"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="9">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.7677691381642561">
+									<True/>
+									<Node score="-0.7654828041872671">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									</Node>
+									<Node score="-0.8610765132802776">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="0.8186627173947459">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.349999904632568"/>
+										</Node>
+									</Node>
+									<Node score="0.16719788702097454">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="10">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.5618393772352219">
+									<True/>
+									<Node score="-0.7522788144147148">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.2630599538114237">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="0.8700591296993707">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										</Node>
+									</Node>
+									<Node score="-1.0063686548030817">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.650000095367432"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="11">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="-0.7443875513124762">
+									<True/>
+									<Node score="-0.7409307214202507">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+									</Node>
+									<Node score="-0.8290865375312745">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="0.7492929485205565">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.349999904632568"/>
+										</Node>
+									</Node>
+									<Node score="0.23728103505476217">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+					</Segmentation>
+				</MiningModel>
+			</Segment>
+			<Segment id="3">
+				<True/>
+				<MiningModel functionName="regression">
+					<MiningSchema>
+						<MiningField name="double(float(Petal.Width))"/>
+						<MiningField name="double(float(Petal.Length))"/>
+						<MiningField name="double(float(Sepal.Length))"/>
+						<MiningField name="double(float(Sepal.Width))"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="decisionFunction(virginica)" optype="continuous" dataType="double" isFinalResult="false"/>
+						<OutputField name="expDecisionFunction(virginica)" optype="continuous" dataType="double" feature="transformedValue" isFinalResult="false">
+							<Apply function="exp">
+								<FieldRef field="decisionFunction(virginica)"/>
+							</Apply>
+						</OutputField>
+					</Output>
+					<Targets>
+						<Target rescaleConstant="-1.0986122886681098" rescaleFactor="0.1"/>
+					</Targets>
+					<Segmentation multipleModelMethod="sum">
+						<Segment id="1">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="2.000000000000001">
+									<True/>
+									<Node score="1.1102230246251564E-16">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="2.0000000000000004">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.9999999999999999">
+												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+											</Node>
+										</Node>
+										<Node score="2.0">
+											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
+										</Node>
+									</Node>
+									<Node score="2.0000000000000004">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+										<Node score="-0.9999999999999999">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.950000047683716"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="2">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="1.6544242942422906">
+									<True/>
+									<Node score="-0.032249101538204726">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.8230584742034082">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.950865787605581">
+												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+											</Node>
+										</Node>
+										<Node score="1.706365982506466">
+											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
+										</Node>
+									</Node>
+									<Node score="1.7063659825064659">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+										<Node score="-0.9833472083473733">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.950000047683716"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="3">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="1.4278764526548384">
+									<True/>
+									<Node score="-0.05877787854284596">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.6905793549713883">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.9097780716913535">
+												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+											</Node>
+										</Node>
+										<Node score="1.505693914571601">
+											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
+										</Node>
+									</Node>
+									<Node score="1.5056887154959047">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+										<Node score="-0.9665542340231648">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.950000047683716"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="4">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="1.269187913841031">
+									<True/>
+									<Node score="-1.0436748857192535">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.586682597449597">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.8752213383923928">
+												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+											</Node>
+										</Node>
+										<Node score="0.9948998024543872">
+											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										</Node>
+									</Node>
+									<Node score="1.3604582010983688">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+										<Node score="-0.9499095841601943">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.950000047683716"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="5">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
+								</MiningSchema>
+								<Node score="1.152874495192702">
+									<True/>
+									<Node score="1.395141549496358">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="-0.8479597379742396">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.8448062375836101">
+												<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+											</Node>
+										</Node>
+										<Node score="0.16196660803284132">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="6.049999952316284"/>
+										</Node>
+									</Node>
+									<Node score="-0.9946087411292478">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.499577055365054">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.75"/>
+										</Node>
+									</Node>
+									<Node score="0.6156207663471615">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="6">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="1.0647846713871483">
+									<True/>
+									<Node score="1.2725058640988758">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="-0.8237947090104446">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.8199674183912021">
+												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+											</Node>
+										</Node>
+										<Node score="0.17727759594556886">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="6.049999952316284"/>
+										</Node>
+									</Node>
+									<Node score="-0.9523411561134932">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.4273102744005943">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.799999952316284"/>
+										</Node>
+									</Node>
+									<Node score="0.5498980467422672">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="7">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="0.9976337447695037">
+									<True/>
+									<Node score="1.1736034751299913">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="-0.802116339469084">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.7988552757902094">
+												<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+											</Node>
+										</Node>
+										<Node score="0.12955540142840302">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="6.049999952316284"/>
+										</Node>
+									</Node>
+									<Node score="-0.930278707238085">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.3234157296906044">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.799999952316284"/>
+										</Node>
+									</Node>
+									<Node score="0.4607749604669376">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="8">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="0.9443487158340802">
+									<True/>
+									<Node score="0.06280363514628744">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="-0.783641824230788">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.780853100332832">
+												<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+											</Node>
+										</Node>
+										<Node score="1.1116911532881233">
+											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
+										</Node>
+									</Node>
+									<Node score="-0.9099360144077988">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.2402885925877252">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.75"/>
+										</Node>
+									</Node>
+									<Node score="0.38215619785086297">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="9">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+								</MiningSchema>
+								<Node score="0.9011576369309572">
+									<True/>
+									<Node score="1.0534077655995628">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="-0.7678502095834402">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.7654580876176449">
+												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+											</Node>
+										</Node>
+										<Node score="0.01881390825670213">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="6.049999952316284"/>
+										</Node>
+									</Node>
+									<Node score="-0.8969782739563554">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+										<Node score="1.158272798609474">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.799999952316284"/>
+										</Node>
+									</Node>
+									<Node score="0.33136062994826565">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="10">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+								</MiningSchema>
+								<Node score="0.8177788076007084">
+									<True/>
+									<Node score="-0.024219407187520425">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="-0.754975433646334">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.7522580085126318">
+												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+											</Node>
+										</Node>
+										<Node score="1.0371165682313868">
+											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
+										</Node>
+									</Node>
+									<Node score="1.128342257226218">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.650000095367432"/>
+									</Node>
+									<Node score="-0.8690167843793439">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="11">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+								<MiningSchema>
+									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
+								</MiningSchema>
+								<Node score="0.8373112089654362">
+									<True/>
+									<Node score="-0.051150956467824936">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
+										<Node score="-0.7432534427486868">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+											<Node score="-0.7409131172585712">
+												<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+											</Node>
+										</Node>
+										<Node score="0.9896470129139521">
+											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
+										</Node>
+									</Node>
+									<Node score="-1.1638819051515552">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.049999952316284"/>
+										<Node score="0.7257615879901265">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="3.100000023841858"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+					</Segmentation>
+				</MiningModel>
+			</Segment>
+			<Segment id="4">
+				<True/>
+				<RegressionModel functionName="classification" normalizationMethod="simplemax">
+					<MiningSchema>
+						<MiningField name="Species" usageType="target"/>
+						<MiningField name="expDecisionFunction(setosa)"/>
+						<MiningField name="expDecisionFunction(versicolor)"/>
+						<MiningField name="expDecisionFunction(virginica)"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="probability(setosa)" optype="continuous" dataType="double" feature="probability" value="setosa"/>
+						<OutputField name="probability(versicolor)" optype="continuous" dataType="double" feature="probability" value="versicolor"/>
+						<OutputField name="probability(virginica)" optype="continuous" dataType="double" feature="probability" value="virginica"/>
+					</Output>
+					<RegressionTable intercept="0.0" targetCategory="setosa">
+						<NumericPredictor name="expDecisionFunction(setosa)" coefficient="1.0"/>
+					</RegressionTable>
+					<RegressionTable intercept="0.0" targetCategory="versicolor">
+						<NumericPredictor name="expDecisionFunction(versicolor)" coefficient="1.0"/>
+					</RegressionTable>
+					<RegressionTable intercept="0.0" targetCategory="virginica">
+						<NumericPredictor name="expDecisionFunction(virginica)" coefficient="1.0"/>
+					</RegressionTable>
+				</RegressionModel>
+			</Segment>
+		</Segmentation>
+		<ModelVerification recordCount="3">
+			<VerificationFields>
+				<VerificationField field="Sepal.Length" column="data:Sepal.Length"/>
+				<VerificationField field="Sepal.Width" column="data:Sepal.Width"/>
+				<VerificationField field="Petal.Length" column="data:Petal.Length"/>
+				<VerificationField field="Petal.Width" column="data:Petal.Width"/>
+				<VerificationField field="probability(setosa)" column="data:probability_setosa" precision="1.0E-13" zeroThreshold="1.0E-13"/>
+				<VerificationField field="probability(versicolor)" column="data:probability_versicolor" precision="1.0E-13" zeroThreshold="1.0E-13"/>
+				<VerificationField field="probability(virginica)" column="data:probability_virginica" precision="1.0E-13" zeroThreshold="1.0E-13"/>
+			</VerificationFields>
+			<InlineTable>
+				<row>
+					<data:Sepal.Length>5.7</data:Sepal.Length>
+					<data:Sepal.Width>2.8</data:Sepal.Width>
+					<data:Petal.Length>4.5</data:Petal.Length>
+					<data:Petal.Width>1.3</data:Petal.Width>
+					<data:probability_setosa>0.09114865302547258</data:probability_setosa>
+					<data:probability_versicolor>0.8174831578411743</data:probability_versicolor>
+					<data:probability_virginica>0.09136818913335304</data:probability_virginica>
+				</row>
+				<row>
+					<data:Sepal.Length>5.6</data:Sepal.Length>
+					<data:Sepal.Width>2.9</data:Sepal.Width>
+					<data:Petal.Length>3.6</data:Petal.Length>
+					<data:Petal.Width>1.3</data:Petal.Width>
+					<data:probability_setosa>0.0911355865330056</data:probability_setosa>
+					<data:probability_versicolor>0.8174949107395547</data:probability_versicolor>
+					<data:probability_virginica>0.09136950272743968</data:probability_virginica>
+				</row>
+				<row>
+					<data:Sepal.Length>5.1</data:Sepal.Length>
+					<data:Sepal.Width>3.7</data:Sepal.Width>
+					<data:Petal.Length>1.5</data:Petal.Length>
+					<data:Petal.Width>0.4</data:Petal.Width>
+					<data:probability_setosa>0.8236125260956297</data:probability_setosa>
+					<data:probability_versicolor>0.0882030659133676</data:probability_versicolor>
+					<data:probability_virginica>0.08818440799100255</data:probability_virginica>
+				</row>
+			</InlineTable>
+		</ModelVerification>
+	</MiningModel>
+</PMML>
