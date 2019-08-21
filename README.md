@@ -28,9 +28,9 @@ The library JAR file is is not, and will not be, available from public repositor
 Obtaining and building JPMML-Transpiler locally using Apache Maven:
 
 ```
-git checkout https://github.com/jpmml/jpmml-transpiler.git
-cd jpmml-transpiler
-mvn clean install
+$ git checkout https://github.com/vruusmann/jpmml-transpiler.git
+$ cd jpmml-transpiler
+$ mvn clean install
 ```
 
 The build produces two files:
