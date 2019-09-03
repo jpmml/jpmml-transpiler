@@ -278,8 +278,7 @@ public class PMMLObjectUtil {
 
 			Object jaxbValue = jaxbElement.getValue();
 
-			return JExpr._new(jaxbElementClass)
-				.arg(context.constantXmlName(jaxbElement.getName())).arg(JExpr.dotclass(context.ref(jaxbValue.getClass()))).arg(createExpression(jaxbValue, context));
+			return JExpr._new(jaxbElementClass).arg(context.constantXmlName(jaxbElement.getName())).arg(JExpr.dotclass(context.ref(jaxbValue.getClass()))).arg(createExpression(jaxbValue, context));
 		} else
 
 		if((Element.class).isAssignableFrom(clazz)){

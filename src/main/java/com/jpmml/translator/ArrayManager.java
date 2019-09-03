@@ -32,85 +32,38 @@ import com.sun.codemodel.JType;
 abstract
 class ArrayManager<E> {
 
-	private JType type = null;
+	private JArray array = null;
 
-	private String name = null;
+	private JFieldVar arrayVar = null;
 
-	private Map<JDefinedClass, ArrayDeclaration> arrayDeclarations = new LinkedHashMap<>();
+	private Map<E, Integer> indices = new LinkedHashMap<>();
 
 
-	ArrayManager(JType type, String name){
-		setType(type);
-		setName(name);
+	public ArrayManager(JDefinedClass owner, JType type, String name){
+		JArray array = JExpr.newArray(type);
+
+		this.array = array;
+		this.arrayVar = owner.field(JMod.PRIVATE | (owner.isAnonymous() ? 0 : JMod.STATIC), type.array(), name, array);
 	}
-
-	abstract
-	public JDefinedClass getOwner();
 
 	abstract
 	public JExpression createExpression(E element);
 
-	public JExpression getExpression(E element){
-		JDefinedClass owner = getOwner();
+	public int getOrInsert(E element){
+		Integer index = this.indices.get(element);
 
-		ArrayDeclaration arrayDeclaration = this.arrayDeclarations.get(owner);
-		if(arrayDeclaration == null){
-			arrayDeclaration = new ArrayDeclaration(owner);
+		if(index == null){
+			this.array.add(createExpression(element));
 
-			this.arrayDeclarations.put(owner, arrayDeclaration);
+			index = this.indices.size();
+
+			this.indices.put(element, index);
 		}
 
-		return arrayDeclaration.getExpression(element);
+		return index;
 	}
 
-	public JType getType(){
-		return this.type;
-	}
-
-	private void setType(JType type){
-		this.type = type;
-	}
-
-	public String getName(){
-		return this.name;
-	}
-
-	private void setName(String name){
-		this.name = name;
-	}
-
-	private class ArrayDeclaration {
-
-		private JArray array = null;
-
-		private JFieldVar arrayVar = null;
-
-		private Map<E, JExpression> expressions = new LinkedHashMap<>();
-
-
-		private ArrayDeclaration(JDefinedClass owner){
-			JType type = getType();
-			String name = getName();
-
-			this.array = JExpr.newArray(type);
-
-			this.arrayVar = owner.field(JMod.PRIVATE | (owner.isAnonymous() ? 0 : JMod.STATIC), type.array(), name, this.array);
-		}
-
-		public JExpression getExpression(E element){
-			JExpression expression = this.expressions.get(element);
-
-			if(expression == null){
-				this.array.add(createExpression(element));
-
-				int size = this.expressions.size();
-
-				expression = this.arrayVar.component(JExpr.lit(size));
-
-				this.expressions.put(element, expression);
-			}
-
-			return expression;
-		}
+	public JExpression getComponent(int index){
+		return this.arrayVar.component(JExpr.lit(index));
 	}
 }

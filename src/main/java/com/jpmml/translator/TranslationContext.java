@@ -67,38 +67,6 @@ public class TranslationContext {
 	public TranslationContext(PMML pmml, JCodeModel codeModel){
 		setPMML(pmml);
 		setCodeModel(codeModel);
-
-		this.fieldNameManager = new ArrayManager<FieldName>(ref(FieldName.class), "fieldNames"){
-
-			@Override
-			public JDefinedClass getOwner(){
-				return TranslationContext.this.owners.peekLast();
-			}
-
-			@Override
-			public JExpression createExpression(FieldName name){
-				JClass fieldNameClass = ref(FieldName.class);
-
-				return fieldNameClass.staticInvoke("create")
-					.arg(name.getValue());
-			}
-		};
-
-		this.xmlNameManager = new ArrayManager<QName>(ref(QName.class), "xmlNames"){
-
-			@Override
-			public JDefinedClass getOwner(){
-				return TranslationContext.this.owners.peekLast();
-			}
-
-			@Override
-			public JExpression createExpression(QName name){
-				JClass xmlNameClass = ref(QName.class);
-
-				return JExpr._new(xmlNameClass)
-					.arg(name.getNamespaceURI()).arg(name.getLocalPart()).arg(name.getPrefix());
-			}
-		};
 	}
 
 	public JClass ref(Class<?> clazz){
@@ -157,6 +125,31 @@ public class TranslationContext {
 	}
 
 	public void pushOwner(JDefinedClass owner){
+
+		if(this.fieldNameManager == null){
+			this.fieldNameManager = new ArrayManager<FieldName>(owner, ref(FieldName.class), "fieldNames"){
+
+				@Override
+				public JExpression createExpression(FieldName name){
+					JClass fieldNameClass = ref(FieldName.class);
+
+					return fieldNameClass.staticInvoke("create").arg(name.getValue());
+				}
+			};
+		} // End if
+
+		if(this.xmlNameManager == null){
+			this.xmlNameManager = new ArrayManager<QName>(owner, ref(QName.class), "xmlNames"){
+
+				@Override
+				public JExpression createExpression(QName name){
+					JClass xmlNameClass = ref(QName.class);
+
+					return JExpr._new(xmlNameClass).arg(name.getNamespaceURI()).arg(name.getLocalPart()).arg(name.getPrefix());
+				}
+			};
+		}
+
 		this.owners.addFirst(owner);
 	}
 
@@ -297,11 +290,19 @@ public class TranslationContext {
 			return JExpr._null();
 		}
 
-		return this.fieldNameManager.getExpression(name);
+		ArrayManager<FieldName> fieldNameManager = this.fieldNameManager;
+
+		int index = fieldNameManager.getOrInsert(name);
+
+		return fieldNameManager.getComponent(index);
 	}
 
 	public JExpression constantXmlName(QName name){
-		return this.xmlNameManager.getExpression(name);
+		ArrayManager<QName> xmlNameManager = this.xmlNameManager;
+
+		int index = xmlNameManager.getOrInsert(name);
+
+		return xmlNameManager.getComponent(index);
 	}
 
 	public PMML getPMML(){
