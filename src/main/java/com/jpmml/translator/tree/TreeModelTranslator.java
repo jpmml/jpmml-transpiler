@@ -40,7 +40,6 @@ import org.dmg.pmml.DataType;
 import org.dmg.pmml.False;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
-import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Predicate;
@@ -72,37 +71,37 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Node node = treeModel.getNode();
 
+		NodeScoreManager nodeScoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
+
 		Map<FieldName, Field<?>> activeFields = getActiveFields(Collections.singleton(node));
 
-		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, getResultType(), node, false, true);
+		JMethod evaluateNodeMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, true);
 
 		try {
-			context.pushScope(new MethodScope(evaluateMethod));
+			context.pushScope(new MethodScope(evaluateNodeMethod));
 
-			translateNode(node, activeFields, context);
+			translateNode(node, nodeScoreManager, activeFields, context);
 		} finally {
 			context.popScope();
 		}
 
-		return evaluateMethod;
-	}
+		JMethod evaluateTreeModelMethod = context.evaluatorMethod(JMod.PUBLIC, Number.class, treeModel, false, true);
 
-	public Class<?> getResultType(){
-		TreeModel treeModel = getModel();
+		try {
+			context.pushScope(new MethodScope(evaluateTreeModelMethod));
 
-		MathContext mathContext = treeModel.getMathContext();
-		switch(mathContext){
-			case FLOAT:
-				return float.class;
-			case DOUBLE:
-				return double.class;
-			default:
-				throw new UnsupportedAttributeException(treeModel, mathContext);
+			JBlock block = context.block();
+
+			block._return(nodeScoreManager.getComponent(JExpr.invoke(evaluateNodeMethod).arg(context.getContextVariable())));
+		} finally {
+			context.popScope();
 		}
+
+		return evaluateTreeModelMethod;
 	}
 
 	static
-	public void translateNode(Node node, Map<FieldName, Field<?>> activeFields, TranslationContext context){
+	public void translateNode(Node node, NodeScoreManager nodeScoreManager, Map<FieldName, Field<?>> activeFields, TranslationContext context){
 		Predicate predicate = node.getPredicate();
 
 		JExpression predicateExpr = translatePredicate(predicate, activeFields, context);
@@ -118,21 +117,21 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				List<Node> children = node.getNodes();
 
 				for(Node child : children){
-					translateNode(child, activeFields, context);
+					translateNode(child, nodeScoreManager, activeFields, context);
 				}
 			} finally {
 				context.popScope();
 			}
 		}
 
+		int scoreIndex = -1;
+
 		Object score = node.getScore();
-		if(score == null){
-			return;
+		if(score != null){
+			scoreIndex = nodeScoreManager.getOrInsert((Number)score);
 		}
 
-		JExpression scoreLitExpr = PMMLObjectUtil.createExpression(score, context);
-
-		ifBlock._return(scoreLitExpr);
+		ifBlock._return(JExpr.lit(scoreIndex));
 	}
 
 	static

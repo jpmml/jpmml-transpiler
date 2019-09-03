@@ -28,6 +28,7 @@ import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectBuilder;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
+import com.jpmml.translator.tree.NodeScoreManager;
 import com.jpmml.translator.tree.TreeModelTranslator;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -181,11 +182,11 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			TreeModelTranslator treeModelTranslator = (TreeModelTranslator)newModelTranslator(treeModel);
 
+			NodeScoreManager nodeScoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
+
 			Map<FieldName, Field<?>> activeFields = treeModelTranslator.getActiveFields(Collections.singleton(node));
 
-			Class<?> resultType = treeModelTranslator.getResultType();
-
-			JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, resultType, node, false, false);
+			JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, false);
 
 			JInvocation evaluateInvocation = JExpr.invoke(evaluateMethod);
 
@@ -203,21 +204,23 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			try {
 				context.pushScope(new MethodScope(evaluateMethod));
 
-				TreeModelTranslator.translateNode(node, activeFields, context);
+				TreeModelTranslator.translateNode(node, nodeScoreManager, activeFields, context);
 			} finally {
 				context.popScope();
 			}
+
+			JExpression valueExpr = nodeScoreManager.getComponent(evaluateInvocation);
 
 			switch(multipleModelMethod){
 				case SUM:
 				case AVERAGE:
 				case MEDIAN:
-					aggregatorBuilder.update("add", evaluateInvocation);
+					aggregatorBuilder.update("add", valueExpr);
 					break;
 				case WEIGHTED_SUM:
 				case WEIGHTED_AVERAGE:
 				case WEIGHTED_MEDIAN:
-					aggregatorBuilder.update("add", evaluateInvocation, segment.getWeight());
+					aggregatorBuilder.update("add", valueExpr, segment.getWeight());
 					break;
 				default:
 					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);

@@ -30,7 +30,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 
 abstract
-class ArrayManager<E> {
+public class ArrayManager<E> {
 
 	private JArray array = null;
 
@@ -64,6 +64,10 @@ class ArrayManager<E> {
 	}
 
 	public JExpression getComponent(int index){
-		return this.arrayVar.component(JExpr.lit(index));
+		return getComponent(JExpr.lit(index));
+	}
+
+	public JExpression getComponent(JExpression indexExpr){
+		return this.arrayVar.component(indexExpr);
 	}
 }
