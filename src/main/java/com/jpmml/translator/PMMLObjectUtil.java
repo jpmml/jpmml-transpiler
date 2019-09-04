@@ -34,10 +34,19 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.FieldName;
+import org.dmg.pmml.Header;
+import org.dmg.pmml.LocalTransformations;
+import org.dmg.pmml.MiningSchema;
 import org.dmg.pmml.Model;
+import org.dmg.pmml.ModelExplanation;
+import org.dmg.pmml.ModelStats;
+import org.dmg.pmml.ModelVerification;
+import org.dmg.pmml.Output;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
+import org.dmg.pmml.TransformationDictionary;
 import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.model.ReflectionUtil;
@@ -242,6 +251,20 @@ public class PMMLObjectUtil {
 			if(representation != null){
 				return representation;
 			} // End if
+
+			// PMML-level elements
+			if((pmmlObject instanceof Header) || (pmmlObject instanceof DataDictionary) || (pmmlObject instanceof TransformationDictionary)){
+				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
+
+				return JExpr.invoke(builderMethod);
+			} else
+
+			// Model-level elements
+			if((pmmlObject instanceof MiningSchema) || (pmmlObject instanceof LocalTransformations) || (pmmlObject instanceof Output) || (pmmlObject instanceof ModelStats) || (pmmlObject instanceof ModelExplanation) || (pmmlObject instanceof ModelVerification)){
+				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
+
+				return JExpr.invoke(builderMethod);
+			} else
 
 			if(pmmlObject instanceof org.dmg.pmml.Field){
 				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
