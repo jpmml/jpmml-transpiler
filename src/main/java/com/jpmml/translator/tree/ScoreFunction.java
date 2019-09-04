@@ -18,36 +18,9 @@
  */
 package com.jpmml.translator.tree;
 
-import com.jpmml.translator.ArrayManager;
-import com.jpmml.translator.TranslationContext;
-import com.sun.codemodel.JExpr;
-import com.sun.codemodel.JExpression;
+import java.util.function.Function;
+
 import org.dmg.pmml.tree.Node;
 
-public class NodeScoreManager extends ArrayManager<Number> implements ScoreFunction<Number> {
-
-	public NodeScoreManager(String name, TranslationContext context){
-		super(context.getOwner(), context.ref(Number.class), name);
-	}
-
-	@Override
-	public Number apply(Node node){
-		Object score = node.getScore();
-
-		return (Number)score;
-	}
-
-	@Override
-	public JExpression createExpression(Number score){
-
-		if(score instanceof Float){
-			return JExpr.lit(score.floatValue());
-		} else
-
-		if(score instanceof Double){
-			return JExpr.lit(score.doubleValue());
-		}
-
-		throw new IllegalArgumentException();
-	}
+public interface ScoreFunction<S> extends Function<Node, S> {
 }

@@ -29,6 +29,11 @@ public class ClassificationTest extends TranspilerTest {
 	}
 
 	@Test
+	public void evaluateDecisionTreeAudit() throws Exception {
+		evaluate("DecisionTree", "Audit");
+	}
+
+	@Test
 	public void evaluateGradientBoostingAudit() throws Exception {
 		evaluate("GradientBoosting", "Audit");
 	}
@@ -46,6 +51,11 @@ public class ClassificationTest extends TranspilerTest {
 	@Test
 	public void evaluateXGBoostAudit() throws Exception {
 		evaluate("XGBoost", "Audit", new FloatEquivalence(8));
+	}
+
+	@Test
+	public void evaluateDecisionTreeIris() throws Exception {
+		evaluate("DecisionTree", "Iris");
 	}
 
 	@Test

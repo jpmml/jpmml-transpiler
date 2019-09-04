@@ -182,7 +182,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			TreeModelTranslator treeModelTranslator = (TreeModelTranslator)newModelTranslator(treeModel);
 
-			NodeScoreManager nodeScoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
+			NodeScoreManager scoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
 
 			Map<FieldName, Field<?>> activeFields = treeModelTranslator.getActiveFields(Collections.singleton(node));
 
@@ -204,12 +204,12 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			try {
 				context.pushScope(new MethodScope(evaluateMethod));
 
-				TreeModelTranslator.translateNode(node, nodeScoreManager, activeFields, context);
+				TreeModelTranslator.translateNode(node, scoreManager, activeFields, context);
 			} finally {
 				context.popScope();
 			}
 
-			JExpression valueExpr = nodeScoreManager.getComponent(evaluateInvocation);
+			JExpression valueExpr = scoreManager.getComponent(evaluateInvocation);
 
 			switch(multipleModelMethod){
 				case SUM:

@@ -18,6 +18,7 @@
  */
 package com.jpmml.translator;
 
+import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -69,5 +70,34 @@ public class ArrayManager<E> {
 
 	public JExpression getComponent(JExpression indexExpr){
 		return this.arrayVar.component(indexExpr);
+	}
+
+	public JType getType(){
+		JArray array = getArray();
+
+		try {
+			Field field = JArray.class.getDeclaredField("type");
+			if(!field.isAccessible()){
+				field.setAccessible(true);
+			}
+
+			return (JType)field.get(array);
+		} catch(ReflectiveOperationException roe){
+			throw new RuntimeException(roe);
+		}
+	}
+
+	public JType getComponentType(){
+		JType type = getType();
+
+		return type.elementType();
+	}
+
+	public JArray getArray(){
+		return this.array;
+	}
+
+	public JFieldVar getArrayVar(){
+		return this.arrayVar;
 	}
 }

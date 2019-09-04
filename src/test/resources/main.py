@@ -3,7 +3,7 @@ from pandas import DataFrame
 from sklearn.ensemble import AdaBoostRegressor, GradientBoostingClassifier, GradientBoostingRegressor, IsolationForest, RandomForestRegressor, VotingRegressor
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.preprocessing import LabelBinarizer, LabelEncoder
-from sklearn.tree import DecisionTreeRegressor, ExtraTreeRegressor
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeRegressor
 from sklearn_pandas import DataFrameMapper
 from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.decoration import CategoricalDomain, ContinuousDomain
@@ -72,6 +72,7 @@ def build_audit(classifier, name, **pmml_options):
 	store_csv(pandas.concat((adjusted, adjusted_proba), axis = 1), name)
 
 if "Audit" in datasets:
+	build_audit(DecisionTreeClassifier(min_samples_leaf = 7, random_state = 13), "DecisionTreeAudit")
 	build_audit(GradientBoostingClassifier(n_estimators = 71, random_state = 13), "GradientBoostingAudit")
 	build_audit(LGBMClassifier(objective = "binary", n_estimators = 71, random_state = 13), "LightGBMAudit")
 	build_audit(LogisticRegression(random_state = 13), "LogisticRegressionAudit")
@@ -105,6 +106,7 @@ def build_iris(classifier, name, **pmml_options):
 	store_csv(pandas.concat((species, species_proba), axis = 1), name)
 
 if "Iris" in datasets:
+	build_iris(DecisionTreeClassifier(min_samples_leaf = 5, random_state = 13), "DecisionTreeIris")
 	build_iris(GradientBoostingClassifier(n_estimators = 11, random_state = 13), "GradientBoostingIris")
 	build_iris(LGBMClassifier(objective = "multiclass", n_estimators = 11, random_state = 13), "LightGBMIris")
 	build_iris(LogisticRegression(random_state = 13), "LogisticRegressionIris")

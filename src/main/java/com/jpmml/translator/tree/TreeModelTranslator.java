@@ -24,11 +24,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.PMMLObjectUtil;
 import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
+import com.jpmml.translator.ValueMapBuilder;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -40,7 +42,7 @@ import org.dmg.pmml.DataType;
 import org.dmg.pmml.False;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
-import org.dmg.pmml.MiningFunction;
+import org.dmg.pmml.MathContext;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Predicate;
 import org.dmg.pmml.SimplePredicate;
@@ -48,21 +50,18 @@ import org.dmg.pmml.SimpleSetPredicate;
 import org.dmg.pmml.True;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.TreeModel;
+import org.jpmml.evaluator.Classification;
+import org.jpmml.evaluator.ProbabilityDistribution;
+import org.jpmml.evaluator.TargetField;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
+import org.jpmml.evaluator.ValueFactory;
+import org.jpmml.evaluator.ValueFactoryFactory;
 
 public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	public TreeModelTranslator(PMML pmml, TreeModel treeModel){
 		super(pmml, treeModel);
-
-		MiningFunction miningFunction = treeModel.getMiningFunction();
-		switch(miningFunction){
-			case REGRESSION:
-				break;
-			default:
-				throw new UnsupportedAttributeException(treeModel, miningFunction);
-		}
 	}
 
 	@Override
@@ -71,7 +70,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Node node = treeModel.getNode();
 
-		NodeScoreManager nodeScoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
+		NodeScoreManager scoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
 
 		Map<FieldName, Field<?>> activeFields = getActiveFields(Collections.singleton(node));
 
@@ -80,7 +79,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new MethodScope(evaluateNodeMethod));
 
-			translateNode(node, nodeScoreManager, activeFields, context);
+			translateNode(node, scoreManager, activeFields, context);
 		} finally {
 			context.popScope();
 		}
@@ -92,7 +91,80 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			JBlock block = context.block();
 
-			block._return(nodeScoreManager.getComponent(JExpr.invoke(evaluateNodeMethod).arg(context.getContextVariable())));
+			block._return(scoreManager.getComponent(createEvaluatorMethodInvocation(evaluateNodeMethod, context)));
+		} finally {
+			context.popScope();
+		}
+
+		return evaluateTreeModelMethod;
+	}
+
+	@Override
+	public JMethod translateClassifier(TranslationContext context){
+		TreeModel treeModel = getModel();
+
+		Node node = treeModel.getNode();
+
+		ValueFactory<Number> valueFactory;
+
+		MathContext mathContext = treeModel.getMathContext();
+		switch(mathContext){
+			case FLOAT:
+			case DOUBLE:
+				ValueFactoryFactory valueFactoryFactory = ValueFactoryFactory.newInstance();
+
+				valueFactory = (ValueFactory)valueFactoryFactory.newValueFactory(mathContext);
+				break;
+			default:
+				throw new UnsupportedAttributeException(treeModel, mathContext);
+		}
+
+		TargetField targetField = getTargetField();
+
+		// XXX
+		String[] categories = (targetField.getCategories()).toArray(new String[0]);
+
+		NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>("scores$" + System.identityHashCode(node), categories, context){
+
+			@Override
+			public ValueFactory<Number> getValueFactory(){
+				return valueFactory;
+			}
+		};
+
+		Map<FieldName, Field<?>> activeFields = getActiveFields(Collections.singleton(node));
+
+		JMethod evaluateNodeMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, true);
+
+		try {
+			context.pushScope(new MethodScope(evaluateNodeMethod));
+
+			translateNode(node, scoreManager, activeFields, context);
+		} finally {
+			context.popScope();
+		}
+
+		JMethod evaluateTreeModelMethod = context.evaluatorMethod(JMod.PUBLIC, Classification.class, treeModel, true, true);
+
+		try {
+			context.pushScope(new MethodScope(evaluateTreeModelMethod));
+
+			JVar scoreVar = context.declare(Number[].class, "score", scoreManager.getComponent(createEvaluatorMethodInvocation(evaluateNodeMethod, context)));
+
+			ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
+				.construct("values");
+
+			for(int i = 0; i < categories.length; i++){
+				JExpression valueExpr = context.getValueFactoryVariable().invoke("newValue").arg(scoreVar.component(JExpr.lit(i)));
+
+				valueMapBuilder.update("put", categories[i], valueExpr);
+			}
+
+			JVar valueMapVar = valueMapBuilder.getVariable();
+
+			JBlock block = context.block();
+
+			block._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapVar));
 		} finally {
 			context.popScope();
 		}
@@ -101,7 +173,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public void translateNode(Node node, NodeScoreManager nodeScoreManager, Map<FieldName, Field<?>> activeFields, TranslationContext context){
+	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(Node node, ScoreManager scoreManager, Map<FieldName, Field<?>> activeFields, TranslationContext context){
 		Predicate predicate = node.getPredicate();
 
 		JExpression predicateExpr = translatePredicate(predicate, activeFields, context);
@@ -117,19 +189,19 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				List<Node> children = node.getNodes();
 
 				for(Node child : children){
-					translateNode(child, nodeScoreManager, activeFields, context);
+					translateNode(child, scoreManager, activeFields, context);
 				}
 			} finally {
 				context.popScope();
 			}
 		}
 
-		int scoreIndex = -1;
-
-		Object score = node.getScore();
-		if(score != null){
-			scoreIndex = nodeScoreManager.getOrInsert((Number)score);
+		S score = scoreManager.apply(node);
+		if(score == null){
+			return;
 		}
+
+		int scoreIndex = scoreManager.getOrInsert(score);
 
 		ifBlock._return(JExpr.lit(scoreIndex));
 	}
