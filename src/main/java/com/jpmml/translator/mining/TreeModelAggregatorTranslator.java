@@ -23,13 +23,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectBuilder;
+import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
+import com.jpmml.translator.tree.NodeScoreDistributionManager;
 import com.jpmml.translator.tree.NodeScoreManager;
+import com.jpmml.translator.tree.ScoreFunction;
 import com.jpmml.translator.tree.TreeModelTranslator;
+import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
@@ -49,10 +55,15 @@ import org.dmg.pmml.mining.Segment;
 import org.dmg.pmml.mining.Segmentation;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.TreeModel;
+import org.jpmml.evaluator.Classification;
+import org.jpmml.evaluator.HasProbability;
+import org.jpmml.evaluator.ProbabilityAggregator;
+import org.jpmml.evaluator.ProbabilityDistribution;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueAggregator;
+import org.jpmml.evaluator.ValueFactory;
 
 public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
@@ -62,6 +73,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		MiningFunction miningFunction = miningModel.getMiningFunction();
 		switch(miningFunction){
 			case REGRESSION:
+			case CLASSIFICATION:
 				break;
 			default:
 				throw new UnsupportedAttributeException(miningModel, miningFunction);
@@ -134,7 +146,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		try {
 			context.pushScope(new MethodScope(evaluateMethod));
 
-			translateSegmentation(segmentation, context);
+			translateValueAggregatorSegmentation(segmentation, context);
 		} finally {
 			context.popScope();
 		}
@@ -142,9 +154,26 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		return evaluateMethod;
 	}
 
-	private void translateSegmentation(Segmentation segmentation, TranslationContext context){
+	@Override
+	public JMethod translateClassifier(TranslationContext context){
 		MiningModel miningModel = getModel();
 
+		Segmentation segmentation = miningModel.getSegmentation();
+
+		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, Classification.class, segmentation, true, true);
+
+		try {
+			 context.pushScope(new MethodScope(evaluateMethod));
+
+			 translateProbabilityAggregatorSegmentation(segmentation, context);
+		} finally {
+			context.popScope();
+		}
+
+		return evaluateMethod;
+	}
+
+	private void translateValueAggregatorSegmentation(Segmentation segmentation, TranslationContext context){
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
@@ -180,36 +209,11 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			Node node = treeModel.getNode();
 
-			TreeModelTranslator treeModelTranslator = (TreeModelTranslator)newModelTranslator(treeModel);
-
 			NodeScoreManager scoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
 
-			Map<FieldName, Field<?>> activeFields = treeModelTranslator.getActiveFields(Collections.singleton(node));
+			JInvocation scoreIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, context);
 
-			JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, false);
-
-			JInvocation evaluateInvocation = JExpr.invoke(evaluateMethod);
-
-			Collection<? extends Map.Entry<FieldName, Field<?>>> entries = activeFields.entrySet();
-			for(Map.Entry<FieldName, Field<?>> entry : entries){
-				Field<?> field = entry.getValue();
-
-				JVar valueVar = context.ensureValueVariable(field, null);
-
-				evaluateMethod.param(valueVar.type(), valueVar.name());
-
-				evaluateInvocation = evaluateInvocation.arg(valueVar);
-			}
-
-			try {
-				context.pushScope(new MethodScope(evaluateMethod));
-
-				TreeModelTranslator.translateNode(node, scoreManager, activeFields, context);
-			} finally {
-				context.popScope();
-			}
-
-			JExpression valueExpr = scoreManager.getComponent(evaluateInvocation);
+			JExpression valueExpr = scoreManager.getComponent(scoreIndexExpr);
 
 			switch(multipleModelMethod){
 				case SUM:
@@ -258,5 +262,133 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			.declare(Value.class, "result", valueInit);
 
 		context._return(resultBuilder.getVariable());
+	}
+
+	private void translateProbabilityAggregatorSegmentation(Segmentation segmentation, TranslationContext context){
+		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
+		List<Segment> segments = segmentation.getSegments();
+
+		JVar valueFactoryVar = context.getValueFactoryVariable();
+
+		JDefinedClass progabilityAggregatorClazz = context.anonymousClass(ProbabilityAggregator.class);
+
+		JMethod valueFactoryMethod = progabilityAggregatorClazz.method(JMod.PUBLIC, valueFactoryVar.type(), "getValueFactory");
+		valueFactoryMethod.annotate(Override.class);
+
+		valueFactoryMethod.body()._return(valueFactoryVar);
+
+		ObjectBuilder aggregatorBuilder = new ObjectBuilder(context);
+
+		switch(multipleModelMethod){
+			case AVERAGE:
+				aggregatorBuilder.construct(progabilityAggregatorClazz, "aggregator", JExpr.lit(0));
+				break;
+			case WEIGHTED_AVERAGE:
+				aggregatorBuilder.construct(progabilityAggregatorClazz, "aggregator", JExpr.lit(0), valueFactoryVar.invoke("newVector").arg(JExpr.lit(0)));
+				break;
+			default:
+				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
+		}
+
+		String[] categories = getTargetCategories();
+
+		JDefinedClass owner = context.getOwner();
+
+		JMethod scoreTransformerMethod = owner.method(JMod.PRIVATE, context.ref(HasProbability.class), "createScoreDistribution");
+		scoreTransformerMethod.param(ValueFactory.class, Scope.NAME_VALUEFACTORY);
+		scoreTransformerMethod.param(Number[].class, "score");
+
+		try {
+			context.pushScope(new MethodScope(scoreTransformerMethod));
+
+			JVar valueMapVar = TreeModelTranslator.createScoreDistribution(categories, context.getVariable("score"), context);
+
+			JBlock block = context.block();
+
+			block._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapVar));
+		} finally {
+			context.popScope();
+		}
+
+		for(Segment segment : segments){
+			True _true = (True)segment.getPredicate();
+			TreeModel treeModel = (TreeModel)segment.getModel();
+
+			Node node = treeModel.getNode();
+
+			NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>("scores$" + System.identityHashCode(node), categories, context){
+
+				private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
+
+
+				@Override
+				public ValueFactory<Number> getValueFactory(){
+					return this.valueFactory;
+				}
+			};
+
+			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, context);
+
+			JExpression probabilityExpr = JExpr.invoke(scoreTransformerMethod).arg(context.getValueFactoryVariable()).arg(scoreManager.getComponent(nodeIndexExpr));
+
+			switch(multipleModelMethod){
+				case AVERAGE:
+					aggregatorBuilder.update("add", probabilityExpr);
+					break;
+				case WEIGHTED_AVERAGE:
+					aggregatorBuilder.update("add", probabilityExpr, segment.getWeight());
+					break;
+				default:
+					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
+			}
+		}
+
+		JVar aggregatorVar = aggregatorBuilder.getVariable();
+
+		JInvocation valueMapInit;
+
+		switch(multipleModelMethod){
+			case AVERAGE:
+				valueMapInit = aggregatorVar.invoke("averageMap");
+				break;
+			case WEIGHTED_AVERAGE:
+				valueMapInit = aggregatorVar.invoke("weightedAverageMap");
+				break;
+			default:
+				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
+		}
+
+		context._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapInit));
+	}
+
+	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JInvocation createAndInvokeEvaluation(TreeModel treeModel, Node node, ScoreManager scoreManager, TranslationContext context){
+		TreeModelTranslator treeModelTranslator = (TreeModelTranslator)newModelTranslator(treeModel);
+
+		Map<FieldName, Field<?>> activeFields = treeModelTranslator.getActiveFields(Collections.singleton(node));
+
+		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, false);
+
+		JInvocation result = JExpr.invoke(evaluateMethod);
+
+		Collection<? extends Map.Entry<FieldName, Field<?>>> entries = activeFields.entrySet();
+		for(Map.Entry<FieldName, Field<?>> entry : entries){
+			Field<?> field = entry.getValue();
+
+			JVar valueVar = context.ensureValueVariable(field, null);
+
+			evaluateMethod.param(valueVar.type(), valueVar.name());
+
+			result = result.arg(valueVar);
+		}
+
+		try {
+			context.pushScope(new MethodScope(evaluateMethod));
+
+			TreeModelTranslator.translateNode(node, scoreManager, activeFields, context);
+		} finally {
+			context.popScope();
+		}
+
+		return result;
 	}
 }

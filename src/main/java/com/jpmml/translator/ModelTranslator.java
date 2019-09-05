@@ -63,6 +63,8 @@ import org.jpmml.evaluator.TargetField;
 import org.jpmml.evaluator.TargetUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.Value;
+import org.jpmml.evaluator.ValueFactory;
+import org.jpmml.evaluator.ValueFactoryFactory;
 import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.model.visitors.FieldReferenceFinder;
 import org.jpmml.model.visitors.FieldResolver;
@@ -199,25 +201,6 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		return evaluateClassificationMethod;
 	}
 
-	static
-	private void translateRegressorTarget(Target target, ValueBuilder valueBuilder){
-		Number rescaleFactor = target.getRescaleFactor();
-
-		if(rescaleFactor != null && rescaleFactor.doubleValue() != 1d){
-			valueBuilder.update("multiply", rescaleFactor);
-		}
-
-		Number rescaleConstant = target.getRescaleConstant();
-		if(rescaleConstant != null && rescaleConstant.doubleValue() != 0d){
-			valueBuilder.update("add", rescaleConstant);
-		}
-
-		Target.CastInteger castInteger = target.getCastInteger();
-		if(castInteger != null){
-			throw new UnsupportedAttributeException(target, castInteger);
-		}
-	}
-
 	public Map<FieldName, Field<?>> getActiveFields(Set<? extends PMMLObject> bodyObjects){
 		PMML pmml = getPMML();
 		M model = getModel();
@@ -263,6 +246,14 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		(activeBodyFields.keySet()).retainAll(activeFieldNames);
 
 		return activeBodyFields;
+	}
+
+	public String[] getTargetCategories(){
+		TargetField targetField = getTargetField();
+
+		List<String> categories = targetField.getCategories();
+
+		return categories.toArray(new String[categories.size()]);
 	}
 
 	public TargetField getTargetField(){
@@ -378,6 +369,22 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 	}
 
 	static
+	public <V extends Number> ValueFactory<V> getValueFactory(Model model){
+		MathContext mathContext = model.getMathContext();
+
+		switch(mathContext){
+			case FLOAT:
+			case DOUBLE:
+				ValueFactoryFactory valueFactoryFactory = ValueFactoryFactory.newInstance();
+
+				// XXX
+				return (ValueFactory)valueFactoryFactory.newValueFactory(mathContext);
+			default:
+				throw new UnsupportedAttributeException(model, mathContext);
+		}
+	}
+
+	static
 	public Field<?> getField(HasFieldReference<?> hasFieldReference, Map<FieldName, Field<?>> fields){
 		return getField(hasFieldReference.getField(), fields);
 	}
@@ -390,6 +397,25 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		}
 
 		return field;
+	}
+
+	static
+	private void translateRegressorTarget(Target target, ValueBuilder valueBuilder){
+		Number rescaleFactor = target.getRescaleFactor();
+
+		if(rescaleFactor != null && rescaleFactor.doubleValue() != 1d){
+			valueBuilder.update("multiply", rescaleFactor);
+		}
+
+		Number rescaleConstant = target.getRescaleConstant();
+		if(rescaleConstant != null && rescaleConstant.doubleValue() != 0d){
+			valueBuilder.update("add", rescaleConstant);
+		}
+
+		Target.CastInteger castInteger = target.getCastInteger();
+		if(castInteger != null){
+			throw new UnsupportedAttributeException(target, castInteger);
+		}
 	}
 
 	static

@@ -42,7 +42,6 @@ import org.dmg.pmml.DataType;
 import org.dmg.pmml.False;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
-import org.dmg.pmml.MathContext;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Predicate;
 import org.dmg.pmml.SimplePredicate;
@@ -52,11 +51,9 @@ import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.ProbabilityDistribution;
-import org.jpmml.evaluator.TargetField;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.ValueFactory;
-import org.jpmml.evaluator.ValueFactoryFactory;
 
 public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
@@ -105,30 +102,16 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Node node = treeModel.getNode();
 
-		ValueFactory<Number> valueFactory;
-
-		MathContext mathContext = treeModel.getMathContext();
-		switch(mathContext){
-			case FLOAT:
-			case DOUBLE:
-				ValueFactoryFactory valueFactoryFactory = ValueFactoryFactory.newInstance();
-
-				valueFactory = (ValueFactory)valueFactoryFactory.newValueFactory(mathContext);
-				break;
-			default:
-				throw new UnsupportedAttributeException(treeModel, mathContext);
-		}
-
-		TargetField targetField = getTargetField();
-
-		// XXX
-		String[] categories = (targetField.getCategories()).toArray(new String[0]);
+		String[] categories = getTargetCategories();
 
 		NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>("scores$" + System.identityHashCode(node), categories, context){
 
+			private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
+
+
 			@Override
 			public ValueFactory<Number> getValueFactory(){
-				return valueFactory;
+				return this.valueFactory;
 			}
 		};
 
@@ -151,16 +134,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			JVar scoreVar = context.declare(Number[].class, "score", scoreManager.getComponent(createEvaluatorMethodInvocation(evaluateNodeMethod, context)));
 
-			ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
-				.construct("values");
-
-			for(int i = 0; i < categories.length; i++){
-				JExpression valueExpr = context.getValueFactoryVariable().invoke("newValue").arg(scoreVar.component(JExpr.lit(i)));
-
-				valueMapBuilder.update("put", categories[i], valueExpr);
-			}
-
-			JVar valueMapVar = valueMapBuilder.getVariable();
+			JVar valueMapVar = createScoreDistribution(categories, scoreVar, context);
 
 			JBlock block = context.block();
 
@@ -307,6 +281,20 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		{
 			throw new UnsupportedElementException(predicate);
 		}
+	}
+
+	static
+	public JVar createScoreDistribution(String[] categories, JVar scoreVar, TranslationContext context){
+		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
+			.construct("values");
+
+		for(int i = 0; i < categories.length; i++){
+			JExpression valueExpr = context.getValueFactoryVariable().invoke("newValue").arg(scoreVar.component(JExpr.lit(i)));
+
+			valueMapBuilder.update("put", categories[i], valueExpr);
+		}
+
+		return valueMapBuilder.getVariable();
 	}
 
 	static

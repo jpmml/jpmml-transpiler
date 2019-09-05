@@ -21,6 +21,7 @@ package com.jpmml.translator;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
 public class ObjectBuilder {
@@ -37,7 +38,13 @@ public class ObjectBuilder {
 	public ObjectBuilder construct(Class<?> type, String name, Object... args){
 		TranslationContext context = getContext();
 
-		JInvocation invocation = JExpr._new(context.ref(type));
+		return construct(context.ref(type), name, args);
+	}
+
+	public ObjectBuilder construct(JType type, String name, Object... args){
+		TranslationContext context = getContext();
+
+		JInvocation invocation = JExpr._new(type);
 
 		for(Object arg : args){
 			invocation = invocation.arg(PMMLObjectUtil.createExpression(arg, context));
@@ -49,7 +56,13 @@ public class ObjectBuilder {
 	public ObjectBuilder declare(Class<?> type, String name, JExpression init){
 		TranslationContext context = getContext();
 
-		JVar variable = context.declare(context.ref(type), name, init);
+		return declare(context.ref(type), name, init);
+	}
+
+	public ObjectBuilder declare(JType type, String name, JExpression init){
+		TranslationContext context = getContext();
+
+		JVar variable = context.declare(type, name, init);
 
 		setVariable(variable);
 

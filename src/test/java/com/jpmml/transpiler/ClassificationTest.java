@@ -49,6 +49,11 @@ public class ClassificationTest extends TranspilerTest {
 	}
 
 	@Test
+	public void evaluateRandomForestAudit() throws Exception {
+		evaluate("RandomForest", "Audit");
+	}
+
+	@Test
 	public void evaluateXGBoostAudit() throws Exception {
 		evaluate("XGBoost", "Audit", new FloatEquivalence(8));
 	}
@@ -71,6 +76,11 @@ public class ClassificationTest extends TranspilerTest {
 	@Test
 	public void evaluateLogisticRegressionIris() throws Exception {
 		evaluate("LogisticRegression", "Iris");
+	}
+
+	@Test
+	public void evaluateRandomForestIris() throws Exception {
+		evaluate("RandomForest", "Iris");
 	}
 
 	@Test

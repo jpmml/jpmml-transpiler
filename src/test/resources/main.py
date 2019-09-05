@@ -1,9 +1,9 @@
 from lightgbm import LGBMClassifier, LGBMRegressor
 from pandas import DataFrame
-from sklearn.ensemble import AdaBoostRegressor, GradientBoostingClassifier, GradientBoostingRegressor, IsolationForest, RandomForestRegressor, VotingRegressor
+from sklearn.ensemble import AdaBoostRegressor, GradientBoostingClassifier, GradientBoostingRegressor, IsolationForest, RandomForestClassifier, RandomForestRegressor, VotingRegressor
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.preprocessing import LabelBinarizer, LabelEncoder
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeRegressor
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeClassifier, ExtraTreeRegressor
 from sklearn_pandas import DataFrameMapper
 from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.decoration import CategoricalDomain, ContinuousDomain
@@ -76,6 +76,7 @@ if "Audit" in datasets:
 	build_audit(GradientBoostingClassifier(n_estimators = 71, random_state = 13), "GradientBoostingAudit")
 	build_audit(LGBMClassifier(objective = "binary", n_estimators = 71, random_state = 13), "LightGBMAudit")
 	build_audit(LogisticRegression(random_state = 13), "LogisticRegressionAudit")
+	build_audit(RandomForestClassifier(n_estimators = 17, random_state = 13), "RandomForestAudit")
 	build_audit(XGBClassifier(objective = "binary:logistic", ntree_limit = 71, random_state = 13), "XGBoostAudit")
 
 #
@@ -110,6 +111,7 @@ if "Iris" in datasets:
 	build_iris(GradientBoostingClassifier(n_estimators = 11, random_state = 13), "GradientBoostingIris")
 	build_iris(LGBMClassifier(objective = "multiclass", n_estimators = 11, random_state = 13), "LightGBMIris")
 	build_iris(LogisticRegression(random_state = 13), "LogisticRegressionIris")
+	build_iris(RandomForestClassifier(n_estimators = 5, random_state = 13), "RandomForestIris")
 	build_iris(XGBClassifier(objective = "multi:softprob", n_estimators = 11, random_state = 13), "XGBoostIris")
 
 #
