@@ -18,6 +18,7 @@
  */
 package com.jpmml.translator.mining;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -27,17 +28,16 @@ import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectBuilder;
-import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
 import com.jpmml.translator.tree.NodeScoreDistributionManager;
 import com.jpmml.translator.tree.NodeScoreManager;
 import com.jpmml.translator.tree.ScoreFunction;
 import com.jpmml.translator.tree.TreeModelTranslator;
-import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -56,7 +56,6 @@ import org.dmg.pmml.mining.Segmentation;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
-import org.jpmml.evaluator.HasProbability;
 import org.jpmml.evaluator.ProbabilityAggregator;
 import org.jpmml.evaluator.ProbabilityDistribution;
 import org.jpmml.evaluator.UnsupportedAttributeException;
@@ -179,25 +178,22 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JVar valueFactoryVar = context.getValueFactoryVariable();
 
-		JExpression newSimpleVectorExpr = valueFactoryVar.invoke("newVector").arg(JExpr.lit(0));
-		JExpression newComplexVectorExpr = valueFactoryVar.invoke("newVector").arg(JExpr.lit(segments.size()));
-
 		ObjectBuilder aggregatorBuilder = new ObjectBuilder(context);
 
 		switch(multipleModelMethod){
 			case SUM:
 			case AVERAGE:
-				aggregatorBuilder.construct(ValueAggregator.class, "aggregator", newSimpleVectorExpr);
+				aggregatorBuilder.construct(ValueAggregator.UnivariateStatistic.class, "aggregator", valueFactoryVar);
 				break;
 			case MEDIAN:
-				aggregatorBuilder.construct(ValueAggregator.class, "aggregator", newComplexVectorExpr);
+				aggregatorBuilder.construct(ValueAggregator.Median.class, "aggregator", valueFactoryVar, segments.size());
 				break;
 			case WEIGHTED_SUM:
 			case WEIGHTED_AVERAGE:
-				aggregatorBuilder.construct(ValueAggregator.class, "aggregator", newSimpleVectorExpr, newSimpleVectorExpr, newSimpleVectorExpr);
+				aggregatorBuilder.construct(ValueAggregator.WeightedUnivariateStatistic.class, "aggregator", valueFactoryVar);
 				break;
 			case WEIGHTED_MEDIAN:
-				aggregatorBuilder.construct(ValueAggregator.class, "aggregator", newComplexVectorExpr, newComplexVectorExpr);
+				aggregatorBuilder.construct(ValueAggregator.WeightedMedian.class, "aggregator", valueFactoryVar, segments.size());
 				break;
 			default:
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
@@ -211,20 +207,20 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			NodeScoreManager scoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
 
-			JInvocation scoreIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, context);
+			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, context);
 
-			JExpression valueExpr = scoreManager.getComponent(scoreIndexExpr);
+			JExpression scoreExpr = scoreManager.getComponent(nodeIndexExpr);
 
 			switch(multipleModelMethod){
 				case SUM:
 				case AVERAGE:
 				case MEDIAN:
-					aggregatorBuilder.update("add", valueExpr);
+					aggregatorBuilder.update("add", scoreExpr);
 					break;
 				case WEIGHTED_SUM:
 				case WEIGHTED_AVERAGE:
 				case WEIGHTED_MEDIAN:
-					aggregatorBuilder.update("add", valueExpr, segment.getWeight());
+					aggregatorBuilder.update("add", scoreExpr, segment.getWeight());
 					break;
 				default:
 					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
@@ -270,21 +266,14 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JVar valueFactoryVar = context.getValueFactoryVariable();
 
-		JDefinedClass progabilityAggregatorClazz = context.anonymousClass(ProbabilityAggregator.class);
-
-		JMethod valueFactoryMethod = progabilityAggregatorClazz.method(JMod.PUBLIC, valueFactoryVar.type(), "getValueFactory");
-		valueFactoryMethod.annotate(Override.class);
-
-		valueFactoryMethod.body()._return(valueFactoryVar);
-
 		ObjectBuilder aggregatorBuilder = new ObjectBuilder(context);
 
 		switch(multipleModelMethod){
 			case AVERAGE:
-				aggregatorBuilder.construct(progabilityAggregatorClazz, "aggregator", JExpr.lit(0));
+				aggregatorBuilder.construct(ProbabilityAggregator.Average.class, "aggregator", valueFactoryVar);
 				break;
 			case WEIGHTED_AVERAGE:
-				aggregatorBuilder.construct(progabilityAggregatorClazz, "aggregator", JExpr.lit(0), valueFactoryVar.invoke("newVector").arg(JExpr.lit(0)));
+				aggregatorBuilder.construct(ProbabilityAggregator.WeightedAverage.class, "aggregator", valueFactoryVar);
 				break;
 			default:
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
@@ -292,23 +281,21 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		String[] categories = getTargetCategories();
 
-		JDefinedClass owner = context.getOwner();
+		JFieldVar categoriesVar;
 
-		JMethod scoreTransformerMethod = owner.method(JMod.PRIVATE, context.ref(HasProbability.class), "createScoreDistribution");
-		scoreTransformerMethod.param(ValueFactory.class, Scope.NAME_VALUEFACTORY);
-		scoreTransformerMethod.param(Number[].class, "score");
+		{
+			JDefinedClass owner = context.getOwner();
 
-		try {
-			context.pushScope(new MethodScope(scoreTransformerMethod));
+			JInvocation invocation = context.ref(Arrays.class).staticInvoke("asList");
 
-			JVar valueMapVar = TreeModelTranslator.createScoreDistribution(categories, context.getVariable("score"), context);
+			for(String category : categories){
+				invocation.arg(JExpr.lit(category));
+			}
 
-			JBlock block = context.block();
-
-			block._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapVar));
-		} finally {
-			context.popScope();
+			categoriesVar = owner.field(JMod.PRIVATE, List.class, "targetCategories", invocation);
 		}
+
+		aggregatorBuilder.update("init", categoriesVar);
 
 		for(Segment segment : segments){
 			True _true = (True)segment.getPredicate();
@@ -329,14 +316,14 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, context);
 
-			JExpression probabilityExpr = JExpr.invoke(scoreTransformerMethod).arg(context.getValueFactoryVariable()).arg(scoreManager.getComponent(nodeIndexExpr));
+			JExpression scoreExpr = scoreManager.getComponent(nodeIndexExpr);
 
 			switch(multipleModelMethod){
 				case AVERAGE:
-					aggregatorBuilder.update("add", probabilityExpr);
+					aggregatorBuilder.update("add", scoreExpr);
 					break;
 				case WEIGHTED_AVERAGE:
-					aggregatorBuilder.update("add", probabilityExpr, segment.getWeight());
+					aggregatorBuilder.update("add", scoreExpr, segment.getWeight());
 					break;
 				default:
 					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);

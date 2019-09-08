@@ -19,7 +19,6 @@
 package com.jpmml.translator.tree;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import com.jpmml.translator.ArrayManager;
@@ -35,6 +34,7 @@ import org.jpmml.evaluator.MissingAttributeException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.ValueMap;
+import org.jpmml.evaluator.ValueUtil;
 
 abstract
 public class NodeScoreDistributionManager<V extends Number> extends ArrayManager<List<Number>> implements ScoreFunction<List<Number>> {
@@ -61,8 +61,6 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 
 		ValueMap<String, V> probabilityMap = new ValueMap<>();
 
-		Value<V> sum = valueFactory.newValue();
-
 		List<ScoreDistribution> scoreDistributions = node.getScoreDistributions();
 		for(ScoreDistribution scoreDistribution : scoreDistributions){
 			Number recordCount = scoreDistribution.getRecordCount();
@@ -74,14 +72,9 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 			Value<V> value = valueFactory.newValue(recordCount);
 
 			probabilityMap.put(category, value);
-
-			sum.add(recordCount);
 		}
 
-		Collection<Value<V>> values = probabilityMap.values();
-		for(Value<V> value : values){
-			value.divide(sum);
-		}
+		ValueUtil.normalizeSimpleMax(probabilityMap.values());
 
 		List<Number> result = new ArrayList<>();
 

@@ -21,13 +21,14 @@ package com.jpmml.transpiler;
 import java.util.function.Predicate;
 
 import com.google.common.base.Equivalence;
-import com.jpmml.transpiler.TranspilerUtil;
 import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
+import org.jpmml.codemodel.JCodeModelClassLoader;
 import org.jpmml.evaluator.Batch;
 import org.jpmml.evaluator.IntegrationTest;
 import org.jpmml.evaluator.IntegrationTestBatch;
+import org.jpmml.model.PMMLUtil;
 
 public class TranspilerTest extends IntegrationTest {
 
@@ -50,7 +51,9 @@ public class TranspilerTest extends IntegrationTest {
 
 				JCodeModel codeModel = TranspilerUtil.transpile(pmml);
 
-				return TranspilerUtil.load(codeModel);
+				ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
+
+				return PMMLUtil.load(clazzLoader);
 			}
 		};
 

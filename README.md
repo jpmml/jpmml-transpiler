@@ -11,13 +11,13 @@ JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "trans
 * Models become `org.jpmml.evaluator.java.JavaModel` subclasses.
 * Predicates become `org.jpmml.evaluator.JavaPredicate` subclasses.
 
-Transpilation results (Java source files plus Java bytecode files) are packaged into a "PMML service" JAR.
+Transpilation results (Java source files plus Java bytecode files) are packaged into a "PMML service provider" JAR.
 
-A PMML service JAR is simply a JAR file that contains a `/META-INF/services/org.dmg.pmml.PMML` service provider configuration file.
+A PMML service provider JAR is simply a JAR file that contains a `/META-INF/services/org.dmg.pmml.PMML` service provider configuration file.
 
 # Prerequisites #
 
-* JPMML-Evaluator 1.4.12 or newer
+* JPMML-Evaluator 1.4.13 or newer
 
 # Installation #
 
@@ -66,20 +66,21 @@ try(InputStream is = ...){
 JCodeModel codeModel = TranspilerUtil.transpile(xmlPmml);
 ```
 
-This `JCodeModel` object holds a complete "PMML service" JAR data.
+This `JCodeModel` object holds complete PMML service provider information.
 
 If the PMML document is small and the application is short-lived, then it's possible to load a Java-backed `org.dmg.pmml.PMML` object directly from the `JCodeModel` object:
 
 ```java
-import com.jpmml.transpiler.TranspilerUtil;
+import org.jpmml.codemodel.JCodeModelClassLoader;
 
-PMML javaPMML = TranspilerUtil.load(codeModel);
+ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
+
+PMML javaPMML = PMMLUtil.load(clazzLoader);
 ```
 
-However, if the PMML document is large (eg. some decision tree ensemble model) or the application is long-lived, then it's recommended to dump the `JCodeModel` object to a temporary JAR file in the local filesystem, and load the Java-backed `org.dmg.pmml.PMML` object using the Java's [service loader](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html) mechanism:
+However, if the PMML document is large (eg. some decision tree ensemble model) or the application is long-lived, then it's recommended to dump the `JCodeModel` object to a temporary JAR file in the local filesystem:
 
 ```java
-import com.jpmml.transpiler.TranspilerUtil;
 import org.jpmml.codemodel.ArchiverUtil;
 
 PMML javaPMML;
@@ -91,14 +92,11 @@ try {
 		ArchiverUtil.archive(codeModel, os);
 	}
 
-	javaPMML = TranspilerUtil.load(tmpFile);
+	javaPMML = PMMLUtil.load((tmpFile.toURI()).toURL());
 } finally {
 	tmpFile.delete();
 }
 ```
-
-**Note**: The PMML service JAR mechanism is independent of the JPMML-Transpiler library.
-Applications should define and use their own utility functions for loading Java-backed `org.dmg.pmml.PMML` objects from PMML service JARs (rather than relying on the `com.jpmml.transpiler.TranspilerUtil#load(File)` utility function for the same).
 
 A Java-backed `org.dmg.pmml.PMML` object typically does not benefit from applying extra optimizing or interning Visitors to it.
 

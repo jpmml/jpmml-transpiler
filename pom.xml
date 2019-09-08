@@ -39,7 +39,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator</artifactId>
-			<version>[1.4.12,)</version>
+			<version>[1.4.13,)</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jpmml</groupId>
@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-extension</artifactId>
-			<version>[1.4.12,)</version>
+			<version>[1.4.13,)</version>
 		</dependency>
 
 		<dependency>
@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-test</artifactId>
-			<version>[1.4.12,)</version>
+			<version>[1.4.13,)</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -18,14 +18,8 @@
  */
 package com.jpmml.transpiler;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Collections;
-import java.util.ServiceLoader;
 
-import com.google.common.collect.Iterables;
 import com.jpmml.translator.PMMLObjectUtil;
 import com.jpmml.translator.TranslationContext;
 import com.sun.codemodel.JClass;
@@ -33,7 +27,6 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JPackage;
 import org.dmg.pmml.PMML;
 import org.jpmml.codemodel.CompilerUtil;
-import org.jpmml.codemodel.JCodeModelClassLoader;
 import org.jpmml.codemodel.JServiceConfigurationFile;
 import org.jpmml.evaluator.visitors.ValueOptimizer;
 import org.jpmml.model.VisitorBattery;
@@ -72,37 +65,5 @@ public class TranspilerUtil {
 		servicePackage.addResourceFile(new JServiceConfigurationFile(pmmlClazz, Collections.<JClass>singletonList(transpiledPmmlClazz)));
 
 		return codeModel;
-	}
-
-	static
-	public PMML load(JCodeModel codeModel) throws Exception {
-		ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
-
-		return loadService(clazzLoader);
-	}
-
-	static
-	public PMML load(File file) throws Exception {
-		URI uri = file.toURI();
-
-		return load(uri.toURL());
-	}
-
-	static
-	public PMML load(URL url) throws Exception {
-		URLClassLoader clazzLoader = URLClassLoader.newInstance(new URL[]{url});
-
-		try {
-			return loadService(clazzLoader);
-		} finally {
-			clazzLoader.close();
-		}
-	}
-
-	static
-	private PMML loadService(ClassLoader clazzLoader){
-		ServiceLoader<PMML> serviceLoader = ServiceLoader.load(PMML.class, clazzLoader);
-
-		return Iterables.getOnlyElement(serviceLoader);
 	}
 }

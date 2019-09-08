@@ -21,7 +21,6 @@ package com.jpmml.translator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -205,7 +204,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		PMML pmml = getPMML();
 		M model = getModel();
 
-		Map<FieldName, Field<?>> activeBodyFields = new HashMap<>();
+		Map<FieldName, Field<?>> activeFields = new HashMap<>();
 
 		Visitor fieldResolver = new FieldResolver(){
 
@@ -220,7 +219,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 					for(Field<?> field : fields){
 						FieldName name = field.getName();
 
-						Field<?> previousField = activeBodyFields.put(name, field);
+						Field<?> previousField = activeFields.put(name, field);
 						if(previousField != null){
 							throw new IllegalArgumentException(name.getValue());
 						}
@@ -234,18 +233,16 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		};
 		fieldResolver.applyTo(pmml);
 
-		Set<FieldName> activeFieldNames = new HashSet<>();
-
+		FieldReferenceFinder fieldReferenceFinder = new FieldReferenceFinder();
 		for(PMMLObject bodyObject : bodyObjects){
-			FieldReferenceFinder referenceFinder = new FieldReferenceFinder();
-			referenceFinder.applyTo(bodyObject);
-
-			activeFieldNames.addAll(referenceFinder.getFieldNames());
+			fieldReferenceFinder.applyTo(bodyObject);
 		}
 
-		(activeBodyFields.keySet()).retainAll(activeFieldNames);
+		Set<FieldName> activeFieldNames = fieldReferenceFinder.getFieldNames();
 
-		return activeBodyFields;
+		(activeFields.keySet()).retainAll(activeFieldNames);
+
+		return activeFields;
 	}
 
 	public String[] getTargetCategories(){
