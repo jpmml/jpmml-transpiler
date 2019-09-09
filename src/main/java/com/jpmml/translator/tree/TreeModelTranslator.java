@@ -86,9 +86,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new MethodScope(evaluateTreeModelMethod));
 
-			JBlock block = context.block();
-
-			block._return(scoreManager.getComponent(createEvaluatorMethodInvocation(evaluateNodeMethod, context)));
+			context._return(scoreManager.getComponent(createEvaluatorMethodInvocation(evaluateNodeMethod, context)));
 		} finally {
 			context.popScope();
 		}
@@ -136,9 +134,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			JVar valueMapVar = createScoreDistribution(categories, scoreVar, context);
 
-			JBlock block = context.block();
-
-			block._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapVar));
+			context._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapVar));
 		} finally {
 			context.popScope();
 		}
