@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterables;
+import com.jpmml.translator.FieldValueRef;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.PMMLObjectUtil;
@@ -32,6 +33,7 @@ import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
 import com.jpmml.translator.ValueMapBuilder;
+import com.jpmml.translator.ObjectRef;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -216,7 +218,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	static
 	public ValueBuilder translateRegressionTable(RegressionTable regressionTable, Map<FieldName, Field<?>> activeFields, TranslationContext context){
 		ValueBuilder valueBuilder = new ValueBuilder(context)
-			.declare("result$" + System.identityHashCode(regressionTable), context.getValueFactoryVariable().invoke("newValue"));
+			.declare("result$" + System.identityHashCode(regressionTable), context.getValueFactoryVariable().newValue());
 
 		if(regressionTable.hasNumericPredictors()){
 			List<NumericPredictor> numericPredictors = regressionTable.getNumericPredictors();
@@ -224,7 +226,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			for(NumericPredictor numericPredictor : numericPredictors){
 				Field<?> field = getField(numericPredictor, activeFields);
 
-				JVar valueVar = context.ensureFieldValueVariable(field);
+				FieldValueRef fieldValueRef = context.ensureFieldValueVariable(field);
 
 				JInvocation invocation;
 
@@ -232,16 +234,16 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				Integer exponent = numericPredictor.getExponent();
 
 				if(exponent != null && exponent.intValue() != 1){
-					valueBuilder.update("add", coefficient, valueVar.invoke("asNumber"), exponent);
+					valueBuilder.update("add", coefficient, fieldValueRef.asNumber(), exponent);
 				} else
 
 				{
 					if(coefficient.doubleValue() != 1d){
-						valueBuilder.update("add", coefficient, valueVar.invoke("asNumber"));
+						valueBuilder.update("add", coefficient, fieldValueRef.asNumber());
 					} else
 
 					{
-						valueBuilder.update("add", valueVar.invoke("asNumber"));
+						valueBuilder.update("add", fieldValueRef.asNumber());
 					}
 				}
 			}
@@ -255,10 +257,10 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			for(Map.Entry<FieldName, List<CategoricalPredictor>> entry : entries){
 				Field<?> field = getField(entry.getKey(), activeFields);
 
-				JVar valueVar = context.ensureFieldValueVariable(field);
+				FieldValueRef fieldValueRef = context.ensureFieldValueVariable(field);
 
 				JMethod evaluateCategoryMethod = context.evaluatorMethod(JMod.PRIVATE, Number.class, "evaluateField$" + System.identityHashCode(entry.getKey()), false, false);
-				evaluateCategoryMethod.param(valueVar.type(), valueVar.name());
+				evaluateCategoryMethod.param(fieldValueRef.type(), fieldValueRef.name());
 
 				try {
 					context.pushScope(new MethodScope(evaluateCategoryMethod));
@@ -268,7 +270,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					context.popScope();
 				}
 
-				JVar categoryValueVar = context.declare(Number.class, "categoryValue$" + System.identityHashCode(entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg(valueVar));
+				JVar categoryValueVar = context.declare(Number.class, "categoryValue$" + System.identityHashCode(entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg(fieldValueRef.getVariable()));
 
 				JBlock block = context.block();
 
@@ -300,11 +302,11 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 	static
 	private void translateField(Field<?> field, List<CategoricalPredictor> categoricalPredictors, TranslationContext context){
-		JVar valueVar = context.ensureValueVariable(field, null);
+		ObjectRef objectRef = context.ensureObjectVariable(field, null);
 
 		JBlock block = context.block();
 
-		JSwitch switchBlock = block._switch(valueVar);
+		JSwitch switchBlock = block._switch(objectRef.getVariable());
 
 		for(CategoricalPredictor categoricalPredictor : categoricalPredictors){
 			switchBlock._case(PMMLObjectUtil.createExpression(categoricalPredictor.getValue(), context)).body()._return(PMMLObjectUtil.createExpression(categoricalPredictor.getCoefficient(), context));

@@ -151,7 +151,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 			JType valueClazz = context.ref(Value.class);
 
 			if(!(evaluateMethod.type()).equals(valueClazz)){
-				methodInvocation = context.getValueFactoryVariable().invoke("newValue").arg(methodInvocation);
+				methodInvocation = context.getValueFactoryVariable().newValue(methodInvocation);
 			}
 
 			ObjectBuilder valueBuilder = new ValueBuilder(context)
@@ -422,9 +422,9 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		List<JVar> params = method.params();
 		switch(params.size()){
 			case 1:
-				return invocation.arg(context.getContextVariable());
+				return invocation.arg(context.getContextVariable().getVariable());
 			case 2:
-				return invocation.arg(context.getValueFactoryVariable()).arg(context.getContextVariable());
+				return invocation.arg(context.getValueFactoryVariable().getVariable()).arg(context.getContextVariable().getVariable());
 			default:
 				throw new IllegalArgumentException();
 		}

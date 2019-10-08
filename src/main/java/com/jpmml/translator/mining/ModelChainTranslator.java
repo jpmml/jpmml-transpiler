@@ -26,6 +26,7 @@ import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.PMMLObjectUtil;
 import com.jpmml.translator.TranslationContext;
+import com.jpmml.translator.ValueFactoryRef;
 import com.jpmml.translator.ValueMapBuilder;
 import com.jpmml.translator.regression.RegressionModelTranslator;
 import com.sun.codemodel.JExpression;
@@ -266,7 +267,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 				NumericPredictor numericPredictor = Iterables.getFirst(numericPredictors, null);
 				if(numericPredictor != null){
-					valueExpr = context.getFieldValueVariable(numericPredictor.getName());
+					valueExpr = context.getVariable("value$" + System.identityHashCode(numericPredictor.getName()));
 
 					Number coefficient = numericPredictor.getCoefficient();
 					if(coefficient != null && coefficient.doubleValue() != 1d){
@@ -279,14 +280,14 @@ public class ModelChainTranslator extends MiningModelTranslator {
 				} else
 
 				{
-					JInvocation valueInvocation = context.getValueFactoryVariable().invoke("newValue");
+					ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
 					if(intercept != null && intercept.doubleValue() != 0d){
-						valueExpr = valueInvocation.arg(PMMLObjectUtil.createExpression(intercept, context));
+						valueExpr = valueFactoryRef.newValue(PMMLObjectUtil.createExpression(intercept, context));
 					} else
 
 					{
-						valueExpr = valueInvocation;
+						valueExpr = valueFactoryRef.newValue();
 					}
 				}
 

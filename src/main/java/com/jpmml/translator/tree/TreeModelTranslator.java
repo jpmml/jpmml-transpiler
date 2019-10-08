@@ -20,17 +20,20 @@ package com.jpmml.translator.tree;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.jpmml.translator.ArrayManager;
+import com.jpmml.translator.FieldValueRef;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.PMMLObjectUtil;
 import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
+import com.jpmml.translator.ValueFactoryRef;
 import com.jpmml.translator.ValueMapBuilder;
+import com.jpmml.translator.ObjectRef;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -38,7 +41,6 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.ComplexArray;
-import org.dmg.pmml.DataType;
 import org.dmg.pmml.False;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -184,19 +186,19 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			Field<?> field = getField(simplePredicate, activeFields);
 
-			JVar fieldValueVar = context.ensureFieldValueVariable(field);
+			FieldValueRef fieldValueRef = context.ensureFieldValueVariable(field);
 
 			SimplePredicate.Operator operator = simplePredicate.getOperator();
 			switch(operator){
 				case IS_MISSING:
-					return fieldValueVar.eq(JExpr._null());
+					return fieldValueRef.isMissing();
 				case IS_NOT_MISSING:
-					return fieldValueVar.ne(JExpr._null());
+					return fieldValueRef.isNotMissing();
 				default:
 					break;
 			}
 
-			JVar valueVar = context.ensureValueVariable(field, null);
+			ObjectRef objectRef = context.ensureObjectVariable(field, null);
 
 			Object value = simplePredicate.getValue();
 
@@ -204,17 +206,17 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			switch(operator){
 				case EQUAL:
-					return translateEqualsCheck(field, valueVar, valueLitExpr);
+					return objectRef.equalTo(valueLitExpr);
 				case NOT_EQUAL:
-					return translateNotEqualCheck(field, valueVar, valueLitExpr);
+					return objectRef.notEqualTo(valueLitExpr);
 				case LESS_THAN:
-					return valueVar.lt(valueLitExpr);
+					return objectRef.lessThan(valueLitExpr);
 				case LESS_OR_EQUAL:
-					return valueVar.lte(valueLitExpr);
+					return objectRef.lessOrEqual(valueLitExpr);
 				case GREATER_OR_EQUAL:
-					return valueVar.gte(valueLitExpr);
+					return objectRef.greaterOrEqual(valueLitExpr);
 				case GREATER_THAN:
-					return valueVar.gt(valueLitExpr);
+					return objectRef.greaterThan(valueLitExpr);
 				default:
 					throw new UnsupportedAttributeException(predicate, operator);
 			}
@@ -225,45 +227,25 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			Field<?> field = getField(simpleSetPredicate, activeFields);
 
-			JVar valueVar = context.ensureValueVariable(field, null);
+			ObjectRef valueRef = context.ensureObjectVariable(field, null);
 
 			ComplexArray complexArray = (ComplexArray)simpleSetPredicate.getArray();
 
 			Collection<?> values = complexArray.getValue();
 
-			Iterator<?> valueIt = values.iterator();
-
-			JExpression predicateExpr = null;
+			Collection<JExpression> valueLitExprs = values.stream()
+				.map(value -> PMMLObjectUtil.createExpression(value, context))
+				.collect(Collectors.toList());
 
 			SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.getBooleanOperator();
 			switch(booleanOperator){
 				case IS_IN:
-					do {
-						Object value = valueIt.next();
-
-						JExpression valueLitExpr = PMMLObjectUtil.createExpression(value, context);
-
-						JExpression checkExpr = translateEqualsCheck(field, valueVar, valueLitExpr);
-
-						predicateExpr = (predicateExpr != null ? predicateExpr.cor(checkExpr) : checkExpr);
-					} while(valueIt.hasNext());
-					break;
+					return valueRef.isIn(valueLitExprs);
 				case IS_NOT_IN:
-					do {
-						Object value = valueIt.next();
-
-						JExpression valueLitExpr = PMMLObjectUtil.createExpression(value, context);
-
-						JExpression checkNotExpr = translateNotEqualCheck(field, valueVar, valueLitExpr);
-
-						predicateExpr = (predicateExpr != null ? predicateExpr.cand(checkNotExpr) : checkNotExpr);
-					} while(valueIt.hasNext());
-					break;
+					return valueRef.isNotIn(valueLitExprs);
 				default:
 					throw new UnsupportedAttributeException(predicate, booleanOperator);
 			}
-
-			return predicateExpr;
 		} else
 
 		if(predicate instanceof True){
@@ -284,46 +266,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
 			.construct("values");
 
+		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
+
 		for(int i = 0; i < categories.length; i++){
-			JExpression valueExpr = context.getValueFactoryVariable().invoke("newValue").arg(scoreVar.component(JExpr.lit(i)));
+			JExpression valueExpr = valueFactoryRef.newValue(scoreVar.component(JExpr.lit(i)));
 
 			valueMapBuilder.update("put", categories[i], valueExpr);
 		}
 
 		return valueMapBuilder.getVariable();
-	}
-
-	static
-	private JExpression translateEqualsCheck(Field<?> field, JVar valueVar, JExpression valueLitExpr){
-		DataType dataType = field.getDataType();
-
-		switch(dataType){
-			case STRING:
-				return valueLitExpr.invoke("equals").arg(valueVar);
-			case INTEGER:
-			case FLOAT:
-			case DOUBLE:
-			case BOOLEAN:
-				return valueVar.eq(valueLitExpr);
-			default:
-				throw new UnsupportedAttributeException(field, dataType);
-		}
-	}
-
-	static
-	private JExpression translateNotEqualCheck(Field<?> field, JVar valueVar, JExpression valueLitExpr){
-		DataType dataType = field.getDataType();
-
-		switch(dataType){
-			case STRING:
-				return (valueLitExpr.invoke("equals").arg(valueVar)).not();
-			case INTEGER:
-			case FLOAT:
-			case DOUBLE:
-			case BOOLEAN:
-				return valueVar.ne(valueLitExpr);
-			default:
-				throw new UnsupportedAttributeException(field, dataType);
-		}
 	}
 }

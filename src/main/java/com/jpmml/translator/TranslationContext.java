@@ -157,18 +157,6 @@ public class TranslationContext {
 		this.owners.removeFirst();
 	}
 
-	public JVar getContextVariable(){
-		return getVariable(Scope.NAME_CONTEXT);
-	}
-
-	public JVar getValueFactoryVariable(){
-		return getVariable(Scope.NAME_VALUEFACTORY);
-	}
-
-	public JVar getFieldValueVariable(FieldName name){
-		return getVariable(variableName("value", name));
-	}
-
 	public JVar getVariable(String name){
 
 		for(Scope scope : this.scopes){
@@ -182,7 +170,35 @@ public class TranslationContext {
 		throw new IllegalArgumentException(name);
 	}
 
-	public JVar ensureValueVariable(Field<?> field, Consumer<JBlock> missingValueHandler){
+	public EvaluationContextRef getContextVariable(){
+		JVar variable = getVariable(Scope.NAME_CONTEXT);
+
+		return new EvaluationContextRef(variable);
+	}
+
+	public ValueFactoryRef getValueFactoryVariable(){
+		JVar variable = getVariable(Scope.NAME_VALUEFACTORY);
+
+		return new ValueFactoryRef(variable);
+	}
+
+	public FieldValueRef ensureFieldValueVariable(Field<?> field){
+		FieldName name = field.getName();
+
+		String stringName = variableName("value", name);
+
+		JVar variable;
+
+		try {
+			variable = getVariable(stringName);
+		} catch(IllegalArgumentException iae){
+			variable = declare(FieldValue.class, stringName, getContextVariable().evaluate(constantFieldName(name)));
+		}
+
+		return new FieldValueRef(variable);
+	}
+
+	public ObjectRef ensureObjectVariable(Field<?> field, Consumer<JBlock> missingValueHandler){
 		JCodeModel codeModel = getCodeModel();
 
 		FieldName name = field.getName();
@@ -190,45 +206,52 @@ public class TranslationContext {
 
 		String stringName = variableName((dataType.name()).toLowerCase(), name);
 
+		JVar variable;
+
 		try {
-			return getVariable(stringName);
+			variable = getVariable(stringName);
 		} catch(IllegalArgumentException iae){
-			JVar fieldValue = ensureFieldValueVariable(field);
+			FieldValueRef fieldValueRef = ensureFieldValueVariable(field);
 
 			if(missingValueHandler != null){
 				JBlock block = block();
 
-				JBlock missingValueHandlerBlock = block._if(fieldValue.eq(JExpr._null()))._then();
+				JBlock missingValueHandlerBlock = block._if(fieldValueRef.isMissing())._then();
 
 				missingValueHandler.accept(missingValueHandlerBlock);
 			}
 
 			switch(dataType){
 				case STRING:
-					return declare(String.class, stringName, fieldValue.invoke("asString"));
+					variable = declare(String.class, stringName, fieldValueRef.asString());
+					break;
 				case INTEGER:
-					return declare(codeModel.INT, stringName, fieldValue.invoke("asInteger"));
+					variable = declare(codeModel.INT, stringName, fieldValueRef.asInteger());
+					break;
 				case FLOAT:
-					return declare(codeModel.FLOAT, stringName, fieldValue.invoke("asFloat"));
+					variable = declare(codeModel.FLOAT, stringName, fieldValueRef.asFloat());
+					break;
 				case DOUBLE:
-					return declare(codeModel.DOUBLE, stringName, fieldValue.invoke("asDouble"));
+					variable = declare(codeModel.DOUBLE, stringName, fieldValueRef.asDouble());
+					break;
 				case BOOLEAN:
-					return declare(codeModel.BOOLEAN, stringName, fieldValue.invoke("asBoolean"));
+					variable = declare(codeModel.BOOLEAN, stringName, fieldValueRef.asBoolean());
+					break;
 				default:
 					throw new UnsupportedAttributeException(field, dataType);
 			}
 		}
-	}
 
-	public JVar ensureFieldValueVariable(Field<?> field){
-		FieldName name = field.getName();
-
-		String stringName = variableName("value", name);
-
-		try {
-			return getVariable(stringName);
-		} catch(IllegalArgumentException iae){
-			return declare(FieldValue.class, stringName, getContextVariable().invoke("evaluate").arg(constantFieldName(name)));
+		switch(dataType){
+			case STRING:
+				return new StringRef(variable);
+			case INTEGER:
+			case FLOAT:
+			case DOUBLE:
+			case BOOLEAN:
+				return new NumberRef(variable);
+			default:
+				throw new UnsupportedAttributeException(field, dataType);
 		}
 	}
 
