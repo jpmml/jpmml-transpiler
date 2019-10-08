@@ -23,7 +23,7 @@ import org.jpmml.evaluator.ValueMap;
 /**
  * @see ValueMap
  */
-public class ValueMapBuilder extends ObjectBuilder {
+public class ValueMapBuilder extends JVarBuilder {
 
 	public ValueMapBuilder(TranslationContext context){
 		super(context);

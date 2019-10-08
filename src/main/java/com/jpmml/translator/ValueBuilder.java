@@ -20,13 +20,11 @@ package com.jpmml.translator;
 
 import com.sun.codemodel.JInvocation;
 import org.jpmml.evaluator.Value;
-import org.jpmml.evaluator.ValueFactory;
 
 /**
  * @see Value
- * @see ValueFactory
  */
-public class ValueBuilder extends ObjectBuilder {
+public class ValueBuilder extends JVarBuilder {
 
 	public ValueBuilder(TranslationContext context){
 		super(context);

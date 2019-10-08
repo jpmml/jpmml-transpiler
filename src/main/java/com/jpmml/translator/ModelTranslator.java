@@ -154,12 +154,12 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 				methodInvocation = context.getValueFactoryVariable().newValue(methodInvocation);
 			}
 
-			ObjectBuilder valueBuilder = new ValueBuilder(context)
+			ValueBuilder valueBuilder = new ValueBuilder(context)
 				.declare("value", methodInvocation);
 
 			Target target = targetField.getTarget();
 			if(target != null){
-				translateRegressorTarget(target, (ValueBuilder)valueBuilder);
+				translateRegressorTarget(target, valueBuilder);
 
 				// XXX
 				model.setTargets(null);
@@ -186,7 +186,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		try {
 			context.pushScope(new MethodScope(evaluateClassificationMethod));
 
-			ObjectBuilder classificationBuilder = new ObjectBuilder(context)
+			JVarBuilder classificationBuilder = new JVarBuilder(context)
 				.declare(Classification.class, "classification", createEvaluatorMethodInvocation(evaluateMethod, context))
 				.staticUpdate(TargetUtil.class, "computeResult", targetField.getDataType());
 

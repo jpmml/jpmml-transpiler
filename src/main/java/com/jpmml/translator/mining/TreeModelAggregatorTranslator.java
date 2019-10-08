@@ -25,13 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.jpmml.translator.ArrayManager;
+import com.jpmml.translator.JVarBuilder;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
-import com.jpmml.translator.ObjectBuilder;
+import com.jpmml.translator.ObjectRef;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
 import com.jpmml.translator.ValueFactoryRef;
-import com.jpmml.translator.ObjectRef;
 import com.jpmml.translator.tree.NodeScoreDistributionManager;
 import com.jpmml.translator.tree.NodeScoreManager;
 import com.jpmml.translator.tree.ScoreFunction;
@@ -180,7 +180,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
-		ObjectBuilder aggregatorBuilder = new ObjectBuilder(context);
+		JVarBuilder aggregatorBuilder = new JVarBuilder(context);
 
 		switch(multipleModelMethod){
 			case SUM:
@@ -256,7 +256,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 		}
 
-		ObjectBuilder resultBuilder = new ValueBuilder(context)
+		JVarBuilder resultBuilder = new ValueBuilder(context)
 			.declare(Value.class, "result", valueInit);
 
 		context._return(resultBuilder.getVariable());
@@ -268,7 +268,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
-		ObjectBuilder aggregatorBuilder = new ObjectBuilder(context);
+		JVarBuilder aggregatorBuilder = new JVarBuilder(context);
 
 		switch(multipleModelMethod){
 			case AVERAGE:

@@ -24,24 +24,24 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
-public class ObjectBuilder {
+public class JVarBuilder {
 
 	private TranslationContext context = null;
 
 	private JVar variable = null;
 
 
-	public ObjectBuilder(TranslationContext context){
+	public JVarBuilder(TranslationContext context){
 		setContext(context);
 	}
 
-	public ObjectBuilder construct(Class<?> type, String name, Object... args){
+	public JVarBuilder construct(Class<?> type, String name, Object... args){
 		TranslationContext context = getContext();
 
 		return construct(context.ref(type), name, args);
 	}
 
-	public ObjectBuilder construct(JType type, String name, Object... args){
+	public JVarBuilder construct(JType type, String name, Object... args){
 		TranslationContext context = getContext();
 
 		JInvocation invocation = JExpr._new(type);
@@ -53,13 +53,13 @@ public class ObjectBuilder {
 		return declare(type, name, invocation);
 	}
 
-	public ObjectBuilder declare(Class<?> type, String name, JExpression init){
+	public JVarBuilder declare(Class<?> type, String name, JExpression init){
 		TranslationContext context = getContext();
 
 		return declare(context.ref(type), name, init);
 	}
 
-	public ObjectBuilder declare(JType type, String name, JExpression init){
+	public JVarBuilder declare(JType type, String name, JExpression init){
 		TranslationContext context = getContext();
 
 		JVar variable = context.declare(type, name, init);
@@ -69,7 +69,7 @@ public class ObjectBuilder {
 		return this;
 	}
 
-	public ObjectBuilder update(String method, Object... args){
+	public JVarBuilder update(String method, Object... args){
 		TranslationContext context = getContext();
 
 		JVar variable = ensureVariable();
@@ -85,7 +85,7 @@ public class ObjectBuilder {
 		return this;
 	}
 
-	public ObjectBuilder staticUpdate(Class<?> type, String method, Object... args){
+	public JVarBuilder staticUpdate(Class<?> type, String method, Object... args){
 		TranslationContext context = getContext();
 
 		JVar variable = ensureVariable();
