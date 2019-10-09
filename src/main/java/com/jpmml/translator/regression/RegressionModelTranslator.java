@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterables;
+import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.FieldValueRef;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
@@ -42,7 +43,6 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JSwitch;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.Output;
@@ -84,7 +84,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 		List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
 
-		Map<FieldName, Field<?>> activeFields = getActiveFields(new HashSet<>(regressionTables));
+		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
 
 		RegressionTable regressionTable = Iterables.getOnlyElement(regressionTables);
 
@@ -93,7 +93,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 		try {
 			context.pushScope(new MethodScope(evaluateMethod));
 
-			ValueBuilder valueBuilder = translateRegressionTable(regressionTable, activeFields, context);
+			ValueBuilder valueBuilder = translateRegressionTable(regressionTable, fieldInfos, context);
 
 			computeValue(valueBuilder, regressionModel, context);
 		} finally {
@@ -109,7 +109,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 		List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
 
-		Map<FieldName, Field<?>> activeFields = getActiveFields(new HashSet<>(regressionTables));
+		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
 
 		JMethod evaluateListMethod = context.evaluatorMethod(JMod.PUBLIC, Classification.class, "evaluateRegressionTableList", true, true);
 
@@ -125,7 +125,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				try {
 					context.pushScope(new MethodScope(evaluateMethod));
 
-					ValueBuilder valueBuilder = translateRegressionTable(regressionTable, activeFields, context);
+					ValueBuilder valueBuilder = translateRegressionTable(regressionTable, fieldInfos, context);
 
 					context._return(valueBuilder.getVariable());
 				} finally {
@@ -216,7 +216,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	}
 
 	static
-	public ValueBuilder translateRegressionTable(RegressionTable regressionTable, Map<FieldName, Field<?>> activeFields, TranslationContext context){
+	public ValueBuilder translateRegressionTable(RegressionTable regressionTable, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		ValueBuilder valueBuilder = new ValueBuilder(context)
 			.declare("result$" + System.identityHashCode(regressionTable), context.getValueFactoryVariable().newValue());
 
@@ -224,9 +224,9 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			List<NumericPredictor> numericPredictors = regressionTable.getNumericPredictors();
 
 			for(NumericPredictor numericPredictor : numericPredictors){
-				Field<?> field = getField(numericPredictor, activeFields);
+				FieldInfo fieldInfo = getFieldInfo(numericPredictor, fieldInfos);
 
-				FieldValueRef fieldValueRef = context.ensureFieldValueVariable(field);
+				FieldValueRef fieldValueRef = context.ensureFieldValueVariable(fieldInfo);
 
 				JInvocation invocation;
 
@@ -255,9 +255,9 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			Collection<Map.Entry<FieldName, List<CategoricalPredictor>>> entries = fieldCategoricalPredictors.entrySet();
 			for(Map.Entry<FieldName, List<CategoricalPredictor>> entry : entries){
-				Field<?> field = getField(entry.getKey(), activeFields);
+				FieldInfo fieldInfo = getFieldInfo(entry.getKey(), fieldInfos);
 
-				FieldValueRef fieldValueRef = context.ensureFieldValueVariable(field);
+				FieldValueRef fieldValueRef = context.ensureFieldValueVariable(fieldInfo);
 
 				JMethod evaluateCategoryMethod = context.evaluatorMethod(JMod.PRIVATE, Number.class, "evaluateField$" + System.identityHashCode(entry.getKey()), false, false);
 				evaluateCategoryMethod.param(fieldValueRef.type(), fieldValueRef.name());
@@ -265,7 +265,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				try {
 					context.pushScope(new MethodScope(evaluateCategoryMethod));
 
-					translateField(field, entry.getValue(), context);
+					translateField(fieldInfo, entry.getValue(), context);
 				} finally {
 					context.popScope();
 				}
@@ -301,8 +301,8 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	}
 
 	static
-	private void translateField(Field<?> field, List<CategoricalPredictor> categoricalPredictors, TranslationContext context){
-		ObjectRef objectRef = context.ensureObjectVariable(field, null);
+	private void translateField(FieldInfo fieldInfo, List<CategoricalPredictor> categoricalPredictors, TranslationContext context){
+		ObjectRef objectRef = context.ensureObjectVariable(fieldInfo, null);
 
 		JBlock block = context.block();
 

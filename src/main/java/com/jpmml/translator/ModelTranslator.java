@@ -21,6 +21,7 @@ package com.jpmml.translator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -200,11 +201,11 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		return evaluateClassificationMethod;
 	}
 
-	public Map<FieldName, Field<?>> getActiveFields(Set<? extends PMMLObject> bodyObjects){
+	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
 		PMML pmml = getPMML();
 		M model = getModel();
 
-		Map<FieldName, Field<?>> activeFields = new HashMap<>();
+		Map<FieldName, Field<?>> bodyFields = new HashMap<>();
 
 		Visitor fieldResolver = new FieldResolver(){
 
@@ -219,7 +220,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 					for(Field<?> field : fields){
 						FieldName name = field.getName();
 
-						Field<?> previousField = activeFields.put(name, field);
+						Field<?> previousField = bodyFields.put(name, field);
 						if(previousField != null){
 							throw new IllegalArgumentException(name.getValue());
 						}
@@ -238,11 +239,19 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 			fieldReferenceFinder.applyTo(bodyObject);
 		}
 
-		Set<FieldName> activeFieldNames = fieldReferenceFinder.getFieldNames();
+		Set<FieldName> names = fieldReferenceFinder.getFieldNames();
 
-		(activeFields.keySet()).retainAll(activeFieldNames);
+		Map<FieldName, FieldInfo> result = new LinkedHashMap<>();
 
-		return activeFields;
+		for(FieldName name : names){
+			Field<?> field = bodyFields.get(name);
+
+			FieldInfo fieldInfo = new FieldInfo(field);
+
+			result.put(name, fieldInfo);
+		}
+
+		return result;
 	}
 
 	public String[] getTargetCategories(){
@@ -382,18 +391,18 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 	}
 
 	static
-	public Field<?> getField(HasFieldReference<?> hasFieldReference, Map<FieldName, Field<?>> fields){
-		return getField(hasFieldReference.getField(), fields);
+	public FieldInfo getFieldInfo(HasFieldReference<?> hasFieldReference, Map<FieldName, FieldInfo> fieldInfos){
+		return getFieldInfo(hasFieldReference.getField(), fieldInfos);
 	}
 
 	static
-	public Field<?> getField(FieldName name, Map<FieldName, Field<?>> fields){
-		Field<?> field = fields.get(name);
-		if(field == null){
+	public FieldInfo getFieldInfo(FieldName name, Map<FieldName, FieldInfo> fieldInfos){
+		FieldInfo fieldInfo = fieldInfos.get(name);
+		if(fieldInfo == null){
 			throw new IllegalArgumentException(name.getValue());
 		}
 
-		return field;
+		return fieldInfo;
 	}
 
 	static

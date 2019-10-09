@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.jpmml.translator.ArrayManager;
+import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.FieldValueRef;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
@@ -42,7 +43,6 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.ComplexArray;
 import org.dmg.pmml.False;
-import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Predicate;
@@ -71,14 +71,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		NodeScoreManager scoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
 
-		Map<FieldName, Field<?>> activeFields = getActiveFields(Collections.singleton(node));
+		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
 
 		JMethod evaluateNodeMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, true);
 
 		try {
 			context.pushScope(new MethodScope(evaluateNodeMethod));
 
-			translateNode(node, scoreManager, activeFields, context);
+			translateNode(node, scoreManager, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}
@@ -115,14 +115,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			}
 		};
 
-		Map<FieldName, Field<?>> activeFields = getActiveFields(Collections.singleton(node));
+		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
 
 		JMethod evaluateNodeMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, true);
 
 		try {
 			context.pushScope(new MethodScope(evaluateNodeMethod));
 
-			translateNode(node, scoreManager, activeFields, context);
+			translateNode(node, scoreManager, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}
@@ -145,10 +145,10 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(Node node, ScoreManager scoreManager, Map<FieldName, Field<?>> activeFields, TranslationContext context){
+	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		Predicate predicate = node.getPredicate();
 
-		JExpression predicateExpr = translatePredicate(predicate, activeFields, context);
+		JExpression predicateExpr = translatePredicate(predicate, fieldInfos, context);
 
 		JBlock block = context.block();
 
@@ -161,7 +161,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				List<Node> children = node.getNodes();
 
 				for(Node child : children){
-					translateNode(child, scoreManager, activeFields, context);
+					translateNode(child, scoreManager, fieldInfos, context);
 				}
 			} finally {
 				context.popScope();
@@ -179,14 +179,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public JExpression translatePredicate(Predicate predicate, Map<FieldName, Field<?>> activeFields, TranslationContext context){
+	public JExpression translatePredicate(Predicate predicate, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 
 		if(predicate instanceof SimplePredicate){
 			SimplePredicate simplePredicate = (SimplePredicate)predicate;
 
-			Field<?> field = getField(simplePredicate, activeFields);
+			FieldInfo fieldInfo = getFieldInfo(simplePredicate, fieldInfos);
 
-			FieldValueRef fieldValueRef = context.ensureFieldValueVariable(field);
+			FieldValueRef fieldValueRef = context.ensureFieldValueVariable(fieldInfo);
 
 			SimplePredicate.Operator operator = simplePredicate.getOperator();
 			switch(operator){
@@ -198,7 +198,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					break;
 			}
 
-			ObjectRef objectRef = context.ensureObjectVariable(field, null);
+			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo, null);
 
 			Object value = simplePredicate.getValue();
 
@@ -225,9 +225,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		if(predicate instanceof SimpleSetPredicate){
 			SimpleSetPredicate simpleSetPredicate = (SimpleSetPredicate)predicate;
 
-			Field<?> field = getField(simpleSetPredicate, activeFields);
+			FieldInfo fieldInfo = getFieldInfo(simpleSetPredicate, fieldInfos);
 
-			ObjectRef valueRef = context.ensureObjectVariable(field, null);
+			ObjectRef valueRef = context.ensureObjectVariable(fieldInfo, null);
 
 			ComplexArray complexArray = (ComplexArray)simpleSetPredicate.getArray();
 

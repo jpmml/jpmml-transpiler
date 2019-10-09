@@ -182,7 +182,9 @@ public class TranslationContext {
 		return new ValueFactoryRef(variable);
 	}
 
-	public FieldValueRef ensureFieldValueVariable(Field<?> field){
+	public FieldValueRef ensureFieldValueVariable(FieldInfo fieldInfo){
+		Field<?> field = fieldInfo.getField();
+
 		FieldName name = field.getName();
 
 		String stringName = variableName("value", name);
@@ -198,8 +200,10 @@ public class TranslationContext {
 		return new FieldValueRef(variable);
 	}
 
-	public ObjectRef ensureObjectVariable(Field<?> field, Consumer<JBlock> missingValueHandler){
+	public ObjectRef ensureObjectVariable(FieldInfo fieldInfo, Consumer<JBlock> missingValueHandler){
 		JCodeModel codeModel = getCodeModel();
+
+		Field<?> field = fieldInfo.getField();
 
 		FieldName name = field.getName();
 		DataType dataType = field.getDataType();
@@ -211,7 +215,7 @@ public class TranslationContext {
 		try {
 			variable = getVariable(stringName);
 		} catch(IllegalArgumentException iae){
-			FieldValueRef fieldValueRef = ensureFieldValueVariable(field);
+			FieldValueRef fieldValueRef = ensureFieldValueVariable(fieldInfo);
 
 			if(missingValueHandler != null){
 				JBlock block = block();

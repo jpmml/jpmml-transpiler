@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jpmml.translator.ArrayManager;
+import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.JVarBuilder;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
@@ -44,7 +45,6 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
@@ -353,17 +353,17 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JInvocation createAndInvokeEvaluation(TreeModel treeModel, Node node, ScoreManager scoreManager, TranslationContext context){
 		TreeModelTranslator treeModelTranslator = (TreeModelTranslator)newModelTranslator(treeModel);
 
-		Map<FieldName, Field<?>> activeFields = treeModelTranslator.getActiveFields(Collections.singleton(node));
+		Map<FieldName, FieldInfo> fieldInfos = treeModelTranslator.getFieldInfos(Collections.singleton(node));
 
 		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, false);
 
 		JInvocation result = JExpr.invoke(evaluateMethod);
 
-		Collection<? extends Map.Entry<FieldName, Field<?>>> entries = activeFields.entrySet();
-		for(Map.Entry<FieldName, Field<?>> entry : entries){
-			Field<?> field = entry.getValue();
+		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
+		for(Map.Entry<FieldName, FieldInfo> entry : entries){
+			FieldInfo fieldInfo = entry.getValue();
 
-			ObjectRef objectRef = context.ensureObjectVariable(field, null);
+			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo, null);
 
 			evaluateMethod.param(objectRef.type(), objectRef.name());
 
@@ -373,7 +373,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		try {
 			context.pushScope(new MethodScope(evaluateMethod));
 
-			TreeModelTranslator.translateNode(node, scoreManager, activeFields, context);
+			TreeModelTranslator.translateNode(node, scoreManager, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}
