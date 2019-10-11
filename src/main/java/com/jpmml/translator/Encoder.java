@@ -18,37 +18,17 @@
  */
 package com.jpmml.translator;
 
-import org.dmg.pmml.Field;
+import com.sun.codemodel.JMethod;
+import org.dmg.pmml.DataType;
+import org.dmg.pmml.OpType;
 
-public class FieldInfo {
+public interface Encoder {
 
-	private Field<?> field = null;
+	DataType getDataType();
 
-	private Encoder encoder = null;
+	OpType getOpType();
 
+	Object encode(Object value);
 
-	public FieldInfo(Field<?> field){
-		this(field, null);
-	}
-
-	public FieldInfo(Field<?> field, Encoder encoder){
-		setField(field);
-		setEncoder(encoder);
-	}
-
-	public Field<?> getField(){
-		return this.field;
-	}
-
-	private void setField(Field<?> field){
-		this.field = field;
-	}
-
-	public Encoder getEncoder(){
-		return this.encoder;
-	}
-
-	public void setEncoder(Encoder encoder){
-		this.encoder = encoder;
-	}
+	void createEncoderBody(JMethod method, TranslationContext context);
 }

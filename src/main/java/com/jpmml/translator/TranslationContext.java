@@ -33,7 +33,9 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JMod;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -204,16 +206,29 @@ public class TranslationContext {
 		JCodeModel codeModel = getCodeModel();
 
 		Field<?> field = fieldInfo.getField();
+		Encoder encoder = fieldInfo.getEncoder();
 
 		FieldName name = field.getName();
 		DataType dataType = field.getDataType();
 
-		String stringName = variableName((dataType.name()).toLowerCase(), name);
+		String prefix = (dataType.name()).toLowerCase();
+
+		if(encoder != null){
+			DataType encoderDataType = encoder.getDataType();
+
+			prefix = (prefix + "2" + (encoderDataType.name()).toLowerCase());
+		}
+
+		String stringName = variableName(prefix, name);
 
 		JVar variable;
 
 		try {
 			variable = getVariable(stringName);
+
+			if(encoder != null){
+				dataType = encoder.getDataType();
+			}
 		} catch(IllegalArgumentException iae){
 			FieldValueRef fieldValueRef = ensureFieldValueVariable(fieldInfo);
 
@@ -225,25 +240,60 @@ public class TranslationContext {
 				missingValueHandler.accept(missingValueHandlerBlock);
 			}
 
+			JType type;
+			JInvocation invocation;
+
 			switch(dataType){
 				case STRING:
-					variable = declare(String.class, stringName, fieldValueRef.asString());
+					type = ref(String.class);
+					invocation = fieldValueRef.asString();
 					break;
 				case INTEGER:
-					variable = declare(codeModel.INT, stringName, fieldValueRef.asInteger());
+					type = codeModel.INT;
+					invocation = fieldValueRef.asInteger();
 					break;
 				case FLOAT:
-					variable = declare(codeModel.FLOAT, stringName, fieldValueRef.asFloat());
+					type = codeModel.FLOAT;
+					invocation = fieldValueRef.asFloat();
 					break;
 				case DOUBLE:
-					variable = declare(codeModel.DOUBLE, stringName, fieldValueRef.asDouble());
+					type = codeModel.DOUBLE;
+					invocation = fieldValueRef.asDouble();
 					break;
 				case BOOLEAN:
-					variable = declare(codeModel.BOOLEAN, stringName, fieldValueRef.asBoolean());
+					type = codeModel.BOOLEAN;
+					invocation = fieldValueRef.asBoolean();
 					break;
 				default:
 					throw new UnsupportedAttributeException(field, dataType);
 			}
+
+			if(encoder != null){
+				dataType = encoder.getDataType();
+
+				JType resultType;
+
+				switch(dataType){
+					case INTEGER:
+						resultType = codeModel.INT;
+						break;
+					default:
+						throw new UnsupportedAttributeException(field, dataType);
+				}
+
+				JDefinedClass owner = getOwner();
+
+				JMethod encoderMethod = owner.method(JMod.PRIVATE, resultType, "encode" + "$" + System.identityHashCode(name));
+				encoderMethod.param(type, "value");
+
+				encoder.createEncoderBody(encoderMethod, this);
+
+				invocation = JExpr.invoke(encoderMethod).arg(invocation);
+
+				type = resultType;
+			}
+
+			variable = declare(type, stringName, invocation);
 		}
 
 		switch(dataType){

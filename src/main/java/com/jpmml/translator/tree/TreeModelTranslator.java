@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.jpmml.translator.ArrayManager;
+import com.jpmml.translator.Encoder;
 import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.FieldValueRef;
 import com.jpmml.translator.MethodScope;
@@ -202,6 +203,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			Object value = simplePredicate.getValue();
 
+			Encoder encoder = fieldInfo.getEncoder();
+			if(encoder != null){
+				value = encoder.encode(value);
+			}
+
 			JExpression valueLitExpr = PMMLObjectUtil.createExpression(value, context);
 
 			switch(operator){
@@ -233,7 +239,10 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			Collection<?> values = complexArray.getValue();
 
+			Encoder encoder = fieldInfo.getEncoder();
+
 			Collection<JExpression> valueLitExprs = values.stream()
+				.map(value -> encoder != null ? encoder.encode(value) : value)
 				.map(value -> PMMLObjectUtil.createExpression(value, context))
 				.collect(Collectors.toList());
 

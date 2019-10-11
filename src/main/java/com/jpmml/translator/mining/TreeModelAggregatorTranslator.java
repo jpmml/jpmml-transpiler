@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
@@ -30,9 +31,11 @@ import com.jpmml.translator.JVarBuilder;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectRef;
+import com.jpmml.translator.OrdinalEncoder;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
 import com.jpmml.translator.ValueFactoryRef;
+import com.jpmml.translator.tree.DiscreteValueFinder;
 import com.jpmml.translator.tree.NodeScoreDistributionManager;
 import com.jpmml.translator.tree.NodeScoreManager;
 import com.jpmml.translator.tree.ScoreFunction;
@@ -45,11 +48,14 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
+import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.Model;
+import org.dmg.pmml.OpType;
 import org.dmg.pmml.PMML;
+import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Predicate;
 import org.dmg.pmml.True;
 import org.dmg.pmml.mining.MiningModel;
@@ -174,9 +180,46 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		return evaluateMethod;
 	}
 
+	@Override
+	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
+		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(bodyObjects);
+
+		DiscreteValueFinder discreteValueFinder = new DiscreteValueFinder();
+
+		for(PMMLObject bodyObject : bodyObjects){
+			discreteValueFinder.applyTo(bodyObject);
+		}
+
+		Map<FieldName, Set<Object>> fieldValues = discreteValueFinder.getFieldValues();
+
+		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
+		for(Map.Entry<FieldName, FieldInfo> entry : entries){
+			FieldName name = entry.getKey();
+			FieldInfo fieldInfo = entry.getValue();
+
+			Field<?> field = fieldInfo.getField();
+
+			OpType opType = field.getOpType();
+			switch(opType){
+				case CATEGORICAL:
+					Set<?> values = fieldValues.get(name);
+					if(values != null && values.size() > 0){
+						fieldInfo.setEncoder(new OrdinalEncoder(values));
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
+		return fieldInfos;
+	}
+
 	private void translateValueAggregatorSegmentation(Segmentation segmentation, TranslationContext context){
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
+
+		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
@@ -209,7 +252,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			NodeScoreManager scoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
 
-			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, context);
+			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, fieldInfos, context);
 
 			JExpression scoreExpr = scoreManager.getComponent(nodeIndexExpr);
 
@@ -266,6 +309,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
+		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
+
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
 		JVarBuilder aggregatorBuilder = new JVarBuilder(context);
@@ -316,7 +361,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				}
 			};
 
-			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, context);
+			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, fieldInfos, context);
 
 			JExpression scoreExpr = scoreManager.getComponent(nodeIndexExpr);
 
@@ -350,10 +395,10 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		context._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapInit));
 	}
 
-	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JInvocation createAndInvokeEvaluation(TreeModel treeModel, Node node, ScoreManager scoreManager, TranslationContext context){
+	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JInvocation createAndInvokeEvaluation(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		TreeModelTranslator treeModelTranslator = (TreeModelTranslator)newModelTranslator(treeModel);
 
-		Map<FieldName, FieldInfo> fieldInfos = treeModelTranslator.getFieldInfos(Collections.singleton(node));
+		Map<FieldName, FieldInfo> treeModelFieldInfos = treeModelTranslator.getFieldInfos(Collections.singleton(node));
 
 		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, false);
 
@@ -361,6 +406,11 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
 		for(Map.Entry<FieldName, FieldInfo> entry : entries){
+
+			if(!treeModelFieldInfos.containsKey(entry.getKey())){
+				continue;
+			}
+
 			FieldInfo fieldInfo = entry.getValue();
 
 			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo, null);
