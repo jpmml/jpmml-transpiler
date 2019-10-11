@@ -123,20 +123,20 @@ $ java -jar pmml-evaluator-example-executable-${version}.jar --model XGBoostAudi
 -- Timers ----------------------------------------------------------------------
 main
              count = 1000
-         mean rate = 10,05 calls/second
-     1-minute rate = 9,53 calls/second
-     5-minute rate = 7,98 calls/second
-    15-minute rate = 7,49 calls/second
-               min = 91,55 milliseconds
-               max = 833,42 milliseconds
-              mean = 99,48 milliseconds
-            stddev = 29,66 milliseconds
-            median = 93,09 milliseconds
-              75% <= 96,19 milliseconds
-              95% <= 131,04 milliseconds
-              98% <= 153,78 milliseconds
-              99% <= 180,36 milliseconds
-            99.9% <= 833,03 milliseconds
+         mean rate = 9,77 calls/second
+     1-minute rate = 9,36 calls/second
+     5-minute rate = 8,08 calls/second
+    15-minute rate = 7,65 calls/second
+               min = 94,77 milliseconds
+               max = 943,82 milliseconds
+              mean = 102,23 milliseconds
+            stddev = 30,24 milliseconds
+            median = 96,52 milliseconds
+              75% <= 99,77 milliseconds
+              95% <= 124,29 milliseconds
+              98% <= 153,55 milliseconds
+              99% <= 181,89 milliseconds
+            99.9% <= 943,14 milliseconds
 ```
 
 Transpiling the model:
@@ -153,23 +153,23 @@ $ java -jar pmml-evaluator-example-executable-${version}.jar --model XGBoostAudi
 -- Timers ----------------------------------------------------------------------
 main
              count = 1000
-         mean rate = 56,87 calls/second
-     1-minute rate = 48,34 calls/second
-     5-minute rate = 46,50 calls/second
-    15-minute rate = 46,17 calls/second
-               min = 15,57 milliseconds
-               max = 261,28 milliseconds
-              mean = 17,51 milliseconds
-            stddev = 9,64 milliseconds
-            median = 15,86 milliseconds
-              75% <= 16,11 milliseconds
-              95% <= 20,31 milliseconds
-              98% <= 31,16 milliseconds
-              99% <= 48,06 milliseconds
-            99.9% <= 261,13 milliseconds
+         mean rate = 77,61 calls/second
+     1-minute rate = 67,21 calls/second
+     5-minute rate = 66,09 calls/second
+    15-minute rate = 65,90 calls/second
+               min = 10,93 milliseconds
+               max = 239,73 milliseconds
+              mean = 12,82 milliseconds
+            stddev = 9,30 milliseconds
+            median = 11,05 milliseconds
+              75% <= 11,71 milliseconds
+              95% <= 16,54 milliseconds
+              98% <= 25,62 milliseconds
+              99% <= 46,87 milliseconds
+            99.9% <= 239,61 milliseconds
 ```
 
-In the current case, the transpilation has reduced the median evaluation time from 93 millis (for a batch of 1899 data records) to 16 millis, which is almost six times difference
+In the current case, the transpilation has reduced the median evaluation time from 96 millis (for a batch of 1899 data records) to 11 millis, which is almost nine times difference
 
 # License #
 
