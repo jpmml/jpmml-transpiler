@@ -82,7 +82,7 @@ public class TranslationContext {
 
 		Class<? extends PMMLObject> clazz = object.getClass();
 
-		JDefinedClass definedClazz = codeModel._class(clazz.getSimpleName() + "$" + System.identityHashCode(object));
+		JDefinedClass definedClazz = codeModel._class(IdentifierUtil.create(clazz.getSimpleName(), object));
 		definedClazz._extends(clazz);
 
 		return definedClazz;
@@ -97,7 +97,7 @@ public class TranslationContext {
 	public JMethod evaluatorMethod(int mods, Class<?> type, PMMLObject object, boolean withValueFactory, boolean withContext){
 		Class<?> clazz = object.getClass();
 
-		return evaluatorMethod(mods, type, "evaluate" + clazz.getSimpleName() + "$" + System.identityHashCode(object), withValueFactory, withContext);
+		return evaluatorMethod(mods, type, IdentifierUtil.create("evaluate" + clazz.getSimpleName(), object), withValueFactory, withContext);
 	}
 
 	public JMethod evaluatorMethod(int mods, Class<?> type, String name, boolean withValueFactory, boolean withContext){
@@ -189,7 +189,7 @@ public class TranslationContext {
 
 		FieldName name = field.getName();
 
-		String stringName = variableName("value", name);
+		String stringName = IdentifierUtil.create("value", name);
 
 		JVar variable;
 
@@ -214,12 +214,10 @@ public class TranslationContext {
 		String prefix = (dataType.name()).toLowerCase();
 
 		if(encoder != null){
-			DataType encoderDataType = encoder.getDataType();
-
-			prefix = (prefix + "2" + (encoderDataType.name()).toLowerCase());
+			prefix = encoder.getName(prefix);
 		}
 
-		String stringName = variableName(prefix, name);
+		String stringName = IdentifierUtil.create(prefix, name);
 
 		JVar variable;
 
@@ -283,7 +281,7 @@ public class TranslationContext {
 
 				JDefinedClass owner = getOwner();
 
-				JMethod encoderMethod = owner.method(JMod.PRIVATE, resultType, "encode" + "$" + System.identityHashCode(name));
+				JMethod encoderMethod = owner.method(JMod.PRIVATE, resultType, IdentifierUtil.create("encode", name));
 				encoderMethod.param(type, "value");
 
 				encoder.createEncoderBody(encoderMethod, this);
@@ -404,10 +402,5 @@ public class TranslationContext {
 
 	public void putRepresentation(PMMLObject pmmlObject, JExpression expression){
 		this.representations.put(pmmlObject, expression);
-	}
-
-	static
-	private String variableName(String prefix, FieldName name){
-		return prefix + "$" + System.identityHashCode(name);
 	}
 }

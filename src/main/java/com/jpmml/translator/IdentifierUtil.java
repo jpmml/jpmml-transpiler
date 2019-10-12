@@ -18,19 +18,13 @@
  */
 package com.jpmml.translator;
 
-import com.sun.codemodel.JMethod;
-import org.dmg.pmml.DataType;
-import org.dmg.pmml.OpType;
+public class IdentifierUtil {
 
-public interface Encoder {
+	private IdentifierUtil(){
+	}
 
-	String getName(String name);
-
-	DataType getDataType();
-
-	OpType getOpType();
-
-	Object encode(Object value);
-
-	void createEncoderBody(JMethod method, TranslationContext context);
+	static
+	public String create(String prefix, Object object){
+		return prefix + "$" + System.identityHashCode(object);
+	}
 }

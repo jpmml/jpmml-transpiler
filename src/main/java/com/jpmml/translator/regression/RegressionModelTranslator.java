@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import com.google.common.collect.Iterables;
 import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.FieldValueRef;
+import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectRef;
@@ -218,7 +219,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	static
 	public ValueBuilder translateRegressionTable(RegressionTable regressionTable, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		ValueBuilder valueBuilder = new ValueBuilder(context)
-			.declare("result$" + System.identityHashCode(regressionTable), context.getValueFactoryVariable().newValue());
+			.declare(IdentifierUtil.create("result", regressionTable), context.getValueFactoryVariable().newValue());
 
 		if(regressionTable.hasNumericPredictors()){
 			List<NumericPredictor> numericPredictors = regressionTable.getNumericPredictors();
@@ -259,7 +260,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 				FieldValueRef fieldValueRef = context.ensureFieldValueVariable(fieldInfo);
 
-				JMethod evaluateCategoryMethod = context.evaluatorMethod(JMod.PRIVATE, Number.class, "evaluateField$" + System.identityHashCode(entry.getKey()), false, false);
+				JMethod evaluateCategoryMethod = context.evaluatorMethod(JMod.PRIVATE, Number.class, IdentifierUtil.create("evaluateField", entry.getKey()), false, false);
 				evaluateCategoryMethod.param(fieldValueRef.type(), fieldValueRef.name());
 
 				try {
@@ -270,7 +271,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					context.popScope();
 				}
 
-				JVar categoryValueVar = context.declare(Number.class, "categoryValue$" + System.identityHashCode(entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg(fieldValueRef.getVariable()));
+				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("categoryValue", entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg(fieldValueRef.getVariable()));
 
 				JBlock block = context.block();
 

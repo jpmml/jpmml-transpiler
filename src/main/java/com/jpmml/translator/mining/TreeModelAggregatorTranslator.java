@@ -32,6 +32,7 @@ import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectRef;
 import com.jpmml.translator.OrdinalEncoder;
+import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
 import com.jpmml.translator.ValueFactoryRef;
@@ -250,7 +251,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			Node node = treeModel.getNode();
 
-			NodeScoreManager scoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
+			NodeScoreManager scoreManager = new NodeScoreManager(IdentifierUtil.create("scores", node), context);
 
 			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, fieldInfos, context);
 
@@ -350,7 +351,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			Node node = treeModel.getNode();
 
-			NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>("scores$" + System.identityHashCode(node), categories, context){
+			NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(IdentifierUtil.create("scores", node), categories, context){
 
 				private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
 

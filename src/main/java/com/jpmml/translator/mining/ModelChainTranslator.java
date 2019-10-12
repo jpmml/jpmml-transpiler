@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.google.common.collect.Iterables;
+import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.PMMLObjectUtil;
@@ -241,7 +242,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 			JInvocation methodInvocation = createEvaluatorMethodInvocation(evaluateMethod, context);
 
-			context.declare(Value.class, "value$" + System.identityHashCode(outputField.getName()), methodInvocation);
+			context.declare(Value.class, IdentifierUtil.create("value", outputField.getName()), methodInvocation);
 		}
 
 		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
@@ -267,7 +268,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 				NumericPredictor numericPredictor = Iterables.getFirst(numericPredictors, null);
 				if(numericPredictor != null){
-					valueExpr = context.getVariable("value$" + System.identityHashCode(numericPredictor.getName()));
+					valueExpr = context.getVariable(IdentifierUtil.create("value", numericPredictor.getField()));
 
 					Number coefficient = numericPredictor.getCoefficient();
 					if(coefficient != null && coefficient.doubleValue() != 1d){

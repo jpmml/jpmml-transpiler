@@ -48,6 +48,11 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
+	public String getName(String name){
+		return (name + "2ordinal");
+	}
+
+	@Override
 	public DataType getDataType(){
 		return DataType.INTEGER;
 	}

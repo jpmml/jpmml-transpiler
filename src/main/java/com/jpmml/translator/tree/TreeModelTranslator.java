@@ -28,6 +28,7 @@ import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.Encoder;
 import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.FieldValueRef;
+import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectRef;
@@ -70,7 +71,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Node node = treeModel.getNode();
 
-		NodeScoreManager scoreManager = new NodeScoreManager("scores$" + System.identityHashCode(node), context);
+		NodeScoreManager scoreManager = new NodeScoreManager(IdentifierUtil.create("scores", node), context);
 
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
 
@@ -105,7 +106,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		String[] categories = getTargetCategories();
 
-		NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>("scores$" + System.identityHashCode(node), categories, context){
+		NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(IdentifierUtil.create("scores", node), categories, context){
 
 			private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
 
