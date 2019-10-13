@@ -20,16 +20,20 @@ package com.jpmml.translator;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JMod;
 import com.sun.codemodel.JSwitch;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
+import org.dmg.pmml.FieldName;
 import org.dmg.pmml.OpType;
 
 public class OrdinalEncoder implements Encoder {
@@ -48,8 +52,8 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
-	public String getName(String name){
-		return (name + "2ordinal");
+	public String getName(){
+		return "ordinal";
 	}
 
 	@Override
@@ -63,19 +67,28 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
+	public ObjectRef ref(JVar variable){
+		return new OrdinalRef(variable, this);
+	}
+
+	@Override
 	public Integer encode(Object value){
 		return this.indexMap.getOrDefault(value, 0);
 	}
 
 	@Override
-	public void createEncoderBody(JMethod method, TranslationContext context){
-		List<JVar> params = method.params();
+	public JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
 
-		JVar param = params.get(0);
+		JCodeModel codeModel = context.getCodeModel();
 
-		JBlock block = method.body();
+		JMethod encoderMethod = owner.method(JMod.PRIVATE, codeModel.INT, IdentifierUtil.create("encode", name));
 
-		JSwitch switchBlock = block._switch(param);
+		JVar valueParam = encoderMethod.param(type, "value");
+
+		JBlock block = encoderMethod.body();
+
+		JSwitch switchBlock = block._switch(valueParam);
 
 		Collection<? extends Map.Entry<Object, Integer>> entries = this.indexMap.entrySet();
 		for(Map.Entry<Object, Integer> entry : entries){
@@ -83,5 +96,7 @@ public class OrdinalEncoder implements Encoder {
 		}
 
 		switchBlock._default().body()._return(JExpr.lit(0));
+
+		return encoderMethod;
 	}
 }

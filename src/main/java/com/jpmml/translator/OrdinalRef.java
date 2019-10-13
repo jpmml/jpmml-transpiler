@@ -18,13 +18,22 @@
  */
 package com.jpmml.translator;
 
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JVar;
 
-public class NumberRef extends ObjectRef {
+public class OrdinalRef extends ObjectRef {
 
-	public NumberRef(JVar variable){
+	private OrdinalEncoder encoder = null;
+
+
+	public OrdinalRef(JVar variable, OrdinalEncoder encoder){
 		super(variable);
+
+		setEncoder(encoder);
 	}
 
 	@Override
@@ -42,30 +51,46 @@ public class NumberRef extends ObjectRef {
 	}
 
 	@Override
-	public JExpression lessThan(Object value, TranslationContext context){
-		JVar variable = getVariable();
-
-		return variable.lt(literal(value, context));
+	public JExpression isIn(Collection<?> values, TranslationContext context){
+		return super.isIn(values, context);
 	}
 
 	@Override
-	public JExpression lessOrEqual(Object value, TranslationContext context){
-		JVar variable = getVariable();
-
-		return variable.lte(literal(value, context));
+	public JExpression isNotIn(Collection<?> values, TranslationContext context){
+		return super.isNotIn(values, context);
 	}
 
 	@Override
-	public JExpression greaterOrEqual(Object value, TranslationContext context){
-		JVar variable = getVariable();
+	protected JExpression literal(Object value, TranslationContext context){
+		OrdinalEncoder encoder = getEncoder();
 
-		return variable.gte(literal(value, context));
+		value = encoder.encode(value);
+
+		return super.literal(value, context);
 	}
 
 	@Override
-	public JExpression greaterThan(Object value, TranslationContext context){
-		JVar variable = getVariable();
+	protected <E> Iterator<E> toIterator(Collection<E> values){
+		OrdinalEncoder encoder = getEncoder();
 
-		return variable.gt(literal(value, context));
+		Comparator<E> comparator = new Comparator<E>(){
+
+			@Override
+			public int compare(E left, E right){
+				return ((Comparable)encoder.encode(left)).compareTo((Comparable)encoder.encode(right));
+			}
+		};
+
+		return values.stream()
+			.sorted(comparator)
+			.iterator();
+	}
+
+	public OrdinalEncoder getEncoder(){
+		return this.encoder;
+	}
+
+	private void setEncoder(OrdinalEncoder encoder){
+		this.encoder = encoder;
 	}
 }

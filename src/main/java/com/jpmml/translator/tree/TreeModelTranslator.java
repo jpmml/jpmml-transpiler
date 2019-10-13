@@ -22,17 +22,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.jpmml.translator.ArrayManager;
-import com.jpmml.translator.Encoder;
 import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.FieldValueRef;
 import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectRef;
-import com.jpmml.translator.PMMLObjectUtil;
 import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueFactoryRef;
@@ -204,26 +201,19 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			Object value = simplePredicate.getValue();
 
-			Encoder encoder = fieldInfo.getEncoder();
-			if(encoder != null){
-				value = encoder.encode(value);
-			}
-
-			JExpression valueLitExpr = PMMLObjectUtil.createExpression(value, context);
-
 			switch(operator){
 				case EQUAL:
-					return objectRef.equalTo(valueLitExpr);
+					return objectRef.equalTo(value, context);
 				case NOT_EQUAL:
-					return objectRef.notEqualTo(valueLitExpr);
+					return objectRef.notEqualTo(value, context);
 				case LESS_THAN:
-					return objectRef.lessThan(valueLitExpr);
+					return objectRef.lessThan(value, context);
 				case LESS_OR_EQUAL:
-					return objectRef.lessOrEqual(valueLitExpr);
+					return objectRef.lessOrEqual(value, context);
 				case GREATER_OR_EQUAL:
-					return objectRef.greaterOrEqual(valueLitExpr);
+					return objectRef.greaterOrEqual(value, context);
 				case GREATER_THAN:
-					return objectRef.greaterThan(valueLitExpr);
+					return objectRef.greaterThan(value, context);
 				default:
 					throw new UnsupportedAttributeException(predicate, operator);
 			}
@@ -240,19 +230,12 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			Collection<?> values = complexArray.getValue();
 
-			Encoder encoder = fieldInfo.getEncoder();
-
-			Collection<JExpression> valueLitExprs = values.stream()
-				.map(value -> encoder != null ? encoder.encode(value) : value)
-				.map(value -> PMMLObjectUtil.createExpression(value, context))
-				.collect(Collectors.toList());
-
 			SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.getBooleanOperator();
 			switch(booleanOperator){
 				case IS_IN:
-					return valueRef.isIn(valueLitExprs);
+					return valueRef.isIn(values, context);
 				case IS_NOT_IN:
-					return valueRef.isNotIn(valueLitExprs);
+					return valueRef.isNotIn(values, context);
 				default:
 					throw new UnsupportedAttributeException(predicate, booleanOperator);
 			}

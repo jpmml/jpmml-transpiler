@@ -28,14 +28,14 @@ public class StringRef extends ObjectRef {
 	}
 
 	@Override
-	public JExpression equalTo(JExpression valueExpr){
+	public JExpression equalTo(Object value, TranslationContext context){
 		JVar variable = getVariable();
 
-		return valueExpr.invoke("equals").arg(variable);
+		return (literal(value, context)).invoke("equals").arg(variable);
 	}
 
 	@Override
-	public JExpression notEqualTo(JExpression valueExpr){
-		return equalTo(valueExpr).not();
+	public JExpression notEqualTo(Object value, TranslationContext context){
+		return equalTo(value, context).not();
 	}
 }

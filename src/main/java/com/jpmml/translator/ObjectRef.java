@@ -31,51 +31,61 @@ public class ObjectRef extends JVarRef {
 		super(variable);
 	}
 
-	public JExpression equalTo(JExpression valueExpr){
+	public JExpression equalTo(Object value, TranslationContext context){
 		throw new UnsupportedOperationException();
 	}
 
-	public JExpression notEqualTo(JExpression valueExpr){
+	public JExpression notEqualTo(Object value, TranslationContext context){
 		throw new UnsupportedOperationException();
 	}
 
-	public JExpression lessThan(JExpression valueExpr){
+	public JExpression lessThan(Object value, TranslationContext context){
 		throw new UnsupportedOperationException();
 	}
 
-	public JExpression lessOrEqual(JExpression valueExpr){
+	public JExpression lessOrEqual(Object value, TranslationContext context){
 		throw new UnsupportedOperationException();
 	}
 
-	public JExpression greaterOrEqual(JExpression valueExpr){
+	public JExpression greaterOrEqual(Object value, TranslationContext context){
 		throw new UnsupportedOperationException();
 	}
 
-	public JExpression greaterThan(JExpression valueExpr){
+	public JExpression greaterThan(Object value, TranslationContext context){
 		throw new UnsupportedOperationException();
 	}
 
-	public JExpression isIn(Collection<JExpression> valueExprs){
-		Iterator<JExpression> it = valueExprs.iterator();
+	public JExpression isIn(Collection<?> values, TranslationContext context){
+		Iterator<?> it = toIterator(values);
 
-		JExpression result = equalTo(it.next());
+		JExpression result = equalTo(it.next(), context);
 
 		while(it.hasNext()){
-			result = result.cor(equalTo(it.next()));
+			result = result.cor(equalTo(it.next(), context));
 		}
 
 		return result;
 	}
 
-	public JExpression isNotIn(Collection<JExpression> valueExprs){
-		Iterator<JExpression> it = valueExprs.iterator();
+	public JExpression isNotIn(Collection<?> values, TranslationContext context){
+		Iterator<?> it = toIterator(values);
 
-		JExpression result = notEqualTo(it.next());
+		JExpression result = notEqualTo(it.next(), context);
 
 		while(it.hasNext()){
-			result = result.cand(notEqualTo(it.next()));
+			result = result.cand(notEqualTo(it.next(), context));
 		}
 
 		return result;
+	}
+
+	protected JExpression literal(Object value, TranslationContext context){
+		return PMMLObjectUtil.createExpression(value, context);
+	}
+
+	protected <E> Iterator<E> toIterator(Collection<E> values){
+		return values.stream()
+			.sorted()
+			.iterator();
 	}
 }

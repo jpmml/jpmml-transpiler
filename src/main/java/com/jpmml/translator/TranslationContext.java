@@ -35,7 +35,6 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -214,7 +213,7 @@ public class TranslationContext {
 		String prefix = (dataType.name()).toLowerCase();
 
 		if(encoder != null){
-			prefix = encoder.getName(prefix);
+			prefix = (prefix + "2" + encoder.getName());
 		}
 
 		String stringName = IdentifierUtil.create(prefix, name);
@@ -223,10 +222,6 @@ public class TranslationContext {
 
 		try {
 			variable = getVariable(stringName);
-
-			if(encoder != null){
-				dataType = encoder.getDataType();
-			}
 		} catch(IllegalArgumentException iae){
 			FieldValueRef fieldValueRef = ensureFieldValueVariable(fieldInfo);
 
@@ -267,31 +262,17 @@ public class TranslationContext {
 			}
 
 			if(encoder != null){
-				dataType = encoder.getDataType();
+				JMethod encoderMethod = encoder.createEncoderMethod(type, name, this);
 
-				JType resultType;
-
-				switch(dataType){
-					case INTEGER:
-						resultType = codeModel.INT;
-						break;
-					default:
-						throw new UnsupportedAttributeException(field, dataType);
-				}
-
-				JDefinedClass owner = getOwner();
-
-				JMethod encoderMethod = owner.method(JMod.PRIVATE, resultType, IdentifierUtil.create("encode", name));
-				encoderMethod.param(type, "value");
-
-				encoder.createEncoderBody(encoderMethod, this);
-
+				type = encoderMethod.type();
 				invocation = JExpr.invoke(encoderMethod).arg(invocation);
-
-				type = resultType;
 			}
 
 			variable = declare(type, stringName, invocation);
+		}
+
+		if(encoder != null){
+			return encoder.ref(variable);
 		}
 
 		switch(dataType){
