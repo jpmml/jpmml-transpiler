@@ -40,6 +40,8 @@ public class OrdinalEncoder implements Encoder {
 
 	private Map<Object, Integer> indexMap = new LinkedHashMap<>();
 
+	private JMethod isSetMethod = null;
+
 
 	public OrdinalEncoder(Set<?> values){
 		int index = 1;
@@ -78,9 +80,9 @@ public class OrdinalEncoder implements Encoder {
 
 	@Override
 	public JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context){
-		JDefinedClass owner = context.getOwner();
-
 		JCodeModel codeModel = context.getCodeModel();
+
+		JDefinedClass owner = context.getOwner();
 
 		JMethod encoderMethod = owner.method(JMod.PRIVATE, codeModel.INT, IdentifierUtil.create("encode", name));
 
@@ -98,5 +100,42 @@ public class OrdinalEncoder implements Encoder {
 		switchBlock._default().body()._return(JExpr.lit(0));
 
 		return encoderMethod;
+	}
+
+	public JMethod ensureIsSetMethod(TranslationContext context){
+
+		if(this.isSetMethod == null){
+			this.isSetMethod = getOrCreateIsSetMethod(context);
+		}
+
+		return this.isSetMethod;
+	}
+
+	private JMethod getOrCreateIsSetMethod(TranslationContext context){
+		JCodeModel codeModel = context.getCodeModel();
+
+		JDefinedClass owner = context.getOwner();
+
+		JMethod isSetMethod = owner.getMethod("isSet", new JType[]{codeModel.INT, codeModel.INT});
+		if(isSetMethod != null){
+			return isSetMethod;
+		}
+
+		isSetMethod = owner.method(JMod.PRIVATE | JMod.FINAL, boolean.class, "isSet");
+
+		JVar bitSetParam = isSetMethod.param(codeModel.INT, "bitSet");
+		JVar indexParam = isSetMethod.param(codeModel.INT, "index");
+
+		JBlock block = isSetMethod.body();
+
+		JBlock thenBlock = block._if((indexParam.gte(JExpr.lit(0))).cand(indexParam.lte(JExpr.lit(31))))._then();
+
+		JVar maskVar = thenBlock.decl(codeModel.INT, "mask", (JExpr.lit(1)).shl(indexParam));
+
+		thenBlock._return((bitSetParam.band(maskVar)).eq(maskVar));
+
+		block._return(JExpr.FALSE);
+
+		return isSetMethod;
 	}
 }

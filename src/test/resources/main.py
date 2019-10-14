@@ -45,8 +45,12 @@ audit_df["Adjusted"] = audit_df["Adjusted"].astype(int)
 audit_X, audit_y = split_csv(audit_df)
 
 def build_audit(classifier, name, **pmml_options):
-	cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender"]
-	cont_columns = ["Age", "Income", "Hours"]
+	if isinstance(classifier, LGBMClassifier):
+		cat_columns = ["Age", "Employment", "Education", "Marital", "Occupation", "Gender"]
+		cont_columns = ["Income", "Hours"]
+	else:
+		cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender"]
+		cont_columns = ["Age", "Income", "Hours"]
 	if isinstance(classifier, LGBMClassifier):
 		cat_mappings = [([cat_column], [CategoricalDomain(), LabelEncoder()]) for cat_column in cat_columns]
 	else:
@@ -58,7 +62,7 @@ def build_audit(classifier, name, **pmml_options):
 		("classifier", classifier)
 	])
 	if isinstance(classifier, LGBMClassifier):
-		pipeline.fit(audit_X, audit_y, classifier__categorical_feature = [0, 1, 2, 3, 4])
+		pipeline.fit(audit_X, audit_y, classifier__categorical_feature = [0, 1, 2, 3, 4, 5])
 	else:
 		pipeline.fit(audit_X, audit_y)
 	if isinstance(classifier, XGBClassifier):

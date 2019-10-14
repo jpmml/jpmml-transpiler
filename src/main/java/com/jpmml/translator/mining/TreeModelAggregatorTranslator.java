@@ -27,12 +27,12 @@ import java.util.Set;
 
 import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
+import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.JVarBuilder;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectRef;
 import com.jpmml.translator.OrdinalEncoder;
-import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
 import com.jpmml.translator.ValueFactoryRef;

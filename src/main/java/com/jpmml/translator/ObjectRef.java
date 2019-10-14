@@ -56,7 +56,9 @@ public class ObjectRef extends JVarRef {
 	}
 
 	public JExpression isIn(Collection<?> values, TranslationContext context){
-		Iterator<?> it = toIterator(values);
+		Iterator<?> it = values.stream()
+			.sorted()
+			.iterator();
 
 		JExpression result = equalTo(it.next(), context);
 
@@ -68,7 +70,9 @@ public class ObjectRef extends JVarRef {
 	}
 
 	public JExpression isNotIn(Collection<?> values, TranslationContext context){
-		Iterator<?> it = toIterator(values);
+		Iterator<?> it = values.stream()
+			.sorted()
+			.iterator();
 
 		JExpression result = notEqualTo(it.next(), context);
 
@@ -81,11 +85,5 @@ public class ObjectRef extends JVarRef {
 
 	protected JExpression literal(Object value, TranslationContext context){
 		return PMMLObjectUtil.createExpression(value, context);
-	}
-
-	protected <E> Iterator<E> toIterator(Collection<E> values){
-		return values.stream()
-			.sorted()
-			.iterator();
 	}
 }
