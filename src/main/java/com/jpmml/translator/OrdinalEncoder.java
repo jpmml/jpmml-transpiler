@@ -90,6 +90,10 @@ public class OrdinalEncoder implements Encoder {
 
 		JBlock block = encoderMethod.body();
 
+		JBlock thenBlock = block._if(valueParam.eq(JExpr._null()))._then();
+
+		thenBlock._return(JExpr.lit(-1));
+
 		JSwitch switchBlock = block._switch(valueParam);
 
 		Collection<? extends Map.Entry<Object, Integer>> entries = this.indexMap.entrySet();

@@ -49,6 +49,11 @@ public class RegressionTest extends TranspilerTest {
 	}
 
 	@Test
+	public void evaluateLightGBMAutoNA() throws Exception {
+		evaluate("LightGBM", "AutoNA");
+	}
+
+	@Test
 	public void evaluateLinearRegressionAuto() throws Exception {
 		evaluate("LinearRegression", "Auto");
 	}
@@ -66,5 +71,10 @@ public class RegressionTest extends TranspilerTest {
 	@Test
 	public void evaluateXGBoostAuto() throws Exception {
 		evaluate("XGBoost", "Auto", new FloatEquivalence(1));
+	}
+
+	@Test
+	public void evaluateXGBoostAutoNA() throws Exception {
+		evaluate("XGBoost", "AutoNA", new FloatEquivalence(1));
 	}
 }

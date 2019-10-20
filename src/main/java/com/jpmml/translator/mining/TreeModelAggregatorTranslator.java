@@ -414,7 +414,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			FieldInfo fieldInfo = entry.getValue();
 
-			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo, null);
+			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
 
 			evaluateMethod.param(objectRef.type(), objectRef.name());
 
@@ -424,7 +424,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		try {
 			context.pushScope(new MethodScope(evaluateMethod));
 
-			TreeModelTranslator.translateNode(node, scoreManager, fieldInfos, context);
+			TreeModelTranslator.translateNode(treeModel, node, scoreManager, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}

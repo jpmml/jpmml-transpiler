@@ -31,7 +31,7 @@ public class StringRef extends ObjectRef {
 	public JExpression equalTo(Object value, TranslationContext context){
 		JVar variable = getVariable();
 
-		return (literal(value, context)).invoke("equals").arg(variable);
+		return variable.invoke("equals").arg(literal(value, context));
 	}
 
 	@Override

@@ -303,7 +303,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 	static
 	private void translateField(FieldInfo fieldInfo, List<CategoricalPredictor> categoricalPredictors, TranslationContext context){
-		ObjectRef objectRef = context.ensureObjectVariable(fieldInfo, null);
+		ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
 
 		JBlock block = context.block();
 

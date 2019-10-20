@@ -8,23 +8,47 @@ from sklearn_pandas import DataFrameMapper
 from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.decoration import CategoricalDomain, ContinuousDomain
 from sklearn2pmml.pipeline import PMMLPipeline
+from sklearn2pmml.preprocessing import PMMLLabelBinarizer, PMMLLabelEncoder
 from xgboost.sklearn import XGBClassifier, XGBRegressor
 
+import numpy
 import pandas
 import sys
 
-def load_csv(name):
-	return pandas.read_csv("csv/" + name + ".csv", na_values = ["N/A", "NA"])
+def load_csv(name, dtype = None):
+	return pandas.read_csv("csv/" + name + ".csv", dtype = dtype, na_values = ["N/A", "NA"])
 
 def split_csv(df):
 	columns = df.columns.tolist()
 	return (df[columns[: -1]], df[columns[-1]])
 
 def store_csv(df, name):
-	df.to_csv("csv/" + name + ".csv", index = False)
+	df.to_csv("csv/" + name + ".csv", index = False, na_rep = "N/A")
+
+def sparsify(name):
+	df = load_csv(name, dtype = str)
+	df_X, df_y = split_csv(df)
+
+	numpy.random.seed(13)
+	df_X = df_X.mask(numpy.random.random(df_X.shape) < 0.25, other = None)
+
+	df = pandas.concat((df_X, df_y), axis = 1)
+	store_csv(df, name + "NA")
 
 def store_pmml(pipeline, name):
 	sklearn2pmml(pipeline, "pmml/" + name + ".pmml")
+
+def cat_domain(name):
+	return CategoricalDomain(invalid_value_treatment = "as_missing", with_data = False, with_statistics = False) if name.endswith("NA") else CategoricalDomain()
+
+def cont_domain(name):
+	return ContinuousDomain(invalid_value_treatment = "as_missing", with_data = False, with_statistics = False) if name.endswith("NA") else ContinuousDomain()
+
+def label_binarizer(name):
+	return PMMLLabelBinarizer() if name.endswith("NA") else LabelBinarizer()
+
+def label_encoder(name):
+	return PMMLLabelEncoder() if name.endswith("NA") else LabelEncoder()
 
 datasets = "Audit,Iris,Auto"
 
@@ -38,11 +62,16 @@ datasets = datasets.split(",")
 # Binary classification
 #
 
-audit_df = load_csv("Audit")
+def load_audit(name):
+	df = load_csv(name)
+	df = df.where((pandas.notnull(df)), None)
+	df["Adjusted"] = df["Adjusted"].astype(int)
+	df["Age"] = df["Age"].astype(pandas.Int64Dtype())
+	df["Income"] = df["Income"].astype(float)
+	df["Hours"] = df["Hours"].astype(float)
+	return split_csv(df)
 
-audit_df["Adjusted"] = audit_df["Adjusted"].astype(int)
-
-audit_X, audit_y = split_csv(audit_df)
+audit_X, audit_y = load_audit("Audit")
 
 def build_audit(classifier, name, **pmml_options):
 	if isinstance(classifier, LGBMClassifier):
@@ -52,10 +81,10 @@ def build_audit(classifier, name, **pmml_options):
 		cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender"]
 		cont_columns = ["Age", "Income", "Hours"]
 	if isinstance(classifier, LGBMClassifier):
-		cat_mappings = [([cat_column], [CategoricalDomain(), LabelEncoder()]) for cat_column in cat_columns]
+		cat_mappings = [([cat_column], [cat_domain(name), label_encoder(name)]) for cat_column in cat_columns]
 	else:
-		cat_mappings = [([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns]
-	cont_mappings = [([cont_column], ContinuousDomain()) for cont_column in cont_columns]
+		cat_mappings = [([cat_column], [cat_domain(name), label_binarizer(name)]) for cat_column in cat_columns]
+	cont_mappings = [([cont_column], cont_domain(name)) for cont_column in cont_columns]
 	mapper = DataFrameMapper(cat_mappings + cont_mappings)
 	pipeline = PMMLPipeline([
 		("mapper", mapper),
@@ -83,13 +112,23 @@ if "Audit" in datasets:
 	build_audit(RandomForestClassifier(n_estimators = 17, random_state = 13), "RandomForestAudit")
 	build_audit(XGBClassifier(objective = "binary:logistic", ntree_limit = 71, random_state = 13), "XGBoostAudit")
 
+sparsify("Audit")
+
+audit_X, audit_y = load_audit("AuditNA")
+
+if ("Audit" in datasets) or ("AuditNA" in datasets):
+	build_audit(LGBMClassifier(objective = "binary", n_estimators = 71, random_state = 13), "LightGBMAuditNA")
+	build_audit(XGBClassifier(objective = "binary:logistic", ntree_limit = 71, random_state = 13), "XGBoostAuditNA")
+
 #
 # Multi-class classification
 #
 
-iris_df = load_csv("Iris")
+def load_iris(name):
+	df = load_csv(name)
+	return split_csv(df)
 
-iris_X, iris_y = split_csv(iris_df)
+iris_X, iris_y = load_iris("Iris")
 
 def build_iris(classifier, name, **pmml_options):
 	cont_columns = ["Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"]
@@ -122,21 +161,27 @@ if "Iris" in datasets:
 # Regression
 #
 
-auto_df = load_csv("Auto")
+def load_auto(name):
+	df = load_csv(name)
+	df = df.where((pandas.notnull(df)), None)
+	df["cylinders"] = df["cylinders"].astype(pandas.Int64Dtype())
+	df["model_year"] = df["model_year"].astype(pandas.Int64Dtype())
+	df["origin"] = df["origin"].astype(pandas.Int64Dtype())
+	return split_csv(df)
 
-auto_df["model_year"] = auto_df["model_year"].astype(int)
-auto_df["origin"] = auto_df["origin"].astype(int)
+auto_X, auto_y = load_auto("Auto")
 
-auto_X, auto_y = split_csv(auto_df)
+auto_X["model_year"] = auto_X["model_year"].astype(int)
+auto_X["origin"] = auto_X["origin"].astype(int)
 
 def build_auto(regressor, name, **pmml_options):
 	cat_columns = ["cylinders", "model_year", "origin"]
 	cont_columns = ["displacement", "horsepower", "weight", "acceleration"]
 	if isinstance(regressor, LGBMRegressor):
-		cat_mappings = [([cat_column], [CategoricalDomain(), LabelEncoder()]) for cat_column in cat_columns]
+		cat_mappings = [([cat_column], [cat_domain(name), label_encoder(name)]) for cat_column in cat_columns]
 	else:
-		cat_mappings = [([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns]
-	cont_mappings = [([cont_column], [ContinuousDomain()]) for cont_column in cont_columns]
+		cat_mappings = [([cat_column], [cat_domain(name), label_binarizer(name)]) for cat_column in cat_columns]
+	cont_mappings = [([cont_column], [cont_domain(name)]) for cont_column in cont_columns]
 	mapper = DataFrameMapper(cat_mappings + cont_mappings)
 	pipeline = PMMLPipeline([
 		("mapper", mapper),
@@ -173,3 +218,11 @@ if "Auto" in datasets:
 	build_auto(RandomForestRegressor(n_estimators = 17, random_state = 13), "RandomForestAuto")
 	build_auto(VotingRegressor(estimators = [("major", DecisionTreeRegressor(max_depth = 8, random_state = 13)), ("minor", ExtraTreeRegressor(max_depth = 5, random_state = 13))], weights = [0.7, 0.3]), "VotingEnsembleAuto")
 	build_auto(XGBRegressor(objective = "reg:linear", n_estimators = 31, random_state = 13), "XGBoostAuto")
+
+sparsify("Auto")
+
+auto_X, auto_y = load_auto("AutoNA")
+
+if ("Auto" in datasets) or ("AutoNA" in datasets):
+	build_auto(LGBMRegressor(objective = "regression", n_estimators = 31, random_state = 13), "LightGBMAutoNA")
+	build_auto(XGBRegressor(objective = "reg:linear", n_estimators = 31, random_state = 13), "XGBoostAutoNA")

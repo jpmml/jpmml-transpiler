@@ -44,6 +44,11 @@ public class ClassificationTest extends TranspilerTest {
 	}
 
 	@Test
+	public void evaluateLightGBMAuditNA() throws Exception {
+		evaluate("LightGBM", "AuditNA");
+	}
+
+	@Test
 	public void evaluateLogisticRegressionAudit() throws Exception {
 		evaluate("LogisticRegression", "Audit");
 	}
@@ -56,6 +61,11 @@ public class ClassificationTest extends TranspilerTest {
 	@Test
 	public void evaluateXGBoostAudit() throws Exception {
 		evaluate("XGBoost", "Audit", new FloatEquivalence(8));
+	}
+
+	@Test
+	public void evaluateXGBoostAuditNA() throws Exception {
+		evaluate("XGBoost", "AuditNA", new FloatEquivalence(16));
 	}
 
 	@Test

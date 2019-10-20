@@ -22,7 +22,6 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import javax.xml.namespace.QName;
 
@@ -33,8 +32,8 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JOp;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -201,9 +200,7 @@ public class TranslationContext {
 		return new FieldValueRef(variable);
 	}
 
-	public ObjectRef ensureObjectVariable(FieldInfo fieldInfo, Consumer<JBlock> missingValueHandler){
-		JCodeModel codeModel = getCodeModel();
-
+	public ObjectRef ensureObjectVariable(FieldInfo fieldInfo){
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();
 
@@ -225,50 +222,44 @@ public class TranslationContext {
 		} catch(IllegalArgumentException iae){
 			FieldValueRef fieldValueRef = ensureFieldValueVariable(fieldInfo);
 
-			if(missingValueHandler != null){
-				JBlock block = block();
-
-				JBlock missingValueHandlerBlock = block._if(fieldValueRef.isMissing())._then();
-
-				missingValueHandler.accept(missingValueHandlerBlock);
-			}
-
 			JType type;
-			JInvocation invocation;
+			JExpression objectExpr;
 
 			switch(dataType){
 				case STRING:
 					type = ref(String.class);
-					invocation = fieldValueRef.asString();
+					objectExpr = fieldValueRef.asString();
 					break;
 				case INTEGER:
-					type = codeModel.INT;
-					invocation = fieldValueRef.asInteger();
+					type = ref(Integer.class);
+					objectExpr = fieldValueRef.asInteger();
 					break;
 				case FLOAT:
-					type = codeModel.FLOAT;
-					invocation = fieldValueRef.asFloat();
+					type = ref(Float.class);
+					objectExpr = fieldValueRef.asFloat();
 					break;
 				case DOUBLE:
-					type = codeModel.DOUBLE;
-					invocation = fieldValueRef.asDouble();
+					type = ref(Double.class);
+					objectExpr = fieldValueRef.asDouble();
 					break;
 				case BOOLEAN:
-					type = codeModel.BOOLEAN;
-					invocation = fieldValueRef.asBoolean();
+					type = ref(Boolean.class);
+					objectExpr = fieldValueRef.asBoolean();
 					break;
 				default:
 					throw new UnsupportedAttributeException(field, dataType);
 			}
 
+			objectExpr = JOp.cond(fieldValueRef.isNotMissing(), objectExpr, JExpr._null());
+
 			if(encoder != null){
 				JMethod encoderMethod = encoder.createEncoderMethod(type, name, this);
 
 				type = encoderMethod.type();
-				invocation = JExpr.invoke(encoderMethod).arg(invocation);
+				objectExpr = JExpr.invoke(encoderMethod).arg(objectExpr);
 			}
 
-			variable = declare(type, stringName, invocation);
+			variable = declare(type, stringName, objectExpr);
 		}
 
 		if(encoder != null){

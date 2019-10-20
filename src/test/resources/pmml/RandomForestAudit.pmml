@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.5.20"/>
-		<Timestamp>2019-09-05T10:28:13Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.5.21"/>
+		<Timestamp>2019-10-17T07:54:20Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -71,7 +71,7 @@
 			<Interval closure="closedClosed" leftMargin="609.72" rightMargin="481259.5"/>
 		</DataField>
 		<DataField name="Hours" optype="continuous" dataType="double">
-			<Interval closure="closedClosed" leftMargin="1" rightMargin="99"/>
+			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="99.0"/>
 		</DataField>
 	</DataDictionary>
 	<TransformationDictionary/>
@@ -129,7 +129,7 @@
 			</UnivariateStats>
 			<UnivariateStats field="Hours">
 				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
-				<NumericInfo minimum="1" maximum="99" mean="40.56714060031596" standardDeviation="11.656262333704255" median="40.0" interQuartileRange="5.0"/>
+				<NumericInfo minimum="1.0" maximum="99.0" mean="40.56714060031596" standardDeviation="11.656262333704255" median="40.0" interQuartileRange="5.0"/>
 			</UnivariateStats>
 			<UnivariateStats field="Age">
 				<Counts totalFreq="1899" missingFreq="0" invalidFreq="0"/>
@@ -42019,7 +42019,7 @@
 					<data:Occupation>Professional</data:Occupation>
 					<data:Income>25719.5</data:Income>
 					<data:Gender>Male</data:Gender>
-					<data:Hours>38</data:Hours>
+					<data:Hours>38.0</data:Hours>
 					<data:probability_0>0.29411764705882354</data:probability_0>
 					<data:probability_1>0.7058823529411765</data:probability_1>
 				</row>
@@ -42031,7 +42031,7 @@
 					<data:Occupation>Clerical</data:Occupation>
 					<data:Income>49027.46</data:Income>
 					<data:Gender>Male</data:Gender>
-					<data:Hours>40</data:Hours>
+					<data:Hours>40.0</data:Hours>
 					<data:probability_0>0.17647058823529413</data:probability_0>
 					<data:probability_1>0.8235294117647058</data:probability_1>
 				</row>
@@ -42043,7 +42043,7 @@
 					<data:Occupation>Clerical</data:Occupation>
 					<data:Income>58086.76</data:Income>
 					<data:Gender>Male</data:Gender>
-					<data:Hours>55</data:Hours>
+					<data:Hours>55.0</data:Hours>
 					<data:probability_0>0.29411764705882354</data:probability_0>
 					<data:probability_1>0.7058823529411765</data:probability_1>
 				</row>

@@ -39,6 +39,7 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.ComplexArray;
 import org.dmg.pmml.False;
@@ -60,6 +61,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	public TreeModelTranslator(PMML pmml, TreeModel treeModel){
 		super(pmml, treeModel);
+
+		TreeModel.MissingValueStrategy missingValueStrategy = treeModel.getMissingValueStrategy();
+		switch(missingValueStrategy){
+			case NONE:
+				break;
+			default:
+				throw new UnsupportedAttributeException(treeModel, missingValueStrategy);
+		}
 	}
 
 	@Override
@@ -77,7 +86,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new MethodScope(evaluateNodeMethod));
 
-			translateNode(node, scoreManager, fieldInfos, context);
+			translateNode(treeModel, node, scoreManager, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}
@@ -121,7 +130,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new MethodScope(evaluateNodeMethod));
 
-			translateNode(node, scoreManager, fieldInfos, context);
+			translateNode(treeModel, node, scoreManager, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}
@@ -144,7 +153,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		Predicate predicate = node.getPredicate();
 
 		JExpression predicateExpr = translatePredicate(predicate, fieldInfos, context);
@@ -160,7 +169,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				List<Node> children = node.getNodes();
 
 				for(Node child : children){
-					translateNode(child, scoreManager, fieldInfos, context);
+					translateNode(treeModel, child, scoreManager, fieldInfos, context);
 				}
 			} finally {
 				context.popScope();
@@ -197,26 +206,41 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					break;
 			}
 
-			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo, null);
+			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
 
 			Object value = simplePredicate.getValue();
 
+			JExpression comparisonExpr;
+
 			switch(operator){
 				case EQUAL:
-					return objectRef.equalTo(value, context);
+					comparisonExpr = objectRef.equalTo(value, context);
+					break;
 				case NOT_EQUAL:
-					return objectRef.notEqualTo(value, context);
+					comparisonExpr = objectRef.notEqualTo(value, context);
+					break;
 				case LESS_THAN:
-					return objectRef.lessThan(value, context);
+					comparisonExpr = objectRef.lessThan(value, context);
+					break;
 				case LESS_OR_EQUAL:
-					return objectRef.lessOrEqual(value, context);
+					comparisonExpr = objectRef.lessOrEqual(value, context);
+					break;
 				case GREATER_OR_EQUAL:
-					return objectRef.greaterOrEqual(value, context);
+					comparisonExpr = objectRef.greaterOrEqual(value, context);
+					break;
 				case GREATER_THAN:
-					return objectRef.greaterThan(value, context);
+					comparisonExpr = objectRef.greaterThan(value, context);
+					break;
 				default:
 					throw new UnsupportedAttributeException(predicate, operator);
 			}
+
+			JType type = objectRef.type();
+			if(type.isReference()){
+				comparisonExpr = (objectRef.isNotMissing()).cand(comparisonExpr);
+			}
+
+			return comparisonExpr;
 		} else
 
 		if(predicate instanceof SimpleSetPredicate){
@@ -224,21 +248,32 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			FieldInfo fieldInfo = getFieldInfo(simpleSetPredicate, fieldInfos);
 
-			ObjectRef valueRef = context.ensureObjectVariable(fieldInfo, null);
+			ObjectRef valueRef = context.ensureObjectVariable(fieldInfo);
 
 			ComplexArray complexArray = (ComplexArray)simpleSetPredicate.getArray();
 
 			Collection<?> values = complexArray.getValue();
 
+			JExpression setExpr;
+
 			SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.getBooleanOperator();
 			switch(booleanOperator){
 				case IS_IN:
-					return valueRef.isIn(values, context);
+					setExpr = valueRef.isIn(values, context);
+					break;
 				case IS_NOT_IN:
-					return valueRef.isNotIn(values, context);
+					setExpr = valueRef.isNotIn(values, context);
+					break;
 				default:
 					throw new UnsupportedAttributeException(predicate, booleanOperator);
 			}
+
+			JType type = valueRef.type();
+			if(type.isReference()){
+				setExpr = (valueRef.isNotMissing()).cand(setExpr);
+			}
+
+			return setExpr;
 		} else
 
 		if(predicate instanceof True){
