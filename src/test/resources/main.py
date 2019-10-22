@@ -166,11 +166,13 @@ def load_auto(name):
 	df = df.where((pandas.notnull(df)), None)
 	df["cylinders"] = df["cylinders"].astype(pandas.Int64Dtype())
 	df["model_year"] = df["model_year"].astype(pandas.Int64Dtype())
+	df["mpg"] = df["mpg"].astype(float)
 	df["origin"] = df["origin"].astype(pandas.Int64Dtype())
 	return split_csv(df)
 
 auto_X, auto_y = load_auto("Auto")
 
+auto_X["cylinders"] = auto_X["cylinders"].astype(int)
 auto_X["model_year"] = auto_X["model_year"].astype(int)
 auto_X["origin"] = auto_X["origin"].astype(int)
 
