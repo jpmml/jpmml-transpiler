@@ -50,8 +50,10 @@ import org.dmg.pmml.SimplePredicate;
 import org.dmg.pmml.SimpleSetPredicate;
 import org.dmg.pmml.True;
 import org.dmg.pmml.tree.Node;
+import org.dmg.pmml.tree.PMMLAttributes;
 import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
+import org.jpmml.evaluator.MissingAttributeException;
 import org.jpmml.evaluator.ProbabilityDistribution;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
@@ -68,6 +70,15 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				break;
 			default:
 				throw new UnsupportedAttributeException(treeModel, missingValueStrategy);
+		}
+
+		TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
+		switch(noTrueChildStrategy){
+			case RETURN_LAST_PREDICTION:
+			case RETURN_NULL_PREDICTION:
+				break;
+			default:
+				throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
 		}
 	}
 
@@ -154,6 +165,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	static
 	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+		S score = scoreManager.apply(node);
 		Predicate predicate = node.getPredicate();
 
 		JExpression predicateExpr = translatePredicate(predicate, fieldInfos, context);
@@ -161,6 +173,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		JBlock block = context.block();
 
 		JBlock ifBlock = block._if(predicateExpr)._then();
+
+		int scoreIndex;
 
 		if(node.hasNodes()){
 			context.pushScope(new Scope(ifBlock));
@@ -174,14 +188,33 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			} finally {
 				context.popScope();
 			}
-		}
 
-		S score = scoreManager.apply(node);
-		if(score == null){
-			return;
-		}
+			TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
+			switch(noTrueChildStrategy){
+				case RETURN_NULL_PREDICTION:
+					scoreIndex = -1;
+					break;
+				case RETURN_LAST_PREDICTION:
+					if(score == null){
+						scoreIndex = -1;
+					} else
 
-		int scoreIndex = scoreManager.getOrInsert(score);
+					{
+						scoreIndex = scoreManager.getOrInsert(score);
+					}
+					break;
+				default:
+					throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
+			}
+		} else
+
+		{
+			if(score == null){
+				throw new MissingAttributeException(node, PMMLAttributes.COMPLEXNODE_SCORE);
+			}
+
+			scoreIndex = scoreManager.getOrInsert(score);
+		}
 
 		ifBlock._return(JExpr.lit(scoreIndex));
 	}
