@@ -21,6 +21,7 @@ package com.jpmml.translator;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
+import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
@@ -55,6 +56,10 @@ public class JVarRef {
 		JVar variable = getVariable();
 
 		return variable.ne(JExpr._null());
+	}
+
+	public JInvocation invoke(JMethod method, JExpression... argExprs){
+		return invoke(method.name(), argExprs);
 	}
 
 	public JInvocation invoke(String method, JExpression... argExprs){

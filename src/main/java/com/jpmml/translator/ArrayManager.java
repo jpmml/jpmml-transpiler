@@ -44,7 +44,7 @@ public class ArrayManager<E> {
 		JArray array = JExpr.newArray(type);
 
 		this.array = array;
-		this.arrayVar = owner.field(JMod.PRIVATE | (owner.isAnonymous() ? 0 : JMod.STATIC), type.array(), name, array);
+		this.arrayVar = owner.field(JMod.STATIC | JMod.PRIVATE | JMod.FINAL, type.array(), name, array);
 	}
 
 	abstract

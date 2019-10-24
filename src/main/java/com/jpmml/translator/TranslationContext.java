@@ -27,13 +27,11 @@ import javax.xml.namespace.QName;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
-import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JOp;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -42,10 +40,8 @@ import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
-import org.jpmml.evaluator.EvaluationContext;
 import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.UnsupportedAttributeException;
-import org.jpmml.evaluator.ValueFactory;
 
 public class TranslationContext {
 
@@ -73,51 +69,6 @@ public class TranslationContext {
 		JCodeModel codeModel = getCodeModel();
 
 		return codeModel.ref(clazz);
-	}
-
-	public JDefinedClass _class(PMMLObject object) throws JClassAlreadyExistsException {
-		JCodeModel codeModel = getCodeModel();
-
-		Class<? extends PMMLObject> clazz = object.getClass();
-
-		JDefinedClass definedClazz = codeModel._class(IdentifierUtil.create(clazz.getSimpleName(), object));
-		definedClazz._extends(clazz);
-
-		return definedClazz;
-	}
-
-	public JDefinedClass anonymousClass(Class<?> clazz){
-		JCodeModel codeModel = getCodeModel();
-
-		return codeModel.anonymousClass(clazz);
-	}
-
-	public JMethod evaluatorMethod(int mods, Class<?> type, PMMLObject object, boolean withValueFactory, boolean withContext){
-		Class<?> clazz = object.getClass();
-
-		return evaluatorMethod(mods, type, IdentifierUtil.create("evaluate" + clazz.getSimpleName(), object), withValueFactory, withContext);
-	}
-
-	public JMethod evaluatorMethod(int mods, Class<?> type, String name, boolean withValueFactory, boolean withContext){
-		JCodeModel codeModel = getCodeModel();
-
-		return evaluatorMethod(mods, codeModel._ref(type), name, withValueFactory, withContext);
-	}
-
-	public JMethod evaluatorMethod(int mods, JType type, String name, boolean withValueFactory, boolean withContext){
-		JDefinedClass owner = getOwner();
-
-		JMethod method = owner.method(mods, type, name);
-
-		if(withValueFactory){
-			method.param(ValueFactory.class, Scope.NAME_VALUEFACTORY);
-		} // End if
-
-		if(withContext){
-			method.param(EvaluationContext.class, Scope.NAME_CONTEXT);
-		}
-
-		return method;
 	}
 
 	public JDefinedClass getOwner(){
@@ -170,6 +121,12 @@ public class TranslationContext {
 		throw new IllegalArgumentException(name);
 	}
 
+	public ArgumentsRef getArgumentsVariable(){
+		JVar variable = getVariable(Scope.NAME_ARGUMENTS);
+
+		return new ArgumentsRef(variable);
+	}
+
 	public EvaluationContextRef getContextVariable(){
 		JVar variable = getVariable(Scope.NAME_CONTEXT);
 
@@ -220,46 +177,11 @@ public class TranslationContext {
 		try {
 			variable = getVariable(stringName);
 		} catch(IllegalArgumentException iae){
-			FieldValueRef fieldValueRef = ensureFieldValueVariable(fieldInfo);
+			ArgumentsRef argumentsRef = getArgumentsVariable();
 
-			JType type;
-			JExpression objectExpr;
+			JMethod method = argumentsRef.getMethod(fieldInfo, this);
 
-			switch(dataType){
-				case STRING:
-					type = ref(String.class);
-					objectExpr = fieldValueRef.asString();
-					break;
-				case INTEGER:
-					type = ref(Integer.class);
-					objectExpr = fieldValueRef.asInteger();
-					break;
-				case FLOAT:
-					type = ref(Float.class);
-					objectExpr = fieldValueRef.asFloat();
-					break;
-				case DOUBLE:
-					type = ref(Double.class);
-					objectExpr = fieldValueRef.asDouble();
-					break;
-				case BOOLEAN:
-					type = ref(Boolean.class);
-					objectExpr = fieldValueRef.asBoolean();
-					break;
-				default:
-					throw new UnsupportedAttributeException(field, dataType);
-			}
-
-			objectExpr = JOp.cond(fieldValueRef.isNotMissing(), objectExpr, JExpr._null());
-
-			if(encoder != null){
-				JMethod encoderMethod = encoder.createEncoderMethod(type, name, this);
-
-				type = encoderMethod.type();
-				objectExpr = JExpr.invoke(encoderMethod).arg(objectExpr);
-			}
-
-			variable = declare(type, stringName, objectExpr);
+			variable = declare(method.type(), stringName, argumentsRef.invoke(method));
 		}
 
 		if(encoder != null){

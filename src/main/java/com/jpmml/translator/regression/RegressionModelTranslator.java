@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterables;
 import com.jpmml.translator.FieldInfo;
-import com.jpmml.translator.FieldValueRef;
 import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
@@ -39,9 +38,7 @@ import com.jpmml.translator.ValueMapBuilder;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JSwitch;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.FieldName;
@@ -89,7 +86,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 		RegressionTable regressionTable = Iterables.getOnlyElement(regressionTables);
 
-		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, Value.class, regressionTable, true, true);
+		JMethod evaluateMethod = createEvaluatorMethod(Value.class, regressionTable, true, context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateMethod));
@@ -112,7 +109,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
 
-		JMethod evaluateListMethod = context.evaluatorMethod(JMod.PUBLIC, Classification.class, "evaluateRegressionTableList", true, true);
+		JMethod evaluateListMethod = createEvaluatorMethod(Classification.class, regressionTables, true, context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateListMethod));
@@ -121,7 +118,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				.construct("values");
 
 			for(RegressionTable regressionTable : regressionTables){
-				JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, Value.class, regressionTable, true, true);
+				JMethod evaluateMethod = createEvaluatorMethod(Value.class, regressionTable, true, context);
 
 				try {
 					context.pushScope(new MethodScope(evaluateMethod));
@@ -227,24 +224,22 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			for(NumericPredictor numericPredictor : numericPredictors){
 				FieldInfo fieldInfo = getFieldInfo(numericPredictor, fieldInfos);
 
-				FieldValueRef fieldValueRef = context.ensureFieldValueVariable(fieldInfo);
-
-				JInvocation invocation;
+				ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
 
 				Number coefficient = numericPredictor.getCoefficient();
 				Integer exponent = numericPredictor.getExponent();
 
 				if(exponent != null && exponent.intValue() != 1){
-					valueBuilder.update("add", coefficient, fieldValueRef.asNumber(), exponent);
+					valueBuilder.update("add", coefficient, objectRef.getVariable(), exponent);
 				} else
 
 				{
 					if(coefficient.doubleValue() != 1d){
-						valueBuilder.update("add", coefficient, fieldValueRef.asNumber());
+						valueBuilder.update("add", coefficient, objectRef.getVariable());
 					} else
 
 					{
-						valueBuilder.update("add", fieldValueRef.asNumber());
+						valueBuilder.update("add", objectRef.getVariable());
 					}
 				}
 			}
@@ -258,10 +253,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			for(Map.Entry<FieldName, List<CategoricalPredictor>> entry : entries){
 				FieldInfo fieldInfo = getFieldInfo(entry.getKey(), fieldInfos);
 
-				FieldValueRef fieldValueRef = context.ensureFieldValueVariable(fieldInfo);
-
-				JMethod evaluateCategoryMethod = context.evaluatorMethod(JMod.PRIVATE, Number.class, IdentifierUtil.create("evaluateField", entry.getKey()), false, false);
-				evaluateCategoryMethod.param(fieldValueRef.type(), fieldValueRef.name());
+				JMethod evaluateCategoryMethod = createEvaluatorMethod(Number.class, entry.getValue(), false, context);
 
 				try {
 					context.pushScope(new MethodScope(evaluateCategoryMethod));
@@ -271,7 +263,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					context.popScope();
 				}
 
-				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("categoryValue", entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg(fieldValueRef.getVariable()));
+				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("categoryValue", entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg((context.getArgumentsVariable()).getVariable()));
 
 				JBlock block = context.block();
 

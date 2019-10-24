@@ -21,6 +21,7 @@ package com.jpmml.translator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +30,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterables;
+import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -56,6 +60,7 @@ import org.dmg.pmml.Targets;
 import org.dmg.pmml.Visitor;
 import org.dmg.pmml.VisitorAction;
 import org.jpmml.evaluator.Classification;
+import org.jpmml.evaluator.EvaluationContext;
 import org.jpmml.evaluator.HasModel;
 import org.jpmml.evaluator.HasPMML;
 import org.jpmml.evaluator.IndexableUtil;
@@ -87,7 +92,17 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 	public JExpression translate(TranslationContext context){
 		M model = getModel();
 
-		JDefinedClass javaModelClazz = context.anonymousClass(JavaModel.class);
+		JDefinedClass owner = context.getOwner();
+
+		JDefinedClass javaModelClazz;
+
+		try {
+			javaModelClazz = owner._class(JMod.PUBLIC | JMod.STATIC, IdentifierUtil.create(JavaModel.class.getSimpleName(), model));
+		} catch(JClassAlreadyExistsException jcaee){
+			throw new RuntimeException(jcaee);
+		}
+
+		javaModelClazz._extends(JavaModel.class);
 
 		try {
 			context.pushOwner(javaModelClazz);
@@ -141,8 +156,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 
 		TargetField targetField = getTargetField();
 
-		JMethod evaluateRegressionMethod = context.evaluatorMethod(JMod.PUBLIC, Map.class, "evaluateRegression", true, true);
-		evaluateRegressionMethod.annotate(Override.class);
+		JMethod evaluateRegressionMethod = createEvaluatorMethod("evaluateRegression", context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateRegressionMethod));
@@ -181,8 +195,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 
 		TargetField targetField = getTargetField();
 
-		JMethod evaluateClassificationMethod = context.evaluatorMethod(JMod.PUBLIC, Map.class, "evaluateClassification", true, true);
-		evaluateClassificationMethod.annotate(Override.class);
+		JMethod evaluateClassificationMethod = createEvaluatorMethod("evaluateClassification", context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateClassificationMethod));
@@ -425,17 +438,112 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 	}
 
 	static
+	public JMethod createEvaluatorMethod(String name, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		JMethod method = owner.method(JMod.PUBLIC, Map.class, name);
+		method.annotate(Override.class);
+
+		method.param(ValueFactory.class, Scope.NAME_VALUEFACTORY);
+		method.param(EvaluationContext.class, Scope.NAME_CONTEXT);
+
+		return method;
+	}
+
+	static
+	public JMethod createEvaluatorMethod(Class<?> type, PMMLObject object, boolean withValueFactory, TranslationContext context){
+		return createEvaluatorMethod(type, IdentifierUtil.create("evaluate" + (object.getClass()).getSimpleName(), object), withValueFactory, context);
+	}
+
+	static
+	public JMethod createEvaluatorMethod(Class<?> type, List<? extends PMMLObject> objects, boolean withValueFactory, TranslationContext context){
+		Object object = Iterables.getFirst(objects, null);
+
+		return createEvaluatorMethod(type, IdentifierUtil.create("evaluate" + (object.getClass()).getSimpleName() + "List", object), withValueFactory, context);
+	}
+
+	static
+	private JMethod createEvaluatorMethod(Class<?> type, String name, boolean withValueFactory, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		JType argumentsType = ensureArgumentsType(owner);
+
+		JMethod method = owner.method(JMod.PRIVATE, type, name);
+
+		if(withValueFactory){
+			method.param(ValueFactory.class, Scope.NAME_VALUEFACTORY);
+		}
+
+		method.param(argumentsType, Scope.NAME_ARGUMENTS);
+
+		return method;
+	}
+
+	static
 	public JInvocation createEvaluatorMethodInvocation(JMethod method, TranslationContext context){
 		JInvocation invocation = JExpr.invoke(method);
 
 		List<JVar> params = method.params();
-		switch(params.size()){
-			case 1:
-				return invocation.arg(context.getContextVariable().getVariable());
-			case 2:
-				return invocation.arg(context.getValueFactoryVariable().getVariable()).arg(context.getContextVariable().getVariable());
-			default:
-				throw new IllegalArgumentException();
+		for(JVar param : params){
+			String name = param.name();
+
+			JExpression arg;
+
+			switch(name){
+				case Scope.NAME_ARGUMENTS:
+					try {
+						arg = (context.getArgumentsVariable()).getVariable();
+					} catch(IllegalArgumentException iae){
+						JDefinedClass owner = context.getOwner();
+
+						arg = JExpr._new(ensureArgumentsType(owner)).arg((context.getContextVariable()).getVariable());
+					}
+					break;
+				case Scope.NAME_CONTEXT:
+					arg = (context.getContextVariable()).getVariable();
+					break;
+				case Scope.NAME_VALUEFACTORY:
+					arg = (context.getValueFactoryVariable()).getVariable();
+					break;
+				default:
+					throw new IllegalArgumentException(name);
+			}
+
+			invocation = invocation.arg(arg);
 		}
+
+		return invocation;
+	}
+
+	static
+	private JDefinedClass ensureArgumentsType(JDefinedClass owner){
+
+		for(Iterator<JDefinedClass> it = owner.classes(); it.hasNext(); ){
+			JDefinedClass clazz = it.next();
+
+			if(("Arguments").equals(clazz.name())){
+				return clazz;
+			}
+		}
+
+		JDefinedClass argumentsClazz;
+
+		try {
+			argumentsClazz = owner._class(JMod.PUBLIC, "Arguments");
+		} catch(JClassAlreadyExistsException jcaee){
+			throw new RuntimeException(jcaee);
+		}
+
+		JFieldVar contextVar = argumentsClazz.field(JMod.PRIVATE, EvaluationContext.class, "context");
+
+		JMethod constructor = argumentsClazz.constructor(JMod.PUBLIC);
+
+		JVar contextParam = constructor.param(EvaluationContext.class, "context");
+
+		JBlock block = constructor.body();
+
+		block.assign(JExpr.refthis(contextVar.name()), contextParam);
+
+		return argumentsClazz;
 	}
 }

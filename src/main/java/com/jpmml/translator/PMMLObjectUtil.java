@@ -28,6 +28,7 @@ import javax.xml.namespace.QName;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
+import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -58,8 +59,20 @@ public class PMMLObjectUtil {
 	}
 
 	static
-	public JDefinedClass createClass(PMMLObject object, TranslationContext context) throws JClassAlreadyExistsException {
-		JDefinedClass definedClazz = context._class(object);
+	public JDefinedClass createClass(PMMLObject object, TranslationContext context){
+		JCodeModel codeModel = context.getCodeModel();
+
+		Class<?> clazz = object.getClass();
+
+		JDefinedClass definedClazz;
+
+		try {
+			definedClazz = codeModel._class(IdentifierUtil.create(clazz.getSimpleName(), object));
+		} catch(JClassAlreadyExistsException jcaee){
+			throw new RuntimeException(jcaee);
+		}
+
+		definedClazz._extends(clazz);
 
 		try {
 			context.pushOwner(definedClazz);

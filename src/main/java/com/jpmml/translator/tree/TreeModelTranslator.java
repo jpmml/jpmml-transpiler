@@ -22,14 +22,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
-import com.jpmml.translator.FieldValueRef;
 import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.ObjectRef;
+import com.jpmml.translator.OrdinalEncoder;
 import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueFactoryRef;
@@ -38,13 +39,15 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.ComplexArray;
 import org.dmg.pmml.False;
+import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
+import org.dmg.pmml.OpType;
 import org.dmg.pmml.PMML;
+import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Predicate;
 import org.dmg.pmml.SimplePredicate;
 import org.dmg.pmml.SimpleSetPredicate;
@@ -92,7 +95,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
 
-		JMethod evaluateNodeMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, true);
+		JMethod evaluateNodeMethod = createEvaluatorMethod(int.class, node, false, context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateNodeMethod));
@@ -102,7 +105,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			context.popScope();
 		}
 
-		JMethod evaluateTreeModelMethod = context.evaluatorMethod(JMod.PUBLIC, Number.class, treeModel, false, true);
+		JMethod evaluateTreeModelMethod = createEvaluatorMethod(Number.class, treeModel, false, context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateTreeModelMethod));
@@ -136,7 +139,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
 
-		JMethod evaluateNodeMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, true);
+		JMethod evaluateNodeMethod = createEvaluatorMethod(int.class, node, false, context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateNodeMethod));
@@ -146,7 +149,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			context.popScope();
 		}
 
-		JMethod evaluateTreeModelMethod = context.evaluatorMethod(JMod.PUBLIC, Classification.class, treeModel, true, true);
+		JMethod evaluateTreeModelMethod = createEvaluatorMethod(Classification.class, treeModel, true, context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateTreeModelMethod));
@@ -161,6 +164,15 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		}
 
 		return evaluateTreeModelMethod;
+	}
+
+	@Override
+	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
+		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(bodyObjects);
+
+		fieldInfos = TreeModelTranslator.enhanceFieldInfos(bodyObjects, fieldInfos);
+
+		return fieldInfos;
 	}
 
 	static
@@ -227,19 +239,17 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			FieldInfo fieldInfo = getFieldInfo(simplePredicate, fieldInfos);
 
-			FieldValueRef fieldValueRef = context.ensureFieldValueVariable(fieldInfo);
+			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
 
 			SimplePredicate.Operator operator = simplePredicate.getOperator();
 			switch(operator){
 				case IS_MISSING:
-					return fieldValueRef.isMissing();
+					return objectRef.isMissing();
 				case IS_NOT_MISSING:
-					return fieldValueRef.isNotMissing();
+					return objectRef.isNotMissing();
 				default:
 					break;
 			}
-
-			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
 
 			Object value = simplePredicate.getValue();
 
@@ -281,7 +291,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			FieldInfo fieldInfo = getFieldInfo(simpleSetPredicate, fieldInfos);
 
-			ObjectRef valueRef = context.ensureObjectVariable(fieldInfo);
+			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
 
 			ComplexArray complexArray = (ComplexArray)simpleSetPredicate.getArray();
 
@@ -292,18 +302,18 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.getBooleanOperator();
 			switch(booleanOperator){
 				case IS_IN:
-					setExpr = valueRef.isIn(values, context);
+					setExpr = objectRef.isIn(values, context);
 					break;
 				case IS_NOT_IN:
-					setExpr = valueRef.isNotIn(values, context);
+					setExpr = objectRef.isNotIn(values, context);
 					break;
 				default:
 					throw new UnsupportedAttributeException(predicate, booleanOperator);
 			}
 
-			JType type = valueRef.type();
+			JType type = objectRef.type();
 			if(type.isReference()){
-				setExpr = (valueRef.isNotMissing()).cand(setExpr);
+				setExpr = (objectRef.isNotMissing()).cand(setExpr);
 			}
 
 			return setExpr;
@@ -336,5 +346,38 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		}
 
 		return valueMapBuilder.getVariable();
+	}
+
+	static
+	public Map<FieldName, FieldInfo> enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, Map<FieldName, FieldInfo> fieldInfos){
+		DiscreteValueFinder discreteValueFinder = new DiscreteValueFinder();
+
+		for(PMMLObject bodyObject : bodyObjects){
+			discreteValueFinder.applyTo(bodyObject);
+		}
+
+		Map<FieldName, Set<Object>> fieldValues = discreteValueFinder.getFieldValues();
+
+		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
+		for(Map.Entry<FieldName, FieldInfo> entry : entries){
+			FieldName name = entry.getKey();
+			FieldInfo fieldInfo = entry.getValue();
+
+			Field<?> field = fieldInfo.getField();
+
+			OpType opType = field.getOpType();
+			switch(opType){
+				case CATEGORICAL:
+					Set<?> values = fieldValues.get(name);
+					if(values != null && values.size() > 0){
+						fieldInfo.setEncoder(new OrdinalEncoder(values));
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
+		return fieldInfos;
 	}
 }

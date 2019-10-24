@@ -95,6 +95,7 @@ public class Scope extends LinkedHashMap<String, JVar> {
 		this.open = open;
 	}
 
+	public static final String NAME_ARGUMENTS = "arguments";
 	public static final String NAME_CONTEXT = "context";
 	public static final String NAME_VALUEFACTORY = "valueFactory";
 }

@@ -19,7 +19,6 @@
 package com.jpmml.translator.mining;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +30,9 @@ import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.JVarBuilder;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
-import com.jpmml.translator.ObjectRef;
-import com.jpmml.translator.OrdinalEncoder;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
 import com.jpmml.translator.ValueFactoryRef;
-import com.jpmml.translator.tree.DiscreteValueFinder;
 import com.jpmml.translator.tree.NodeScoreDistributionManager;
 import com.jpmml.translator.tree.NodeScoreManager;
 import com.jpmml.translator.tree.ScoreFunction;
@@ -49,12 +45,10 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.Model;
-import org.dmg.pmml.OpType;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Predicate;
@@ -149,7 +143,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		Segmentation segmentation = miningModel.getSegmentation();
 
-		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, Value.class, segmentation, true, true);
+		JMethod evaluateMethod = createEvaluatorMethod(Value.class, segmentation, true, context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateMethod));
@@ -168,7 +162,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		Segmentation segmentation = miningModel.getSegmentation();
 
-		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, Classification.class, segmentation, true, true);
+		JMethod evaluateMethod = createEvaluatorMethod(Classification.class, segmentation, true, context);
 
 		try {
 			 context.pushScope(new MethodScope(evaluateMethod));
@@ -185,33 +179,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
 		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(bodyObjects);
 
-		DiscreteValueFinder discreteValueFinder = new DiscreteValueFinder();
-
-		for(PMMLObject bodyObject : bodyObjects){
-			discreteValueFinder.applyTo(bodyObject);
-		}
-
-		Map<FieldName, Set<Object>> fieldValues = discreteValueFinder.getFieldValues();
-
-		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
-		for(Map.Entry<FieldName, FieldInfo> entry : entries){
-			FieldName name = entry.getKey();
-			FieldInfo fieldInfo = entry.getValue();
-
-			Field<?> field = fieldInfo.getField();
-
-			OpType opType = field.getOpType();
-			switch(opType){
-				case CATEGORICAL:
-					Set<?> values = fieldValues.get(name);
-					if(values != null && values.size() > 0){
-						fieldInfo.setEncoder(new OrdinalEncoder(values));
-					}
-					break;
-				default:
-					break;
-			}
-		}
+		fieldInfos = TreeModelTranslator.enhanceFieldInfos(bodyObjects, fieldInfos);
 
 		return fieldInfos;
 	}
@@ -397,29 +365,9 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	}
 
 	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JInvocation createAndInvokeEvaluation(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
-		TreeModelTranslator treeModelTranslator = (TreeModelTranslator)newModelTranslator(treeModel);
+		JMethod evaluateMethod = createEvaluatorMethod(int.class, node, false, context);
 
-		Map<FieldName, FieldInfo> treeModelFieldInfos = treeModelTranslator.getFieldInfos(Collections.singleton(node));
-
-		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, int.class, node, false, false);
-
-		JInvocation result = JExpr.invoke(evaluateMethod);
-
-		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
-		for(Map.Entry<FieldName, FieldInfo> entry : entries){
-
-			if(!treeModelFieldInfos.containsKey(entry.getKey())){
-				continue;
-			}
-
-			FieldInfo fieldInfo = entry.getValue();
-
-			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
-
-			evaluateMethod.param(objectRef.type(), objectRef.name());
-
-			result = result.arg(objectRef.getVariable());
-		}
+		JInvocation result = createEvaluatorMethodInvocation(evaluateMethod, context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateMethod));

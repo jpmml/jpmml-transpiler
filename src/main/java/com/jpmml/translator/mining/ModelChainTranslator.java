@@ -33,7 +33,6 @@ import com.jpmml.translator.regression.RegressionModelTranslator;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.Model;
@@ -208,7 +207,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 		Segmentation segmentation = miningModel.getSegmentation();
 
-		JMethod evaluateMethod = context.evaluatorMethod(JMod.PUBLIC, Classification.class, segmentation, true, true);
+		JMethod evaluateMethod = createEvaluatorMethod(Classification.class, segmentation, true, context);
 
 		try {
 			context.pushScope(new MethodScope(evaluateMethod));
