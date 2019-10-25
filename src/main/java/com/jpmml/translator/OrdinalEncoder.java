@@ -27,6 +27,7 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JSwitch;
@@ -69,7 +70,7 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
-	public ObjectRef ref(JVar variable){
+	public OrdinalRef ref(JVar variable){
 		return new OrdinalRef(variable, this);
 	}
 
@@ -92,7 +93,7 @@ public class OrdinalEncoder implements Encoder {
 
 		JBlock thenBlock = block._if(valueParam.eq(JExpr._null()))._then();
 
-		thenBlock._return(JExpr.lit(-1));
+		thenBlock._return(OrdinalEncoder.MISSING_VALUE);
 
 		JSwitch switchBlock = block._switch(valueParam);
 
@@ -142,4 +143,6 @@ public class OrdinalEncoder implements Encoder {
 
 		return isSetMethod;
 	}
+
+	public static final JExpression MISSING_VALUE = JExpr.lit(-1);
 }

@@ -29,7 +29,7 @@ import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
-import com.jpmml.translator.ObjectRef;
+import com.jpmml.translator.OperableRef;
 import com.jpmml.translator.OrdinalEncoder;
 import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
@@ -239,14 +239,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			FieldInfo fieldInfo = getFieldInfo(simplePredicate, fieldInfos);
 
-			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
+			OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
 
 			SimplePredicate.Operator operator = simplePredicate.getOperator();
 			switch(operator){
 				case IS_MISSING:
-					return objectRef.isMissing();
+					return operableRef.isMissing();
 				case IS_NOT_MISSING:
-					return objectRef.isNotMissing();
+					return operableRef.isNotMissing();
 				default:
 					break;
 			}
@@ -257,30 +257,30 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			switch(operator){
 				case EQUAL:
-					comparisonExpr = objectRef.equalTo(value, context);
+					comparisonExpr = operableRef.equalTo(value, context);
 					break;
 				case NOT_EQUAL:
-					comparisonExpr = objectRef.notEqualTo(value, context);
+					comparisonExpr = operableRef.notEqualTo(value, context);
 					break;
 				case LESS_THAN:
-					comparisonExpr = objectRef.lessThan(value, context);
+					comparisonExpr = operableRef.lessThan(value, context);
 					break;
 				case LESS_OR_EQUAL:
-					comparisonExpr = objectRef.lessOrEqual(value, context);
+					comparisonExpr = operableRef.lessOrEqual(value, context);
 					break;
 				case GREATER_OR_EQUAL:
-					comparisonExpr = objectRef.greaterOrEqual(value, context);
+					comparisonExpr = operableRef.greaterOrEqual(value, context);
 					break;
 				case GREATER_THAN:
-					comparisonExpr = objectRef.greaterThan(value, context);
+					comparisonExpr = operableRef.greaterThan(value, context);
 					break;
 				default:
 					throw new UnsupportedAttributeException(predicate, operator);
 			}
 
-			JType type = objectRef.type();
+			JType type = operableRef.type();
 			if(type.isReference()){
-				comparisonExpr = (objectRef.isNotMissing()).cand(comparisonExpr);
+				comparisonExpr = (operableRef.isNotMissing()).cand(comparisonExpr);
 			}
 
 			return comparisonExpr;
@@ -291,7 +291,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			FieldInfo fieldInfo = getFieldInfo(simpleSetPredicate, fieldInfos);
 
-			ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
+			OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
 
 			ComplexArray complexArray = (ComplexArray)simpleSetPredicate.getArray();
 
@@ -302,18 +302,18 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.getBooleanOperator();
 			switch(booleanOperator){
 				case IS_IN:
-					setExpr = objectRef.isIn(values, context);
+					setExpr = operableRef.isIn(values, context);
 					break;
 				case IS_NOT_IN:
-					setExpr = objectRef.isNotIn(values, context);
+					setExpr = operableRef.isNotIn(values, context);
 					break;
 				default:
 					throw new UnsupportedAttributeException(predicate, booleanOperator);
 			}
 
-			JType type = objectRef.type();
+			JType type = operableRef.type();
 			if(type.isReference()){
-				setExpr = (objectRef.isNotMissing()).cand(setExpr);
+				setExpr = (operableRef.isNotMissing()).cand(setExpr);
 			}
 
 			return setExpr;

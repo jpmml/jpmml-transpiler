@@ -18,16 +18,12 @@
  */
 package com.jpmml.translator;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JFormatter;
 import com.sun.codemodel.JVar;
 import org.junit.Test;
 
@@ -36,7 +32,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class OrdinalRefTest {
+public class OrdinalRefTest extends OperableRefTest {
 
 	@Test
 	public void chunk(){
@@ -129,23 +125,6 @@ public class OrdinalRefTest {
 
 		assertEquals("isSet(" + Integer.toString(bitSet) + ",(x-35))", generate(chunk.isIn(variable)));
 		assertEquals("(!isSet(" + Integer.toString(bitSet) + ",(x-35)))", generate(chunk.isNotIn(variable)));
-	}
-
-	static
-	private String generate(JExpression expression){
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-
-		try(PrintWriter writer = new PrintWriter(os)){
-			JFormatter formatter = new JFormatter(writer, "");
-
-			expression.generate(formatter);
-		}
-
-		String result = os.toString();
-
-		result = result.replace(" ", "");
-
-		return result;
 	}
 
 	private static final Set<Double> values = new LinkedHashSet<>();

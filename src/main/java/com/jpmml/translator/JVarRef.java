@@ -18,7 +18,6 @@
  */
 package com.jpmml.translator;
 
-import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
@@ -44,18 +43,6 @@ public class JVarRef {
 		JVar variable = getVariable();
 
 		return variable.name();
-	}
-
-	public JExpression isMissing(){
-		JVar variable = getVariable();
-
-		return variable.eq(JExpr._null());
-	}
-
-	public JExpression isNotMissing(){
-		JVar variable = getVariable();
-
-		return variable.ne(JExpr._null());
 	}
 
 	public JInvocation invoke(JMethod method, JExpression... argExprs){

@@ -18,24 +18,29 @@
  */
 package com.jpmml.translator;
 
-import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JType;
-import com.sun.codemodel.JVar;
-import org.dmg.pmml.DataType;
-import org.dmg.pmml.FieldName;
-import org.dmg.pmml.OpType;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 
-public interface Encoder {
+import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFormatter;
 
-	String getName();
+abstract
+public class OperableRefTest {
 
-	DataType getDataType();
+	static
+	public String generate(JExpression expression){
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-	OpType getOpType();
+		try(PrintWriter writer = new PrintWriter(os)){
+			JFormatter formatter = new JFormatter(writer, "");
 
-	OperableRef ref(JVar variable);
+			expression.generate(formatter);
+		}
 
-	Object encode(Object value);
+		String result = os.toString();
 
-	JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context);
+		result = result.replace(" ", "");
+
+		return result;
+	}
 }

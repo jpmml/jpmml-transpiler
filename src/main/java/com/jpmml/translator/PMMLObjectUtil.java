@@ -210,9 +210,9 @@ public class PMMLObjectUtil {
 	public JExpression createExpression(Object value, TranslationContext context){
 
 		if(value instanceof JVarRef){
-			JVarRef varRef = (JVarRef)value;
+			JVarRef variableRef = (JVarRef)value;
 
-			return varRef.getVariable();
+			return variableRef.getVariable();
 		} else
 
 		if(value instanceof JExpression){

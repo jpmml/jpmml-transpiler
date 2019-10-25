@@ -23,29 +23,66 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
-abstract
-public class ObjectRef extends OperableRef {
+public class PrimitiveRef extends OperableRef {
 
-	public ObjectRef(JVar variable){
+	public PrimitiveRef(JVar variable){
 		super(variable);
 
 		JType type = variable.type();
-		if(!type.isReference()){
+		if(!type.isPrimitive()){
 			throw new IllegalArgumentException(type.fullName());
 		}
 	}
 
 	@Override
 	public JExpression isMissing(){
-		JVar variable = getVariable();
-
-		return variable.eq(JExpr._null());
+		return JExpr.FALSE;
 	}
 
 	@Override
 	public JExpression isNotMissing(){
+		return JExpr.TRUE;
+	}
+
+	@Override
+	public JExpression equalTo(Object value, TranslationContext context){
 		JVar variable = getVariable();
 
-		return variable.ne(JExpr._null());
+		return variable.eq(literal(value, context));
+	}
+
+	@Override
+	public JExpression notEqualTo(Object value, TranslationContext context){
+		JVar variable = getVariable();
+
+		return variable.ne(literal(value, context));
+	}
+
+	@Override
+	public JExpression lessThan(Object value, TranslationContext context){
+		JVar variable = getVariable();
+
+		return variable.lt(literal(value, context));
+	}
+
+	@Override
+	public JExpression lessOrEqual(Object value, TranslationContext context){
+		JVar variable = getVariable();
+
+		return variable.lte(literal(value, context));
+	}
+
+	@Override
+	public JExpression greaterOrEqual(Object value, TranslationContext context){
+		JVar variable = getVariable();
+
+		return variable.gte(literal(value, context));
+	}
+
+	@Override
+	public JExpression greaterThan(Object value, TranslationContext context){
+		JVar variable = getVariable();
+
+		return variable.gt(literal(value, context));
 	}
 }

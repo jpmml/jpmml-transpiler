@@ -27,7 +27,7 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JVar;
 
-public class OrdinalRef extends ObjectRef {
+public class OrdinalRef extends OperableRef {
 
 	private OrdinalEncoder encoder = null;
 
@@ -36,6 +36,20 @@ public class OrdinalRef extends ObjectRef {
 		super(variable);
 
 		setEncoder(encoder);
+	}
+
+	@Override
+	public JExpression isMissing(){
+		JVar variable = getVariable();
+
+		return variable.eq(OrdinalEncoder.MISSING_VALUE);
+	}
+
+	@Override
+	public JExpression isNotMissing(){
+		JVar variable = getVariable();
+
+		return variable.ne(OrdinalEncoder.MISSING_VALUE);
 	}
 
 	@Override
@@ -55,7 +69,7 @@ public class OrdinalRef extends ObjectRef {
 
 		value = encoder.encode(value);
 
-		return variable.ne(literal(value, context));
+		return (variable.ne(OrdinalEncoder.MISSING_VALUE)).cand(variable.ne(literal(value, context)));
 	}
 
 	@Override
@@ -89,7 +103,7 @@ public class OrdinalRef extends ObjectRef {
 
 		Iterator<Chunk> it = chunks.iterator();
 
-		JExpression result = (it.next()).isNotIn(variable);
+		JExpression result = (variable.ne(OrdinalEncoder.MISSING_VALUE)).cand((it.next()).isNotIn(variable));
 
 		while(it.hasNext()){
 			result = result.cand((it.next()).isNotIn(variable));

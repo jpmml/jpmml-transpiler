@@ -29,7 +29,7 @@ import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
-import com.jpmml.translator.ObjectRef;
+import com.jpmml.translator.OperableRef;
 import com.jpmml.translator.PMMLObjectUtil;
 import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
@@ -224,22 +224,22 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			for(NumericPredictor numericPredictor : numericPredictors){
 				FieldInfo fieldInfo = getFieldInfo(numericPredictor, fieldInfos);
 
-				ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
+				OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
 
 				Number coefficient = numericPredictor.getCoefficient();
 				Integer exponent = numericPredictor.getExponent();
 
 				if(exponent != null && exponent.intValue() != 1){
-					valueBuilder.update("add", coefficient, objectRef.getVariable(), exponent);
+					valueBuilder.update("add", coefficient, operableRef.getVariable(), exponent);
 				} else
 
 				{
 					if(coefficient.doubleValue() != 1d){
-						valueBuilder.update("add", coefficient, objectRef.getVariable());
+						valueBuilder.update("add", coefficient, operableRef.getVariable());
 					} else
 
 					{
-						valueBuilder.update("add", objectRef.getVariable());
+						valueBuilder.update("add", operableRef.getVariable());
 					}
 				}
 			}
@@ -295,11 +295,11 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 	static
 	private void translateField(FieldInfo fieldInfo, List<CategoricalPredictor> categoricalPredictors, TranslationContext context){
-		ObjectRef objectRef = context.ensureObjectVariable(fieldInfo);
+		OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
 
 		JBlock block = context.block();
 
-		JSwitch switchBlock = block._switch(objectRef.getVariable());
+		JSwitch switchBlock = block._switch(operableRef.getVariable());
 
 		for(CategoricalPredictor categoricalPredictor : categoricalPredictors){
 			switchBlock._case(PMMLObjectUtil.createExpression(categoricalPredictor.getValue(), context)).body()._return(PMMLObjectUtil.createExpression(categoricalPredictor.getCoefficient(), context));

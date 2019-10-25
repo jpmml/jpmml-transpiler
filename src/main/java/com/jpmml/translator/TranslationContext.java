@@ -157,7 +157,7 @@ public class TranslationContext {
 		return new FieldValueRef(variable);
 	}
 
-	public ObjectRef ensureObjectVariable(FieldInfo fieldInfo){
+	public OperableRef ensureOperableVariable(FieldInfo fieldInfo){
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();
 
@@ -189,7 +189,15 @@ public class TranslationContext {
 			case FLOAT:
 			case DOUBLE:
 			case BOOLEAN:
-				return new NumberRef(variable);
+				{
+					JType type = variable.type();
+
+					if(type.isPrimitive()){
+						return new PrimitiveRef(variable);
+					}
+
+					return new NumberRef(variable);
+				}
 			default:
 				throw new UnsupportedAttributeException(field, dataType);
 		}
