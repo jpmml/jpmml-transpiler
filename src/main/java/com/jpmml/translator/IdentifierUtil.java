@@ -18,9 +18,39 @@
  */
 package com.jpmml.translator;
 
+import org.dmg.pmml.FieldName;
+
 public class IdentifierUtil {
 
 	private IdentifierUtil(){
+	}
+
+	static
+	public String create(FieldName name){
+		String value = name.getValue();
+
+		StringBuilder sb = new StringBuilder();
+
+		char[] chars = value.toCharArray();
+
+		for(int i = 0; i < chars.length; i++){
+			char c = chars[i];
+
+			if(sb.length() == 0){
+
+				if(Character.isJavaIdentifierStart(c)){
+					sb.append(Character.toLowerCase(c));
+				}
+			} else
+
+			{
+				if(Character.isJavaIdentifierPart(c)){
+					sb.append(c);
+				}
+			}
+		}
+
+		return sb.toString();
 	}
 
 	static

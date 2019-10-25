@@ -164,13 +164,7 @@ public class TranslationContext {
 		FieldName name = field.getName();
 		DataType dataType = field.getDataType();
 
-		String prefix = (dataType.name()).toLowerCase();
-
-		if(encoder != null){
-			prefix = (prefix + "2" + encoder.getName());
-		}
-
-		String stringName = IdentifierUtil.create(prefix, name);
+		String stringName = fieldInfo.getVariableName();
 
 		JVar variable;
 

@@ -49,7 +49,9 @@ public class ArgumentsRef extends JVarRef {
 		FieldName name = field.getName();
 		DataType dataType = field.getDataType();
 
-		JMethod method = argumentsClazz.getMethod(IdentifierUtil.create("get", name), new JType[0]);
+		String stringName = fieldInfo.getVariableName();
+
+		JMethod method = argumentsClazz.getMethod(stringName, new JType[0]);
 		if(method != null){
 			return method;
 		}
@@ -76,12 +78,9 @@ public class ArgumentsRef extends JVarRef {
 				throw new UnsupportedAttributeException(field, dataType);
 		}
 
-		String prefix = (dataType.name()).toLowerCase();
-
 		JMethod encoderMethod = null;
 
 		if(encoder != null){
-			prefix = (prefix + "2" + encoder.getName());
 
 			try {
 				context.pushOwner(argumentsClazz);
@@ -94,17 +93,17 @@ public class ArgumentsRef extends JVarRef {
 			type = encoderMethod.type();
 		}
 
-		JFieldVar flagFieldVar = argumentsClazz.field(JMod.PRIVATE, boolean.class, IdentifierUtil.create("_initialized", name), JExpr.lit(false));
+		JFieldVar flagFieldVar = argumentsClazz.field(JMod.PRIVATE, boolean.class, "_" + stringName, JExpr.lit(false));
 
-		JFieldVar valueFieldVar = argumentsClazz.field(JMod.PRIVATE, type, IdentifierUtil.create(prefix, name));
+		JFieldVar valueFieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName);
 
-		method = argumentsClazz.method(JMod.PUBLIC, type, IdentifierUtil.create("get", name));
+		method = argumentsClazz.method(JMod.PUBLIC, type, stringName);
 
 		JBlock block = method.body();
 
 		JBlock thenBlock = block._if(JExpr.refthis(flagFieldVar.name()).not())._then();
 
-		JVar valueVar = thenBlock.decl(context.ref(FieldValue.class), "value", JExpr.refthis("context").invoke("evaluate").arg(context.constantFieldName(name)));
+		JVar valueVar = thenBlock.decl(context.ref(FieldValue.class), IdentifierUtil.create("value", name), JExpr.refthis("context").invoke("evaluate").arg(context.constantFieldName(name)));
 
 		FieldValueRef fieldValueRef = new FieldValueRef(valueVar);
 

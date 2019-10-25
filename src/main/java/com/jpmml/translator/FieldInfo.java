@@ -19,6 +19,7 @@
 package com.jpmml.translator;
 
 import org.dmg.pmml.Field;
+import org.dmg.pmml.FieldName;
 
 public class FieldInfo {
 
@@ -34,6 +35,21 @@ public class FieldInfo {
 	public FieldInfo(Field<?> field, Encoder encoder){
 		setField(field);
 		setEncoder(encoder);
+	}
+
+	public String getVariableName(){
+		Field<?> field = getField();
+		Encoder encoder = getEncoder();
+
+		FieldName name = field.getName();
+
+		String result = IdentifierUtil.create(name);
+
+		if(encoder != null){
+			result = (result + "2" + encoder.getName());
+		}
+
+		return result;
 	}
 
 	public Field<?> getField(){

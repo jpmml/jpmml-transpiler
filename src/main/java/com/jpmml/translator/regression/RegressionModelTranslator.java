@@ -263,7 +263,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					context.popScope();
 				}
 
-				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("categoryValue", entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg((context.getArgumentsVariable()).getVariable()));
+				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("lookup", entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg((context.getArgumentsVariable()).getVariable()));
 
 				JBlock block = context.block();
 
