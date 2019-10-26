@@ -350,13 +350,18 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	static
 	public Map<FieldName, FieldInfo> enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, Map<FieldName, FieldInfo> fieldInfos){
+		PrimaryFieldReferenceFinder primaryFieldReferenceFinder = new PrimaryFieldReferenceFinder();
 		DiscreteValueFinder discreteValueFinder = new DiscreteValueFinder();
 
 		for(PMMLObject bodyObject : bodyObjects){
-			discreteValueFinder.applyTo(bodyObject);
+			Node node = (Node)bodyObject;
+
+			primaryFieldReferenceFinder.applyTo(node);
+			discreteValueFinder.applyTo(node);
 		}
 
-		Map<FieldName, Set<Object>> fieldValues = discreteValueFinder.getFieldValues();
+		Set<FieldName> primaryFieldNames = primaryFieldReferenceFinder.getFieldNames();
+		Map<FieldName, Set<Object>> discreteFieldValues = discreteValueFinder.getFieldValues();
 
 		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
 		for(Map.Entry<FieldName, FieldInfo> entry : entries){
@@ -365,10 +370,12 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			Field<?> field = fieldInfo.getField();
 
+			fieldInfo.setPrimary(primaryFieldNames.contains(name));
+
 			OpType opType = field.getOpType();
 			switch(opType){
 				case CATEGORICAL:
-					Set<?> values = fieldValues.get(name);
+					Set<?> values = discreteFieldValues.get(name);
 					if(values != null && values.size() > 0){
 						fieldInfo.setEncoder(new OrdinalEncoder(values));
 					}

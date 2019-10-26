@@ -25,6 +25,8 @@ public class FieldInfo {
 
 	private Field<?> field = null;
 
+	private boolean primary = false;
+
 	private Encoder encoder = null;
 
 
@@ -58,6 +60,14 @@ public class FieldInfo {
 
 	private void setField(Field<?> field){
 		this.field = field;
+	}
+
+	public boolean isPrimary(){
+		return this.primary;
+	}
+
+	public void setPrimary(boolean primary){
+		this.primary = primary;
 	}
 
 	public Encoder getEncoder(){

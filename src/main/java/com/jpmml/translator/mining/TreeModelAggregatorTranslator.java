@@ -20,9 +20,11 @@ package com.jpmml.translator.mining;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
@@ -179,7 +181,14 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
 		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(bodyObjects);
 
-		fieldInfos = TreeModelTranslator.enhanceFieldInfos(bodyObjects, fieldInfos);
+		Set<Node> nodes = bodyObjects.stream()
+			.map(bodyObject -> (Segmentation)bodyObject)
+			.flatMap(segmentation -> (segmentation.getSegments()).stream())
+			.map(segment -> (TreeModel)segment.getModel())
+			.map(treeModel -> treeModel.getNode())
+			.collect(Collectors.toCollection(LinkedHashSet::new));
+
+		fieldInfos = TreeModelTranslator.enhanceFieldInfos(nodes, fieldInfos);
 
 		return fieldInfos;
 	}

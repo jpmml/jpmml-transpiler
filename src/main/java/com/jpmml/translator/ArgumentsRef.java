@@ -18,6 +18,7 @@
  */
 package com.jpmml.translator;
 
+import com.google.common.collect.Iterators;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -44,6 +45,7 @@ public class ArgumentsRef extends JVarRef {
 		JDefinedClass argumentsClazz = (JDefinedClass)type();
 
 		Field<?> field = fieldInfo.getField();
+		boolean primary = fieldInfo.isPrimary();
 		Encoder encoder = fieldInfo.getEncoder();
 
 		FieldName name = field.getName();
@@ -55,6 +57,10 @@ public class ArgumentsRef extends JVarRef {
 		if(method != null){
 			return method;
 		}
+
+		JMethod constructor = Iterators.getOnlyElement(argumentsClazz.constructors());
+
+		JBlock constructorBody = constructor.body();
 
 		JType type;
 
@@ -93,17 +99,27 @@ public class ArgumentsRef extends JVarRef {
 			type = encoderMethod.type();
 		}
 
-		JFieldVar flagFieldVar = argumentsClazz.field(JMod.PRIVATE, boolean.class, "_" + stringName, JExpr.lit(false));
-
-		JFieldVar valueFieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName);
-
 		method = argumentsClazz.method(JMod.PUBLIC, type, stringName);
 
-		JBlock block = method.body();
+		JBlock methodBody = method.body();
 
-		JBlock thenBlock = block._if(JExpr.refthis(flagFieldVar.name()).not())._then();
+		JBlock initializerBlock;
 
-		JVar valueVar = thenBlock.decl(context.ref(FieldValue.class), IdentifierUtil.create("value", name), JExpr.refthis("context").invoke("evaluate").arg(context.constantFieldName(name)));
+		if(primary){
+			initializerBlock = constructorBody;
+		} else
+
+		{
+			JFieldVar fieldFlagVar = argumentsClazz.field(JMod.PRIVATE, boolean.class, "_" + stringName, JExpr.FALSE);
+
+			initializerBlock = methodBody._if(JExpr.refthis(fieldFlagVar.name()).not())._then();
+
+			initializerBlock.assign(JExpr.refthis(fieldFlagVar.name()), JExpr.TRUE);
+		}
+
+		JFieldVar fieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName);
+
+		JVar valueVar = initializerBlock.decl(context.ref(FieldValue.class), IdentifierUtil.create("value", name), JExpr.refthis("context").invoke("evaluate").arg(context.constantFieldName(name)));
 
 		FieldValueRef fieldValueRef = new FieldValueRef(valueVar);
 
@@ -135,10 +151,9 @@ public class ArgumentsRef extends JVarRef {
 			valueExpr = JExpr.invoke(encoderMethod).arg(valueExpr);
 		}
 
-		thenBlock.assign(JExpr.refthis(flagFieldVar.name()), JExpr.lit(true));
-		thenBlock.assign(JExpr.refthis(valueFieldVar.name()), valueExpr);
+		initializerBlock.assign(JExpr.refthis(fieldVar.name()), valueExpr);
 
-		block._return(JExpr.refthis(valueFieldVar.name()));
+		methodBody._return(JExpr.refthis(fieldVar.name()));
 
 		return method;
 	}
