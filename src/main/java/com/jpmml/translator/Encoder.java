@@ -21,21 +21,15 @@ package com.jpmml.translator;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.DataType;
 import org.dmg.pmml.FieldName;
-import org.dmg.pmml.OpType;
 
 public interface Encoder {
 
 	String getName();
 
-	DataType getDataType();
-
-	OpType getOpType();
+	Object encode(Object value);
 
 	OperableRef ref(JVar variable);
-
-	Object encode(Object value);
 
 	JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context);
 }

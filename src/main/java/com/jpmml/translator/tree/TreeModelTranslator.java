@@ -31,6 +31,7 @@ import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.OperableRef;
 import com.jpmml.translator.OrdinalEncoder;
+import com.jpmml.translator.FpPrimitiveEncoder;
 import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueFactoryRef;
@@ -42,6 +43,7 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.ComplexArray;
+import org.dmg.pmml.DataType;
 import org.dmg.pmml.False;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -370,14 +372,30 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			Field<?> field = fieldInfo.getField();
 
+			OpType opType = field.getOpType();
+			DataType dataType = field.getDataType();
+
 			fieldInfo.setPrimary(primaryFieldNames.contains(name));
 
-			OpType opType = field.getOpType();
 			switch(opType){
+				case CONTINUOUS:
+					{
+						switch(dataType){
+							case FLOAT:
+							case DOUBLE:
+								fieldInfo.setEncoder(new FpPrimitiveEncoder());
+								break;
+							default:
+								break;
+						}
+					}
+					break;
 				case CATEGORICAL:
-					Set<?> values = discreteFieldValues.get(name);
-					if(values != null && values.size() > 0){
-						fieldInfo.setEncoder(new OrdinalEncoder(values));
+					{
+						Set<?> values = discreteFieldValues.get(name);
+						if(values != null && values.size() > 0){
+							fieldInfo.setEncoder(new OrdinalEncoder(values));
+						}
 					}
 					break;
 				default:

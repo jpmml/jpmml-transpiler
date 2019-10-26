@@ -33,9 +33,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JSwitch;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.DataType;
 import org.dmg.pmml.FieldName;
-import org.dmg.pmml.OpType;
 
 public class OrdinalEncoder implements Encoder {
 
@@ -60,13 +58,8 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
-	public DataType getDataType(){
-		return DataType.INTEGER;
-	}
-
-	@Override
-	public OpType getOpType(){
-		return OpType.CATEGORICAL;
+	public Integer encode(Object value){
+		return this.indexMap.getOrDefault(value, 0);
 	}
 
 	@Override
@@ -75,17 +68,12 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
-	public Integer encode(Object value){
-		return this.indexMap.getOrDefault(value, 0);
-	}
-
-	@Override
 	public JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
 		JDefinedClass owner = context.getOwner();
 
-		JMethod encoderMethod = owner.method(JMod.PRIVATE, codeModel.INT, IdentifierUtil.create("encode", name));
+		JMethod encoderMethod = owner.method(JMod.PRIVATE, codeModel.INT, IdentifierUtil.create("toOrdinal", name));
 
 		JVar valueParam = encoderMethod.param(type, "value");
 

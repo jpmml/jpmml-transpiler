@@ -35,6 +35,26 @@ import static org.junit.Assert.fail;
 public class OrdinalRefTest extends OperableRefTest {
 
 	@Test
+	public void generate(){
+		OrdinalEncoder encoder = new OrdinalEncoder(OrdinalRefTest.values);
+
+		JBlock block = new JBlock();
+
+		JVar variable = block.decl(null, "x");
+
+		OrdinalRef ordinalRef = encoder.ref(variable);
+
+		assertEquals("(x==-1)", generate(ordinalRef.isMissing()));
+		assertEquals("(x!=-1)", generate(ordinalRef.isNotMissing()));
+
+		assertEquals("(x==2)", generate(ordinalRef.equalTo(1d, null)));
+		assertEquals("((x!=-1)&&(x!=2))", generate(ordinalRef.notEqualTo(1d, null)));
+
+		assertEquals("((x==2)||(x==3))", generate(ordinalRef.isIn(Arrays.asList(2d, 1d), null)));
+		assertEquals("((x!=-1)&&((x!=2)&&(x!=3)))", generate(ordinalRef.isNotIn(Arrays.asList(2d, 1d), null)));
+	}
+
+	@Test
 	public void chunk(){
 		OrdinalEncoder encoder = new OrdinalEncoder(OrdinalRefTest.values);
 
