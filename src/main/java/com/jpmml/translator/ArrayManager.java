@@ -18,7 +18,7 @@
  */
 package com.jpmml.translator;
 
-import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,28 +33,46 @@ import com.sun.codemodel.JType;
 abstract
 public class ArrayManager<E> {
 
-	private JArray array = null;
+	private JType componentType = null;
 
 	private JFieldVar arrayVar = null;
+
+	private JArray array = null;
 
 	private Map<E, Integer> indices = new LinkedHashMap<>();
 
 
-	public ArrayManager(JDefinedClass owner, JType type, String name){
-		JArray array = JExpr.newArray(type);
+	public ArrayManager(JDefinedClass owner, JType componentType, String name){
+		setComponentType(componentType);
 
-		this.array = array;
-		this.arrayVar = owner.field(JMod.STATIC | JMod.PRIVATE | JMod.FINAL, type.array(), name, array);
+		this.arrayVar = owner.field(JMod.STATIC | JMod.PRIVATE | JMod.FINAL, componentType.array(), name);
 	}
 
 	abstract
 	public JExpression createExpression(E element);
 
+	public void initArray(){
+		JType componentType = getComponentType();
+
+		JArray array = JExpr.newArray(componentType);
+
+		this.arrayVar.init(array);
+
+		this.array = array;
+	}
+
+	public Collection<E> getElements(){
+		return this.indices.keySet();
+	}
+
 	public int getOrInsert(E element){
 		Integer index = this.indices.get(element);
 
 		if(index == null){
-			this.array.add(createExpression(element));
+
+			if(this.array != null){
+				this.array.add(createExpression(element));
+			}
 
 			index = this.indices.size();
 
@@ -72,32 +90,19 @@ public class ArrayManager<E> {
 		return this.arrayVar.component(indexExpr);
 	}
 
-	public JType getType(){
-		JArray array = getArray();
-
-		try {
-			Field field = JArray.class.getDeclaredField("type");
-			if(!field.isAccessible()){
-				field.setAccessible(true);
-			}
-
-			return (JType)field.get(array);
-		} catch(ReflectiveOperationException roe){
-			throw new RuntimeException(roe);
-		}
-	}
-
 	public JType getComponentType(){
-		JType type = getType();
-
-		return type.elementType();
+		return this.componentType;
 	}
 
-	public JArray getArray(){
-		return this.array;
+	private void setComponentType(JType componentType){
+		this.componentType = componentType;
 	}
 
 	public JFieldVar getArrayVar(){
 		return this.arrayVar;
+	}
+
+	public JArray getArray(){
+		return this.array;
 	}
 }

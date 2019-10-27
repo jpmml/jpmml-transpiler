@@ -26,17 +26,18 @@ import java.util.Set;
 
 import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
+import com.jpmml.translator.FpPrimitiveEncoder;
 import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.OperableRef;
 import com.jpmml.translator.OrdinalEncoder;
-import com.jpmml.translator.FpPrimitiveEncoder;
 import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueFactoryRef;
 import com.jpmml.translator.ValueMapBuilder;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
@@ -93,7 +94,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Node node = treeModel.getNode();
 
-		NodeScoreManager scoreManager = new NodeScoreManager(IdentifierUtil.create("scores", node), context);
+		JDefinedClass owner = context.getOwner();
+
+		NodeScoreManager scoreManager = new NodeScoreManager(owner, context.ref(Number.class), IdentifierUtil.create("scores", node)){
+
+			{
+				initArray();
+			}
+		};
 
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
 
@@ -128,10 +136,16 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		String[] categories = getTargetCategories();
 
-		NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(IdentifierUtil.create("scores", node), categories, context){
+		JDefinedClass owner = context.getOwner();
+
+		NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(owner, context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
 
 			private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
 
+
+			{
+				initArray();
+			}
 
 			@Override
 			public ValueFactory<Number> getValueFactory(){

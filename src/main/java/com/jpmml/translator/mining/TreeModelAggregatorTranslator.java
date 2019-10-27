@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.IdentifierUtil;
+import com.jpmml.translator.JResourceInitializer;
 import com.jpmml.translator.JVarBuilder;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
@@ -47,6 +48,7 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
+import com.sun.codemodel.fmt.JBinaryFile;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
@@ -63,6 +65,7 @@ import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.ProbabilityAggregator;
 import org.jpmml.evaluator.ProbabilityDistribution;
+import org.jpmml.evaluator.ResourceUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
@@ -197,6 +200,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
+		JDefinedClass owner = context.getOwner();
+
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
@@ -222,13 +227,19 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 		}
 
+		JBinaryFile scoreFile = new JBinaryFile(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
+
+		(owner._package()).addResourceFile(scoreFile);
+
+		JResourceInitializer scoreInitializer = new JResourceInitializer(owner, scoreFile);
+
 		for(Segment segment : segments){
 			True _true = (True)segment.getPredicate();
 			TreeModel treeModel = (TreeModel)segment.getModel();
 
 			Node node = treeModel.getNode();
 
-			NodeScoreManager scoreManager = new NodeScoreManager(IdentifierUtil.create("scores", node), context);
+			NodeScoreManager scoreManager = new NodeScoreManager(owner, context.ref(Number.class), IdentifierUtil.create("scores", node));
 
 			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, fieldInfos, context);
 
@@ -248,6 +259,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				default:
 					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 			}
+
+			scoreManager.initResource(scoreFile, context.ref(ResourceUtil.class), scoreInitializer);
 		}
 
 		JVar aggregatorVar = aggregatorBuilder.getVariable();
@@ -287,6 +300,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
+		JDefinedClass owner = context.getOwner();
+
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
@@ -309,8 +324,6 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		JFieldVar categoriesVar;
 
 		{
-			JDefinedClass owner = context.getOwner();
-
 			JInvocation invocation = context.ref(Arrays.class).staticInvoke("asList");
 
 			for(String category : categories){
@@ -322,13 +335,19 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		aggregatorBuilder.update("init", categoriesVar);
 
+		JBinaryFile scoreFile = new JBinaryFile(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
+
+		(owner._package()).addResourceFile(scoreFile);
+
+		JResourceInitializer scoreInitializer = new JResourceInitializer(owner, scoreFile);
+
 		for(Segment segment : segments){
 			True _true = (True)segment.getPredicate();
 			TreeModel treeModel = (TreeModel)segment.getModel();
 
 			Node node = treeModel.getNode();
 
-			NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(IdentifierUtil.create("scores", node), categories, context){
+			NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(owner, context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
 
 				private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
 
@@ -353,6 +372,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				default:
 					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 			}
+
+			scoreManager.initResource(scoreFile, context.ref(ResourceUtil.class), scoreInitializer);
 		}
 
 		JVar aggregatorVar = aggregatorBuilder.getVariable();

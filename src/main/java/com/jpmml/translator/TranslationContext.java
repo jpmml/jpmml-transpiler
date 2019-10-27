@@ -80,6 +80,10 @@ public class TranslationContext {
 		if(this.fieldNameManager == null){
 			this.fieldNameManager = new ArrayManager<FieldName>(owner, ref(FieldName.class), "fieldNames"){
 
+				{
+					initArray();
+				}
+
 				@Override
 				public JExpression createExpression(FieldName name){
 					JClass fieldNameClass = ref(FieldName.class);
@@ -91,6 +95,10 @@ public class TranslationContext {
 
 		if(this.xmlNameManager == null){
 			this.xmlNameManager = new ArrayManager<QName>(owner, ref(QName.class), "xmlNames"){
+
+				{
+					initArray();
+				}
 
 				@Override
 				public JExpression createExpression(QName name){
