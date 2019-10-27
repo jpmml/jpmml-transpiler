@@ -46,7 +46,6 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
 import com.sun.codemodel.fmt.JBinaryFile;
 import org.dmg.pmml.FieldName;
@@ -330,7 +329,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				invocation.arg(JExpr.lit(category));
 			}
 
-			categoriesVar = owner.field(JMod.PRIVATE, List.class, "targetCategories", invocation);
+			categoriesVar = owner.field(ModelTranslator.MEMBER_PRIVATE, List.class, "targetCategories", invocation);
 		}
 
 		aggregatorBuilder.update("init", categoriesVar);

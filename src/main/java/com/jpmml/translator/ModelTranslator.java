@@ -97,7 +97,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		JDefinedClass javaModelClazz;
 
 		try {
-			javaModelClazz = owner._class(JMod.PUBLIC | JMod.STATIC, IdentifierUtil.create(JavaModel.class.getSimpleName(), model));
+			javaModelClazz = owner._class(ModelTranslator.MEMBER_PUBLIC, IdentifierUtil.create(JavaModel.class.getSimpleName(), model));
 		} catch(JClassAlreadyExistsException jcaee){
 			throw new RuntimeException(jcaee);
 		}
@@ -468,7 +468,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 
 		JType argumentsType = ensureArgumentsType(owner);
 
-		JMethod method = owner.method(JMod.PRIVATE, type, name);
+		JMethod method = owner.method(ModelTranslator.MEMBER_PRIVATE, type, name);
 
 		if(withValueFactory){
 			method.param(ValueFactory.class, Scope.NAME_VALUEFACTORY);
@@ -529,7 +529,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		JDefinedClass argumentsClazz;
 
 		try {
-			argumentsClazz = owner._class(JMod.PUBLIC, "Arguments");
+			argumentsClazz = owner._class(ModelTranslator.MEMBER_PUBLIC, "Arguments");
 		} catch(JClassAlreadyExistsException jcaee){
 			throw new RuntimeException(jcaee);
 		}
@@ -546,4 +546,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 
 		return argumentsClazz;
 	}
+
+	public static final int MEMBER_PUBLIC = (JMod.PUBLIC | JMod.FINAL | JMod.STATIC);
+	public static final int MEMBER_PRIVATE = (JMod.PRIVATE | JMod.FINAL | JMod.STATIC);
 }

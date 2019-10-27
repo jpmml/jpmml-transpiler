@@ -108,7 +108,7 @@ public class PMMLObjectUtil {
 
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(JMod.PRIVATE | (owner.isAnonymous() ? 0 : JMod.STATIC), clazz, IdentifierUtil.create("build" + clazz.getSimpleName(), object));
+		JMethod method = owner.method((JMod.PRIVATE | JMod.FINAL | (owner.isAnonymous() ? 0 : JMod.STATIC)), clazz, IdentifierUtil.create("build" + clazz.getSimpleName(), object));
 
 		JBlock block = method.body();
 

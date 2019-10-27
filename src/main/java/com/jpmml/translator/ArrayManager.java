@@ -27,7 +27,6 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 
 abstract
@@ -45,7 +44,7 @@ public class ArrayManager<E> {
 	public ArrayManager(JDefinedClass owner, JType componentType, String name){
 		setComponentType(componentType);
 
-		this.arrayVar = owner.field(JMod.STATIC | JMod.PRIVATE | JMod.FINAL, componentType.array(), name);
+		this.arrayVar = owner.field(ModelTranslator.MEMBER_PRIVATE, componentType.array(), name);
 	}
 
 	abstract
