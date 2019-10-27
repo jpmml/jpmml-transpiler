@@ -55,14 +55,14 @@ public class TranspilerUtil {
 
 		JClass transpiledPmmlClazz = PMMLObjectUtil.createClass(pmml, context);
 
+		JPackage servicePackage = codeModel._package("META-INF/services");
+		servicePackage.addResourceFile(new JServiceConfigurationFile(pmmlClazz, Collections.<JClass>singletonList(transpiledPmmlClazz)));
+
 		try {
 			CompilerUtil.compile(codeModel);
 		} catch(Exception e){
 			e.printStackTrace(System.err);
 		}
-
-		JPackage servicePackage = codeModel._package("META-INF/services");
-		servicePackage.addResourceFile(new JServiceConfigurationFile(pmmlClazz, Collections.<JClass>singletonList(transpiledPmmlClazz)));
 
 		return codeModel;
 	}
