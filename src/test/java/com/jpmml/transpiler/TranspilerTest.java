@@ -24,6 +24,7 @@ import com.google.common.base.Equivalence;
 import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
+import org.dmg.pmml.Visitor;
 import org.jpmml.codemodel.JCodeModelClassLoader;
 import org.jpmml.evaluator.Batch;
 import org.jpmml.evaluator.IntegrationTest;
@@ -32,8 +33,17 @@ import org.jpmml.model.PMMLUtil;
 
 public class TranspilerTest extends IntegrationTest {
 
+	private Visitor checker = null;
+
+
 	public TranspilerTest(Equivalence<Object> equivalence){
+		this(equivalence, new DefaultTranslationChecker());
+	}
+
+	public TranspilerTest(Equivalence<Object> equivalence, Visitor checker){
 		super(equivalence);
+
+		setChecker(checker);
 	}
 
 	@Override
@@ -47,16 +57,31 @@ public class TranspilerTest extends IntegrationTest {
 
 			@Override
 			public PMML getPMML() throws Exception {
-				PMML pmml = super.getPMML();
+				PMML xmlPmml = super.getPMML();
 
-				JCodeModel codeModel = TranspilerUtil.transpile(pmml);
+				JCodeModel codeModel = TranspilerUtil.transpile(xmlPmml);
 
 				ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
 
-				return PMMLUtil.load(clazzLoader);
+				PMML javaPmml = PMMLUtil.load(clazzLoader);
+
+				Visitor checker = getChecker();
+				if(checker != null){
+					checker.applyTo(javaPmml);
+				}
+
+				return javaPmml;
 			}
 		};
 
 		return result;
+	}
+
+	public Visitor getChecker(){
+		return this.checker;
+	}
+
+	public void setChecker(Visitor checker){
+		this.checker = checker;
 	}
 }

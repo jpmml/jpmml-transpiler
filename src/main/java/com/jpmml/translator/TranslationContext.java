@@ -19,8 +19,10 @@
 package com.jpmml.translator;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -41,6 +43,7 @@ import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.jpmml.evaluator.FieldValue;
+import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 
 public class TranslationContext {
@@ -48,6 +51,8 @@ public class TranslationContext {
 	private PMML pmml = null;
 
 	private JCodeModel codeModel = null;
+
+	private List<PMMLException> issues = new ArrayList<>();
 
 	private Deque<JDefinedClass> owners = new ArrayDeque<>();
 
@@ -284,6 +289,10 @@ public class TranslationContext {
 		return xmlNameManager.getComponent(index);
 	}
 
+	public void addIssue(PMMLException issue){
+		this.issues.add(issue);
+	}
+
 	public PMML getPMML(){
 		return this.pmml;
 	}
@@ -298,6 +307,10 @@ public class TranslationContext {
 
 	private void setCodeModel(JCodeModel codeModel){
 		this.codeModel = codeModel;
+	}
+
+	public List<PMMLException> getIssues(){
+		return this.issues;
 	}
 
 	public JExpression getRepresentation(PMMLObject pmmlObject){

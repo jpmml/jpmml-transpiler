@@ -302,7 +302,7 @@ public class PMMLObjectUtil {
 
 					return modelTranslator.translate(context);
 				} catch(PMMLException pe){
-					//pe.printStackTrace(System.err);
+					context.addIssue(pe);
 				}
 
 				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
