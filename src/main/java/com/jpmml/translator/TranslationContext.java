@@ -83,9 +83,10 @@ public class TranslationContext {
 	public void pushOwner(JDefinedClass owner){
 
 		if(this.fieldNameManager == null){
-			this.fieldNameManager = new ArrayManager<FieldName>(owner, ref(FieldName.class), "fieldNames"){
+			this.fieldNameManager = new ArrayManager<FieldName>(ref(FieldName.class), "fieldNames"){
 
 				{
+					initArrayVar(owner);
 					initArray();
 				}
 
@@ -99,9 +100,10 @@ public class TranslationContext {
 		} // End if
 
 		if(this.xmlNameManager == null){
-			this.xmlNameManager = new ArrayManager<QName>(owner, ref(QName.class), "xmlNames"){
+			this.xmlNameManager = new ArrayManager<QName>(ref(QName.class), "xmlNames"){
 
 				{
+					initArrayVar(owner);
 					initArray();
 				}
 

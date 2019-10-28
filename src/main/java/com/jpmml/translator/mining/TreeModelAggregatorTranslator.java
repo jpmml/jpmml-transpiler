@@ -18,21 +18,25 @@
  */
 package com.jpmml.translator.mining;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.IdentifierUtil;
+import com.jpmml.translator.JCodeInitializer;
 import com.jpmml.translator.JResourceInitializer;
 import com.jpmml.translator.JVarBuilder;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
+import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
 import com.jpmml.translator.ValueFactoryRef;
@@ -40,14 +44,16 @@ import com.jpmml.translator.tree.NodeScoreDistributionManager;
 import com.jpmml.translator.tree.NodeScoreManager;
 import com.jpmml.translator.tree.ScoreFunction;
 import com.jpmml.translator.tree.TreeModelTranslator;
+import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
-import com.sun.codemodel.fmt.JBinaryFile;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
@@ -64,7 +70,6 @@ import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.ProbabilityAggregator;
 import org.jpmml.evaluator.ProbabilityDistribution;
-import org.jpmml.evaluator.ResourceUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
@@ -129,6 +134,10 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			if(!(model instanceof TreeModel)){
 				throw new UnsupportedElementException(model);
+			} // End if
+
+			if(!(mathContext).equals(model.getMathContext())){
+				throw new UnsupportedAttributeException(model, model.getMathContext());
 			}
 
 			checkMiningSchema(model);
@@ -196,8 +205,14 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	}
 
 	private void translateValueAggregatorSegmentation(Segmentation segmentation, TranslationContext context){
+		MiningModel miningModel = getModel();
+
+		MathContext mathContext = miningModel.getMathContext();
+
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
+
+		JCodeModel codeModel = context.getCodeModel();
 
 		JDefinedClass owner = context.getOwner();
 
@@ -226,11 +241,11 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 		}
 
-		JBinaryFile scoreFile = new JBinaryFile(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
+		List<NodeScoreManager> scoreManagers = new ArrayList<>();
 
-		(owner._package()).addResourceFile(scoreFile);
+		List<Number> weights = null;
 
-		JResourceInitializer scoreInitializer = new JResourceInitializer(owner, scoreFile);
+		List<JMethod> methods = new ArrayList<>();
 
 		for(Segment segment : segments){
 			True _true = (True)segment.getPredicate();
@@ -238,11 +253,71 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			Node node = treeModel.getNode();
 
-			NodeScoreManager scoreManager = new NodeScoreManager(owner, context.ref(Number.class), IdentifierUtil.create("scores", node));
+			NodeScoreManager scoreManager = new NodeScoreManager(context.ref(Number.class), IdentifierUtil.create("scores", node));
 
-			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, fieldInfos, context);
+			scoreManagers.add(scoreManager);
 
-			JExpression scoreExpr = scoreManager.getComponent(nodeIndexExpr);
+			switch(multipleModelMethod){
+				case SUM:
+				case AVERAGE:
+				case MEDIAN:
+					break;
+				case WEIGHTED_SUM:
+				case WEIGHTED_AVERAGE:
+				case WEIGHTED_MEDIAN:
+					{
+						if(weights == null){
+							weights = new ArrayList<>();
+						}
+
+						weights.add(segment.getWeight());
+					}
+					break;
+				default:
+					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
+			}
+
+			JMethod method = createEvaluatorMethod(treeModel, node, scoreManager, fieldInfos, context);
+
+			methods.add(method);
+		}
+
+		JResourceInitializer resourceInitializer = new JResourceInitializer(owner, IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
+
+		List<Number[]> scoreValues = scoreManagers.stream()
+			.map(scoreManager -> scoreManager.getValues())
+			.collect(Collectors.toList());
+
+		JFieldVar scoresVar = resourceInitializer.initNumbersList(IdentifierUtil.create("scores", segmentation), mathContext, scoreValues);
+
+		JFieldVar weightsVar = null;
+
+		if(weights != null){
+			Number[] weightValues = weights.toArray(new Number[weights.size()]);
+
+			weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", segmentation), mathContext, weightValues);
+		}
+
+		JCodeInitializer codeInitializer = new JCodeInitializer(owner);
+
+		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(owner)), methods);
+
+		JBlock block = context.block();
+
+		JForLoop forLoop = block._for();
+
+		JVar loopVar = forLoop.init(codeModel.INT, "i", JExpr.lit(0));
+		forLoop.test(loopVar.lt(JExpr.lit(segments.size())));
+		forLoop.update(loopVar.incr());
+
+		JBlock forBlock = forLoop.body();
+
+		try {
+			context.pushScope(new Scope(forBlock));
+
+			JVar indexExpr = context.declare(codeModel.INT, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("applyAsInt").arg((context.getArgumentsVariable()).getVariable()));
+
+			JExpression scoreExpr = (scoresVar.invoke("get").arg(loopVar)).component(indexExpr);
 
 			switch(multipleModelMethod){
 				case SUM:
@@ -253,13 +328,15 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				case WEIGHTED_SUM:
 				case WEIGHTED_AVERAGE:
 				case WEIGHTED_MEDIAN:
-					aggregatorBuilder.update("add", scoreExpr, segment.getWeight());
+					JExpression weightExpr = weightsVar.invoke("get").arg(loopVar);
+
+					aggregatorBuilder.update("add", scoreExpr, weightExpr);
 					break;
 				default:
 					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 			}
-
-			scoreManager.initResource(scoreFile, context.ref(ResourceUtil.class), scoreInitializer);
+		} finally {
+			context.popScope();
 		}
 
 		JVar aggregatorVar = aggregatorBuilder.getVariable();
@@ -296,8 +373,14 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	}
 
 	private void translateProbabilityAggregatorSegmentation(Segmentation segmentation, TranslationContext context){
+		MiningModel miningModel = getModel();
+
+		MathContext mathContext = miningModel.getMathContext();
+
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
+
+		JCodeModel codeModel = context.getCodeModel();
 
 		JDefinedClass owner = context.getOwner();
 
@@ -320,25 +403,11 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		String[] categories = getTargetCategories();
 
-		JFieldVar categoriesVar;
+		List<NodeScoreDistributionManager<?>> scoreManagers = new ArrayList<>();
 
-		{
-			JInvocation invocation = context.ref(Arrays.class).staticInvoke("asList");
+		List<Number> weights = null;
 
-			for(String category : categories){
-				invocation.arg(JExpr.lit(category));
-			}
-
-			categoriesVar = owner.field(ModelTranslator.MEMBER_PRIVATE, List.class, "targetCategories", invocation);
-		}
-
-		aggregatorBuilder.update("init", categoriesVar);
-
-		JBinaryFile scoreFile = new JBinaryFile(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
-
-		(owner._package()).addResourceFile(scoreFile);
-
-		JResourceInitializer scoreInitializer = new JResourceInitializer(owner, scoreFile);
+		List<JMethod> methods = new ArrayList<>();
 
 		for(Segment segment : segments){
 			True _true = (True)segment.getPredicate();
@@ -346,7 +415,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			Node node = treeModel.getNode();
 
-			NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(owner, context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
+			NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
 
 				private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
 
@@ -357,22 +426,84 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				}
 			};
 
-			JInvocation nodeIndexExpr = createAndInvokeEvaluation(treeModel, node, scoreManager, fieldInfos, context);
+			scoreManagers.add(scoreManager);
 
-			JExpression scoreExpr = scoreManager.getComponent(nodeIndexExpr);
+			switch(multipleModelMethod){
+				case AVERAGE:
+					break;
+				case WEIGHTED_AVERAGE:
+					{
+						if(weights == null){
+							weights = new ArrayList<>();
+						}
+
+						weights.add(segment.getWeight());
+					}
+					break;
+				default:
+					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
+			}
+
+			JMethod method = createEvaluatorMethod(treeModel, node, scoreManager, fieldInfos, context);
+
+			methods.add(method);
+		}
+
+		JResourceInitializer resourceInitializer = new JResourceInitializer(owner, IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
+
+		List<Number[][]> scoreValues = scoreManagers.stream()
+			.map(scoreManager -> scoreManager.getValues())
+			.collect(Collectors.toList());
+
+		JFieldVar scoresVar = resourceInitializer.initNumberArraysList(IdentifierUtil.create("scores", segmentation), mathContext, scoreValues, categories.length);
+
+		JFieldVar weightsVar = null;
+
+		if(weights != null){
+			Number[] weightValues = weights.toArray(new Number[weights.size()]);
+
+			weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", segmentation), mathContext, weightValues);
+		}
+
+		JCodeInitializer codeInitializer = new JCodeInitializer(owner);
+
+		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(owner)), methods);
+
+		JFieldVar categoriesVar = codeInitializer.initTargetCategories("targetCategories", Arrays.asList(categories));
+
+		aggregatorBuilder.update("init", categoriesVar);
+
+		JBlock block = context.block();
+
+		JForLoop forLoop = block._for();
+
+		JVar loopVar = forLoop.init(codeModel.INT, "i", JExpr.lit(0));
+		forLoop.test(loopVar.lt(JExpr.lit(segments.size())));
+		forLoop.update(loopVar.incr());
+
+		JBlock forBlock = forLoop.body();
+
+		try {
+			context.pushScope(new Scope(forBlock));
+
+			JVar indexExpr = context.declare(codeModel.INT, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("applyAsInt").arg((context.getArgumentsVariable()).getVariable()));
+
+			JExpression scoreExpr = (scoresVar.invoke("get").arg(loopVar)).component(indexExpr);
 
 			switch(multipleModelMethod){
 				case AVERAGE:
 					aggregatorBuilder.update("add", scoreExpr);
 					break;
 				case WEIGHTED_AVERAGE:
-					aggregatorBuilder.update("add", scoreExpr, segment.getWeight());
+					JExpression weightExpr = weightsVar.invoke("get").arg(loopVar);
+
+					aggregatorBuilder.update("add", scoreExpr, weightExpr);
 					break;
 				default:
 					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 			}
-
-			scoreManager.initResource(scoreFile, context.ref(ResourceUtil.class), scoreInitializer);
+		} finally {
+			context.popScope();
 		}
 
 		JVar aggregatorVar = aggregatorBuilder.getVariable();
@@ -393,19 +524,17 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		context._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapInit));
 	}
 
-	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JInvocation createAndInvokeEvaluation(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
-		JMethod evaluateMethod = createEvaluatorMethod(int.class, node, false, context);
-
-		JInvocation result = createEvaluatorMethodInvocation(evaluateMethod, context);
+	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+		JMethod method = createEvaluatorMethod(int.class, node, false, context);
 
 		try {
-			context.pushScope(new MethodScope(evaluateMethod));
+			context.pushScope(new MethodScope(method));
 
 			TreeModelTranslator.translateNode(treeModel, node, scoreManager, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}
 
-		return result;
+		return method;
 	}
 }

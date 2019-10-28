@@ -97,9 +97,10 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		JDefinedClass owner = context.getOwner();
 
-		NodeScoreManager scoreManager = new NodeScoreManager(owner, context.ref(Number.class), IdentifierUtil.create("scores", node)){
+		NodeScoreManager scoreManager = new NodeScoreManager(context.ref(Number.class), IdentifierUtil.create("scores", node)){
 
 			{
+				initArrayVar(owner);
 				initArray();
 			}
 		};
@@ -139,12 +140,13 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		JDefinedClass owner = context.getOwner();
 
-		NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(owner, context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
+		NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
 
 			private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
 
 
 			{
+				initArrayVar(owner);
 				initArray();
 			}
 

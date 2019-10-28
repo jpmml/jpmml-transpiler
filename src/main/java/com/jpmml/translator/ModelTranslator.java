@@ -516,7 +516,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 	}
 
 	static
-	private JDefinedClass ensureArgumentsType(JDefinedClass owner){
+	public JDefinedClass ensureArgumentsType(JDefinedClass owner){
 
 		for(Iterator<JDefinedClass> it = owner.classes(); it.hasNext(); ){
 			JDefinedClass clazz = it.next();

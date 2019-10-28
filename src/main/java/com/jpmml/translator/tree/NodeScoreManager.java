@@ -18,27 +18,18 @@
  */
 package com.jpmml.translator.tree;
 
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Collection;
 
 import com.jpmml.translator.ArrayManager;
-import com.jpmml.translator.JResourceInitializer;
-import com.sun.codemodel.JClass;
-import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JType;
-import com.sun.codemodel.fmt.JBinaryFile;
 import org.dmg.pmml.tree.Node;
-import org.jpmml.evaluator.ResourceUtil;
 
 public class NodeScoreManager extends ArrayManager<Number> implements ScoreFunction<Number> {
 
-	public NodeScoreManager(JDefinedClass owner, JType componentType, String name){
-		super(owner, componentType, name);
+	public NodeScoreManager(JType componentType, String name){
+		super(componentType, name);
 	}
 
 	@Override
@@ -62,36 +53,12 @@ public class NodeScoreManager extends ArrayManager<Number> implements ScoreFunct
 		throw new IllegalArgumentException();
 	}
 
-	public void initResource(JBinaryFile binaryFile, JClass resourceUtilClazz, JResourceInitializer resourceInitializer){
+	public Number[] getValues(){
 		Collection<Number> elements = getElements();
 
-		Number[] values = elements.stream()
+		Number[] result = elements.stream()
 			.toArray(Number[]::new);
 
-		String method;
-
-		try(OutputStream os = binaryFile.getDataStore()){
-			DataOutput dataOutput = new DataOutputStream(os);
-
-			if(values[0] instanceof Float){
-				ResourceUtil.writeFloats(dataOutput, values);
-
-				method = "readFloats";
-			} else
-
-			if(values[0] instanceof Double){
-				ResourceUtil.writeDoubles(dataOutput, values);
-
-				method = "readDoubles";
-			} else
-
-			{
-				throw new IllegalArgumentException();
-			}
-		} catch(IOException ioe){
-			throw new RuntimeException(ioe);
-		}
-
-		resourceInitializer.readNumbers(getArrayVar(), resourceUtilClazz.staticInvoke(method), JExpr.lit(values.length));
+		return result;
 	}
 }

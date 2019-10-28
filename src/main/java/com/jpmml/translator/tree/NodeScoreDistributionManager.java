@@ -18,28 +18,19 @@
  */
 package com.jpmml.translator.tree;
 
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import com.jpmml.translator.ArrayManager;
-import com.jpmml.translator.JResourceInitializer;
 import com.sun.codemodel.JArray;
-import com.sun.codemodel.JClass;
-import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JType;
-import com.sun.codemodel.fmt.JBinaryFile;
 import org.dmg.pmml.ScoreDistribution;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.PMMLAttributes;
 import org.jpmml.evaluator.MissingAttributeException;
-import org.jpmml.evaluator.ResourceUtil;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.ValueMap;
@@ -51,8 +42,8 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 	private String[] categories = null;
 
 
-	public NodeScoreDistributionManager(JDefinedClass owner, JType componentType, String name, String[] categories){
-		super(owner, componentType, name);
+	public NodeScoreDistributionManager(JType componentType, String name, String[] categories){
+		super(componentType, name);
 
 		setCategories(categories);
 	}
@@ -128,40 +119,14 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 		return array;
 	}
 
-	public void initResource(JBinaryFile binaryFile, JClass resourceUtilClazz, JResourceInitializer resourceInitializer){
+	public Number[][] getValues(){
 		Collection<List<Number>> elements = getElements();
 
-		Number[][] values = elements.stream()
+		Number[][] result = elements.stream()
 			.map(element -> element.toArray(new Number[element.size()]))
 			.toArray(Number[][]::new);
 
-		String[] categories = getCategories();
-
-		String method;
-
-		try(OutputStream os = binaryFile.getDataStore()){
-			DataOutput dataOutput = new DataOutputStream(os);
-
-			if(values[0][0] instanceof Float){
-				ResourceUtil.writeFloatArrays(dataOutput, values);
-
-				method = "readFloatArrays";
-			} else
-
-			if(values[0][0] instanceof Double){
-				ResourceUtil.writeDoubleArrays(dataOutput, values);
-
-				method = "readDoubleArrays";
-			} else
-
-			{
-				throw new IllegalArgumentException();
-			}
-		} catch(IOException ioe){
-			throw new RuntimeException(ioe);
-		}
-
-		resourceInitializer.readNumberArrays(getArrayVar(), resourceUtilClazz.staticInvoke(method), JExpr.lit(values.length), JExpr.lit(categories.length));
+		return result;
 	}
 
 	public String[] getCategories(){

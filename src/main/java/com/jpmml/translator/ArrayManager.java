@@ -34,6 +34,8 @@ public class ArrayManager<E> {
 
 	private JType componentType = null;
 
+	private String name = null;
+
 	private JFieldVar arrayVar = null;
 
 	private JArray array = null;
@@ -41,23 +43,35 @@ public class ArrayManager<E> {
 	private Map<E, Integer> indices = new LinkedHashMap<>();
 
 
-	public ArrayManager(JDefinedClass owner, JType componentType, String name){
+	public ArrayManager(JType componentType, String name){
 		setComponentType(componentType);
-
-		this.arrayVar = owner.field(ModelTranslator.MEMBER_PRIVATE, componentType.array(), name);
+		setName(name);
 	}
 
 	abstract
 	public JExpression createExpression(E element);
 
+	public void initArrayVar(JDefinedClass owner){
+		JType componentType = getComponentType();
+		String name = getName();
+
+		this.arrayVar = owner.field(ModelTranslator.MEMBER_PRIVATE, componentType.array(), name);
+	}
+
 	public void initArray(){
 		JType componentType = getComponentType();
 
-		JArray array = JExpr.newArray(componentType);
+		if(this.arrayVar == null){
+			throw new IllegalStateException();
+		}
 
-		this.arrayVar.init(array);
+		this.array = JExpr.newArray(componentType);
 
-		this.array = array;
+		this.arrayVar.init(this.array);
+	}
+
+	public int size(){
+		return this.indices.size();
 	}
 
 	public Collection<E> getElements(){
@@ -86,6 +100,11 @@ public class ArrayManager<E> {
 	}
 
 	public JExpression getComponent(JExpression indexExpr){
+
+		if(this.arrayVar == null){
+			throw new IllegalStateException();
+		}
+
 		return this.arrayVar.component(indexExpr);
 	}
 
@@ -95,6 +114,14 @@ public class ArrayManager<E> {
 
 	private void setComponentType(JType componentType){
 		this.componentType = componentType;
+	}
+
+	public String getName(){
+		return this.name;
+	}
+
+	private void setName(String name){
+		this.name = name;
 	}
 
 	public JFieldVar getArrayVar(){
