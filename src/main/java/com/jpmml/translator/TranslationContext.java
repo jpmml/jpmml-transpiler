@@ -170,6 +170,24 @@ public class TranslationContext {
 		return new FieldValueRef(variable);
 	}
 
+	public boolean isNonMissing(JVar variable){
+
+		for(Scope scope : this.scopes){
+
+			if(scope.isNonMissing(variable)){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public void markNonMissing(JVar variable){
+		Scope scope = ensureOpenScope();
+
+		scope.markNonMissing(variable);
+	}
+
 	public OperableRef ensureOperableVariable(FieldInfo fieldInfo){
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();

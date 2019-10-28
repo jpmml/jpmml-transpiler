@@ -73,6 +73,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		TreeModel.MissingValueStrategy missingValueStrategy = treeModel.getMissingValueStrategy();
 		switch(missingValueStrategy){
 			case NONE:
+			case NULL_PREDICTION:
 				break;
 			default:
 				throw new UnsupportedAttributeException(treeModel, missingValueStrategy);
@@ -196,16 +197,12 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		S score = scoreManager.apply(node);
 		Predicate predicate = node.getPredicate();
 
-		JExpression predicateExpr = translatePredicate(predicate, fieldInfos, context);
-
-		JBlock block = context.block();
-
-		JBlock ifBlock = block._if(predicateExpr)._then();
+		Scope nodeScope = translatePredicate(treeModel, predicate, fieldInfos, context);
 
 		int scoreIndex;
 
 		if(node.hasNodes()){
-			context.pushScope(new Scope(ifBlock));
+			context.pushScope(nodeScope);
 
 			try {
 				List<Node> children = node.getNodes();
@@ -244,62 +241,58 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			scoreIndex = scoreManager.getOrInsert(score);
 		}
 
-		ifBlock._return(JExpr.lit(scoreIndex));
+		nodeScope._return(JExpr.lit(scoreIndex));
 	}
 
 	static
-	public JExpression translatePredicate(Predicate predicate, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public Scope translatePredicate(TreeModel treeModel, Predicate predicate, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+		JBlock block = context.block();
+
+		OperableRef operableRef;
+
+		JExpression valueExpr;
 
 		if(predicate instanceof SimplePredicate){
 			SimplePredicate simplePredicate = (SimplePredicate)predicate;
 
 			FieldInfo fieldInfo = getFieldInfo(simplePredicate, fieldInfos);
 
-			OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
+			operableRef = context.ensureOperableVariable(fieldInfo);
 
 			SimplePredicate.Operator operator = simplePredicate.getOperator();
 			switch(operator){
 				case IS_MISSING:
-					return operableRef.isMissing();
+					return createBranch(block, operableRef.isMissing());
 				case IS_NOT_MISSING:
-					return operableRef.isNotMissing();
+					return createBranch(block, operableRef.isNotMissing());
 				default:
 					break;
 			}
 
 			Object value = simplePredicate.getValue();
 
-			JExpression comparisonExpr;
-
 			switch(operator){
 				case EQUAL:
-					comparisonExpr = operableRef.equalTo(value, context);
+					valueExpr = operableRef.equalTo(value, context);
 					break;
 				case NOT_EQUAL:
-					comparisonExpr = operableRef.notEqualTo(value, context);
+					valueExpr = operableRef.notEqualTo(value, context);
 					break;
 				case LESS_THAN:
-					comparisonExpr = operableRef.lessThan(value, context);
+					valueExpr = operableRef.lessThan(value, context);
 					break;
 				case LESS_OR_EQUAL:
-					comparisonExpr = operableRef.lessOrEqual(value, context);
+					valueExpr = operableRef.lessOrEqual(value, context);
 					break;
 				case GREATER_OR_EQUAL:
-					comparisonExpr = operableRef.greaterOrEqual(value, context);
+					valueExpr = operableRef.greaterOrEqual(value, context);
 					break;
 				case GREATER_THAN:
-					comparisonExpr = operableRef.greaterThan(value, context);
+					valueExpr = operableRef.greaterThan(value, context);
 					break;
 				default:
 					throw new UnsupportedAttributeException(predicate, operator);
 			}
-
-			JType type = operableRef.type();
-			if(type.isReference()){
-				comparisonExpr = (operableRef.isNotMissing()).cand(comparisonExpr);
-			}
-
-			return comparisonExpr;
 		} else
 
 		if(predicate instanceof SimpleSetPredicate){
@@ -307,61 +300,74 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			FieldInfo fieldInfo = getFieldInfo(simpleSetPredicate, fieldInfos);
 
-			OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
+			operableRef = context.ensureOperableVariable(fieldInfo);
 
 			ComplexArray complexArray = (ComplexArray)simpleSetPredicate.getArray();
 
 			Collection<?> values = complexArray.getValue();
 
-			JExpression setExpr;
-
 			SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.getBooleanOperator();
 			switch(booleanOperator){
 				case IS_IN:
-					setExpr = operableRef.isIn(values, context);
+					valueExpr = operableRef.isIn(values, context);
 					break;
 				case IS_NOT_IN:
-					setExpr = operableRef.isNotIn(values, context);
+					valueExpr = operableRef.isNotIn(values, context);
 					break;
 				default:
 					throw new UnsupportedAttributeException(predicate, booleanOperator);
 			}
-
-			JType type = operableRef.type();
-			if(type.isReference()){
-				setExpr = (operableRef.isNotMissing()).cand(setExpr);
-			}
-
-			return setExpr;
 		} else
 
 		if(predicate instanceof True){
-			return JExpr.TRUE;
+			return createBranch(block, JExpr.TRUE);
 		} else
 
 		if(predicate instanceof False){
-			return JExpr.FALSE;
+			return createBranch(block, JExpr.FALSE);
 		} else
 
 		{
 			throw new UnsupportedElementException(predicate);
 		}
-	}
 
-	static
-	public JVar createScoreDistribution(String[] categories, JVar scoreVar, TranslationContext context){
-		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
-			.construct("values");
+		JVar variable = operableRef.getVariable();
 
-		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
+		TreeModel.MissingValueStrategy missingValueStrategy = treeModel.getMissingValueStrategy();
+		switch(missingValueStrategy){
+			case NONE:
+				{
+					boolean isNonMissing = context.isNonMissing(variable);
 
-		for(int i = 0; i < categories.length; i++){
-			JExpression valueExpr = valueFactoryRef.newValue(scoreVar.component(JExpr.lit(i)));
+					if(!isNonMissing){
+						JType type = operableRef.type();
 
-			valueMapBuilder.update("put", categories[i], valueExpr);
+						if(type.isReference()){
+							valueExpr = (operableRef.isNotMissing()).cand(valueExpr);
+						}
+					}
+
+					Scope result = createBranch(block, valueExpr);
+
+					if(!isNonMissing){
+						result.markNonMissing(variable);
+					}
+
+					return result;
+				}
+			case NULL_PREDICTION:
+				{
+					if(!context.isNonMissing(variable)){
+						createBranch(block, operableRef.isMissing())._return(JExpr.lit(-1));
+
+						context.markNonMissing(variable);
+					}
+
+					return createBranch(block, valueExpr);
+				}
+			default:
+				throw new UnsupportedAttributeException(treeModel, missingValueStrategy);
 		}
-
-		return valueMapBuilder.getVariable();
 	}
 
 	static
@@ -418,5 +424,28 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		}
 
 		return fieldInfos;
+	}
+
+	static
+	private JVar createScoreDistribution(String[] categories, JVar scoreVar, TranslationContext context){
+		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
+			.construct("values");
+
+		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
+
+		for(int i = 0; i < categories.length; i++){
+			JExpression valueExpr = valueFactoryRef.newValue(scoreVar.component(JExpr.lit(i)));
+
+			valueMapBuilder.update("put", categories[i], valueExpr);
+		}
+
+		return valueMapBuilder.getVariable();
+	}
+
+	static
+	private Scope createBranch(JBlock block, JExpression testExpr){
+		JBlock ifBlock = block._if(testExpr)._then();
+
+		return new Scope(ifBlock);
 	}
 }

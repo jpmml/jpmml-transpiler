@@ -19,6 +19,8 @@
 package com.jpmml.translator;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpression;
@@ -30,11 +32,26 @@ public class Scope extends LinkedHashMap<String, JVar> {
 
 	private JBlock block = null;
 
+	private Set<String> nonMissingVariables = null;
+
 	private boolean open = true;
 
 
 	public Scope(JBlock block){
 		setBlock(block);
+	}
+
+	public boolean isNonMissing(JVar variable){
+		return (this.nonMissingVariables != null && this.nonMissingVariables.contains(variable.name()));
+	}
+
+	public void markNonMissing(JVar variable){
+
+		if(this.nonMissingVariables == null){
+			this.nonMissingVariables = new LinkedHashSet<>();
+		}
+
+		this.nonMissingVariables.add(variable.name());
 	}
 
 	public Scope ensureOpen(){
