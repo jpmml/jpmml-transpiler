@@ -121,7 +121,7 @@ public class ArgumentsRef extends JVarRef {
 
 		JFieldVar fieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName);
 
-		JVar valueVar = initializerBlock.decl(context.ref(FieldValue.class), IdentifierUtil.create("value", name), JExpr.refthis("context").invoke("evaluate").arg(context.constantFieldName(name)));
+		JVar valueVar = initializerBlock.decl(context.ref(FieldValue.class), IdentifierUtil.create("value", name), context.invoke(JExpr.refthis("context"), "evaluate", name));
 
 		FieldValueRef fieldValueRef = new FieldValueRef(valueVar);
 

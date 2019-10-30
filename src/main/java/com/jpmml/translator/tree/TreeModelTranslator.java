@@ -185,7 +185,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			JVar valueMapVar = createScoreDistribution(categories, scoreVar, context);
 
-			context._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapVar));
+			context._return(context._new(ProbabilityDistribution.class, valueMapVar));
 		} finally {
 			context.popScope();
 		}

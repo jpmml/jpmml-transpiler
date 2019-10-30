@@ -182,7 +182,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 
 			JVar valueVar = valueBuilder.getVariable();
 
-			context._return(context.ref(Collections.class).staticInvoke("singletonMap").arg(context.constantFieldName(targetField.getName())).arg(valueVar.invoke("getValue")));
+			context._return(context.staticInvoke(Collections.class, "singletonMap", targetField.getName(), valueVar.invoke("getValue")));
 		} finally {
 			context.popScope();
 		}
@@ -206,7 +206,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 
 			JVar classificationVar = classificationBuilder.getVariable();
 
-			context._return(context.ref(Collections.class).staticInvoke("singletonMap").arg(context.constantFieldName(targetField.getName())).arg(classificationVar));
+			context._return(context.staticInvoke(Collections.class, "singletonMap", context.constantFieldName(targetField.getName()), classificationVar));
 		} finally {
 			context.popScope();
 		}

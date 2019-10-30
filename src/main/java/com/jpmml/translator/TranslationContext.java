@@ -34,6 +34,7 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JOp;
 import com.sun.codemodel.JStatement;
@@ -73,16 +74,16 @@ public class TranslationContext {
 		setCodeModel(codeModel);
 	}
 
-	public JClass ref(Class<?> clazz){
+	public JClass ref(Class<?> type){
 		JCodeModel codeModel = getCodeModel();
 
-		return codeModel.ref(clazz);
+		return codeModel.ref(type);
 	}
 
-	public JType _ref(Class<?> clazz){
+	public JType _ref(Class<?> type){
 		JCodeModel codeModel = getCodeModel();
 
-		return codeModel._ref(clazz);
+		return codeModel._ref(type);
 	}
 
 	public JDefinedClass getOwner(){
@@ -101,9 +102,7 @@ public class TranslationContext {
 
 				@Override
 				public JExpression createExpression(FieldName name){
-					JClass fieldNameClass = ref(FieldName.class);
-
-					return fieldNameClass.staticInvoke("create").arg(name.getValue());
+					return staticInvoke(FieldName.class, "create", name.getValue());
 				}
 			};
 		} // End if
@@ -118,9 +117,7 @@ public class TranslationContext {
 
 				@Override
 				public JExpression createExpression(QName name){
-					JClass xmlNameClass = ref(QName.class);
-
-					return JExpr._new(xmlNameClass).arg(name.getNamespaceURI()).arg(name.getLocalPart()).arg(name.getPrefix());
+					return _new(QName.class, name.getNamespaceURI(), name.getLocalPart(), name.getPrefix());
 				}
 			};
 		}
@@ -318,6 +315,48 @@ public class TranslationContext {
 		} finally {
 			scope.close();
 		}
+	}
+
+	public JInvocation _new(Class<?> type, Object... args){
+		return _new(ref(type), args);
+	}
+
+	public JInvocation _new(JClass type, Object... args){
+		JInvocation invocation = JExpr._new(type);
+
+		for(Object arg : args){
+			invocation = invocation.arg(PMMLObjectUtil.createExpression(arg, this));
+		}
+
+		return invocation;
+	}
+
+	public JInvocation invoke(JVar variable, String method, Object... args){
+		return invoke((JExpression)variable, method, args);
+	}
+
+	public JInvocation invoke(JExpression variable, String method, Object... args){
+		JInvocation invocation = variable.invoke(method);
+
+		for(Object arg : args){
+			invocation = invocation.arg(PMMLObjectUtil.createExpression(arg, this));
+		}
+
+		return invocation;
+	}
+
+	public JInvocation staticInvoke(Class<?> type, String method, Object... args){
+		return staticInvoke(ref(type), method, args);
+	}
+
+	public JInvocation staticInvoke(JClass type, String method, Object... args){
+		JInvocation invocation = type.staticInvoke(method);
+
+		for(Object arg : args){
+			invocation = invocation.arg(PMMLObjectUtil.createExpression(arg, this));
+		}
+
+		return invocation;
 	}
 
 	public JBlock block(){

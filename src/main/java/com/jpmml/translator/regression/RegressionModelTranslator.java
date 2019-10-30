@@ -30,7 +30,6 @@ import com.jpmml.translator.IdentifierUtil;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.OperableRef;
-import com.jpmml.translator.PMMLObjectUtil;
 import com.jpmml.translator.Scope;
 import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueBuilder;
@@ -202,11 +201,11 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 		JExpression classificationExpr;
 
 		if(probabilistic){
-			classificationExpr = JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapVar);
+			classificationExpr = context._new(ProbabilityDistribution.class, valueMapVar);
 		} else
 
 		{
-			classificationExpr = JExpr._new(context.ref(Classification.class)).arg(PMMLObjectUtil.createExpression(Classification.Type.VOTE, context)).arg(valueMapVar);
+			classificationExpr = context._new(Classification.class, Classification.Type.VOTE, valueMapVar);
 		}
 
 		context._return(classificationExpr);
@@ -269,7 +268,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					context.popScope();
 				}
 
-				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("lookup", entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg((context.getArgumentsVariable()).getVariable()));
+				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("lookup", entry.getKey()), createEvaluatorMethodInvocation(evaluateCategoryMethod, context));
 
 				JBlock thenBlock = block._if(categoryValueVar.ne(JExpr._null()))._then();
 

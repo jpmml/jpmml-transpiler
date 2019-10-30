@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
 import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.IdentifierUtil;
-import com.jpmml.translator.JCodeInitializer;
-import com.jpmml.translator.JResourceInitializer;
+import com.jpmml.translator.JBinaryFileInitializer;
+import com.jpmml.translator.JDirectInitializer;
 import com.jpmml.translator.JVarBuilder;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
@@ -279,7 +279,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			methods.add(method);
 		}
 
-		JResourceInitializer resourceInitializer = new JResourceInitializer(owner, IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
+		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(context, IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
 
 		List<Number[]> scoreValues = scoreManagers.stream()
 			.map(scoreManager -> scoreManager.getValues())
@@ -295,7 +295,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", segmentation), mathContext, weightValues);
 		}
 
-		JCodeInitializer codeInitializer = new JCodeInitializer(owner);
+		JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
 		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(owner)), methods);
 
@@ -446,7 +446,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			methods.add(method);
 		}
 
-		JResourceInitializer resourceInitializer = new JResourceInitializer(owner, IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
+		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(context, IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
 
 		List<Number[][]> scoreValues = scoreManagers.stream()
 			.map(scoreManager -> scoreManager.getValues())
@@ -462,7 +462,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", segmentation), mathContext, weightValues);
 		}
 
-		JCodeInitializer codeInitializer = new JCodeInitializer(owner);
+		JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
 		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(owner)), methods);
 
@@ -520,7 +520,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 		}
 
-		context._return(JExpr._new(context.ref(ProbabilityDistribution.class)).arg(valueMapInit));
+		context._return(context._new(ProbabilityDistribution.class, valueMapInit));
 	}
 
 	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){

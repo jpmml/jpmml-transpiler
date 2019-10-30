@@ -121,7 +121,7 @@ public class PMMLObjectUtil {
 	public JInvocation createObject(PMMLObject object, TranslationContext context){
 		Class<? extends PMMLObject> clazz = object.getClass();
 
-		JInvocation invocation = JExpr._new(context.ref(clazz));
+		JInvocation invocation = context._new(clazz);
 
 		invocation = constructObject(object, invocation, context);
 		invocation = initializeObject(object, invocation, context);
@@ -148,9 +148,7 @@ public class PMMLObjectUtil {
 			if(value instanceof List){
 				List<?> elements = (List<?>)value;
 
-				JClass arraysClass = context.ref(Arrays.class);
-
-				JInvocation listInvocation = arraysClass.staticInvoke("asList");
+				JInvocation listInvocation = context.staticInvoke(Arrays.class, "asList");
 
 				for(Object element : elements){
 					listInvocation.arg(createExpression(element, context));
@@ -263,6 +261,12 @@ public class PMMLObjectUtil {
 			return context.constantFieldName(fieldName);
 		} else
 
+		if((QName.class).isAssignableFrom(clazz)){
+			QName xmlName = (QName)value;
+
+			return context.constantXmlName(xmlName);
+		} else
+
 		if((PMMLObject.class).isAssignableFrom(clazz)){
 			PMMLObject pmmlObject = (PMMLObject)value;
 
@@ -314,13 +318,11 @@ public class PMMLObjectUtil {
 		} else
 
 		if((JAXBElement.class).isAssignableFrom(clazz)){
-			JClass jaxbElementClass = context.ref(JAXBElement.class);
-
 			JAXBElement<?> jaxbElement = (JAXBElement<?>)value;
 
 			Object jaxbValue = jaxbElement.getValue();
 
-			return JExpr._new(jaxbElementClass).arg(context.constantXmlName(jaxbElement.getName())).arg(JExpr.dotclass(context.ref(jaxbValue.getClass()))).arg(createExpression(jaxbValue, context));
+			return context._new(JAXBElement.class, jaxbElement.getName(), JExpr.dotclass(context.ref(jaxbValue.getClass())), jaxbValue);
 		} else
 
 		if((Element.class).isAssignableFrom(clazz)){

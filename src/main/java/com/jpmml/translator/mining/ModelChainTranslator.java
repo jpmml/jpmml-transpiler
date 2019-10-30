@@ -271,11 +271,11 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 					Number coefficient = numericPredictor.getCoefficient();
 					if(coefficient != null && coefficient.doubleValue() != 1d){
-						valueExpr = valueExpr.invoke("multiply").arg(PMMLObjectUtil.createExpression(coefficient, context));
+						valueExpr = context.invoke(valueExpr, "multiply", coefficient);
 					} // End if
 
 					if(intercept != null && intercept.doubleValue() != 0d){
-						valueExpr = valueExpr.invoke("add").arg(PMMLObjectUtil.createExpression(intercept, context));
+						valueExpr = context.invoke(valueExpr, "add", intercept);
 					}
 				} else
 
