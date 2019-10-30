@@ -45,7 +45,6 @@ import com.jpmml.translator.tree.NodeScoreManager;
 import com.jpmml.translator.tree.ScoreFunction;
 import com.jpmml.translator.tree.TreeModelTranslator;
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -212,8 +211,6 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
-		JCodeModel codeModel = context.getCodeModel();
-
 		JDefinedClass owner = context.getOwner();
 
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
@@ -304,18 +301,18 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JBlock block = context.block();
 
-		JForLoop forLoop = block._for();
-
-		JVar loopVar = forLoop.init(codeModel.INT, "i", JExpr.lit(0));
-		forLoop.test(loopVar.lt(JExpr.lit(segments.size())));
-		forLoop.update(loopVar.incr());
-
-		JBlock forBlock = forLoop.body();
-
 		try {
+			JForLoop forLoop = block._for();
+
+			JVar loopVar = forLoop.init(context._ref(int.class), "i", JExpr.lit(0));
+			forLoop.test(loopVar.lt(JExpr.lit(segments.size())));
+			forLoop.update(loopVar.incr());
+
+			JBlock forBlock = forLoop.body();
+
 			context.pushScope(new Scope(forBlock));
 
-			JVar indexExpr = context.declare(codeModel.INT, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("applyAsInt").arg((context.getArgumentsVariable()).getVariable()));
+			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("applyAsInt").arg((context.getArgumentsVariable()).getVariable()));
 
 			context._returnIf(indexExpr.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
 
@@ -381,8 +378,6 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
-
-		JCodeModel codeModel = context.getCodeModel();
 
 		JDefinedClass owner = context.getOwner();
 
@@ -477,18 +472,18 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JBlock block = context.block();
 
-		JForLoop forLoop = block._for();
-
-		JVar loopVar = forLoop.init(codeModel.INT, "i", JExpr.lit(0));
-		forLoop.test(loopVar.lt(JExpr.lit(segments.size())));
-		forLoop.update(loopVar.incr());
-
-		JBlock forBlock = forLoop.body();
-
 		try {
+			JForLoop forLoop = block._for();
+
+			JVar loopVar = forLoop.init(context._ref(int.class), "i", JExpr.lit(0));
+			forLoop.test(loopVar.lt(JExpr.lit(segments.size())));
+			forLoop.update(loopVar.incr());
+
+			JBlock forBlock = forLoop.body();
+
 			context.pushScope(new Scope(forBlock));
 
-			JVar indexExpr = context.declare(codeModel.INT, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("applyAsInt").arg((context.getArgumentsVariable()).getVariable()));
+			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("applyAsInt").arg((context.getArgumentsVariable()).getVariable()));
 
 			context._returnIf(indexExpr.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
 

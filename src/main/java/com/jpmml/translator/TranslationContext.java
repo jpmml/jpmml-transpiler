@@ -20,6 +20,7 @@ package com.jpmml.translator;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,7 +35,9 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JOp;
 import com.sun.codemodel.JStatement;
+import com.sun.codemodel.JSwitch;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
@@ -74,6 +77,12 @@ public class TranslationContext {
 		JCodeModel codeModel = getCodeModel();
 
 		return codeModel.ref(clazz);
+	}
+
+	public JType _ref(Class<?> clazz){
+		JCodeModel codeModel = getCodeModel();
+
+		return codeModel._ref(clazz);
 	}
 
 	public JDefinedClass getOwner(){
@@ -237,9 +246,7 @@ public class TranslationContext {
 	}
 
 	public JVar declare(Class<?> type, String name, JExpression init){
-		JCodeModel codeModel = getCodeModel();
-
-		return declare(codeModel._ref(type), name, init);
+		return declare(_ref(type), name, init);
 	}
 
 	public JVar declare(JType type, String name, JExpression init){
@@ -251,7 +258,9 @@ public class TranslationContext {
 	public void add(JStatement statement){
 		Scope scope = ensureOpenScope();
 
-		scope.add(statement);
+		JBlock block = scope.getBlock();
+
+		block.add(statement);
 	}
 
 	public void _returnIf(JExpression testExpr, JExpression resultExpr){
@@ -264,11 +273,48 @@ public class TranslationContext {
 		thenBlock._return(resultExpr);
 	}
 
+	public void _return(JExpression testExpr, JExpression trueResultExpr, JExpression falseResultExpr){
+		Scope scope = ensureOpenScope();
+
+		try {
+			JBlock block = scope.getBlock();
+
+			block._return(JOp.cond(testExpr, trueResultExpr, falseResultExpr));
+		} finally {
+			scope.close();
+		}
+	}
+
 	public void _return(JExpression resultExpr){
 		Scope scope = ensureOpenScope();
 
 		try {
-			scope._return(resultExpr);
+			JBlock block = scope.getBlock();
+
+			block._return(resultExpr);
+		} finally {
+			scope.close();
+		}
+	}
+
+	public <V> void _return(JExpression valueExpr, Map<?, V> resultMap, V defaultResult){
+		Scope scope = ensureOpenScope();
+
+		try {
+			JBlock block = scope.getBlock();
+
+			JSwitch switchBlock = block._switch(valueExpr);
+
+			Collection<? extends Map.Entry<?, V>> entries = resultMap.entrySet();
+			for(Map.Entry<?, V> entry : entries){
+				JBlock caseBlock = switchBlock._case(PMMLObjectUtil.createExpression(entry.getKey(), this)).body();
+
+				caseBlock._return(PMMLObjectUtil.createExpression(entry.getValue(), this));
+			}
+
+			JBlock defaultBlock = switchBlock._default().body();
+
+			defaultBlock._return(PMMLObjectUtil.createExpression(defaultResult, this));
 		} finally {
 			scope.close();
 		}

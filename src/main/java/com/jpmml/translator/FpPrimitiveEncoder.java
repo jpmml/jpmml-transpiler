@@ -18,7 +18,6 @@
  */
 package com.jpmml.translator;
 
-import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -65,26 +64,26 @@ public class FpPrimitiveEncoder implements Encoder {
 
 		JVar valueParam = encoderMethod.param(type, "value");
 
-		JBlock block = encoderMethod.body();
+		try {
+			context.pushScope(new MethodScope(encoderMethod));
 
-		JBlock thenBlock = block._if(valueParam.eq(JExpr._null()))._then();
+			JExpression nanExpr;
 
-		JExpression nanExpr;
+			switch(primitiveType.name()){
+				case "float":
+					nanExpr = JExpr.lit(Float.NaN);
+					break;
+				case "double":
+					nanExpr = JExpr.lit(Double.NaN);
+					break;
+				default:
+					throw new IllegalArgumentException(primitiveType.fullName());
+			}
 
-		switch(primitiveType.name()){
-			case "float":
-				nanExpr = JExpr.lit(Float.NaN);
-				break;
-			case "double":
-				nanExpr = JExpr.lit(Double.NaN);
-				break;
-			default:
-				throw new IllegalArgumentException(primitiveType.fullName());
+			context._return(valueParam.eq(JExpr._null()), nanExpr, valueParam);
+		} finally {
+			context.popScope();
 		}
-
-		thenBlock._return(nanExpr);
-
-		block._return(valueParam);
 
 		return encoderMethod;
 	}

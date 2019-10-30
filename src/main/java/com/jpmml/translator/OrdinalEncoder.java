@@ -18,19 +18,16 @@
  */
 package com.jpmml.translator;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
-import com.sun.codemodel.JSwitch;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.FieldName;
@@ -69,28 +66,21 @@ public class OrdinalEncoder implements Encoder {
 
 	@Override
 	public JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context){
-		JCodeModel codeModel = context.getCodeModel();
-
 		JDefinedClass owner = context.getOwner();
 
-		JMethod encoderMethod = owner.method(JMod.PRIVATE, codeModel.INT, IdentifierUtil.create("toOrdinal", name));
+		JMethod encoderMethod = owner.method(JMod.PRIVATE, context._ref(int.class), IdentifierUtil.create("toOrdinal", name));
 
 		JVar valueParam = encoderMethod.param(type, "value");
 
-		JBlock block = encoderMethod.body();
+		try {
+			context.pushScope(new MethodScope(encoderMethod));
 
-		JBlock thenBlock = block._if(valueParam.eq(JExpr._null()))._then();
+			context._returnIf(valueParam.eq(JExpr._null()), OrdinalEncoder.MISSING_VALUE);
 
-		thenBlock._return(OrdinalEncoder.MISSING_VALUE);
-
-		JSwitch switchBlock = block._switch(valueParam);
-
-		Collection<? extends Map.Entry<Object, Integer>> entries = this.indexMap.entrySet();
-		for(Map.Entry<Object, Integer> entry : entries){
-			switchBlock._case(PMMLObjectUtil.createExpression(entry.getKey(), context)).body()._return(JExpr.lit(entry.getValue()));
+			context._return(valueParam, this.indexMap, 0);
+		} finally {
+			context.popScope();
 		}
-
-		switchBlock._default().body()._return(JExpr.lit(0));
 
 		return encoderMethod;
 	}
@@ -105,25 +95,25 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	private JMethod getOrCreateIsSetMethod(TranslationContext context){
-		JCodeModel codeModel = context.getCodeModel();
-
 		JDefinedClass owner = context.getOwner();
 
-		JMethod isSetMethod = owner.getMethod("isSet", new JType[]{codeModel.INT, codeModel.INT});
+		JType intType = context._ref(int.class);
+
+		JMethod isSetMethod = owner.getMethod("isSet", new JType[]{intType, intType});
 		if(isSetMethod != null){
 			return isSetMethod;
 		}
 
 		isSetMethod = owner.method(ModelTranslator.MEMBER_PRIVATE, boolean.class, "isSet");
 
-		JVar bitSetParam = isSetMethod.param(codeModel.INT, "bitSet");
-		JVar indexParam = isSetMethod.param(codeModel.INT, "index");
+		JVar bitSetParam = isSetMethod.param(intType, "bitSet");
+		JVar indexParam = isSetMethod.param(intType, "index");
 
 		JBlock block = isSetMethod.body();
 
 		JBlock thenBlock = block._if((indexParam.gte(JExpr.lit(0))).cand(indexParam.lte(JExpr.lit(31))))._then();
 
-		JVar maskVar = thenBlock.decl(codeModel.INT, "mask", (JExpr.lit(1)).shl(indexParam));
+		JVar maskVar = thenBlock.decl(intType, "mask", (JExpr.lit(1)).shl(indexParam));
 
 		thenBlock._return((bitSetParam.band(maskVar)).eq(maskVar));
 

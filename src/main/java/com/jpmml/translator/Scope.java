@@ -24,7 +24,6 @@ import java.util.Set;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
@@ -82,18 +81,6 @@ public class Scope extends LinkedHashMap<String, JVar> {
 		put(variable.name(), variable);
 
 		return variable;
-	}
-
-	public void add(JStatement statement){
-		JBlock block = getBlock();
-
-		block.add(statement);
-	}
-
-	public void _return(JExpression resultExpr){
-		JBlock block = getBlock();
-
-		block._return(resultExpr);
 	}
 
 	public JBlock getBlock(){

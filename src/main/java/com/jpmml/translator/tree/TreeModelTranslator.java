@@ -37,7 +37,6 @@ import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueFactoryRef;
 import com.jpmml.translator.ValueMapBuilder;
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -96,8 +95,6 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Node node = treeModel.getNode();
 
-		JCodeModel codeModel = context.getCodeModel();
-
 		JDefinedClass owner = context.getOwner();
 
 		NodeScoreManager scoreManager = new NodeScoreManager(context.ref(Number.class), IdentifierUtil.create("scores", node)){
@@ -125,7 +122,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new MethodScope(evaluateTreeModelMethod));
 
-			JVar indexVar = context.declare(codeModel.INT, "index", createEvaluatorMethodInvocation(evaluateNodeMethod, context));
+			JVar indexVar = context.declare(int.class, "index", createEvaluatorMethodInvocation(evaluateNodeMethod, context));
 
 			context._returnIf(indexVar.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
 
@@ -142,8 +139,6 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		TreeModel treeModel = getModel();
 
 		Node node = treeModel.getNode();
-
-		JCodeModel codeModel = context.getCodeModel();
 
 		String[] categories = getTargetCategories();
 
@@ -182,7 +177,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new MethodScope(evaluateTreeModelMethod));
 
-			JVar indexVar = context.declare(codeModel.INT, "index", createEvaluatorMethodInvocation(evaluateNodeMethod, context));
+			JVar indexVar = context.declare(int.class, "index", createEvaluatorMethodInvocation(evaluateNodeMethod, context));
 
 			context._returnIf(indexVar.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
 
@@ -260,7 +255,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			scoreExpr = JExpr.lit(scoreIndex);
 		}
 
-		nodeScope._return(scoreExpr);
+		JBlock nodeBlock = nodeScope.getBlock();
+
+		nodeBlock._return(scoreExpr);
 	}
 
 	static
@@ -369,6 +366,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					Scope result = createBranch(block, valueExpr);
 
 					if(!isNonMissing){
+						// The mark applies to children only
 						result.markNonMissing(variable);
 					}
 
@@ -377,8 +375,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			case NULL_PREDICTION:
 				{
 					if(!context.isNonMissing(variable)){
-						createBranch(block, operableRef.isMissing())._return(TreeModelTranslator.NULL_RESULT);
+						context._returnIf(operableRef.isMissing(), TreeModelTranslator.NULL_RESULT);
 
+						// The mark applies to (subsequent-) siblings and children alike
 						context.markNonMissing(variable);
 					}
 

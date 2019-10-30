@@ -112,9 +112,11 @@ public class ArgumentsRef extends JVarRef {
 		{
 			JFieldVar fieldFlagVar = argumentsClazz.field(JMod.PRIVATE, boolean.class, "_" + stringName, JExpr.FALSE);
 
-			initializerBlock = methodBody._if(JExpr.refthis(fieldFlagVar.name()).not())._then();
+			JBlock thenBlock = methodBody._if(JExpr.refthis(fieldFlagVar.name()).not())._then();
 
-			initializerBlock.assign(JExpr.refthis(fieldFlagVar.name()), JExpr.TRUE);
+			thenBlock.assign(JExpr.refthis(fieldFlagVar.name()), JExpr.TRUE);
+
+			initializerBlock = thenBlock;
 		}
 
 		JFieldVar fieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName);

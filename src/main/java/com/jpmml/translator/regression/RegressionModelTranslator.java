@@ -39,7 +39,6 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JSwitch;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MiningFunction;
@@ -249,6 +248,8 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			Map<FieldName, List<CategoricalPredictor>> fieldCategoricalPredictors = regressionTable.getCategoricalPredictors().stream()
 				.collect(Collectors.groupingBy(categoricalPredictor -> categoricalPredictor.getField(), Collectors.toList()));
 
+			JBlock block = context.block();
+
 			Collection<Map.Entry<FieldName, List<CategoricalPredictor>>> entries = fieldCategoricalPredictors.entrySet();
 			for(Map.Entry<FieldName, List<CategoricalPredictor>> entry : entries){
 				FieldInfo fieldInfo = getFieldInfo(entry.getKey(), fieldInfos);
@@ -258,14 +259,17 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				try {
 					context.pushScope(new MethodScope(evaluateCategoryMethod));
 
-					translateField(fieldInfo, entry.getValue(), context);
+					OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
+
+					Map<Object, Number> categoryValues = (entry.getValue()).stream()
+						.collect(Collectors.toMap(CategoricalPredictor::getValue, CategoricalPredictor::getCoefficient));
+
+					context._return(operableRef.getVariable(), categoryValues, null);
 				} finally {
 					context.popScope();
 				}
 
 				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("lookup", entry.getKey()), JExpr.invoke(evaluateCategoryMethod).arg((context.getArgumentsVariable()).getVariable()));
-
-				JBlock block = context.block();
 
 				JBlock thenBlock = block._if(categoryValueVar.ne(JExpr._null()))._then();
 
@@ -291,20 +295,5 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 		}
 
 		return valueBuilder;
-	}
-
-	static
-	private void translateField(FieldInfo fieldInfo, List<CategoricalPredictor> categoricalPredictors, TranslationContext context){
-		OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
-
-		JBlock block = context.block();
-
-		JSwitch switchBlock = block._switch(operableRef.getVariable());
-
-		for(CategoricalPredictor categoricalPredictor : categoricalPredictors){
-			switchBlock._case(PMMLObjectUtil.createExpression(categoricalPredictor.getValue(), context)).body()._return(PMMLObjectUtil.createExpression(categoricalPredictor.getCoefficient(), context));
-		}
-
-		switchBlock._default().body()._return(JExpr._null());
 	}
 }
