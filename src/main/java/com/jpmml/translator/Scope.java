@@ -90,10 +90,10 @@ public class Scope extends LinkedHashMap<String, JVar> {
 		block.add(statement);
 	}
 
-	public void _return(JExpression expression){
+	public void _return(JExpression resultExpr){
 		JBlock block = getBlock();
 
-		block._return(expression);
+		block._return(resultExpr);
 	}
 
 	public JBlock getBlock(){

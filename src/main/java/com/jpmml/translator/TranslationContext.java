@@ -254,11 +254,21 @@ public class TranslationContext {
 		scope.add(statement);
 	}
 
-	public void _return(JExpression expression){
+	public void _returnIf(JExpression testExpr, JExpression resultExpr){
+		Scope scope = ensureOpenScope();
+
+		JBlock block = scope.getBlock();
+
+		JBlock thenBlock = block._if(testExpr)._then();
+
+		thenBlock._return(resultExpr);
+	}
+
+	public void _return(JExpression resultExpr){
 		Scope scope = ensureOpenScope();
 
 		try {
-			scope._return(expression);
+			scope._return(resultExpr);
 		} finally {
 			scope.close();
 		}
@@ -337,7 +347,7 @@ public class TranslationContext {
 		return this.representations.get(pmmlObject);
 	}
 
-	public void putRepresentation(PMMLObject pmmlObject, JExpression expression){
-		this.representations.put(pmmlObject, expression);
+	public void putRepresentation(PMMLObject pmmlObject, JExpression reprExpr){
+		this.representations.put(pmmlObject, reprExpr);
 	}
 }

@@ -37,6 +37,7 @@ import com.jpmml.translator.TranslationContext;
 import com.jpmml.translator.ValueFactoryRef;
 import com.jpmml.translator.ValueMapBuilder;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -95,6 +96,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Node node = treeModel.getNode();
 
+		JCodeModel codeModel = context.getCodeModel();
+
 		JDefinedClass owner = context.getOwner();
 
 		NodeScoreManager scoreManager = new NodeScoreManager(context.ref(Number.class), IdentifierUtil.create("scores", node)){
@@ -122,7 +125,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new MethodScope(evaluateTreeModelMethod));
 
-			context._return(scoreManager.getComponent(createEvaluatorMethodInvocation(evaluateNodeMethod, context)));
+			JVar indexVar = context.declare(codeModel.INT, "index", createEvaluatorMethodInvocation(evaluateNodeMethod, context));
+
+			context._returnIf(indexVar.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
+
+			context._return(scoreManager.getComponent(indexVar));
 		} finally {
 			context.popScope();
 		}
@@ -135,6 +142,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		TreeModel treeModel = getModel();
 
 		Node node = treeModel.getNode();
+
+		JCodeModel codeModel = context.getCodeModel();
 
 		String[] categories = getTargetCategories();
 
@@ -173,7 +182,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new MethodScope(evaluateTreeModelMethod));
 
-			JVar scoreVar = context.declare(Number[].class, "score", scoreManager.getComponent(createEvaluatorMethodInvocation(evaluateNodeMethod, context)));
+			JVar indexVar = context.declare(codeModel.INT, "index", createEvaluatorMethodInvocation(evaluateNodeMethod, context));
+
+			context._returnIf(indexVar.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
+
+			JVar scoreVar = context.declare(Number[].class, "score", scoreManager.getComponent(indexVar));
 
 			JVar valueMapVar = createScoreDistribution(categories, scoreVar, context);
 
@@ -201,7 +214,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Scope nodeScope = translatePredicate(treeModel, predicate, fieldInfos, context);
 
-		int scoreIndex;
+		JExpression scoreExpr;
 
 		if(node.hasNodes()){
 			context.pushScope(nodeScope);
@@ -219,15 +232,17 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
 			switch(noTrueChildStrategy){
 				case RETURN_NULL_PREDICTION:
-					scoreIndex = -1;
+					scoreExpr = TreeModelTranslator.NULL_RESULT;
 					break;
 				case RETURN_LAST_PREDICTION:
 					if(score == null){
-						scoreIndex = -1;
+						scoreExpr = TreeModelTranslator.NULL_RESULT;
 					} else
 
 					{
-						scoreIndex = scoreManager.getOrInsert(score);
+						int scoreIndex = scoreManager.getOrInsert(score);
+
+						scoreExpr = JExpr.lit(scoreIndex);
 					}
 					break;
 				default:
@@ -240,10 +255,12 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				throw new MissingAttributeException(node, PMMLAttributes.COMPLEXNODE_SCORE);
 			}
 
-			scoreIndex = scoreManager.getOrInsert(score);
+			int scoreIndex = scoreManager.getOrInsert(score);
+
+			scoreExpr = JExpr.lit(scoreIndex);
 		}
 
-		nodeScope._return(JExpr.lit(scoreIndex));
+		nodeScope._return(scoreExpr);
 	}
 
 	static
@@ -360,7 +377,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			case NULL_PREDICTION:
 				{
 					if(!context.isNonMissing(variable)){
-						createBranch(block, operableRef.isMissing())._return(JExpr.lit(-1));
+						createBranch(block, operableRef.isMissing())._return(TreeModelTranslator.NULL_RESULT);
 
 						context.markNonMissing(variable);
 					}
@@ -446,8 +463,10 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	static
 	private Scope createBranch(JBlock block, JExpression testExpr){
-		JBlock ifBlock = block._if(testExpr)._then();
+		JBlock thenBlock = block._if(testExpr)._then();
 
-		return new Scope(ifBlock);
+		return new Scope(thenBlock);
 	}
+
+	public static final JExpression NULL_RESULT = JExpr.lit(-1);
 }
