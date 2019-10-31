@@ -18,6 +18,8 @@
  */
 package com.jpmml.translator;
 
+import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,6 +42,7 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
+import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.DataField;
@@ -59,13 +62,11 @@ import org.dmg.pmml.Target;
 import org.dmg.pmml.Targets;
 import org.dmg.pmml.Visitor;
 import org.dmg.pmml.VisitorAction;
-import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.EvaluationContext;
 import org.jpmml.evaluator.HasModel;
 import org.jpmml.evaluator.HasPMML;
 import org.jpmml.evaluator.IndexableUtil;
 import org.jpmml.evaluator.TargetField;
-import org.jpmml.evaluator.TargetUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueFactory;
@@ -165,7 +166,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 
 			JType valueClazz = context.ref(Value.class);
 
-			if(!(evaluateMethod.type()).equals(valueClazz)){
+			if(!((evaluateMethod.type()).erasure()).equals(valueClazz)){
 				methodInvocation = context.getValueFactoryVariable().newValue(methodInvocation);
 			}
 
@@ -200,13 +201,11 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		try {
 			context.pushScope(new MethodScope(evaluateClassificationMethod));
 
-			JVarBuilder classificationBuilder = new JVarBuilder(context)
-				.declare(Classification.class, "classification", createEvaluatorMethodInvocation(evaluateMethod, context))
-				.staticUpdate(TargetUtil.class, "computeResult", targetField.getDataType());
+			ClassificationBuilder classificationBuilder = new ClassificationBuilder(context)
+				.declare("classification", createEvaluatorMethodInvocation(evaluateMethod, context))
+				.computeResult(targetField.getDataType());
 
-			JVar classificationVar = classificationBuilder.getVariable();
-
-			context._return(context.staticInvoke(Collections.class, "singletonMap", context.constantFieldName(targetField.getName()), classificationVar));
+			context._return(context.staticInvoke(Collections.class, "singletonMap", context.constantFieldName(targetField.getName()), classificationBuilder));
 		} finally {
 			context.popScope();
 		}
@@ -441,11 +440,13 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 	public JMethod createEvaluatorMethod(String name, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(JMod.PUBLIC, Map.class, name);
+		JMethod method = owner.method(JMod.PUBLIC, context.ref(Map.class).narrow(Arrays.asList(context.ref(FieldName.class), context.ref(Object.class).wildcard())), name);
 		method.annotate(Override.class);
 
-		method.param(ValueFactory.class, Scope.NAME_VALUEFACTORY);
-		method.param(EvaluationContext.class, Scope.NAME_CONTEXT);
+		JTypeVar numberTypeVar = method.generify(MethodScope.TYPEVAR_NUMBER, Number.class);
+
+		method.param(context.ref(ValueFactory.class).narrow(numberTypeVar), Scope.VAR_VALUEFACTORY);
+		method.param(EvaluationContext.class, Scope.VAR_CONTEXT);
 
 		return method;
 	}
@@ -471,10 +472,17 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		JMethod method = owner.method(ModelTranslator.MEMBER_PRIVATE, type, name);
 
 		if(withValueFactory){
-			method.param(ValueFactory.class, Scope.NAME_VALUEFACTORY);
+			JTypeVar numberTypeVar = method.generify(MethodScope.TYPEVAR_NUMBER, Number.class);
+
+			TypeVariable<?>[] typeVariables = type.getTypeParameters();
+			if(typeVariables.length == 1){
+				method.type(context.ref(type).narrow(numberTypeVar));
+			}
+
+			method.param(context.ref(ValueFactory.class).narrow(numberTypeVar), Scope.VAR_VALUEFACTORY);
 		}
 
-		method.param(argumentsType, Scope.NAME_ARGUMENTS);
+		method.param(argumentsType, Scope.VAR_ARGUMENTS);
 
 		return method;
 	}
@@ -490,7 +498,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 			JExpression arg;
 
 			switch(name){
-				case Scope.NAME_ARGUMENTS:
+				case Scope.VAR_ARGUMENTS:
 					try {
 						arg = (context.getArgumentsVariable()).getVariable();
 					} catch(IllegalArgumentException iae){
@@ -499,10 +507,10 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 						arg = JExpr._new(ensureArgumentsType(owner)).arg((context.getContextVariable()).getVariable());
 					}
 					break;
-				case Scope.NAME_CONTEXT:
+				case Scope.VAR_CONTEXT:
 					arg = (context.getContextVariable()).getVariable();
 					break;
-				case Scope.NAME_VALUEFACTORY:
+				case Scope.VAR_VALUEFACTORY:
 					arg = (context.getValueFactoryVariable()).getVariable();
 					break;
 				default:

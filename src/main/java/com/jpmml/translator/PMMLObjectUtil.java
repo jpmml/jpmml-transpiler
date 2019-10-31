@@ -213,6 +213,12 @@ public class PMMLObjectUtil {
 			return variableRef.getVariable();
 		} else
 
+		if(value instanceof JVarBuilder){
+			JVarBuilder variableBuilder = (JVarBuilder)value;
+
+			return variableBuilder.getVariable();
+		}
+
 		if(value instanceof JExpression){
 			JExpression expression = (JExpression)value;
 
@@ -322,7 +328,7 @@ public class PMMLObjectUtil {
 
 			Object jaxbValue = jaxbElement.getValue();
 
-			return context._new(JAXBElement.class, jaxbElement.getName(), JExpr.dotclass(context.ref(jaxbValue.getClass())), jaxbValue);
+			return context._new(context.ref(JAXBElement.class).narrow(jaxbValue.getClass()), jaxbElement.getName(), JExpr.dotclass(context.ref(jaxbValue.getClass())), jaxbValue);
 		} else
 
 		if((Element.class).isAssignableFrom(clazz)){

@@ -196,16 +196,14 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			probabilistic = (regressionTables.size() == probabilityOutputFields.size());
 		}
 
-		JVar valueMapVar = valueMapBuilder.getVariable();
-
 		JExpression classificationExpr;
 
 		if(probabilistic){
-			classificationExpr = context._new(ProbabilityDistribution.class, valueMapVar);
+			classificationExpr = context._new(ProbabilityDistribution.class, valueMapBuilder);
 		} else
 
 		{
-			classificationExpr = context._new(Classification.class, Classification.Type.VOTE, valueMapVar);
+			classificationExpr = context._new(Classification.class, Classification.Type.VOTE, valueMapBuilder);
 		}
 
 		context._return(classificationExpr);

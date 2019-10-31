@@ -55,7 +55,6 @@ import org.jpmml.evaluator.MissingElementException;
 import org.jpmml.evaluator.TypeUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
-import org.jpmml.evaluator.Value;
 import org.jpmml.model.XPathUtil;
 
 public class ModelChainTranslator extends MiningModelTranslator {
@@ -241,7 +240,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 			JInvocation methodInvocation = createEvaluatorMethodInvocation(evaluateMethod, context);
 
-			context.declare(Value.class, IdentifierUtil.create("value", outputField.getName()), methodInvocation);
+			context.declare(context.getValueType(), IdentifierUtil.create("value", outputField.getName()), methodInvocation);
 		}
 
 		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)

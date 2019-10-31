@@ -20,6 +20,7 @@ package com.jpmml.translator;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import com.sun.codemodel.JBlock;
@@ -27,9 +28,11 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
-public class Scope extends LinkedHashMap<String, JVar> {
+public class Scope {
 
 	private JBlock block = null;
+
+	private Map<String, JVar> variables = null;
 
 	private Set<String> nonMissingVariables = null;
 
@@ -69,6 +72,15 @@ public class Scope extends LinkedHashMap<String, JVar> {
 		return this;
 	}
 
+	public JVar getVariable(String name){
+
+		if(this.variables == null){
+			return null;
+		}
+
+		return this.variables.get(name);
+	}
+
 	public JVar declare(JType type, String name, JExpression initializer){
 		JBlock block = getBlock();
 
@@ -78,7 +90,12 @@ public class Scope extends LinkedHashMap<String, JVar> {
 	}
 
 	public JVar declare(JVar variable){
-		put(variable.name(), variable);
+
+		if(this.variables == null){
+			this.variables = new LinkedHashMap<>();
+		}
+
+		this.variables.put(variable.name(), variable);
 
 		return variable;
 	}
@@ -99,7 +116,7 @@ public class Scope extends LinkedHashMap<String, JVar> {
 		this.open = open;
 	}
 
-	public static final String NAME_ARGUMENTS = "arguments";
-	public static final String NAME_CONTEXT = "context";
-	public static final String NAME_VALUEFACTORY = "valueFactory";
+	public static final String VAR_ARGUMENTS = "arguments";
+	public static final String VAR_CONTEXT = "context";
+	public static final String VAR_VALUEFACTORY = "valueFactory";
 }

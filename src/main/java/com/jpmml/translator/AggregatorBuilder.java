@@ -18,20 +18,23 @@
  */
 package com.jpmml.translator;
 
-import org.jpmml.evaluator.ValueMap;
+import org.jpmml.evaluator.KeyValueAggregator;
+import org.jpmml.evaluator.ValueAggregator;
 
 /**
- * @see ValueMap
+ * @see ValueAggregator
+ * @see KeyValueAggregator
  */
-public class ValueMapBuilder extends JVarBuilder {
+public class AggregatorBuilder extends JVarBuilder {
 
-	public ValueMapBuilder(TranslationContext context){
+	public AggregatorBuilder(TranslationContext context){
 		super(context);
 	}
 
-	public ValueMapBuilder construct(String name){
+	@Override
+	public AggregatorBuilder construct(Class<?> type, String name, Object... args){
 		TranslationContext context = getContext();
 
-		return (ValueMapBuilder)construct(context.getValueMapType(), name);
+		return (AggregatorBuilder)construct(context.ref(type).narrow(context.getNumberTypeVariable()), name, args);
 	}
 }

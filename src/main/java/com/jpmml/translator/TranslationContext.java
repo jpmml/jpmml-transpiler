@@ -18,9 +18,12 @@
  */
 package com.jpmml.translator;
 
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,6 +43,7 @@ import com.sun.codemodel.JOp;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JSwitch;
 import com.sun.codemodel.JType;
+import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
@@ -49,6 +53,8 @@ import org.dmg.pmml.PMMLObject;
 import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.UnsupportedAttributeException;
+import org.jpmml.evaluator.Value;
+import org.jpmml.evaluator.ValueMap;
 
 public class TranslationContext {
 
@@ -132,7 +138,7 @@ public class TranslationContext {
 	public JVar getVariable(String name){
 
 		for(Scope scope : this.scopes){
-			JVar variable = scope.get(name);
+			JVar variable = scope.getVariable(name);
 
 			if(variable != null){
 				return variable;
@@ -143,19 +149,19 @@ public class TranslationContext {
 	}
 
 	public ArgumentsRef getArgumentsVariable(){
-		JVar variable = getVariable(Scope.NAME_ARGUMENTS);
+		JVar variable = getVariable(Scope.VAR_ARGUMENTS);
 
 		return new ArgumentsRef(variable);
 	}
 
 	public EvaluationContextRef getContextVariable(){
-		JVar variable = getVariable(Scope.NAME_CONTEXT);
+		JVar variable = getVariable(Scope.VAR_CONTEXT);
 
 		return new EvaluationContextRef(variable);
 	}
 
 	public ValueFactoryRef getValueFactoryVariable(){
-		JVar variable = getVariable(Scope.NAME_VALUEFACTORY);
+		JVar variable = getVariable(Scope.VAR_VALUEFACTORY);
 
 		return new ValueFactoryRef(variable);
 	}
@@ -242,6 +248,36 @@ public class TranslationContext {
 		}
 	}
 
+	public JTypeVar getTypeVariable(String name){
+
+		for(Scope scope : this.scopes){
+
+			if(scope instanceof MethodScope){
+				MethodScope methodScope = (MethodScope)scope;
+
+				return methodScope.getTypeVariable(name);
+			}
+		}
+
+		throw new IllegalArgumentException(name);
+	}
+
+	public JTypeVar getNumberTypeVariable(){
+		return getTypeVariable(MethodScope.TYPEVAR_NUMBER);
+	}
+
+	public JClass getValueType(){
+		JTypeVar numberTypeVar = getNumberTypeVariable();
+
+		return ref(Value.class).narrow(numberTypeVar);
+	}
+
+	public JClass getValueMapType(){
+		JTypeVar numberTypeVar = getNumberTypeVariable();
+
+		return ref(ValueMap.class).narrow(Arrays.asList(ref(String.class), numberTypeVar));
+	}
+
 	public JVar declare(Class<?> type, String name, JExpression init){
 		return declare(_ref(type), name, init);
 	}
@@ -318,10 +354,20 @@ public class TranslationContext {
 	}
 
 	public JInvocation _new(Class<?> type, Object... args){
+		TypeVariable<?>[] typeVariables = type.getTypeParameters();
+		if(typeVariables.length > 0){
+			return _new(ref(type).narrow(Collections.emptyList()), args);
+		}
+
 		return _new(ref(type), args);
 	}
 
 	public JInvocation _new(JClass type, Object... args){
+		List<JClass> typeParameters = type.getTypeParameters();
+		if(!typeParameters.isEmpty()){
+			type = (type.erasure()).narrow(Collections.emptyList());
+		}
+
 		JInvocation invocation = JExpr._new(type);
 
 		for(Object arg : args){

@@ -28,6 +28,7 @@ import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.FpPrimitiveEncoder;
 import com.jpmml.translator.IdentifierUtil;
+import com.jpmml.translator.JVarBuilder;
 import com.jpmml.translator.MethodScope;
 import com.jpmml.translator.ModelTranslator;
 import com.jpmml.translator.OperableRef;
@@ -183,9 +184,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			JVar scoreVar = context.declare(Number[].class, "score", scoreManager.getComponent(indexVar));
 
-			JVar valueMapVar = createScoreDistribution(categories, scoreVar, context);
+			JVarBuilder valueMapBuilder = createScoreDistribution(categories, scoreVar, context);
 
-			context._return(context._new(ProbabilityDistribution.class, valueMapVar));
+			context._return(context._new(ProbabilityDistribution.class, valueMapBuilder));
 		} finally {
 			context.popScope();
 		}
@@ -445,7 +446,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private JVar createScoreDistribution(String[] categories, JVar scoreVar, TranslationContext context){
+	private ValueMapBuilder createScoreDistribution(String[] categories, JVar scoreVar, TranslationContext context){
 		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
 			.construct("values");
 
@@ -457,7 +458,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			valueMapBuilder.update("put", categories[i], valueExpr);
 		}
 
-		return valueMapBuilder.getVariable();
+		return valueMapBuilder;
 	}
 
 	static

@@ -31,6 +31,8 @@ public class ValueBuilder extends JVarBuilder {
 	}
 
 	public ValueBuilder declare(String name, JInvocation invocation){
-		return (ValueBuilder)declare(Value.class, name, invocation);
+		TranslationContext context = getContext();
+
+		return (ValueBuilder)declare(context.getValueType(), name, invocation);
 	}
 }

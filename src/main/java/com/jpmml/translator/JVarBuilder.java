@@ -18,9 +18,9 @@
  */
 package com.jpmml.translator;
 
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
-import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
 public class JVarBuilder {
@@ -37,6 +37,12 @@ public class JVarBuilder {
 	public JVarBuilder construct(Class<?> type, String name, Object... args){
 		TranslationContext context = getContext();
 
+		return construct(context.ref(type), name, args);
+	}
+
+	public JVarBuilder construct(JClass type, String name, Object... args){
+		TranslationContext context = getContext();
+
 		JInvocation invocation = context._new(type, args);
 
 		return declare(type, name, invocation);
@@ -48,7 +54,7 @@ public class JVarBuilder {
 		return declare(context.ref(type), name, init);
 	}
 
-	public JVarBuilder declare(JType type, String name, JExpression init){
+	public JVarBuilder declare(JClass type, String name, JExpression init){
 		TranslationContext context = getContext();
 
 		JVar variable = context.declare(type, name, init);

@@ -18,14 +18,19 @@
  */
 package com.jpmml.translator;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 
 public class MethodScope extends Scope {
 
 	private JMethod method = null;
+
+	private Map<String, JTypeVar> typeVariables = null;
 
 
 	public MethodScope(JMethod method){
@@ -44,6 +49,29 @@ public class MethodScope extends Scope {
 
 			declare(varParam);
 		}
+
+		JTypeVar[] typeParams = method.typeParams();
+		for(JTypeVar typeParam : typeParams){
+			declare(typeParam);
+		}
+	}
+
+	public JTypeVar getTypeVariable(String name){
+
+		if(this.typeVariables == null){
+			return null;
+		}
+
+		return this.typeVariables.get(name);
+	}
+
+	public void declare(JTypeVar typeParam){
+
+		if(this.typeVariables == null){
+			this.typeVariables = new LinkedHashMap<>();
+		}
+
+		this.typeVariables.put(typeParam.name(), typeParam);
 	}
 
 	public JMethod getMethod(){
@@ -53,4 +81,6 @@ public class MethodScope extends Scope {
 	private void setMethod(JMethod method){
 		this.method = method;
 	}
+
+	public static final String TYPEVAR_NUMBER = "V";
 }

@@ -18,20 +18,27 @@
  */
 package com.jpmml.translator;
 
-import org.jpmml.evaluator.ValueMap;
+import com.sun.codemodel.JExpression;
+import org.dmg.pmml.DataType;
+import org.jpmml.evaluator.Classification;
+import org.jpmml.evaluator.TargetUtil;
 
 /**
- * @see ValueMap
+ * @see Classification
  */
-public class ValueMapBuilder extends JVarBuilder {
+public class ClassificationBuilder extends JVarBuilder {
 
-	public ValueMapBuilder(TranslationContext context){
+	public ClassificationBuilder(TranslationContext context){
 		super(context);
 	}
 
-	public ValueMapBuilder construct(String name){
+	public ClassificationBuilder declare(String name, JExpression init){
 		TranslationContext context = getContext();
 
-		return (ValueMapBuilder)construct(context.getValueMapType(), name);
+		return (ClassificationBuilder)declare(context.ref(Classification.class).narrow(context.getNumberTypeVariable()), name, init);
+	}
+
+	public ClassificationBuilder computeResult(DataType dataType){
+		return (ClassificationBuilder)staticUpdate(TargetUtil.class, "computeResult", dataType);
 	}
 }

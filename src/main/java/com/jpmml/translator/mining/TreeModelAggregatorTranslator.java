@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
+import com.jpmml.translator.AggregatorBuilder;
 import com.jpmml.translator.ArrayManager;
 import com.jpmml.translator.FieldInfo;
 import com.jpmml.translator.IdentifierUtil;
@@ -217,7 +218,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
-		JVarBuilder aggregatorBuilder = new JVarBuilder(context);
+		AggregatorBuilder aggregatorBuilder = new AggregatorBuilder(context);
 
 		switch(multipleModelMethod){
 			case SUM:
@@ -366,7 +367,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		}
 
 		JVarBuilder resultBuilder = new ValueBuilder(context)
-			.declare(Value.class, "result", valueInit);
+			.declare(context.getValueType(), "result", valueInit);
 
 		context._return(resultBuilder.getVariable());
 	}
@@ -385,7 +386,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
-		JVarBuilder aggregatorBuilder = new JVarBuilder(context);
+		AggregatorBuilder aggregatorBuilder = new AggregatorBuilder(context);
 
 		switch(multipleModelMethod){
 			case AVERAGE:
