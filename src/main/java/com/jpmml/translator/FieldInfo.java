@@ -29,6 +29,8 @@ public class FieldInfo {
 
 	private Encoder encoder = null;
 
+	private String variableName = null;
+
 
 	public FieldInfo(Field<?> field){
 		this(field, null);
@@ -37,21 +39,6 @@ public class FieldInfo {
 	public FieldInfo(Field<?> field, Encoder encoder){
 		setField(field);
 		setEncoder(encoder);
-	}
-
-	public String getVariableName(){
-		Field<?> field = getField();
-		Encoder encoder = getEncoder();
-
-		FieldName name = field.getName();
-
-		String result = IdentifierUtil.create(name);
-
-		if(encoder != null){
-			result = (result + "2" + encoder.getName());
-		}
-
-		return result;
 	}
 
 	public Field<?> getField(){
@@ -76,5 +63,33 @@ public class FieldInfo {
 
 	public void setEncoder(Encoder encoder){
 		this.encoder = encoder;
+	}
+
+	public String getVariableName(){
+
+		if(this.variableName == null){
+			this.variableName = createVariableName();
+		}
+
+		return this.variableName;
+	}
+
+	public void setVariableName(String varibaleName){
+		this.variableName = varibaleName;
+	}
+
+	private String createVariableName(){
+		Field<?> field = getField();
+		Encoder encoder = getEncoder();
+
+		FieldName name = field.getName();
+
+		String result = IdentifierUtil.sanitize(IdentifierUtil.truncate(name.getValue()));
+
+		if(encoder != null){
+			result = (result + "2" + encoder.getName());
+		}
+
+		return result;
 	}
 }

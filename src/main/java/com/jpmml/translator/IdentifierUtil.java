@@ -18,20 +18,48 @@
  */
 package com.jpmml.translator;
 
-import org.dmg.pmml.FieldName;
-
 public class IdentifierUtil {
 
 	private IdentifierUtil(){
 	}
 
 	static
-	public String create(FieldName name){
-		String value = name.getValue();
+	public String truncate(String name){
 
+		prefix:
+		while(name.length() > 0){
+			int lparen = name.indexOf('(');
+			int rparen = name.lastIndexOf(')');
+
+			if(lparen > -1 && rparen == (name.length() - 1)){
+				String prefix = name.substring(0, lparen);
+
+				switch(prefix){
+					case "str":
+					case "string":
+					case "int":
+					case "integer":
+					case "float":
+					case "double":
+					case "boolean":
+						name = name.substring(lparen + 1, rparen);
+						continue prefix;
+					default:
+						break;
+				}
+			}
+
+			return name;
+		}
+
+		return name;
+	}
+
+	static
+	public String sanitize(String name){
 		StringBuilder sb = new StringBuilder();
 
-		char[] chars = value.toCharArray();
+		char[] chars = name.toCharArray();
 
 		for(int i = 0; i < chars.length; i++){
 			char c = chars[i];
