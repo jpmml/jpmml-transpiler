@@ -23,6 +23,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
@@ -74,7 +76,7 @@ public class Main {
 		main.run();
 	}
 
-	private void run() throws Exception {
+	public void run() throws Exception {
 		File input = getInput();
 		File output = getOutput();
 
@@ -84,10 +86,18 @@ public class Main {
 			pmml = PMMLUtil.unmarshal(is);
 		}
 
+		Package _package = Main.class.getPackage();
+
+		Manifest manifest = new Manifest();
+
+		Attributes attributes = manifest.getMainAttributes();
+		attributes.putValue("Manifest-Version", "1.0");
+		attributes.putValue("Created-By", _package.getImplementationTitle() + " " + _package.getImplementationVersion());
+
 		JCodeModel codeModel = TranspilerUtil.transpile(pmml);
 
 		try(OutputStream os = new FileOutputStream(output)){
-			ArchiverUtil.archive(codeModel, os);
+			ArchiverUtil.archive(manifest, codeModel, os);
 		}
 	}
 
