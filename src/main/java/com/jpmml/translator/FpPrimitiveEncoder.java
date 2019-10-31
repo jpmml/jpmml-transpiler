@@ -22,7 +22,6 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPrimitiveType;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -60,7 +59,7 @@ public class FpPrimitiveEncoder implements Encoder {
 
 		JPrimitiveType primitiveType = (JPrimitiveType)type.unboxify();
 
-		JMethod encoderMethod = owner.method(JMod.PRIVATE, primitiveType, IdentifierUtil.create("toFloatingPointPrimitive", name));
+		JMethod encoderMethod = owner.method(ModelTranslator.MEMBER_PRIVATE, primitiveType, IdentifierUtil.create("toFloatingPointPrimitive", name));
 
 		JVar valueParam = encoderMethod.param(type, "value");
 

@@ -27,7 +27,6 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.FieldName;
@@ -68,7 +67,7 @@ public class OrdinalEncoder implements Encoder {
 	public JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod encoderMethod = owner.method(JMod.PRIVATE, context._ref(int.class), IdentifierUtil.create("toOrdinal", name));
+		JMethod encoderMethod = owner.method(ModelTranslator.MEMBER_PRIVATE, context._ref(int.class), IdentifierUtil.create("toOrdinal", name));
 
 		JVar valueParam = encoderMethod.param(type, "value");
 
