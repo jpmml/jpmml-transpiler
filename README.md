@@ -142,7 +142,13 @@ main
 Transpiling the model:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --pmml-input XGBoostAudit.pmml --jar-output XGBoostAudit.jar
+$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --xml-input XGBoostAudit.pmml --jar-output XGBoostAudit.jar
+```
+
+Getting help:
+
+```
+$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --help
 ```
 
 Evaluating the model in transpiled mode:
@@ -169,7 +175,7 @@ main
             99.9% <= 239,61 milliseconds
 ```
 
-In the current case, the transpilation has reduced the median evaluation time from 96 millis (for a batch of 1899 data records) to 11 millis, which is almost nine times difference
+In the current case, the transpilation has reduced the median evaluation time from 96 millis (for a batch of 1899 data records) to 11 millis, which is almost nine times difference.
 
 # License #
 

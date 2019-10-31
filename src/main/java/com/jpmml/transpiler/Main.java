@@ -37,8 +37,15 @@ import org.jpmml.model.PMMLUtil;
 public class Main {
 
 	@Parameter (
-		names = {"--pmml-input"},
-		description = "PMML input file",
+		names = {"--help"},
+		description = "Show the list of configuration options and exit",
+		help = true
+	)
+	private boolean help = false;
+
+	@Parameter (
+		names = {"--input", "--xml-input"},
+		description = "PMML XML input file",
 		required = true
 	)
 	private File input = null;
@@ -51,8 +58,8 @@ public class Main {
 	private String fullName = null;
 
 	@Parameter (
-		names = {"--jar-output"},
-		description = "JAR output file",
+		names = {"--output", "--jar-output"},
+		description = "PMML service JAR output file",
 		required = true
 	)
 	private File output = null;
@@ -80,10 +87,20 @@ public class Main {
 			System.exit(-1);
 		}
 
+		if(main.help){
+			StringBuilder sb = new StringBuilder();
+
+			commander.usage(sb);
+
+			System.out.println(sb.toString());
+
+			System.exit(0);
+		}
+
 		main.run();
 	}
 
-	private void run() throws Exception {
+	public void run() throws Exception {
 		File input = getInput();
 		String fullName = getFullName();
 		File output = getOutput();
