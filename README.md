@@ -113,36 +113,36 @@ Evaluator evaluator = new ModelEvaluatorBuilder(javaPMML)
 
 The effect of transpilation on memory consumption and execution speed can be estimated using the `org.jpmml.evaluator.EvaluationExample` command-line application (download the latest executable uber-JAR file from [JPMML-Evaluator releases](https://github.com/jpmml/jpmml-evaluator/releases) page).
 
-For example, evaluating the `/src/test/resources/pmml/XGBoostAudit.pmml` model with the `/src/test/resources/csv/Audit.csv` input dataset.
+For example, evaluating the `/src/test/resources/pmml/LightGBMAudit.pmml` model with the `/src/test/resources/csv/Audit.csv` input dataset.
 
 Evaluating the model in interpreted mode:
 
 ```
-$ java -jar pmml-evaluator-example-executable-${version}.jar --model XGBoostAudit.pmml --input Audit.csv --output /dev/null --optimize --intern --loop 100
+$ java -jar pmml-evaluator-example-executable-${version}.jar --model LightGBMAudit.pmml --input Audit.csv --output /dev/null --optimize --intern --loop 100
 
 -- Timers ----------------------------------------------------------------------
 main
              count = 1000
-         mean rate = 9,77 calls/second
-     1-minute rate = 9,36 calls/second
-     5-minute rate = 8,08 calls/second
-    15-minute rate = 7,65 calls/second
-               min = 94,77 milliseconds
-               max = 943,82 milliseconds
-              mean = 102,23 milliseconds
-            stddev = 30,24 milliseconds
-            median = 96,52 milliseconds
-              75% <= 99,77 milliseconds
-              95% <= 124,29 milliseconds
-              98% <= 153,55 milliseconds
-              99% <= 181,89 milliseconds
-            99.9% <= 943,14 milliseconds
+         mean rate = 3,52 calls/second
+     1-minute rate = 3,52 calls/second
+     5-minute rate = 3,16 calls/second
+    15-minute rate = 2,85 calls/second
+               min = 262,09 milliseconds
+               max = 1042,44 milliseconds
+              mean = 283,81 milliseconds
+            stddev = 39,11 milliseconds
+            median = 269,18 milliseconds
+              75% <= 280,05 milliseconds
+              95% <= 366,40 milliseconds
+              98% <= 373,75 milliseconds
+              99% <= 377,32 milliseconds
+            99.9% <= 1041,82 milliseconds
 ```
 
 Transpiling the model:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --xml-input XGBoostAudit.pmml --jar-output XGBoostAudit.jar
+$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
 ```
 
 Getting help:
@@ -154,28 +154,28 @@ $ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --help
 Evaluating the model in transpiled mode:
 
 ```
-$ java -jar pmml-evaluator-example-executable-${version}.jar --model XGBoostAudit.jar --input Audit.csv --output /dev/null --loop 1000
+$ java -jar pmml-evaluator-example-executable-${version}.jar --model LightGBMAudit.jar --input Audit.csv --output /dev/null --loop 1000
 
 -- Timers ----------------------------------------------------------------------
 main
              count = 1000
-         mean rate = 77,61 calls/second
-     1-minute rate = 67,21 calls/second
-     5-minute rate = 66,09 calls/second
-    15-minute rate = 65,90 calls/second
-               min = 10,93 milliseconds
-               max = 239,73 milliseconds
-              mean = 12,82 milliseconds
-            stddev = 9,30 milliseconds
-            median = 11,05 milliseconds
-              75% <= 11,71 milliseconds
-              95% <= 16,54 milliseconds
-              98% <= 25,62 milliseconds
-              99% <= 46,87 milliseconds
-            99.9% <= 239,61 milliseconds
+         mean rate = 34,34 calls/second
+     1-minute rate = 20,98 calls/second
+     5-minute rate = 15,59 calls/second
+    15-minute rate = 14,54 calls/second
+               min = 23,81 milliseconds
+               max = 325,43 milliseconds
+              mean = 29,05 milliseconds
+            stddev = 15,82 milliseconds
+            median = 24,06 milliseconds
+              75% <= 25,48 milliseconds
+              95% <= 60,53 milliseconds
+              98% <= 72,75 milliseconds
+              99% <= 91,66 milliseconds
+            99.9% <= 325,24 milliseconds
 ```
 
-In the current case, the transpilation has reduced the median evaluation time from 96 millis (for a batch of 1899 data records) to 11 millis, which is almost nine times difference.
+In the current case, the transpilation has reduced the median evaluation time from 269 millis (for a batch of 1899 data records) to 24 millis, which is more than eleven times difference.
 
 # License #
 
