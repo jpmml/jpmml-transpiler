@@ -39,7 +39,7 @@ public class TranspilerUtil {
 	}
 
 	static
-	public JCodeModel transpile(PMML pmml) throws Exception {
+	public JCodeModel transpile(PMML pmml, String fullName) throws Exception {
 		JCodeModel codeModel = new JCodeModel();
 
 		JClass pmmlClazz = codeModel.ref(PMML.class);
@@ -53,7 +53,7 @@ public class TranspilerUtil {
 
 		TranslationContext context = new TranslationContext(pmml, codeModel);
 
-		JClass transpiledPmmlClazz = PMMLObjectUtil.createClass(pmml, context);
+		JClass transpiledPmmlClazz = PMMLObjectUtil.createClass(pmml, fullName, context);
 
 		JPackage servicePackage = codeModel._package("META-INF/services");
 		servicePackage.addResourceFile(new JServiceConfigurationFile(pmmlClazz, Collections.<JClass>singletonList(transpiledPmmlClazz)));

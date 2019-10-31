@@ -44,6 +44,13 @@ public class Main {
 	private File input = null;
 
 	@Parameter (
+		names = {"--class-name"},
+		description = "The fully qualified name of the transpiled PMML class",
+		required = false
+	)
+	private String fullName = null;
+
+	@Parameter (
 		names = {"--jar-output"},
 		description = "JAR output file",
 		required = true
@@ -76,8 +83,9 @@ public class Main {
 		main.run();
 	}
 
-	public void run() throws Exception {
+	private void run() throws Exception {
 		File input = getInput();
+		String fullName = getFullName();
 		File output = getOutput();
 
 		PMML pmml;
@@ -94,7 +102,7 @@ public class Main {
 		attributes.putValue("Manifest-Version", "1.0");
 		attributes.putValue("Created-By", _package.getImplementationTitle() + " " + _package.getImplementationVersion());
 
-		JCodeModel codeModel = TranspilerUtil.transpile(pmml);
+		JCodeModel codeModel = TranspilerUtil.transpile(pmml, fullName);
 
 		try(OutputStream os = new FileOutputStream(output)){
 			ArchiverUtil.archive(manifest, codeModel, os);
@@ -107,6 +115,14 @@ public class Main {
 
 	public void setInput(File input){
 		this.input = input;
+	}
+
+	public String getFullName(){
+		return this.fullName;
+	}
+
+	public void setFullName(String fullName){
+		this.fullName = fullName;
 	}
 
 	public File getOutput(){

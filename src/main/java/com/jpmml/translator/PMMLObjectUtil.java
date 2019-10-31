@@ -59,35 +59,35 @@ public class PMMLObjectUtil {
 	}
 
 	static
-	public JDefinedClass createClass(PMMLObject object, TranslationContext context){
+	public JDefinedClass createClass(PMML pmml, String fullName, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
-		Class<?> clazz = object.getClass();
+		Class<?> clazz = pmml.getClass();
 
-		JDefinedClass definedClazz;
+		JDefinedClass owner;
 
 		try {
-			definedClazz = codeModel._class(IdentifierUtil.create(clazz.getSimpleName(), object));
+			owner = codeModel._class(fullName != null ? fullName : IdentifierUtil.create(clazz.getSimpleName(), pmml));
 		} catch(JClassAlreadyExistsException jcaee){
 			throw new RuntimeException(jcaee);
 		}
 
-		definedClazz._extends(clazz);
+		owner._extends(clazz);
 
 		try {
-			context.pushOwner(definedClazz);
+			context.pushOwner(owner);
 
-			JMethod constructor = definedClazz.constructor(JMod.PUBLIC);
+			JMethod constructor = owner.constructor(JMod.PUBLIC);
 
 			JBlock block = constructor.body();
 
-			block.add(constructObject(object, JExpr.invoke("super"), context));
-			block.add(initializeObject(object, null, context));
+			block.add(constructObject(pmml, JExpr.invoke("super"), context));
+			block.add(initializeObject(pmml, null, context));
 		} finally {
 			context.popOwner();
 		}
 
-		return definedClazz;
+		return owner;
 	}
 
 	static
