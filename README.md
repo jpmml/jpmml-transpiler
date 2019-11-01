@@ -58,13 +58,13 @@ import com.jpmml.transpiler.TranspilerUtil;
 import com.sun.codemodel.JCodeModel;
 import org.jpmml.model.PMMLUtil;
 
-PMML xmlPMML;
+PMML xmlPmml;
 
 try(InputStream is = ...){
 	xmlPmml = PMMLUtil.unmarshal(is);
 }
 
-JCodeModel codeModel = TranspilerUtil.transpile(xmlPmml);
+JCodeModel codeModel = TranspilerUtil.transpile(xmlPmml, null);
 ```
 
 This `JCodeModel` object holds complete PMML service provider information.
@@ -76,7 +76,7 @@ import org.jpmml.codemodel.JCodeModelClassLoader;
 
 ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
 
-PMML javaPMML = PMMLUtil.load(clazzLoader);
+PMML javaPmml = PMMLUtil.load(clazzLoader);
 ```
 
 However, if the PMML document is large (eg. some decision tree ensemble model) or the application is long-lived, then it's recommended to dump the `JCodeModel` object to a temporary JAR file in the local filesystem:
@@ -84,7 +84,7 @@ However, if the PMML document is large (eg. some decision tree ensemble model) o
 ```java
 import org.jpmml.codemodel.ArchiverUtil;
 
-PMML javaPMML;
+PMML javaPmml;
 
 File tmpFile = File.createTempFile("pmml-", ".jar");
 
@@ -93,7 +93,7 @@ try {
 		ArchiverUtil.archive(codeModel, os);
 	}
 
-	javaPMML = PMMLUtil.load((tmpFile.toURI()).toURL());
+	javaPmml = PMMLUtil.load((tmpFile.toURI()).toURL());
 } finally {
 	tmpFile.delete();
 }
@@ -106,13 +106,13 @@ Building a model evaluator:
 ```java
 import org.jpmml.evaluator.ModelEvaluatorBuilder;
 
-Evaluator evaluator = new ModelEvaluatorBuilder(javaPMML)
+Evaluator evaluator = new ModelEvaluatorBuilder(javaPmml)
 	.build();
 ```
 
 # Benchmarking #
 
-The effect of transpilation on memory consumption and execution speed can be estimated using the `org.jpmml.evaluator.EvaluationExample` command-line application (download the latest executable uber-JAR file from [JPMML-Evaluator releases](https://github.com/jpmml/jpmml-evaluator/releases) page).
+The effect of transpilation on memory consumption and execution speed can be estimated using the `org.jpmml.evaluator.EvaluationExample` command-line application (download the latest JPMML-Evaluator example executable uber-JAR file from the [JPMML-Evaluator releases](https://github.com/jpmml/jpmml-evaluator/releases) page).
 
 For example, evaluating the `/src/test/resources/pmml/LightGBMAudit.pmml` model with the `/src/test/resources/csv/Audit.csv` input dataset.
 
@@ -140,7 +140,7 @@ main
             99.9% <= 1041,82 milliseconds
 ```
 
-Transpiling the model:
+Transpiling the model (download the latest JPMML-Transpiler executable uber-JAR file from the [JPMML-Transpiler releases](https://github.com/vruusmann/jpmml-transpiler/releases) page):
 
 ```
 $ java -jar target/jpmml-transpiler-executable-${version}.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
