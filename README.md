@@ -21,22 +21,23 @@ A PMML service provider JAR is simply a JAR file that contains a `/META-INF/serv
 
 # Installation #
 
-JPMML-Transpiler is a proprietary product.
+JPMML-Transpiler is a proprietary product. The library JAR file is not, and will not be, available from public repositories such as the Maven Central repository.
 
-The library JAR file is is not, and will not be, available from public repositories such as the Maven Central repository.
+The current version is **1.0.0** (1. November, 2019).
 
 Obtaining and building JPMML-Transpiler locally using Apache Maven:
 
 ```
-$ git checkout https://github.com/vruusmann/jpmml-transpiler.git
+$ git clone https://github.com/vruusmann/jpmml-transpiler.git
 $ cd jpmml-transpiler
+$ git checkout ${version}
 $ mvn clean install
 ```
 
 The build produces two files:
 
-* `target/jpmml-transpiler-1.0-SNAPSHOT.jar` - the library JAR file.
-* `target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
+* `target/jpmml-transpiler-${version}.jar` - the library JAR file.
+* `target/jpmml-transpiler-executable-${version}.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
 
 Adding JPMML-Transpiler to a project:
 
@@ -44,7 +45,7 @@ Adding JPMML-Transpiler to a project:
 <dependency>
 	<groupId>com.jpmml</groupId>
 	<artifactId>jpmml-transpiler</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>${version}</version>
 </dependency>
 ```
 
@@ -142,13 +143,13 @@ main
 Transpiling the model:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
+$ java -jar target/jpmml-transpiler-executable-${version}.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
 ```
 
 Getting help:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --help
+$ java -jar target/jpmml-transpiler-executable-${version}.jar --help
 ```
 
 Evaluating the model in transpiled mode:
