@@ -23,15 +23,17 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
+import com.sun.codemodel.CodeWriter;
 import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
 import org.jpmml.codemodel.ArchiverUtil;
+import org.jpmml.codemodel.MarkedCodeWriter;
+import org.jpmml.codemodel.JarCodeWriter;
 import org.jpmml.model.PMMLUtil;
 
 public class Main {
@@ -59,7 +61,7 @@ public class Main {
 
 	@Parameter (
 		names = {"--output", "--jar-output"},
-		description = "PMML service JAR output file",
+		description = "PMML service provider JAR output file",
 		required = true
 	)
 	private File output = null;
@@ -111,18 +113,14 @@ public class Main {
 			pmml = PMMLUtil.unmarshal(is);
 		}
 
-		Package _package = Main.class.getPackage();
-
-		Manifest manifest = new Manifest();
-
-		Attributes attributes = manifest.getMainAttributes();
-		attributes.putValue("Manifest-Version", "1.0");
-		attributes.putValue("Created-By", _package.getImplementationTitle() + " " + _package.getImplementationVersion());
-
 		JCodeModel codeModel = TranspilerUtil.transpile(pmml, fullName);
 
+		Manifest manifest = ArchiverUtil.createManifest(TranspilerUtil.class);
+
 		try(OutputStream os = new FileOutputStream(output)){
-			ArchiverUtil.archive(manifest, codeModel, os);
+			CodeWriter codeWriter = new MarkedCodeWriter(new JarCodeWriter(os, manifest), Main.HEADER);
+
+			codeModel.build(codeWriter);
 		}
 	}
 
@@ -148,5 +146,24 @@ public class Main {
 
 	public void setOutput(File output){
 		this.output = output;
+	}
+
+	private static final String HEADER;
+
+	static {
+		String[] lines = {
+			"/*",
+			" * Copyright (c) 2019 Villu Ruusmann",
+			" */"
+		};
+		String lineSeparator = System.getProperty("line.separator");
+
+		StringBuilder sb = new StringBuilder();
+
+		for(String line : lines){
+			sb.append(line).append(lineSeparator);
+		}
+
+		HEADER = sb.toString();
 	}
 }
