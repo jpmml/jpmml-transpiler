@@ -69,7 +69,7 @@ public class PMMLObjectUtil {
 		try {
 			owner = codeModel._class(className != null ? className : IdentifierUtil.create(clazz.getSimpleName(), pmml));
 		} catch(JClassAlreadyExistsException jcaee){
-			throw new RuntimeException(jcaee);
+			throw new IllegalArgumentException(jcaee);
 		}
 
 		owner._extends(clazz);

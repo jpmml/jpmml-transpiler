@@ -100,7 +100,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		try {
 			javaModelClazz = owner._class(ModelTranslator.MEMBER_PUBLIC, IdentifierUtil.create(JavaModel.class.getSimpleName(), model));
 		} catch(JClassAlreadyExistsException jcaee){
-			throw new RuntimeException(jcaee);
+			throw new IllegalArgumentException(jcaee);
 		}
 
 		javaModelClazz._extends(JavaModel.class);
@@ -539,7 +539,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		try {
 			argumentsClazz = owner._class(ModelTranslator.MEMBER_PUBLIC, "Arguments");
 		} catch(JClassAlreadyExistsException jcaee){
-			throw new RuntimeException(jcaee);
+			throw new IllegalArgumentException(jcaee);
 		}
 
 		JFieldVar contextVar = argumentsClazz.field(JMod.PRIVATE, EvaluationContext.class, "context");
