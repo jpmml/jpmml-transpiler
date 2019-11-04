@@ -21,19 +21,15 @@ package com.jpmml.transpiler;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.jar.Manifest;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
-import com.sun.codemodel.CodeWriter;
 import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
-import org.jpmml.codemodel.ArchiverUtil;
-import org.jpmml.codemodel.MarkedCodeWriter;
-import org.jpmml.codemodel.JarCodeWriter;
 import org.jpmml.model.PMMLUtil;
 
 public class Main {
@@ -107,20 +103,23 @@ public class Main {
 		String className = getClassName();
 		File output = getOutput();
 
-		PMML pmml;
+		JCodeModel codeModel;
 
 		try(InputStream is = new FileInputStream(input)){
-			pmml = PMMLUtil.unmarshal(is);
+			PMML pmml = PMMLUtil.unmarshal(is);
+
+			codeModel = TranspilerUtil.translate(pmml, className);
 		}
 
-		JCodeModel codeModel = TranspilerUtil.transpile(pmml, className);
-
-		Manifest manifest = ArchiverUtil.createManifest(TranspilerUtil.class);
+		try {
+			TranspilerUtil.compile(codeModel);
+		// Inform the end user about the compilation exception, and keep going
+		} catch(IOException ioe){
+			ioe.printStackTrace(System.err);
+		}
 
 		try(OutputStream os = new FileOutputStream(output)){
-			CodeWriter codeWriter = new MarkedCodeWriter(new JarCodeWriter(os, manifest), Main.HEADER);
-
-			codeModel.build(codeWriter);
+			TranspilerUtil.archive(codeModel, os);
 		}
 	}
 
@@ -146,24 +145,5 @@ public class Main {
 
 	public void setOutput(File output){
 		this.output = output;
-	}
-
-	private static final String HEADER;
-
-	static {
-		String[] lines = {
-			"/*",
-			" * Copyright (c) 2019 Villu Ruusmann",
-			" */"
-		};
-		String lineSeparator = System.getProperty("line.separator");
-
-		StringBuilder sb = new StringBuilder();
-
-		for(String line : lines){
-			sb.append(line).append(lineSeparator);
-		}
-
-		HEADER = sb.toString();
 	}
 }

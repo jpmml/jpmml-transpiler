@@ -59,7 +59,9 @@ public class TranspilerTest extends IntegrationTest {
 			public PMML getPMML() throws Exception {
 				PMML xmlPmml = super.getPMML();
 
-				JCodeModel codeModel = TranspilerUtil.transpile(xmlPmml, null);
+				JCodeModel codeModel = TranspilerUtil.translate(xmlPmml, null);
+
+				TranspilerUtil.compile(codeModel);
 
 				ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
 

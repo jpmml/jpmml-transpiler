@@ -18,16 +18,23 @@
  */
 package com.jpmml.transpiler;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collections;
+import java.util.jar.Manifest;
 
 import com.jpmml.translator.PMMLObjectUtil;
 import com.jpmml.translator.TranslationContext;
+import com.sun.codemodel.CodeWriter;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JPackage;
 import org.dmg.pmml.PMML;
+import org.jpmml.codemodel.ArchiverUtil;
 import org.jpmml.codemodel.CompilerUtil;
 import org.jpmml.codemodel.JServiceConfigurationFile;
+import org.jpmml.codemodel.JarCodeWriter;
+import org.jpmml.codemodel.MarkedCodeWriter;
 import org.jpmml.evaluator.visitors.ValueOptimizer;
 import org.jpmml.model.VisitorBattery;
 import org.jpmml.model.visitors.NodeScoreOptimizer;
@@ -39,11 +46,7 @@ public class TranspilerUtil {
 	}
 
 	static
-	public JCodeModel transpile(PMML pmml, String className) throws Exception {
-		JCodeModel codeModel = new JCodeModel();
-
-		JClass pmmlClazz = codeModel.ref(PMML.class);
-
+	public JCodeModel translate(PMML pmml, String className){
 		VisitorBattery visitorBattery = new VisitorBattery();
 		visitorBattery.add(RowCleaner.class);
 		visitorBattery.add(NodeScoreOptimizer.class);
@@ -51,19 +54,48 @@ public class TranspilerUtil {
 
 		visitorBattery.applyTo(pmml);
 
+		JCodeModel codeModel = new JCodeModel();
+
 		TranslationContext context = new TranslationContext(pmml, codeModel);
 
 		JClass transpiledPmmlClazz = PMMLObjectUtil.createClass(pmml, className, context);
 
 		JPackage servicePackage = codeModel._package("META-INF/services");
-		servicePackage.addResourceFile(new JServiceConfigurationFile(pmmlClazz, Collections.<JClass>singletonList(transpiledPmmlClazz)));
-
-		try {
-			CompilerUtil.compile(codeModel);
-		} catch(Exception e){
-			e.printStackTrace(System.err);
-		}
+		servicePackage.addResourceFile(new JServiceConfigurationFile(context.ref(PMML.class), Collections.<JClass>singletonList(transpiledPmmlClazz)));
 
 		return codeModel;
+	}
+
+	static
+	public void compile(JCodeModel codeModel) throws IOException {
+		CompilerUtil.compile(codeModel);
+	}
+
+	static
+	public void archive(JCodeModel codeModel, OutputStream os) throws IOException {
+		Manifest manifest = ArchiverUtil.createManifest(TranspilerUtil.class);
+
+		CodeWriter codeWriter = new MarkedCodeWriter(new JarCodeWriter(os, manifest), TranspilerUtil.HEADER);
+
+		codeModel.build(codeWriter);
+	}
+
+	private static final String HEADER;
+
+	static {
+		String[] lines = {
+			"/*",
+			" * Copyright (c) 2019 Villu Ruusmann",
+			" */"
+		};
+		String lineSeparator = System.getProperty("line.separator");
+
+		StringBuilder sb = new StringBuilder();
+
+		for(String line : lines){
+			sb.append(line).append(lineSeparator);
+		}
+
+		HEADER = sb.toString();
 	}
 }
