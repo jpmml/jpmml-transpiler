@@ -58,9 +58,11 @@ import org.dmg.pmml.SimpleSetPredicate;
 import org.dmg.pmml.True;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.PMMLAttributes;
+import org.dmg.pmml.tree.PMMLElements;
 import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.MissingAttributeException;
+import org.jpmml.evaluator.MissingElementException;
 import org.jpmml.evaluator.ProbabilityDistribution;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
@@ -87,6 +89,16 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				break;
 			default:
 				throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
+		}
+
+		Node root = treeModel.getNode();
+		if(root == null){
+			throw new MissingElementException(treeModel, PMMLElements.TREEMODEL_NODE);
+		}
+
+		Predicate predicate = root.getPredicate();
+		if(!(predicate instanceof True)){
+			throw new UnsupportedElementException(predicate);
 		}
 	}
 
@@ -204,7 +216,19 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node root, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+		S score = scoreManager.apply(root);
+		Predicate predicate = root.getPredicate();
+
+		if(!(predicate instanceof True)){
+			throw new UnsupportedElementException(predicate);
+		}
+
+		translateNode(treeModel, null, root, scoreManager, fieldInfos, context);
+	}
+
+	static
+	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node parentNode,  Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		S score = scoreManager.apply(node);
 		Predicate predicate = node.getPredicate();
 
@@ -218,8 +242,19 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			try {
 				List<Node> children = node.getNodes();
 
+				children:
 				for(Node child : children){
-					translateNode(treeModel, child, scoreManager, fieldInfos, context);
+					Predicate childPredicate = child.getPredicate();
+
+					if(childPredicate instanceof False){
+						continue children;
+					}
+
+					translateNode(treeModel, node, child, scoreManager, fieldInfos, context);
+
+					if(childPredicate instanceof True){
+						return;
+					}
 				}
 			} finally {
 				context.popScope();
