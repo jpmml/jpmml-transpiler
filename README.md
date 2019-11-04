@@ -23,7 +23,7 @@ A PMML service provider JAR is simply a JAR file that contains a `/META-INF/serv
 
 JPMML-Transpiler is a proprietary product. The library JAR file is not, and will not be, available from public repositories such as the Maven Central repository.
 
-The current version is **1.0.1** (1. November, 2019).
+The current version is **1.0.2** (4. November, 2019).
 
 Obtaining and building JPMML-Transpiler locally using Apache Maven:
 
