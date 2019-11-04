@@ -57,7 +57,7 @@ public class Main {
 		description = "The fully qualified name of the transpiled PMML class",
 		required = false
 	)
-	private String fullName = null;
+	private String className = null;
 
 	@Parameter (
 		names = {"--output", "--jar-output"},
@@ -104,7 +104,7 @@ public class Main {
 
 	public void run() throws Exception {
 		File input = getInput();
-		String fullName = getFullName();
+		String className = getClassName();
 		File output = getOutput();
 
 		PMML pmml;
@@ -113,7 +113,7 @@ public class Main {
 			pmml = PMMLUtil.unmarshal(is);
 		}
 
-		JCodeModel codeModel = TranspilerUtil.transpile(pmml, fullName);
+		JCodeModel codeModel = TranspilerUtil.transpile(pmml, className);
 
 		Manifest manifest = ArchiverUtil.createManifest(TranspilerUtil.class);
 
@@ -132,12 +132,12 @@ public class Main {
 		this.input = input;
 	}
 
-	public String getFullName(){
-		return this.fullName;
+	public String getClassName(){
+		return this.className;
 	}
 
-	public void setFullName(String fullName){
-		this.fullName = fullName;
+	public void setClassName(String className){
+		this.className = className;
 	}
 
 	public File getOutput(){

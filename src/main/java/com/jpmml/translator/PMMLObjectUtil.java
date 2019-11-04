@@ -59,7 +59,7 @@ public class PMMLObjectUtil {
 	}
 
 	static
-	public JDefinedClass createClass(PMML pmml, String fullName, TranslationContext context){
+	public JDefinedClass createClass(PMML pmml, String className, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
 		Class<?> clazz = pmml.getClass();
@@ -67,7 +67,7 @@ public class PMMLObjectUtil {
 		JDefinedClass owner;
 
 		try {
-			owner = codeModel._class(fullName != null ? fullName : IdentifierUtil.create(clazz.getSimpleName(), pmml));
+			owner = codeModel._class(className != null ? className : IdentifierUtil.create(clazz.getSimpleName(), pmml));
 		} catch(JClassAlreadyExistsException jcaee){
 			throw new RuntimeException(jcaee);
 		}
