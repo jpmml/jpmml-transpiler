@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -93,15 +92,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 	public JExpression translate(TranslationContext context){
 		M model = getModel();
 
-		JDefinedClass owner = context.getOwner();
-
-		JDefinedClass javaModelClazz;
-
-		try {
-			javaModelClazz = owner._class(ModelTranslator.MEMBER_PUBLIC, IdentifierUtil.create(JavaModel.class.getSimpleName(), model));
-		} catch(JClassAlreadyExistsException jcaee){
-			throw new IllegalArgumentException(jcaee);
-		}
+		JDefinedClass javaModelClazz = PMMLObjectUtil.createMemberClass(ModelTranslator.MEMBER_PUBLIC, IdentifierUtil.create(JavaModel.class.getSimpleName(), model), context);
 
 		javaModelClazz._extends(JavaModel.class);
 
@@ -531,13 +522,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 			}
 		}
 
-		JDefinedClass argumentsClazz;
-
-		try {
-			argumentsClazz = owner._class(ModelTranslator.MEMBER_PUBLIC, "Arguments");
-		} catch(JClassAlreadyExistsException jcaee){
-			throw new IllegalArgumentException(jcaee);
-		}
+		JDefinedClass argumentsClazz = PMMLObjectUtil.createMemberClass(ModelTranslator.MEMBER_PUBLIC, "Arguments", context);
 
 		JFieldVar contextVar = argumentsClazz.field(JMod.PRIVATE, EvaluationContext.class, "context");
 

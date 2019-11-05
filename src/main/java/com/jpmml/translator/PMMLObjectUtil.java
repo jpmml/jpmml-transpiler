@@ -59,35 +59,51 @@ public class PMMLObjectUtil {
 	}
 
 	static
-	public JDefinedClass createClass(PMML pmml, String className, TranslationContext context){
+	public JDefinedClass createClass(PMMLObject object, String className, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
-		Class<?> clazz = pmml.getClass();
+		Class<?> clazz = object.getClass();
 
-		JDefinedClass owner;
+		JDefinedClass definedClazz;
 
 		try {
-			owner = codeModel._class(className != null ? className : IdentifierUtil.create(clazz.getSimpleName(), pmml));
+			definedClazz = codeModel._class(className != null ? className : IdentifierUtil.create(clazz.getSimpleName(), object));
 		} catch(JClassAlreadyExistsException jcaee){
 			throw new IllegalArgumentException(jcaee);
 		}
 
-		owner._extends(clazz);
+		definedClazz._extends(clazz);
+
+		return definedClazz;
+	}
+
+	static
+	public JDefinedClass createMemberClass(int mods, String name, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		JDefinedClass definedClazz;
 
 		try {
-			context.pushOwner(owner);
-
-			JMethod constructor = owner.constructor(JMod.PUBLIC);
-
-			JBlock block = constructor.body();
-
-			block.add(constructObject(pmml, JExpr.invoke("super"), context));
-			block.add(initializeObject(pmml, null, context));
-		} finally {
-			context.popOwner();
+			definedClazz = owner._class(mods, name);
+		} catch(JClassAlreadyExistsException jcaee){
+			throw new IllegalArgumentException(jcaee);
 		}
 
-		return owner;
+		return definedClazz;
+	}
+
+	static
+	public JMethod createDefaultConstructor(PMMLObject object, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		JMethod constructor = owner.constructor(JMod.PUBLIC);
+
+		JBlock block = constructor.body();
+
+		block.add(constructObject(object, JExpr.invoke("super"), context));
+		block.add(initializeObject(object, null, context));
+
+		return constructor;
 	}
 
 	static

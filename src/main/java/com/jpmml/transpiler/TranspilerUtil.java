@@ -28,6 +28,7 @@ import com.jpmml.translator.TranslationContext;
 import com.sun.codemodel.CodeWriter;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JPackage;
 import org.dmg.pmml.PMML;
 import org.jpmml.codemodel.ArchiverUtil;
@@ -58,7 +59,15 @@ public class TranspilerUtil {
 
 		TranslationContext context = new TranslationContext(pmml, codeModel);
 
-		JClass transpiledPmmlClazz = PMMLObjectUtil.createClass(pmml, className, context);
+		JDefinedClass transpiledPmmlClazz = PMMLObjectUtil.createClass(pmml, className, context);
+
+		try {
+			context.pushOwner(transpiledPmmlClazz);
+
+			PMMLObjectUtil.createDefaultConstructor(pmml, context);
+		} finally {
+			context.popOwner();
+		}
 
 		JPackage servicePackage = codeModel._package("META-INF/services");
 		servicePackage.addResourceFile(new JServiceConfigurationFile(context.ref(PMML.class), Collections.<JClass>singletonList(transpiledPmmlClazz)));
