@@ -121,9 +121,8 @@ public class PMMLObjectUtil {
 	public JInvocation createObject(PMMLObject object, TranslationContext context){
 		Class<? extends PMMLObject> clazz = object.getClass();
 
-		JInvocation invocation = context._new(clazz);
+		JInvocation invocation = constructObject(object, context._new(clazz), context);
 
-		invocation = constructObject(object, invocation, context);
 		invocation = initializeObject(object, invocation, context);
 
 		return invocation;
@@ -233,10 +232,6 @@ public class PMMLObjectUtil {
 
 		if(ReflectionUtil.isPrimitiveWrapper(clazz)){
 
-			if((Boolean.class).equals(clazz)){
-				return JExpr.lit((Boolean)value);
-			} else
-
 			if((Integer.class).equals(clazz)){
 				return JExpr.lit((Integer)value);
 			} else
@@ -247,6 +242,10 @@ public class PMMLObjectUtil {
 
 			if((Double.class).equals(clazz)){
 				return JExpr.lit((Double)value);
+			} else
+
+			if((Boolean.class).equals(clazz)){
+				return JExpr.lit((Boolean)value);
 			}
 		} else
 

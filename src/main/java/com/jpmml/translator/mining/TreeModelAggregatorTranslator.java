@@ -46,7 +46,6 @@ import com.jpmml.translator.tree.NodeScoreManager;
 import com.jpmml.translator.tree.ScoreFunction;
 import com.jpmml.translator.tree.TreeModelTranslator;
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
@@ -212,8 +211,6 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
-		JDefinedClass owner = context.getOwner();
-
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
@@ -298,7 +295,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
-		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(owner)), methods);
+		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(context)), methods);
 
 		JBlock block = context.block();
 
@@ -379,8 +376,6 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
-
-		JDefinedClass owner = context.getOwner();
 
 		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
 
@@ -465,7 +460,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
-		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(owner)), methods);
+		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(context)), methods);
 
 		JFieldVar categoriesVar = codeInitializer.initTargetCategories("targetCategories", Arrays.asList(categories));
 

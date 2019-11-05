@@ -467,8 +467,6 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 	private JMethod createEvaluatorMethod(Class<?> type, String name, boolean withValueFactory, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JType argumentsType = ensureArgumentsType(owner);
-
 		JMethod method = owner.method(ModelTranslator.MEMBER_PRIVATE, type, name);
 
 		if(withValueFactory){
@@ -482,7 +480,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 			method.param(context.ref(ValueFactory.class).narrow(numberTypeVar), Scope.VAR_VALUEFACTORY);
 		}
 
-		method.param(argumentsType, Scope.VAR_ARGUMENTS);
+		method.param(ensureArgumentsType(context), Scope.VAR_ARGUMENTS);
 
 		return method;
 	}
@@ -502,9 +500,7 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 					try {
 						arg = (context.getArgumentsVariable()).getVariable();
 					} catch(IllegalArgumentException iae){
-						JDefinedClass owner = context.getOwner();
-
-						arg = JExpr._new(ensureArgumentsType(owner)).arg((context.getContextVariable()).getVariable());
+						arg = JExpr._new(ensureArgumentsType(context)).arg((context.getContextVariable()).getVariable());
 					}
 					break;
 				case Scope.VAR_CONTEXT:
@@ -524,7 +520,8 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 	}
 
 	static
-	public JDefinedClass ensureArgumentsType(JDefinedClass owner){
+	public JDefinedClass ensureArgumentsType(TranslationContext context){
+		JDefinedClass owner = context.getOwner();
 
 		for(Iterator<JDefinedClass> it = owner.classes(); it.hasNext(); ){
 			JDefinedClass clazz = it.next();

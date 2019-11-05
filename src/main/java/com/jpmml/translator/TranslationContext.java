@@ -93,7 +93,7 @@ public class TranslationContext {
 	}
 
 	public JDefinedClass getOwner(){
-		return this.owners.peekFirst();
+		return this.owners.getFirst();
 	}
 
 	public void pushOwner(JDefinedClass owner){
@@ -418,7 +418,7 @@ public class TranslationContext {
 	}
 
 	public Scope getScope(){
-		return this.scopes.peekFirst();
+		return this.scopes.getFirst();
 	}
 
 	public void pushScope(Scope scope){
