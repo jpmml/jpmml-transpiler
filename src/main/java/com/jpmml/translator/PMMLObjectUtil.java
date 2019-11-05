@@ -35,6 +35,7 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JType;
 import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.Header;
@@ -74,6 +75,13 @@ public class PMMLObjectUtil {
 
 		definedClazz._extends(clazz);
 
+		JMethod loaderMethod = definedClazz.method(ModelTranslator.MEMBER_PRIVATE, void.class, "ensureLoaded");
+
+		JBlock init = definedClazz.init();
+
+		// The loader method of a top level class is invoked from its static initializer
+		init.add(definedClazz.staticInvoke(loaderMethod));
+
 		return definedClazz;
 	}
 
@@ -88,6 +96,15 @@ public class PMMLObjectUtil {
 		} catch(JClassAlreadyExistsException jcaee){
 			throw new IllegalArgumentException(jcaee);
 		}
+
+		JMethod loaderMethod = definedClazz.method(ModelTranslator.MEMBER_PRIVATE, void.class, "ensureLoaded");
+
+		JMethod ownerLoaderMethod = owner.getMethod("ensureLoaded", new JType[0]);
+
+		JBlock block = ownerLoaderMethod.body();
+
+		// The loader method of a member class is invoked from the loader method of its enclosing class
+		block.add(definedClazz.staticInvoke(loaderMethod));
 
 		return definedClazz;
 	}
