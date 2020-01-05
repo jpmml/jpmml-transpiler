@@ -41,7 +41,7 @@ Adding JPMML-Transpiler to a project:
 
 ```xml
 <dependency>
-	<groupId>com.jpmml</groupId>
+	<groupId>org.jpmml</groupId>
 	<artifactId>jpmml-transpiler</artifactId>
 	<version>${version}</version>
 </dependency>
@@ -52,9 +52,9 @@ Adding JPMML-Transpiler to a project:
 Transpiling an XML-backed `org.dmg.pmml.PMML` object to an `com.sun.codemodel.JCodeModel` object:
 
 ```java
-import com.jpmml.transpiler.TranspilerUtil;
 import com.sun.codemodel.JCodeModel;
 import org.jpmml.model.PMMLUtil;
+import org.jpmml.transpiler.TranspilerUtil;
 
 PMML xmlPmml;
 
