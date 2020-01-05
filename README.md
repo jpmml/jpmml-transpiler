@@ -21,14 +21,12 @@ A PMML service provider Java archive is simply a JAR file that contains a `/META
 
 # Installation #
 
-JPMML-Transpiler is a proprietary product. The library JAR file is not, and will not be, available from public repositories such as the Maven Central repository.
-
 The current version is **1.0.3** (5. November, 2019).
 
 Obtaining and building JPMML-Transpiler locally using Apache Maven:
 
 ```
-$ git clone https://github.com/vruusmann/jpmml-transpiler.git
+$ git clone https://github.com/jpmml/jpmml-transpiler.git
 $ cd jpmml-transpiler
 $ git checkout ${version}
 $ mvn clean install
@@ -140,7 +138,7 @@ main
             99.9% <= 1041,82 milliseconds
 ```
 
-Transpiling the model (download the latest JPMML-Transpiler executable uber-JAR file from the [JPMML-Transpiler releases](https://github.com/vruusmann/jpmml-transpiler/releases) page):
+Transpiling the model:
 
 ```
 $ java -jar target/jpmml-transpiler-executable-${version}.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar

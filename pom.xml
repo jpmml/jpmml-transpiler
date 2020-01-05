@@ -19,14 +19,14 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:git@github.com:vruusmann/jpmml-transpiler.git</connection>
-		<developerConnection>scm:git:git@github.com:vruusmann/jpmml-transpiler.git</developerConnection>
-		<url>git://github.com/vruusmann/jpmml-transpiler.git</url>
+		<connection>scm:git:git@github.com:jpmml/jpmml-transpiler.git</connection>
+		<developerConnection>scm:git:git@github.com:jpmml/jpmml-transpiler.git</developerConnection>
+		<url>git://github.com/jpmml/jpmml-transpiler.git</url>
 		<tag>HEAD</tag>
 	</scm>
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/vruusmann/jpmml-transpiler/issues</url>
+		<url>https://github.com/jpmml/jpmml-transpiler/issues</url>
 	</issueManagement>
 
 	<dependencies>
@@ -207,9 +207,9 @@
 						<id>default-cli</id>
 						<configuration>
 							<artifact>${project.build.directory}/${project.artifactId}-executable-${project.version}.${project.packaging}</artifact>
-							<description>https://github.com/vruusmann/jpmml-transpiler</description>
+							<description>https://github.com/jpmml/jpmml-transpiler</description>
 							<releaseName>${project.version}</releaseName>
-							<repositoryId>vruusmann/jpmml-transpiler</repositoryId>
+							<repositoryId>jpmml/jpmml-transpiler</repositoryId>
 							<tag>${project.version}</tag>
 						</configuration>
 					</execution>
