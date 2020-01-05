@@ -11,13 +11,13 @@ JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "trans
 * Models become `org.jpmml.evaluator.java.JavaModel` subclasses.
 * Predicates become `org.jpmml.evaluator.JavaPredicate` subclasses.
 
-Transpilation results (Java source files plus Java bytecode files) are packaged into a "PMML service provider" JAR.
+Transpilation results (Java source files plus Java bytecode files) are packaged into a "PMML service provider" Java archive.
 
-A PMML service provider JAR is simply a JAR file that contains a `/META-INF/services/org.dmg.pmml.PMML` service provider configuration file.
+A PMML service provider Java archive is simply a JAR file that contains a `/META-INF/services/org.dmg.pmml.PMML` service provider configuration file.
 
 # Prerequisites #
 
-* JPMML-Evaluator 1.4.13 or newer
+* JPMML-Evaluator 1.4.13 or newer.
 
 # Installation #
 
