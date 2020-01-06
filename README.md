@@ -5,15 +5,13 @@ Java Transpiler (Translator + Compiler) API for Predictive Model Markup Language
 
 # Features #
 
-JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "transpiles" XML-backed objects into executable Java-backed objects:
+JPMML-Transpiler is a value add-on library to the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library platform.
+
+JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "transpiles" dummy XML-backed objects into smart and optimized Java-backed objects for speedier execution:
 
 * Expressions become `org.jpmml.evaluator.JavaExpression` subclasses.
 * Models become `org.jpmml.evaluator.java.JavaModel` subclasses.
 * Predicates become `org.jpmml.evaluator.JavaPredicate` subclasses.
-
-Transpilation results (Java source files plus Java bytecode files) are packaged into a "PMML service provider" Java archive.
-
-A PMML service provider Java archive is simply a JAR file that contains a `/META-INF/services/org.dmg.pmml.PMML` service provider configuration file.
 
 # Prerequisites #
 
@@ -23,7 +21,7 @@ A PMML service provider Java archive is simply a JAR file that contains a `/META
 
 ### Release versions
 
-The current release version is **1.0.4** (6. January, 2019):
+The current release version is **1.0.4** (6 January, 2019):
 
 JPMML-Transpiler library JAR files (together with accompanying Java source and Javadocs JAR files) are released via [Maven Central Repository](https://repo1.maven.org/maven2/org/jpmml/).
 
@@ -54,6 +52,8 @@ The build produces two files:
 
 # Usage #
 
+### Transpiling XML-backed PMML objects to Java codemodel objects
+
 Transpiling an XML-backed `org.dmg.pmml.PMML` object to an `com.sun.codemodel.JCodeModel` object:
 
 ```java
@@ -67,44 +67,85 @@ try(InputStream is = ...){
 	xmlPmml = PMMLUtil.unmarshal(is);
 }
 
-JCodeModel codeModel = TranspilerUtil.transpile(xmlPmml, null);
+// Set the fully-qualified name of the generated PMML subclass to `com.mycompany.MyModel`
+JCodeModel codeModel = TranspilerUtil.transpile(xmlPmml, "com.mycompany.MyModel");
 ```
 
-This `JCodeModel` object holds complete PMML service provider information.
+### Storing Java codemodel objects to PMML service provider JAR files
 
-If the PMML document is small and the application is short-lived, then it's possible to load a Java-backed `org.dmg.pmml.PMML` object directly from the `JCodeModel` object:
-
-```java
-import org.jpmml.codemodel.JCodeModelClassLoader;
-
-ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
-
-PMML javaPmml = PMMLUtil.load(clazzLoader);
-```
-
-However, if the PMML document is large (eg. some decision tree ensemble model) or the application is long-lived, then it's recommended to dump the `JCodeModel` object to a temporary JAR file in the local filesystem:
+Storing the `JCodeModel` object to a PMML service provider Java archive:
 
 ```java
 import org.jpmml.codemodel.ArchiverUtil;
 
-PMML javaPmml;
+File jarFile = new File(...);
 
-File tmpFile = File.createTempFile("pmml-", ".jar");
-
-try {
-	try(OutputStream os = new FileOutputStream(tmpFile)){
-		ArchiverUtil.archive(codeModel, os);
-	}
-
-	javaPmml = PMMLUtil.load((tmpFile.toURI()).toURL());
-} finally {
-	tmpFile.delete();
+try(OutputStream os = new FileOutputStream(jarFile)){
+	ArchiverUtil.archive(codeModel, os);
 }
 ```
 
-A Java-backed `org.dmg.pmml.PMML` object typically does not benefit from applying extra optimizing or interning Visitors to it.
+### Loading Java-backed PMML objects from PMML service provider JAR files
 
-Building a model evaluator:
+A PMML service provider Java archive is a Java ARchive (JAR) file that contains all transpilation results (Java source and bytecode files), plus a `/META-INF/services/org.dmg.pmml.PMML` service provider configuration file.
+
+Such Java archives can be regarded as "model plug-ins" to a Java application.
+
+Creating a `java.net.URLClassLoader` object to interact with the contents of a PMML service provider Java archive in a local filesystem:
+
+```java
+import java.net.URL;
+import java.net.URLClassLoader;
+
+File jarFile = ...;
+
+URL[] classpath = {
+	(jarFile.toURI()).toURL()
+};
+
+try(URLClassLoader clazzLoader = new URLClassLoader(classpath)){
+	// Load and instantiate generated PMML subclass(es)
+}
+```
+
+The generated `PMML` subclass can always be loaded and instantiated using [Java's service-provider loading facility](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html).
+
+If the classpath contains exactly one PMML service provider Java archive, then it's possible to use the `org.jpmml.model.PMMLUtil#load(ClassLoader)` utility method:
+
+```java
+import org.dmg.pmml.PMML;
+import org.jpmml.model.PMMLUtil;
+
+PMML javaPmml = PMMLUtil.load(clazzLoader);
+```
+
+If the classpath contains more than one PMML service provider Java archives, then it becomes necessary to fall back to Java's standard APIs:
+
+```java
+import java.util.ServiceLoader;
+import org.dmg.pmml.PMML;
+
+ServiceLoader<PMML> pmmlServiceLoader = ServiceLoader.load(PMML.class, clazzLoader);
+for(Iterator<PMML> pmmlIt = pmmlServiceLoader.iterator(); pmmlIt.hasNext(); ){
+	PMML javaPmml = pmmlIt.next();
+}
+```
+
+Alternatively, if the fully qualified name of the generated `PMML` subclass is known, then it's possible to load and instantiate it manually:
+
+```java
+Class<?> clazz = clazzLoader.loadClass("com.mycompany.MyModel");
+
+Class<? extends PMML> pmmlClazz = clazz.asSubclass(PMML.class);
+
+PMML javaPmml = pmmlClazz.newInstance();
+```
+
+The Java-backed `PMML` object is at its peak performance right from the start. There is no need to apply any optimizers or interners to it. The only noteworthy downside of the Java-backed object compared to the XML-backed object is the lack of SAX Locator information, which makes pinpointing evaluation exceptions to exact model source code location more difficult.
+
+### Building model evaluators
+
+Building a model evaluator from a Java-backed `PMML` object:
 
 ```java
 import org.jpmml.evaluator.ModelEvaluatorBuilder;
@@ -113,7 +154,23 @@ Evaluator evaluator = new ModelEvaluatorBuilder(javaPmml)
 	.build();
 ```
 
+Building a model evaluator from a PMML service provider Java archive:
+
+```java
+import org.jpmml.evaluator.ServiceLoadingModelEvaluatorBuilder;
+
+File jarFile = ...;
+
+Evaluator evaluator = new ServiceLoadingModelEvaluatorBuilder()
+	.loadService((jarFile.toURI()).toURL())
+	.build();
+```
+
+Java-backed model evaluators are functionally equivalent to XML-backed model evaluators.
+
 # Benchmarking #
+
+### Protocol
 
 The effect of transpilation on memory consumption and execution speed can be estimated using the `org.jpmml.evaluator.EvaluationExample` command-line application (download the latest JPMML-Evaluator example executable uber-JAR file from the [JPMML-Evaluator releases](https://github.com/jpmml/jpmml-evaluator/releases) page).
 
@@ -122,7 +179,7 @@ For example, evaluating the `/src/test/resources/pmml/LightGBMAudit.pmml` model 
 Evaluating the model in interpreted mode:
 
 ```
-$ java -jar pmml-evaluator-example-executable-${version}.jar --model LightGBMAudit.pmml --input Audit.csv --output /dev/null --optimize --intern --loop 100
+$ java -jar pmml-evaluator-example-executable-1.4-SNAPSHOT.jar --model LightGBMAudit.pmml --input Audit.csv --output /dev/null --optimize --intern --loop 100
 
 -- Timers ----------------------------------------------------------------------
 main
@@ -146,19 +203,19 @@ main
 Transpiling the model:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-${version}.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
+$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
 ```
 
 Getting help:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-${version}.jar --help
+$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --help
 ```
 
 Evaluating the model in transpiled mode:
 
 ```
-$ java -jar pmml-evaluator-example-executable-${version}.jar --model LightGBMAudit.jar --input Audit.csv --output /dev/null --loop 1000
+$ java -jar pmml-evaluator-example-executable-1.4-SNAPSHOT.jar --model LightGBMAudit.jar --input Audit.csv --output /dev/null --loop 1000
 
 -- Timers ----------------------------------------------------------------------
 main
@@ -180,6 +237,48 @@ main
 ```
 
 In the current case, the transpilation has reduced the median evaluation time from 269 millis (for a batch of 1899 data records) to 24 millis, which is more than eleven times difference.
+
+### Results
+
+The project includes a [benchmarking script](https://github.com/jpmml/jpmml-transpiler/tree/master/src/test/resources/benchmark.sh), which executes a number Scikit-Learn, LightGBM and XGBoost models first in "interpreted mode" (JPMML-Evaluator alone) and then in "transpiled mode" (JPMML-Transpiler on top of JPMML-Evaluator).
+
+The reported metric is the median batch prediction time. Absolute timings are rather meaningless. What matters is the ratio between the timings for interpreted mode and transpiled mode, which is called "speed-up factor" in the tables below.
+
+All the benchmarked model PMML documents are available in the [PMML test resources directory](https://github.com/jpmml/jpmml-transpiler/tree/master/src/test/resources/pmml/).
+
+##### Audit dataset
+
+Binary classification using three continuous features and five categorical (string) features.
+
+| Model | Interpreted (ms) | Transpiled (ms) | Speed-up factor |
+| ----- | ---------------- | --------------- | --------------- |
+| DecisionTreeAudit.pmml | 9.50 | 6.96 | 1.4 |
+| GradientBoostingAudit.pmml | 80.89 | 23.95 | 3.4 |
+| LightGBMAudit.pmml | 268.27 | 21.77 | 12.3 |
+| RandomForestAudit.pmml | 106.84 | 21.62 | 4.9 |
+| XGBoostAudit.pmml | 73.44 | 13.86 | 5.3 |
+
+##### Iris dataset
+
+Multi-class classification using four continuous features.
+
+| Model | Interpreted (ms) | Transpiled (ms) | Speed-up factor |
+| ----- | ---------------- | --------------- | --------------- |
+| DecisionTreeIris.pmml | 0.48 | 0.32 | 1.5 |
+| LightGBMIris.pmml | 4.57 | 0.40 | 11.4 |
+| XGBoostIris.pmml | 2.65 | 0.38 | 7.0 |
+
+##### Auto dataset
+
+Regression using four continuous features and three categorical (integer) features.
+
+| Model | Interpreted (ms) | Transpiled (ms) | Speed-up factor |
+| ----- | ---------------- | --------------- | --------------- |
+| DecisionTreeAuto.pmml | 1.69 | 0.96 | 1.8 |
+| GradientBoostingAuto.pmml | 7.01 | 1.38 | 5.1 |
+| LightGBMAuto.pmml | 20.60 | 1.22 | 16.9 |
+| RandomForestAuto.pmml | 13.44 | 2.35 | 5.7 |
+| XGBoostAuto.pmml | 6.24 | 1.15 | 5.4 |
 
 # License #
 
