@@ -21,31 +21,36 @@ A PMML service provider Java archive is simply a JAR file that contains a `/META
 
 # Installation #
 
-The current version is **1.0.3** (5. November, 2019).
+### Release versions
 
-Obtaining and building JPMML-Transpiler locally using Apache Maven:
+The current release version is **1.0.4** (6. January, 2019):
 
-```
-$ git clone https://github.com/jpmml/jpmml-transpiler.git
-$ cd jpmml-transpiler
-$ git checkout ${version}
-$ mvn clean install
-```
-
-The build produces two files:
-
-* `target/jpmml-transpiler-${version}.jar` - the library JAR file.
-* `target/jpmml-transpiler-executable-${version}.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
-
-Adding JPMML-Transpiler to a project:
+JPMML-Transpiler library JAR files (together with accompanying Java source and Javadocs JAR files) are released via [Maven Central Repository](https://repo1.maven.org/maven2/org/jpmml/).
 
 ```xml
 <dependency>
 	<groupId>org.jpmml</groupId>
 	<artifactId>jpmml-transpiler</artifactId>
-	<version>${version}</version>
+	<version>1.0.4</version>
 </dependency>
 ```
+
+JPMML-Transpiler executable uber-JAR files are released via [GitHub](https://github.com/jpmml/jpmml-transpiler/releases).
+
+### Snapshot versions
+
+Clone the project. Enter the project root directory and build using [Apache Maven](https://maven.apache.org/):
+
+```
+$ git clone https://github.com/jpmml/jpmml-transpiler.git
+$ cd jpmml-transpiler
+$ mvn clean install
+```
+
+The build produces two files:
+
+* `target/jpmml-transpiler-1.0-SNAPSHOT.jar` - the library JAR file.
+* `target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
 
 # Usage #
 
