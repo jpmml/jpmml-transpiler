@@ -47,8 +47,8 @@ $ mvn clean install
 
 The build produces two files:
 
-* `target/jpmml-transpiler-1.0-SNAPSHOT.jar` - the library JAR file.
-* `target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
+* `target/jpmml-transpiler-1.1-SNAPSHOT.jar` - the library JAR file.
+* `target/jpmml-transpiler-executable-1.1-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
 
 # Usage #
 
@@ -203,13 +203,13 @@ main
 Transpiling the model:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
+$ java -jar target/jpmml-transpiler-executable-1.1-SNAPSHOT.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
 ```
 
 Getting help:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.0-SNAPSHOT.jar --help
+$ java -jar target/jpmml-transpiler-executable-1.1-SNAPSHOT.jar --help
 ```
 
 Evaluating the model in transpiled mode:
