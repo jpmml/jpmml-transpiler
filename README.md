@@ -280,12 +280,20 @@ Regression using four continuous features and three categorical (integer) featur
 | RandomForestAuto.pmml | 13.44 | 2.35 | 5.7 |
 | XGBoostAuto.pmml | 6.24 | 1.15 | 5.4 |
 
+# Support #
+
+Limited public support is available via the [JPMML mailing list](https://groups.google.com/forum/#!forum/jpmml).
+
 # License #
 
-JPMML-Transpiler is dual-licensed under the [GNU Affero General Public License (AGPL) version 3.0](https://www.gnu.org/licenses/agpl-3.0.html), and a commercial license.
+JPMML-Transpiler is licensed under the terms and conditions of the [GNU Affero General Public License, Version 3.0](https://www.gnu.org/licenses/agpl-3.0.html).
+For a quick summary of your rights ("Can") and obligations ("Cannot" and "Must") under AGPLv3, please refer to [TLDRLegal](https://tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)).
+
+If you would like to use JPMML-Transpiler in a proprietary software project, then it is possible to enter into a licensing agreement which makes JPMML-Transpiler available under the terms and conditions of the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause) instead.
+Please initiate the conversation by submitting the [Request for Quotation](https://openscoring.io/rfq/) web form, or sending an e-mail.
 
 # Additional information #
 
 JPMML-Transpiler is developed and maintained by Openscoring Ltd, Estonia.
 
-Interested in using JPMML software in your application? Please contact [info@openscoring.io](mailto:info@openscoring.io)
+Interested in using [Java PMML API](https://github.com/jpmml) software in your company? Please contact [info@openscoring.io](mailto:info@openscoring.io)
