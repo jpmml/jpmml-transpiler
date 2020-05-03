@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.5.21"/>
-		<Timestamp>2019-10-17T08:56:53Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.5.35"/>
+		<Timestamp>2020-05-03T18:03:11Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
-		<DataField name="cylinders" optype="categorical" dataType="integer">
+		<DataField name="cylinders" optype="categorical" dataType="string">
 			<Value value="3"/>
 			<Value value="4"/>
 			<Value value="5"/>
 			<Value value="6"/>
 			<Value value="8"/>
 		</DataField>
-		<DataField name="model_year" optype="categorical" dataType="integer">
+		<DataField name="model_year" optype="categorical" dataType="string">
 			<Value value="70"/>
 			<Value value="71"/>
 			<Value value="72"/>
@@ -28,7 +28,7 @@
 			<Value value="81"/>
 			<Value value="82"/>
 		</DataField>
-		<DataField name="origin" optype="categorical" dataType="integer">
+		<DataField name="origin" optype="categorical" dataType="string">
 			<Value value="1"/>
 			<Value value="2"/>
 			<Value value="3"/>
@@ -428,7 +428,7 @@
 						</Node>
 						<Node score="-0.0015072884383024994">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">74 78 79 80 81 82</Array>
+								<Array type="string">74 78 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.7931958341598512">
 								<SimplePredicate field="horsepower" operator="lessOrEqual" value="84.50000000000001"/>
@@ -472,7 +472,7 @@
 						<True/>
 						<Node score="0.060894065784911314">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">78 79 80 81 82</Array>
+								<Array type="string">78 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.8116587843391158">
 								<SimplePredicate field="horsepower" operator="lessOrEqual" value="84.50000000000001"/>
@@ -535,7 +535,7 @@
 						<True/>
 						<Node score="0.054804658672461905">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">78 79 80 81 82</Array>
+								<Array type="string">78 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.7304929134391603">
 								<SimplePredicate field="horsepower" operator="lessOrEqual" value="84.50000000000001"/>
@@ -609,7 +609,7 @@
 						</Node>
 						<Node score="-0.09876440536230803">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">77 78 79 80 81 82</Array>
+								<Array type="string">77 78 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.46521359858103095">
 								<SimplePredicate field="horsepower" operator="lessOrEqual" value="84.50000000000001"/>
@@ -657,7 +657,7 @@
 						<True/>
 						<Node score="0.053469135115544">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">78 79 80 81 82</Array>
+								<Array type="string">78 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.6022633738460995">
 								<SimplePredicate field="horsepower" operator="lessOrEqual" value="78.50000000000001"/>
@@ -723,7 +723,7 @@
 						<True/>
 						<Node score="0.04812222310962777">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">78 79 80 81 82</Array>
+								<Array type="string">78 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.5420370384341194">
 								<SimplePredicate field="horsepower" operator="lessOrEqual" value="78.50000000000001"/>
@@ -841,7 +841,7 @@
 						<True/>
 						<Node score="0.19815770242559283">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">78 79 80 81 82</Array>
+								<Array type="string">78 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.003823582200627578">
 								<SimplePredicate field="weight" operator="greaterThan" value="2637.0000000000005"/>
@@ -898,7 +898,7 @@
 						<True/>
 						<Node score="0.011310925113188255">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">77 79 80 81 82</Array>
+								<Array type="string">77 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.37433570784491466">
 								<SimplePredicate field="weight" operator="lessOrEqual" value="2566.0000000000005"/>
@@ -952,7 +952,7 @@
 						<True/>
 						<Node score="0.16135468561398358">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">78 79 80 81 82</Array>
+								<Array type="string">78 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.0024448724561615997">
 								<SimplePredicate field="weight" operator="greaterThan" value="2637.0000000000005"/>
@@ -1010,7 +1010,7 @@
 						<True/>
 						<Node score="0.003294131449527211">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">77 79 80 81 82</Array>
+								<Array type="string">77 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.1863733120553661">
 								<SimplePredicate field="cylinders" operator="equal" value="4"/>
@@ -1070,7 +1070,7 @@
 						<True/>
 						<Node score="0.1296653276752858">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">77 79 80 81 82</Array>
+								<Array type="string">77 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.28684003300763466">
 								<SimplePredicate field="weight" operator="lessOrEqual" value="2566.0000000000005"/>
@@ -1131,7 +1131,7 @@
 						<True/>
 						<Node score="-0.1798980810713989">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">70 72 73 74 75</Array>
+								<Array type="string">70 72 73 74 75</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.08083530495573274">
 								<SimplePredicate field="cylinders" operator="equal" value="4"/>
@@ -1188,7 +1188,7 @@
 						<True/>
 						<Node score="-0.1143577038620909">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">70 72 73 75 76</Array>
+								<Array type="string">70 72 73 75 76</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.15463784074312764">
 								<SimplePredicate field="acceleration" operator="lessOrEqual" value="17.750000000000004"/>
@@ -1242,7 +1242,7 @@
 						<True/>
 						<Node score="-0.14666180591429434">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">70 72 73 74 75</Array>
+								<Array type="string">70 72 73 74 75</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.0692984302815817">
 								<SimplePredicate field="cylinders" operator="equal" value="4"/>
@@ -1302,7 +1302,7 @@
 						<True/>
 						<Node score="0.13125448938315878">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">78 79 80 81 82</Array>
+								<Array type="string">78 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.0022891087359503694">
 								<SimplePredicate field="weight" operator="greaterThan" value="2637.0000000000005"/>
@@ -1360,7 +1360,7 @@
 						<True/>
 						<Node score="0.1207815923690796">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">71 79 80 81 82</Array>
+								<Array type="string">71 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.02090888956318731">
 								<SimplePredicate field="weight" operator="greaterThan" value="2939.0000000000005"/>
@@ -1421,7 +1421,7 @@
 						<True/>
 						<Node score="-0.08962043734888236">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">70 72 73 75 77</Array>
+								<Array type="string">70 72 73 75 77</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.027533517956338904">
 								<SimplePredicate field="weight" operator="lessOrEqual" value="2305.0000000000005"/>
@@ -1483,7 +1483,7 @@
 						<True/>
 						<Node score="-0.008087999302612541">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">70 72 73 74 75</Array>
+								<Array type="string">70 72 73 74 75</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.1802626176327467">
 								<SimplePredicate field="displacement" operator="lessOrEqual" value="259.00000000000006"/>
@@ -1543,7 +1543,7 @@
 						<True/>
 						<Node score="-0.07378835412363212">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">70 72 73 75 76</Array>
+								<Array type="string">70 72 73 75 76</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.0934686981533703">
 								<SimplePredicate field="acceleration" operator="lessOrEqual" value="17.750000000000004"/>
@@ -1606,7 +1606,7 @@
 						<True/>
 						<Node score="-0.027099615885388284">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">70 71 72 73 75</Array>
+								<Array type="string">70 71 72 73 75</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.019951092983995167">
 								<SimplePredicate field="weight" operator="lessOrEqual" value="2292.5000000000005"/>
@@ -1668,7 +1668,7 @@
 						<True/>
 						<Node score="0.03257173505567369">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">70 72 73 74 78</Array>
+								<Array type="string">70 72 73 74 78</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.007343986799771135">
 								<SimplePredicate field="horsepower" operator="greaterThan" value="48.50000000000001"/>
@@ -1729,7 +1729,7 @@
 						<True/>
 						<Node score="0.07904410628335817">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">71 79 80 81 82</Array>
+								<Array type="string">71 79 80 81 82</Array>
 							</SimpleSetPredicate>
 							<Node score="0.04414590055292303">
 								<SimplePredicate field="cylinders" operator="equal" value="4"/>
@@ -1784,7 +1784,7 @@
 						<True/>
 						<Node score="-0.15209410541380447">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">70 71 72 73 76</Array>
+								<Array type="string">70 71 72 73 76</Array>
 							</SimpleSetPredicate>
 							<Node score="-0.007918797601014375">
 								<SimplePredicate field="acceleration" operator="lessOrEqual" value="18.050000000000004"/>
@@ -1846,7 +1846,7 @@
 						<True/>
 						<Node score="-0.060046368315815925">
 							<SimpleSetPredicate field="model_year" booleanOperator="isIn">
-								<Array type="int">72 73 74 77 78</Array>
+								<Array type="string">72 73 74 77 78</Array>
 							</SimpleSetPredicate>
 							<Node score="-5.647372454404831E-6">
 								<SimplePredicate field="horsepower" operator="greaterThan" value="48.50000000000001"/>
@@ -1908,7 +1908,6 @@
 			</VerificationFields>
 			<InlineTable>
 				<row>
-					<data:cylinders>NaN</data:cylinders>
 					<data:displacement>258.0</data:displacement>
 					<data:horsepower>110.0</data:horsepower>
 					<data:weight>2962.0</data:weight>
@@ -1927,11 +1926,9 @@
 					<data:mpg>21.819463305801243</data:mpg>
 				</row>
 				<row>
-					<data:cylinders>NaN</data:cylinders>
 					<data:displacement>350.0</data:displacement>
 					<data:horsepower>165.0</data:horsepower>
 					<data:acceleration>12.0</data:acceleration>
-					<data:model_year>NaN</data:model_year>
 					<data:origin>1</data:origin>
 					<data:mpg>14.042544808511417</data:mpg>
 				</row>

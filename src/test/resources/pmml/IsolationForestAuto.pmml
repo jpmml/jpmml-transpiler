@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.5.20"/>
-		<Timestamp>2019-09-04T05:45:49Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.5.35"/>
+		<Timestamp>2020-05-03T18:03:00Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="cylinders" optype="categorical" dataType="integer">
@@ -79,7 +79,7 @@
 			<OutputField name="outlier" optype="categorical" dataType="boolean" feature="transformedValue">
 				<Apply function="lessOrEqual">
 					<FieldRef field="decisionFunction"/>
-					<Constant dataType="double">0.012214253683812085</Constant>
+					<Constant dataType="double">0.0</Constant>
 				</Apply>
 			</OutputField>
 		</Output>

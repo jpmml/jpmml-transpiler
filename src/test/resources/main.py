@@ -108,7 +108,7 @@ if "Audit" in datasets:
 	build_audit(DecisionTreeClassifier(min_samples_leaf = 7, random_state = 13), "DecisionTreeAudit", compact = False, flat = True)
 	build_audit(GradientBoostingClassifier(n_estimators = 71, random_state = 13), "GradientBoostingAudit")
 	build_audit(LGBMClassifier(objective = "binary", n_estimators = 71, random_state = 13), "LightGBMAudit")
-	build_audit(LogisticRegression(random_state = 13), "LogisticRegressionAudit")
+	build_audit(LogisticRegression(multi_class = "ovr", solver = "liblinear", random_state = 13), "LogisticRegressionAudit")
 	build_audit(RandomForestClassifier(n_estimators = 17, random_state = 13), "RandomForestAudit", compact = False, flat = False)
 	build_audit(XGBClassifier(objective = "binary:logistic", ntree_limit = 71, random_state = 13), "XGBoostAudit")
 
@@ -152,8 +152,8 @@ def build_iris(classifier, name, **pmml_options):
 if "Iris" in datasets:
 	build_iris(DecisionTreeClassifier(min_samples_leaf = 5, random_state = 13), "DecisionTreeIris", compact = False, flat = True)
 	build_iris(GradientBoostingClassifier(n_estimators = 11, random_state = 13), "GradientBoostingIris")
-	build_iris(LGBMClassifier(objective = "multiclass", n_estimators = 11, random_state = 13), "LightGBMIris")
-	build_iris(LogisticRegression(random_state = 13), "LogisticRegressionIris")
+	build_iris(LGBMClassifier(objective = "multiclass", solver = "lbfgs", n_estimators = 11, random_state = 13), "LightGBMIris")
+	build_iris(LogisticRegression(multi_class = "multinomial", random_state = 13), "LogisticRegressionIris")
 	build_iris(RandomForestClassifier(n_estimators = 5, random_state = 13), "RandomForestIris", compact = False, flat = False)
 	build_iris(XGBClassifier(objective = "multi:softprob", n_estimators = 11, random_state = 13), "XGBoostIris")
 
@@ -219,7 +219,7 @@ if "Auto" in datasets:
 	build_auto(LinearRegression(), "LinearRegressionAuto")
 	build_auto(RandomForestRegressor(n_estimators = 17, random_state = 13), "RandomForestAuto", compact = False, flat = False)
 	build_auto(VotingRegressor(estimators = [("major", DecisionTreeRegressor(max_depth = 8, random_state = 13)), ("minor", ExtraTreeRegressor(max_depth = 5, random_state = 13))], weights = [0.7, 0.3]), "VotingEnsembleAuto")
-	build_auto(XGBRegressor(objective = "reg:linear", n_estimators = 31, random_state = 13), "XGBoostAuto")
+	build_auto(XGBRegressor(objective = "reg:squarederror", n_estimators = 31, random_state = 13), "XGBoostAuto")
 
 sparsify("Auto")
 
@@ -227,4 +227,4 @@ auto_X, auto_y = load_auto("AutoNA")
 
 if ("Auto" in datasets) or ("AutoNA" in datasets):
 	build_auto(LGBMRegressor(objective = "regression", n_estimators = 31, random_state = 13), "LightGBMAutoNA")
-	build_auto(XGBRegressor(objective = "reg:linear", n_estimators = 31, random_state = 13), "XGBoostAutoNA")
+	build_auto(XGBRegressor(objective = "reg:squarederror", n_estimators = 31, random_state = 13), "XGBoostAutoNA")

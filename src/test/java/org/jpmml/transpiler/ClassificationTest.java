@@ -18,6 +18,7 @@
  */
 package org.jpmml.transpiler;
 
+import org.dmg.pmml.FieldName;
 import org.jpmml.evaluator.testing.FloatEquivalence;
 import org.jpmml.evaluator.testing.PMMLEquivalence;
 import org.junit.Test;
@@ -60,12 +61,12 @@ public class ClassificationTest extends TranspilerTest {
 
 	@Test
 	public void evaluateXGBoostAudit() throws Exception {
-		evaluate("XGBoost", "Audit", new FloatEquivalence(8));
+		evaluate("XGBoost", "Audit", excludeFields(FieldName.create("probability(0)")), new FloatEquivalence(12));
 	}
 
 	@Test
 	public void evaluateXGBoostAuditNA() throws Exception {
-		evaluate("XGBoost", "AuditNA", new FloatEquivalence(16));
+		evaluate("XGBoost", "AuditNA", excludeFields(FieldName.create("probability(0)")), new FloatEquivalence(8));
 	}
 
 	@Test

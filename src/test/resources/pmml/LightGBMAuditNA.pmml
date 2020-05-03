@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.5.21"/>
-		<Timestamp>2019-10-17T08:56:49Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.5.35"/>
+		<Timestamp>2020-05-03T18:02:39Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
 			<Value value="0"/>
 			<Value value="1"/>
 		</DataField>
-		<DataField name="Age" optype="categorical" dataType="integer">
+		<DataField name="Age" optype="categorical" dataType="string">
 			<Value value="17"/>
 			<Value value="18"/>
 			<Value value="19"/>
@@ -579,7 +579,7 @@
 									</Node>
 									<Node score="0.07296518405949853">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">39 44 46 47 48 50 54 57</Array>
+											<Array type="string">39 44 46 47 48 50 54 57</Array>
 										</SimpleSetPredicate>
 										<Node score="0.09899127280602238">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="72347.40500000001"/>
@@ -692,7 +692,7 @@
 									</Node>
 									<Node score="0.0254661513258165">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">39 44 46 47 48 50 54 57</Array>
+											<Array type="string">39 44 46 47 48 50 54 57</Array>
 										</SimpleSetPredicate>
 										<Node score="0.08918722361251455">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="72347.40500000001"/>
@@ -790,7 +790,7 @@
 									</Node>
 									<Node score="0.09565583394034242">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">30 31 37 38 40 43 44 45 47 49 50 54 59</Array>
+											<Array type="string">30 31 37 38 40 43 44 45 47 49 50 54 59</Array>
 										</SimpleSetPredicate>
 										<Node score="0.029071387620655795">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="46.00000000000001"/>
@@ -890,7 +890,7 @@
 									</Node>
 									<Node score="0.08272202769981729">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">37 38 40 44 45 46 47 49 50 54 56 59 60</Array>
+											<Array type="string">37 38 40 44 45 46 47 49 50 54 56 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="0.1074061226703851">
 											<SimplePredicate field="Income" operator="greaterThan" value="32623.385000000006"/>
@@ -1030,7 +1030,7 @@
 									</Node>
 									<Node score="-0.08096407597507999">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">20 23 27 28 29 32 33 34 35 36 42 51 57</Array>
+											<Array type="string">20 23 27 28 29 32 33 34 35 36 42 51 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.0035799203687442113">
 											<SimplePredicate field="Hours" operator="greaterThan" value="46.00000000000001"/>
@@ -1134,7 +1134,7 @@
 									</Node>
 									<Node score="0.010462200879833735">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 26 37 39 40 44 45 46 47 49 50 54 59 60</Array>
+											<Array type="string">25 26 37 39 40 44 45 46 47 49 50 54 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="0.12068556847206147">
 											<SimplePredicate field="Hours" operator="greaterThan" value="48.50000000000001"/>
@@ -1159,7 +1159,7 @@
 									</Node>
 									<Node score="-0.11286966286772418">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">23 32 33 34 35 41 51 57</Array>
+											<Array type="string">23 32 33 34 35 41 51 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.050509625317956136">
 											<SimplePredicate field="Income" operator="greaterThan" value="40949.19500000001"/>
@@ -1334,7 +1334,7 @@
 									</Node>
 									<Node score="0.03128947200560618">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">37 38 40 42 44 45 46 47 48 49 50 53 54 58 59 60</Array>
+											<Array type="string">37 38 40 42 44 45 46 47 48 49 50 53 54 58 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.004822901756116495">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="36.50000000000001"/>
@@ -1431,7 +1431,7 @@
 									<True/>
 									<Node score="-0.11370596316607642">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 33 34 35 61</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 33 34 35 61</Array>
 										</SimpleSetPredicate>
 										<Node score="0.06493503763587517">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -1659,7 +1659,7 @@
 									<True/>
 									<Node score="-0.07299058451817501">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 33 34 35 36 57 61</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 33 34 35 36 57 61</Array>
 										</SimpleSetPredicate>
 										<Node score="0.032691611612728676">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -1774,7 +1774,7 @@
 									<True/>
 									<Node score="-0.058931712476572674">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 33 34 35 36 57 61</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 33 34 35 36 57 61</Array>
 										</SimpleSetPredicate>
 										<Node score="0.03519248103322188">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -1916,7 +1916,7 @@
 									</Node>
 									<Node score="0.08130117771737494">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">37 38 40 43 44 45 46 47 48 49 50 53 54 58 59 60</Array>
+											<Array type="string">37 38 40 43 44 45 46 47 48 49 50 53 54 58 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.013472114455743573">
 											<SimplePredicate field="Hours" operator="greaterThan" value="55.50000000000001"/>
@@ -2012,7 +2012,7 @@
 										</SimpleSetPredicate>
 										<Node score="0.1297469069031863">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">29 30 36 39 40 42 46 47 49 51 53 54 58 60</Array>
+												<Array type="string">29 30 36 39 40 42 46 47 49 51 53 54 58 60</Array>
 											</SimpleSetPredicate>
 											<Node score="-0.09375209511183617">
 												<SimplePredicate field="Income" operator="greaterThan" value="69216.56500000002"/>
@@ -2042,7 +2042,7 @@
 									</Node>
 									<Node score="0.0836564565487421">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">37 38 42 43 44 45 47 48 49 50 55 57 59</Array>
+											<Array type="string">37 38 42 43 44 45 47 48 49 50 55 57 59</Array>
 										</SimpleSetPredicate>
 										<Node score="0.12172724876604626">
 											<SimplePredicate field="Hours" operator="greaterThan" value="48.50000000000001"/>
@@ -2123,7 +2123,7 @@
 									<True/>
 									<Node score="-0.07235497859003466">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 25 27 29 31 34 35</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 25 27 29 31 34 35</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.05703131637205076">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="57109.195000000014"/>
@@ -2169,7 +2169,7 @@
 									</Node>
 									<Node score="0.05810791796381588">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">37 39 40 44 47 48 53 54 58 59 60</Array>
+											<Array type="string">37 39 40 44 47 48 53 54 58 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.039099445182388254">
 											<SimplePredicate field="Income" operator="greaterThan" value="148852.25500000003"/>
@@ -2238,7 +2238,7 @@
 									<True/>
 									<Node score="-0.052058514098307446">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 26 27 28 29 34 35</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 26 27 28 29 34 35</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.0937291209501518">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="67.50000000000001"/>
@@ -2357,7 +2357,7 @@
 										</SimpleSetPredicate>
 										<Node score="0.04450645323477684">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">29 30 36 39 40 42 46 47 49 53 54 58 60</Array>
+												<Array type="string">29 30 36 39 40 42 46 47 49 53 54 58 60</Array>
 											</SimpleSetPredicate>
 											<Node score="-0.06270083402185135">
 												<SimplePredicate field="Income" operator="greaterThan" value="76471.08000000002"/>
@@ -2375,7 +2375,7 @@
 									</Node>
 									<Node score="0.05184923946144402">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">34 37 42 43 44 45 47 48 49 50 55 57 59</Array>
+											<Array type="string">34 37 42 43 44 45 47 48 49 50 55 57 59</Array>
 										</SimpleSetPredicate>
 										<Node score="0.007107392567368805">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="38.50000000000001"/>
@@ -2504,7 +2504,7 @@
 									</Node>
 									<Node score="0.04720458212706073">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 26 29 38 39 40 42 45 46 47 50 54 58 59</Array>
+											<Array type="string">25 26 29 38 39 40 42 45 46 47 50 54 58 59</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.061345160000420396">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="47037.86000000001"/>
@@ -2584,7 +2584,7 @@
 									<True/>
 									<Node score="-0.03679264357300868">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 25 26 27 28 29 32 33 34 35 41 46 52 56 57</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 25 26 27 28 29 32 33 34 35 41 46 52 56 57</Array>
 										</SimpleSetPredicate>
 										<Node score="0.015745499013606605">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -2735,7 +2735,7 @@
 									</Node>
 									<Node score="0.0503239839491793">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 26 29 36 37 38 42 43 44 45 46 47 48 50 53 54 58 59 60 66</Array>
+											<Array type="string">25 26 29 36 37 38 42 43 44 45 46 47 48 50 53 54 58 59 60 66</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.05985494987163958">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="29770.430000000004"/>
@@ -2815,7 +2815,7 @@
 									<True/>
 									<Node score="-0.09359080752777083">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 27 29 33 34 35 57</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 27 29 33 34 35 57</Array>
 										</SimpleSetPredicate>
 										<Node score="0.003168310189809844">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -2868,7 +2868,7 @@
 									</Node>
 									<Node score="0.06260668927442194">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 28 36 38 41 42 46 51 53 56 61</Array>
+											<Array type="string">25 28 36 38 41 42 46 51 53 56 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.089559875515334">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="40.50000000000001"/>
@@ -2933,7 +2933,7 @@
 									<True/>
 									<Node score="-0.04414521627098848">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 27 29 35</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 27 29 35</Array>
 										</SimpleSetPredicate>
 									</Node>
 									<Node score="-0.027615699175451654">
@@ -3088,7 +3088,7 @@
 									</Node>
 									<Node score="0.045925270814449456">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 26 29 34 36 37 38 42 43 45 46 47 48 50 53 54 58 59 60 66</Array>
+											<Array type="string">25 26 29 34 36 37 38 42 43 45 46 47 48 50 53 54 58 59 60 66</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.023559607125856287">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="47037.86000000001"/>
@@ -3162,7 +3162,7 @@
 									<True/>
 									<Node score="-0.08660904108608591">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 27 29 46</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 27 29 46</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.08525354395552333">
 											<SimplePredicate field="Hours" operator="greaterThan" value="38.50000000000001"/>
@@ -3236,7 +3236,7 @@
 									</Node>
 									<Node score="-0.07901011036740913">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">28 33 34 35 37 42 51</Array>
+											<Array type="string">28 33 34 35 37 42 51</Array>
 										</SimpleSetPredicate>
 										<Node score="0.0698794155328223">
 											<SimplePredicate field="Income" operator="greaterThan" value="83039.73500000002"/>
@@ -3278,7 +3278,7 @@
 									<True/>
 									<Node score="-0.03876807059308793">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 27 29 35</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 27 29 35</Array>
 										</SimpleSetPredicate>
 									</Node>
 									<Node score="-0.03994139575447454">
@@ -3299,7 +3299,7 @@
 									</Node>
 									<Node score="0.0871054760779325">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">30 31 36 37 38 39 42 43 44 45 47 48 49 59 60</Array>
+											<Array type="string">30 31 36 37 38 39 42 43 44 45 47 48 49 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.05356993961670828">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="59453.16500000001"/>
@@ -3435,7 +3435,7 @@
 									</Node>
 									<Node score="0.04155969529188168">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 26 29 34 37 38 42 43 45 46 47 48 50 53 54 58 59 60 66</Array>
+											<Array type="string">25 26 29 34 37 38 42 43 45 46 47 48 50 53 54 58 59 60 66</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.020234754572449595">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="46330.855"/>
@@ -3455,7 +3455,7 @@
 									</Node>
 									<Node score="-0.07104987624890872">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">20 23 24 35 41 55 57</Array>
+											<Array type="string">20 23 24 35 41 55 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.13715077810040033">
 											<SimplePredicate field="Hours" operator="greaterThan" value="48.50000000000001"/>
@@ -3510,7 +3510,7 @@
 									<True/>
 									<Node score="-0.10627385770837763">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 26 27 29 32 33 34 36 38 40 46 52 56 57</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 26 27 29 32 33 34 36 38 40 46 52 56 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.046934134249335395">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -3519,7 +3519,7 @@
 										</Node>
 										<Node score="-0.0011592499624579814">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">26 38 40 46 57</Array>
+												<Array type="string">26 38 40 46 57</Array>
 											</SimpleSetPredicate>
 											<Node score="0.11428352628653216">
 												<SimplePredicate field="Income" operator="lessOrEqual" value="50285.275"/>
@@ -3572,7 +3572,7 @@
 									</Node>
 									<Node score="0.07030710462466097">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">35 37 39 43 47 48 50 54 58 59 60</Array>
+											<Array type="string">35 37 39 43 47 48 50 54 58 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="0.0703210312366554">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="27850.800000000003"/>
@@ -3632,7 +3632,7 @@
 									</Node>
 									<Node score="-0.031615156099682726">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">18 19 20 21 22 23 24 33 38 53</Array>
+											<Array type="string">18 19 20 21 22 23 24 33 38 53</Array>
 										</SimpleSetPredicate>
 									</Node>
 									<Node score="-0.09944253865463529">
@@ -3700,7 +3700,7 @@
 									</Node>
 									<Node score="-0.011435324449160046">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">31 32 34 43 45 46 54 55</Array>
+											<Array type="string">31 32 34 43 45 46 54 55</Array>
 										</SimpleSetPredicate>
 									</Node>
 									<Node score="0.1273987075943147">
@@ -3750,7 +3750,7 @@
 									</Node>
 									<Node score="-0.007623735683985354">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">18 19 20 21 22 23 24 28 35</Array>
+											<Array type="string">18 19 20 21 22 23 24 28 35</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.0730367263694073">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="293955.22500000003"/>
@@ -3772,7 +3772,7 @@
 									</Node>
 									<Node score="0.0282774656412419">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 26 31 34 37 40 43 44 45 46 47 48 49 58 59 60</Array>
+											<Array type="string">25 26 31 34 37 40 43 44 45 46 47 48 49 58 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="0.13590812582694467">
 											<SimplePredicate field="Gender" operator="equal" value="Female"/>
@@ -3872,7 +3872,7 @@
 									</Node>
 									<Node score="-0.05945911565898909">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 23 24 26 27 31 33 34 35 38 41 43 45 51 55 56 57 61</Array>
+											<Array type="string">17 18 19 20 21 23 24 26 27 31 33 34 35 38 41 43 45 51 55 56 57 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.03730412394289456">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="55930.75500000001"/>
@@ -3896,7 +3896,7 @@
 										</SimpleSetPredicate>
 										<Node score="-0.11185463049339038">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">22 25 30 36 37 42 46 49</Array>
+												<Array type="string">22 25 30 36 37 42 46 49</Array>
 											</SimpleSetPredicate>
 											<Node score="0.0490892412255657">
 												<SimplePredicate field="Income" operator="lessOrEqual" value="39113.87500000001"/>
@@ -3984,7 +3984,7 @@
 									</Node>
 									<Node score="-0.05670468597665987">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">18 19 20 21 22 23 24 40 53</Array>
+											<Array type="string">18 19 20 21 22 23 24 40 53</Array>
 										</SimpleSetPredicate>
 										<Node score="0.008162407286694592">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="33364.590000000004"/>
@@ -4006,7 +4006,7 @@
 									</Node>
 									<Node score="0.03689106249021417">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">30 31 32 36 37 38 39 43 44 45 47 48 49 59 60</Array>
+											<Array type="string">30 31 32 36 37 38 39 43 44 45 47 48 49 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.047569697790101846">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="59453.16500000001"/>
@@ -4153,7 +4153,7 @@
 									</Node>
 									<Node score="0.046214841753425245">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 28 29 35 37 44 45 46 49 50 51 57 59</Array>
+											<Array type="string">25 28 29 35 37 44 45 46 49 50 51 57 59</Array>
 										</SimpleSetPredicate>
 										<Node score="0.11031736523188783">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="52.50000000000001"/>
@@ -4221,7 +4221,7 @@
 									</Node>
 									<Node score="-0.07774183916984047">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">18 19 20 21 22 23 24 35 51</Array>
+											<Array type="string">18 19 20 21 22 23 24 35 51</Array>
 										</SimpleSetPredicate>
 										<Node score="0.05787756261895333">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="21.000000000000004"/>
@@ -4266,7 +4266,7 @@
 									</Node>
 									<Node score="-0.06180126772671654">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">27 32 33 39 41 42 52 53 54</Array>
+											<Array type="string">27 32 33 39 41 42 52 53 54</Array>
 										</SimpleSetPredicate>
 										<Node score="0.1371987968312882">
 											<SimplePredicate field="Income" operator="greaterThan" value="126271.76000000002"/>
@@ -4361,7 +4361,7 @@
 									</Node>
 									<Node score="0.020792582807033555">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 27 35 37 38 40 45 46 47 48 50 53 58 59 60 66</Array>
+											<Array type="string">25 27 35 37 38 40 45 46 47 48 50 53 58 59 60 66</Array>
 										</SimpleSetPredicate>
 										<Node score="0.0339020478773807">
 											<SimplePredicate field="Income" operator="greaterThan" value="46330.855"/>
@@ -4447,7 +4447,7 @@
 									<True/>
 									<Node score="0.023401437720625147">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 26 27 29 31 32 33 34 36 40 46 55 56 57</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 26 27 29 31 32 33 34 36 40 46 55 56 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.10643501922145848">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="38.50000000000001"/>
@@ -4465,7 +4465,7 @@
 										</Node>
 										<Node score="-0.10014131023301294">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">21 23 24 27 29 36</Array>
+												<Array type="string">21 23 24 27 29 36</Array>
 											</SimpleSetPredicate>
 											<Node score="-0.0035082109653618077">
 												<SimplePredicate field="Hours" operator="greaterThan" value="41.50000000000001"/>
@@ -4509,7 +4509,7 @@
 									</Node>
 									<Node score="-0.003089013396104892">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 28 30 41 42 44 45 51 52 54 59 61</Array>
+											<Array type="string">25 28 30 41 42 44 45 51 52 54 59 61</Array>
 										</SimpleSetPredicate>
 										<Node score="0.06640687789100115">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="38.50000000000001"/>
@@ -4586,7 +4586,7 @@
 									</Node>
 									<Node score="0.07258218562525799">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 29 39 40 47 48 53 54 58 59 60</Array>
+											<Array type="string">25 29 39 40 47 48 53 54 58 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.03953332073669288">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="37.50000000000001"/>
@@ -4604,7 +4604,7 @@
 										</SimpleSetPredicate>
 										<Node score="0.04150375005343832">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">27 30 37 38 42 45 49 51</Array>
+												<Array type="string">27 30 37 38 42 45 49 51</Array>
 											</SimpleSetPredicate>
 											<Node score="0.09949039450594023">
 												<SimplePredicate field="Hours" operator="greaterThan" value="46.00000000000001"/>
@@ -4689,7 +4689,7 @@
 									</Node>
 									<Node score="0.04068395213656068">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">29 42 43 45 47 48 52 53 54 58 59 65 66</Array>
+											<Array type="string">29 42 43 45 47 48 52 53 54 58 59 65 66</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.03933159982358635">
 											<SimpleSetPredicate field="Employment" booleanOperator="isIn">
@@ -4710,7 +4710,7 @@
 										<SimplePredicate field="Marital" operator="equal" value="Married"/>
 										<Node score="-0.01798662499126606">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">27 28 31 34 37 38 49 50</Array>
+												<Array type="string">27 28 31 34 37 38 49 50</Array>
 											</SimpleSetPredicate>
 											<Node score="0.05026687408038512">
 												<SimplePredicate field="Income" operator="greaterThan" value="12437.580000000002"/>
@@ -4746,7 +4746,7 @@
 									</Node>
 									<Node score="-0.0889922452430417">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">21 22 23 24 25 27 28 31 35 37 38 40 49 57</Array>
+											<Array type="string">21 22 23 24 25 27 28 31 35 37 38 40 49 57</Array>
 										</SimpleSetPredicate>
 										<Node score="0.05294568327402244">
 											<SimplePredicate field="Gender" operator="equal" value="Female"/>
@@ -4802,7 +4802,7 @@
 									</Node>
 									<Node score="-0.06728166825416626">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">18 19 20 21 22 23 24 26 28 29 33 38 40 42 50 51 53 55 57</Array>
+											<Array type="string">18 19 20 21 22 23 24 26 28 29 33 38 40 42 50 51 53 55 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.13772993468322742">
 											<SimplePredicate field="Income" operator="greaterThan" value="162938.25000000003"/>
@@ -4862,7 +4862,7 @@
 									</Node>
 									<Node score="-0.03617500780320083">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 30 32 37 41 44 45 46 54 56 61</Array>
+											<Array type="string">25 30 32 37 41 44 45 46 54 56 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.07793534073435927">
 											<SimplePredicate field="Hours" operator="greaterThan" value="57.00000000000001"/>
@@ -4913,7 +4913,7 @@
 									<True/>
 									<Node score="-0.07376612742287676">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 25 26 27 29 31 32 33 34 40 46 50 52 56 57 61</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 25 26 27 29 31 32 33 34 40 46 50 52 56 57 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.007957957925302244">
 											<SimplePredicate field="Hours" operator="greaterThan" value="37.50000000000001"/>
@@ -5036,7 +5036,7 @@
 									</Node>
 									<Node score="-0.09769288726301832">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">18 19 20 21 22 23 24 42 53</Array>
+											<Array type="string">18 19 20 21 22 23 24 42 53</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.02552629649020029">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="105910.17500000002"/>
@@ -5060,7 +5060,7 @@
 										<SimplePredicate field="Marital" operator="equal" value="Married"/>
 										<Node score="9.783629448866038E-4">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">30 32 33 35 36 39 41 50</Array>
+												<Array type="string">30 32 33 35 36 39 41 50</Array>
 											</SimpleSetPredicate>
 											<Node score="0.046500164674397056">
 												<SimplePredicate field="Hours" operator="greaterThan" value="46.00000000000001"/>
@@ -5098,7 +5098,7 @@
 									</Node>
 									<Node score="0.009437540938698002">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 27 28 29 31 32 34 36 37 38 40 45</Array>
+											<Array type="string">25 27 28 29 31 32 34 36 37 38 40 45</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.0893010689151398">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="43652.280000000006"/>
@@ -5169,7 +5169,7 @@
 									</Node>
 									<Node score="-0.06511371015127049">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">19 20 21 23 24 26 27 31 33 34 35 37 43 45 49 51 55 57</Array>
+											<Array type="string">19 20 21 23 24 26 27 31 33 34 35 37 43 45 49 51 55 57</Array>
 										</SimpleSetPredicate>
 										<Node score="0.07957022804060086">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="129192.37500000001"/>
@@ -5212,7 +5212,7 @@
 									</Node>
 									<Node score="0.11534959135246409">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 32 38 40 46 53</Array>
+											<Array type="string">25 32 38 40 46 53</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.10807962633868287">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="205362.92"/>
@@ -5294,7 +5294,7 @@
 									</Node>
 									<Node score="-0.030390267518581378">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">19 20 21 23 24 26 27 31 33 34 35 37 38 43 45 49 50 51 55 56 57 61</Array>
+											<Array type="string">19 20 21 23 24 26 27 31 33 34 35 37 38 43 45 49 50 51 55 56 57 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.030723802264066038">
 											<SimplePredicate field="Income" operator="greaterThan" value="12437.580000000002"/>
@@ -5396,7 +5396,7 @@
 									</Node>
 									<Node score="0.06146260812278512">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">29 30 37 42 43 45 47 48 52 53 54 58 59 65 66</Array>
+											<Array type="string">29 30 37 42 43 45 47 48 52 53 54 58 59 65 66</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.05436066769241741">
 											<SimpleSetPredicate field="Employment" booleanOperator="isIn">
@@ -5435,7 +5435,7 @@
 										</Node>
 										<Node score="-0.02851775134478132">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">27 28 31 36 38 40 49 50</Array>
+												<Array type="string">27 28 31 36 38 40 49 50</Array>
 											</SimpleSetPredicate>
 											<Node score="0.0881367730088145">
 												<SimplePredicate field="Hours" operator="greaterThan" value="48.50000000000001"/>
@@ -5456,7 +5456,7 @@
 									</Node>
 									<Node score="-0.0950923827836457">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">21 22 23 24 25 27 28 31 35 38 40 49 51 56</Array>
+											<Array type="string">21 22 23 24 25 27 28 31 35 38 40 49 51 56</Array>
 										</SimpleSetPredicate>
 										<Node score="0.05307802077780434">
 											<SimplePredicate field="Gender" operator="equal" value="Female"/>
@@ -5504,7 +5504,7 @@
 									<True/>
 									<Node score="-0.07754617649269474">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 29 34 40 46 52 57 61</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 29 34 40 46 52 57 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.10890539662438331">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="43.50000000000001"/>
@@ -5563,13 +5563,13 @@
 										</Node>
 										<Node score="-0.014218049793700883">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">27 28 30 31 37 39 41</Array>
+												<Array type="string">27 28 30 31 37 39 41</Array>
 											</SimpleSetPredicate>
 										</Node>
 									</Node>
 									<Node score="-0.027998764825018903">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">32 33 35 36 38 51</Array>
+											<Array type="string">32 33 35 36 38 51</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.12419064673853038">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="46.00000000000001"/>
@@ -5670,7 +5670,7 @@
 									</Node>
 									<Node score="0.04288582033102007">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 26 29 31 34 36 38 42 43 45 46 47 48 53 54 58 59 60 66</Array>
+											<Array type="string">25 26 29 31 34 36 38 42 43 45 46 47 48 53 54 58 59 60 66</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.0245542363548573">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="51486.66500000001"/>
@@ -5713,7 +5713,7 @@
 									</Node>
 									<Node score="0.014715792756078122">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">28 30 32 33 35 40 44</Array>
+											<Array type="string">28 30 32 33 35 40 44</Array>
 										</SimpleSetPredicate>
 									</Node>
 									<Node score="-0.09607290774681224">
@@ -5745,7 +5745,7 @@
 									</Node>
 									<Node score="-0.002956596410851738">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">18 19 20 21 22 23 24 28 38 42 53 54 55</Array>
+											<Array type="string">18 19 20 21 22 23 24 28 38 42 53 54 55</Array>
 										</SimpleSetPredicate>
 										<Node score="0.011666386738181093">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="44.50000000000001"/>
@@ -5849,7 +5849,7 @@
 									<True/>
 									<Node score="-0.03616233808160633">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 25 26 27 29 32 33 34 36 40 46 50 55 56 61</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 25 26 27 29 32 33 34 36 40 46 50 55 56 61</Array>
 										</SimpleSetPredicate>
 										<Node score="0.07067163798085843">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -5926,7 +5926,7 @@
 									</Node>
 									<Node score="0.03642690392788343">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">38 41 42 43 54 59</Array>
+											<Array type="string">38 41 42 43 54 59</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.00772755307796575">
 											<SimplePredicate field="Hours" operator="greaterThan" value="18.500000000000004"/>
@@ -5966,7 +5966,7 @@
 									<True/>
 									<Node score="0.00983116524232034">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 26 29 32 34 40 46</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 26 29 32 34 40 46</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.10699590038423985">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="38.50000000000001"/>
@@ -6015,7 +6015,7 @@
 										</SimpleSetPredicate>
 										<Node score="-0.047201421438052914">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">25 31 37 38 45 49 57</Array>
+												<Array type="string">25 31 37 38 45 49 57</Array>
 											</SimpleSetPredicate>
 											<Node score="0.057872458317598886">
 												<SimplePredicate field="Income" operator="greaterThan" value="59453.16500000001"/>
@@ -6084,7 +6084,7 @@
 									<True/>
 									<Node score="-0.04431152178677186">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 26 27 29 33 34 46</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 26 27 29 33 34 46</Array>
 										</SimpleSetPredicate>
 										<Node score="0.09877468598144978">
 											<SimplePredicate field="Income" operator="greaterThan" value="222779.39000000004"/>
@@ -6143,7 +6143,7 @@
 									</Node>
 									<Node score="-0.07694574965842753">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 30 35 36 40 41 42 51 58 61</Array>
+											<Array type="string">25 30 35 36 40 41 42 51 58 61</Array>
 										</SimpleSetPredicate>
 										<Node score="0.058316006372646195">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="38.50000000000001"/>
@@ -6251,7 +6251,7 @@
 									</Node>
 									<Node score="-0.05622330185248756">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">20 21 23 24 25 27 28 29 31 32 34 37 38 40 42 43 45 49 56</Array>
+											<Array type="string">20 21 23 24 25 27 28 29 31 32 34 37 38 40 42 43 45 49 56</Array>
 										</SimpleSetPredicate>
 										<Node score="0.030481143215463913">
 											<SimplePredicate field="Income" operator="greaterThan" value="70588.88000000002"/>
@@ -6313,7 +6313,7 @@
 									<True/>
 									<Node score="-0.05650774144039977">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 26 29 46</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 26 29 46</Array>
 										</SimpleSetPredicate>
 										<Node score="0.07790252202301293">
 											<SimplePredicate field="Income" operator="greaterThan" value="48454.060000000005"/>
@@ -6350,7 +6350,7 @@
 									</Node>
 									<Node score="-0.038680891095300395">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">27 30 33 35 36 38 40 41 42 45 51 53 54 58</Array>
+											<Array type="string">27 30 33 35 36 38 40 41 42 45 51 53 54 58</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.003251701716291841">
 											<SimplePredicate field="Income" operator="greaterThan" value="12437.580000000002"/>
@@ -6433,7 +6433,7 @@
 									</Node>
 									<Node score="-0.045487711479660686">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 29 34 37 38 42 43 45 46 47 48 52 53 54 58 59 60 65 66</Array>
+											<Array type="string">25 29 34 37 38 42 43 45 46 47 48 52 53 54 58 59 60 65 66</Array>
 										</SimpleSetPredicate>
 										<Node score="0.08318251400527382">
 											<SimplePredicate field="Marital" operator="equal" value="Married"/>
@@ -6500,7 +6500,7 @@
 									</Node>
 									<Node score="-0.026377057950321088">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">20 22 23 24 28 30 36 39 40 44 50 51 57</Array>
+											<Array type="string">20 22 23 24 28 30 36 39 40 44 50 51 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.05167282435297679">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="32239.695000000003"/>
@@ -6562,7 +6562,7 @@
 									</Node>
 									<Node score="0.041473989988131364">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">28 29 32 35 37 38 39 42 43 45 47 48 49 51 60 66</Array>
+											<Array type="string">28 29 32 35 37 38 39 42 43 45 47 48 49 51 60 66</Array>
 										</SimpleSetPredicate>
 										<Node score="0.04359558902802431">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="39438.30000000001"/>
@@ -6665,7 +6665,7 @@
 									</Node>
 									<Node score="0.037274576350214715">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 29 31 38 42 43 45 46 47 48 52 53 54 58 59 66</Array>
+											<Array type="string">25 29 31 38 42 43 45 46 47 48 52 53 54 58 59 66</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.07738879143061117">
 											<SimplePredicate field="Income" operator="greaterThan" value="38836.80000000001"/>
@@ -6770,7 +6770,7 @@
 									</Node>
 									<Node score="-0.03932847009335674">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 26 29 33 34 46 52 55 56 58 61</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 26 29 33 34 46 52 55 56 58 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.1172012502068782">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="29.000000000000004"/>
@@ -6844,7 +6844,7 @@
 									</Node>
 									<Node score="0.011625577904802942">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">28 32 35 36 39 41 42 44 53 57</Array>
+											<Array type="string">28 32 35 36 39 41 42 44 53 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.05455531611159806">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="30117.400000000005"/>
@@ -6884,7 +6884,7 @@
 										<SimplePredicate field="Marital" operator="equal" value="Married"/>
 										<Node score="0.03636304863112444">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">27 28 31 32 37 38 40 42 43 45 47 49 50</Array>
+												<Array type="string">27 28 31 32 37 38 40 42 43 45 47 49 50</Array>
 											</SimpleSetPredicate>
 											<Node score="0.1157802804725549">
 												<SimplePredicate field="Hours" operator="greaterThan" value="48.50000000000001"/>
@@ -6920,7 +6920,7 @@
 									</Node>
 									<Node score="-0.010383398865748905">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">20 21 23 24 25 26 27 28 31 32 34 37 38 40 42 43 45 49 56</Array>
+											<Array type="string">20 21 23 24 25 26 27 28 31 32 34 37 38 40 42 43 45 49 56</Array>
 										</SimpleSetPredicate>
 										<Node score="0.02775758708386844">
 											<SimplePredicate field="Income" operator="greaterThan" value="73780.29500000001"/>
@@ -6999,7 +6999,7 @@
 									</Node>
 									<Node score="-0.029874052282966242">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 27 29 33 41 46 52 54 58 59 61</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 27 29 33 41 46 52 54 58 59 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.011433210049207429">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -7055,7 +7055,7 @@
 									</Node>
 									<Node score="-0.12302089170338587">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 30 31 35 37 38 42 43 47 48 50</Array>
+											<Array type="string">25 30 31 35 37 38 42 43 47 48 50</Array>
 										</SimpleSetPredicate>
 										<Node score="0.09541164434281076">
 											<SimplePredicate field="Marital" operator="equal" value="Married"/>
@@ -7159,7 +7159,7 @@
 									</Node>
 									<Node score="0.041105537392708405">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 28 29 30 31 34 36 37 38 40 41 42 45 47 49</Array>
+											<Array type="string">25 28 29 30 31 34 36 37 38 40 41 42 45 47 49</Array>
 										</SimpleSetPredicate>
 										<Node score="0.07096140726008271">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="24838.735000000004"/>
@@ -7250,7 +7250,7 @@
 										</Node>
 										<Node score="-0.11390895496683302">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">23 29 31 35 37 42 44 45 57</Array>
+												<Array type="string">23 29 31 35 37 42 44 45 57</Array>
 											</SimpleSetPredicate>
 											<Node score="0.10208510235181388">
 												<SimplePredicate field="Income" operator="greaterThan" value="88004.17000000001"/>
@@ -7277,7 +7277,7 @@
 									</Node>
 									<Node score="0.05415060014010083">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 28 29 31 34 35 37 38 41 42 44 45 46 47 48 51 55 57</Array>
+											<Array type="string">25 28 29 31 34 35 37 38 41 42 44 45 46 47 48 51 55 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.02645611006708908">
 											<SimplePredicate field="Hours" operator="greaterThan" value="44.50000000000001"/>
@@ -7354,7 +7354,7 @@
 									</Node>
 									<Node score="0.032912127128571354">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 29 32 42 43 45 46 47 48 52 53 54 58 65 66</Array>
+											<Array type="string">25 29 32 42 43 45 46 47 48 52 53 54 58 65 66</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.0016272188936032935">
 											<SimpleSetPredicate field="Employment" booleanOperator="isIn">
@@ -7403,7 +7403,7 @@
 									</Node>
 									<Node score="-0.03601990054980619">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">22 23 24 28 33 35 44 51 57</Array>
+											<Array type="string">22 23 24 28 33 35 44 51 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.05911701632923116">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="39438.30000000001"/>
@@ -7459,7 +7459,7 @@
 									<True/>
 									<Node score="0.012478368211719113">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 27 29 30 32 34 38 40 41 43 46 54 55 59 61</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 27 29 30 32 34 38 40 41 43 46 54 55 59 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.116289914922212">
 											<SimplePredicate field="Hours" operator="lessOrEqual" value="67.50000000000001"/>
@@ -7573,7 +7573,7 @@
 									<True/>
 									<Node score="-0.027207483720923305">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 27 29 30 34 41 46 59</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 27 29 30 34 41 46 59</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.08074647026428956">
 											<SimplePredicate field="Hours" operator="greaterThan" value="51.00000000000001"/>
@@ -7651,7 +7651,7 @@
 									</Node>
 									<Node score="-0.08428913394125198">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">31 33 36 37 45</Array>
+											<Array type="string">31 33 36 37 45</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.059501226569596">
 											<SimplePredicate field="Hours" operator="greaterThan" value="29.000000000000004"/>
@@ -7687,7 +7687,7 @@
 									<True/>
 									<Node score="0.015237996405871085">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">28 37 39 44 45 47 48 49 51 53 58 60 66</Array>
+											<Array type="string">28 37 39 44 45 47 48 49 51 53 58 60 66</Array>
 										</SimpleSetPredicate>
 										<Node score="0.0015536473757987192">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -7713,7 +7713,7 @@
 										</SimpleSetPredicate>
 										<Node score="-0.036892918677363794">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">22 23 24 25 33 35 38 40 41 42 43 46 57</Array>
+												<Array type="string">22 23 24 25 33 35 38 40 41 42 43 46 57</Array>
 											</SimpleSetPredicate>
 										</Node>
 										<Node score="0.05450834253089311">
@@ -7740,7 +7740,7 @@
 									</Node>
 									<Node score="0.032503206811451045">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">22 25 26 33 35 38 41 42 43 46 50 54 57</Array>
+											<Array type="string">22 25 26 33 35 38 41 42 43 46 50 54 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.03707157380874819">
 											<SimplePredicate field="Hours" operator="greaterThan" value="13.500000000000002"/>
@@ -7821,7 +7821,7 @@
 									</Node>
 									<Node score="0.04707687811308087">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 27 29 31 34 37 38 39 40 42 43 44 45 47 48 49 55 59</Array>
+											<Array type="string">25 27 29 31 34 37 38 39 40 42 43 44 45 47 48 49 55 59</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.12778512371429437">
 											<SimplePredicate field="Hours" operator="greaterThan" value="27.500000000000004"/>
@@ -7919,7 +7919,7 @@
 									<True/>
 									<Node score="0.04946517192650315">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 26 27 29 30 31 34 38 41 42 43 46 50 54 55 57</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 26 27 29 30 31 34 38 41 42 43 46 50 54 55 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.04511348261442522">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -7991,7 +7991,7 @@
 									</Node>
 									<Node score="0.05775907590729745">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 28 35 39 40 47 48 51 58 59 60</Array>
+											<Array type="string">25 28 35 39 40 47 48 51 58 59 60</Array>
 										</SimpleSetPredicate>
 										<Node score="0.04234939763255268">
 											<SimplePredicate field="Income" operator="greaterThan" value="27850.800000000003"/>
@@ -8062,7 +8062,7 @@
 									</Node>
 									<Node score="-0.0539854113970913">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">20 21 23 24 26 31 33 34 35 37 41 43 45 50 51 55 57 61</Array>
+											<Array type="string">20 21 23 24 26 31 33 34 35 37 41 43 45 50 51 55 57 61</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.02987230194964399">
 											<SimplePredicate field="Income" operator="greaterThan" value="12437.580000000002"/>
@@ -8193,7 +8193,7 @@
 									</Node>
 									<Node score="0.09872939589767313">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">25 26 27 29 36 38 45 46 48 53 54 58 59 66</Array>
+											<Array type="string">25 26 27 29 36 38 45 46 48 53 54 58 59 66</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.015341511311383504">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="29770.430000000004"/>
@@ -8215,7 +8215,7 @@
 									</Node>
 									<Node score="-0.05634400848990953">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">28 33 35 40 41 47 50</Array>
+											<Array type="string">28 33 35 40 41 47 50</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.07656306332631109">
 											<SimplePredicate field="Income" operator="lessOrEqual" value="52987.450000000004"/>
@@ -8271,7 +8271,7 @@
 									<True/>
 									<Node score="0.016632214341117817">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">17 18 19 20 21 22 23 24 26 27 29 30 34 38 41 42 46 54 56 57</Array>
+											<Array type="string">17 18 19 20 21 22 23 24 26 27 29 30 34 38 41 42 46 54 56 57</Array>
 										</SimpleSetPredicate>
 										<Node score="-0.050007723338042244">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -8339,7 +8339,7 @@
 										<SimplePredicate field="Income" operator="lessOrEqual" value="59453.16500000001"/>
 										<Node score="0.07540522091102453">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
-												<Array type="int">31 36 37 40 49 50 51 55</Array>
+												<Array type="string">31 36 37 40 49 50 51 55</Array>
 											</SimpleSetPredicate>
 											<Node score="-0.01561453605707265">
 												<SimplePredicate field="Income" operator="greaterThan" value="38124.570000000014"/>
@@ -8354,7 +8354,7 @@
 									</Node>
 									<Node score="0.005802438209121765">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
-											<Array type="int">28 32 33 39 40 44</Array>
+											<Array type="string">28 32 33 39 40 44</Array>
 										</SimpleSetPredicate>
 										<Node score="0.09013836949968146">
 											<SimplePredicate field="Hours" operator="greaterThan" value="38.50000000000001"/>
@@ -8415,7 +8415,6 @@
 					<data:Occupation>Professional</data:Occupation>
 					<data:Income>25719.5</data:Income>
 					<data:Gender>Male</data:Gender>
-					<data:Hours>NaN</data:Hours>
 					<data:probability_0>0.11785733994194303</data:probability_0>
 					<data:probability_1>0.882142660058057</data:probability_1>
 				</row>
