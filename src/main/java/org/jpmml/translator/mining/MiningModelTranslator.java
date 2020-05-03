@@ -28,7 +28,11 @@ import org.dmg.pmml.Output;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Targets;
 import org.dmg.pmml.mining.MiningModel;
+import org.dmg.pmml.mining.PMMLAttributes;
+import org.dmg.pmml.mining.PMMLElements;
+import org.dmg.pmml.mining.Segmentation;
 import org.jpmml.evaluator.InputFieldUtil;
+import org.jpmml.evaluator.MissingAttributeException;
 import org.jpmml.evaluator.MissingElementException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.model.XPathUtil;
@@ -43,6 +47,20 @@ public class MiningModelTranslator extends ModelTranslator<MiningModel> {
 
 	public MiningModelTranslator(PMML pmml, MiningModel miningModel){
 		super(pmml, miningModel);
+
+		Segmentation segmentation = miningModel.getSegmentation();
+		if(segmentation == null){
+			throw new MissingElementException(miningModel, PMMLElements.MININGMODEL_SEGMENTATION);
+		}
+
+		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
+		if(multipleModelMethod == null){
+			throw new MissingAttributeException(segmentation, PMMLAttributes.SEGMENTATION_MULTIPLEMODELMETHOD);
+		} // End if
+
+		if(!segmentation.hasSegments()){
+			throw new MissingElementException(segmentation, PMMLElements.SEGMENTATION_SEGMENTS);
+		}
 	}
 
 	public ModelTranslator<?> newModelTranslator(Model model){

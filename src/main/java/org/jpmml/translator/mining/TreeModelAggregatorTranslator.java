@@ -90,13 +90,6 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		}
 
 		MathContext mathContext = miningModel.getMathContext();
-		switch(mathContext){
-			case FLOAT:
-			case DOUBLE:
-				break;
-			default:
-				throw new UnsupportedAttributeException(miningModel, mathContext);
-		}
 
 		Segmentation segmentation = miningModel.getSegmentation();
 
@@ -394,7 +387,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 		}
 
-		String[] categories = getTargetCategories();
+		Object[] categories = getTargetCategories();
 
 		List<NodeScoreDistributionManager<?>> scoreManagers = new ArrayList<>();
 

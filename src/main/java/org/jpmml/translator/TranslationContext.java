@@ -275,7 +275,7 @@ public class TranslationContext {
 	public JClass getValueMapType(){
 		JTypeVar numberTypeVar = getNumberTypeVariable();
 
-		return ref(ValueMap.class).narrow(Arrays.asList(ref(String.class), numberTypeVar));
+		return ref(ValueMap.class).narrow(Arrays.asList(ref(Object.class), numberTypeVar));
 	}
 
 	public JVar declare(Class<?> type, String name, JExpression init){

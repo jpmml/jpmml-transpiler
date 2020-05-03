@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Villu Ruusmann
+ * Copyright (c) 2020 Villu Ruusmann
  *
  * This file is part of JPMML-Transpiler
  *
@@ -16,24 +16,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with JPMML-Transpiler.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.jpmml.translator;
+package org.jpmml.translator.visitors;
 
-import org.dmg.pmml.Model;
-import org.dmg.pmml.PMML;
-import org.jpmml.evaluator.ModelManagerFactory;
+import org.jpmml.evaluator.visitors.AttributeOptimizerBattery;
+import org.jpmml.evaluator.visitors.ElementOptimizerBattery;
+import org.jpmml.model.visitors.VisitorBattery;
 
-public class ModelTranslatorFactory extends ModelManagerFactory<ModelTranslator<?>> {
+public class DefaultModelTranslatorBattery extends VisitorBattery {
 
-	protected ModelTranslatorFactory(){
-		super((Class)ModelTranslator.class);
-	}
-
-	public ModelTranslator<?> newModelTranslator(PMML pmml, Model model){
-		return newModelManager(pmml, model);
-	}
-
-	static
-	public ModelTranslatorFactory newInstance(){
-		return new ModelTranslatorFactory();
+	public DefaultModelTranslatorBattery(){
+		addAll(new AttributeOptimizerBattery());
+		addAll(new ElementOptimizerBattery());
 	}
 }

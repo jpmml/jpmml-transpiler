@@ -18,6 +18,8 @@
  */
 package org.jpmml.translator;
 
+import java.util.Arrays;
+
 import com.sun.codemodel.JExpression;
 import org.dmg.pmml.DataType;
 import org.jpmml.evaluator.Classification;
@@ -35,7 +37,7 @@ public class ClassificationBuilder extends JVarBuilder {
 	public ClassificationBuilder declare(String name, JExpression init){
 		TranslationContext context = getContext();
 
-		return (ClassificationBuilder)declare(context.ref(Classification.class).narrow(context.getNumberTypeVariable()), name, init);
+		return (ClassificationBuilder)declare(context.ref(Classification.class).narrow(Arrays.asList(context.ref(Object.class), context.getNumberTypeVariable())), name, init);
 	}
 
 	public ClassificationBuilder computeResult(DataType dataType){

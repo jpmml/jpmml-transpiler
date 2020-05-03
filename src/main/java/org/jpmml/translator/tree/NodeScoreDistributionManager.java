@@ -39,10 +39,10 @@ import org.jpmml.translator.ArrayManager;
 abstract
 public class NodeScoreDistributionManager<V extends Number> extends ArrayManager<List<Number>> implements ScoreFunction<List<Number>> {
 
-	private String[] categories = null;
+	private Object[] categories = null;
 
 
-	public NodeScoreDistributionManager(JType componentType, String name, String[] categories){
+	public NodeScoreDistributionManager(JType componentType, String name, Object[] categories){
 		super(componentType, name);
 
 		setCategories(categories);
@@ -59,7 +59,7 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 			return null;
 		}
 
-		ValueMap<String, V> probabilityMap = new ValueMap<>();
+		ValueMap<Object, V> probabilityMap = new ValueMap<>();
 
 		List<ScoreDistribution> scoreDistributions = node.getScoreDistributions();
 		for(ScoreDistribution scoreDistribution : scoreDistributions){
@@ -68,7 +68,7 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 				throw new MissingAttributeException(node, PMMLAttributes.COMPLEXNODE_RECORDCOUNT);
 			}
 
-			String category = (String)scoreDistribution.getValue();
+			Object category = scoreDistribution.getValue();
 			Value<V> value = valueFactory.newValue(recordCount);
 
 			probabilityMap.put(category, value);
@@ -78,9 +78,9 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 
 		List<Number> result = new ArrayList<>();
 
-		String[] categories = getCategories();
+		Object[] categories = getCategories();
 		for(int i = 0; i < categories.length; i++){
-			String category = categories[i];
+			Object category = categories[i];
 			Value<V> value = probabilityMap.get(category);
 			if(value == null){
 				value = valueFactory.newValue(0d);
@@ -129,11 +129,11 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 		return result;
 	}
 
-	public String[] getCategories(){
+	public Object[] getCategories(){
 		return this.categories;
 	}
 
-	private void setCategories(String[] categories){
+	private void setCategories(Object[] categories){
 		this.categories = categories;
 	}
 }

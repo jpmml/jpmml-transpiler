@@ -34,12 +34,10 @@ import org.jpmml.codemodel.CompilerUtil;
 import org.jpmml.codemodel.JServiceConfigurationFile;
 import org.jpmml.codemodel.JarCodeWriter;
 import org.jpmml.codemodel.MarkedCodeWriter;
-import org.jpmml.evaluator.visitors.ValueOptimizer;
-import org.jpmml.model.VisitorBattery;
-import org.jpmml.model.visitors.NodeScoreOptimizer;
-import org.jpmml.model.visitors.RowCleaner;
+import org.jpmml.model.visitors.VisitorBattery;
 import org.jpmml.translator.PMMLObjectUtil;
 import org.jpmml.translator.TranslationContext;
+import org.jpmml.translator.visitors.DefaultModelTranslatorBattery;
 
 public class TranspilerUtil {
 
@@ -48,10 +46,7 @@ public class TranspilerUtil {
 
 	static
 	public JCodeModel translate(PMML pmml, String className){
-		VisitorBattery visitorBattery = new VisitorBattery();
-		visitorBattery.add(RowCleaner.class);
-		visitorBattery.add(NodeScoreOptimizer.class);
-		visitorBattery.add(ValueOptimizer.class);
+		VisitorBattery visitorBattery = new DefaultModelTranslatorBattery();
 
 		visitorBattery.applyTo(pmml);
 

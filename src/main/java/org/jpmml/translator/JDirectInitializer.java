@@ -66,13 +66,13 @@ public class JDirectInitializer extends JClassInitializer {
 		return constant;
 	}
 
-	public JFieldVar initTargetCategories(String name, List<String> categories){
+	public JFieldVar initTargetCategories(String name, List<?> categories){
 		TranslationContext context = getContext();
 
-		JFieldVar constant = createConstant(name, context.ref(String.class), context);
+		JFieldVar constant = createConstant(name, context.ref(Object.class), context);
 
 		List<JExpression> literals = categories.stream()
-			.map(category -> JExpr.lit(category))
+			.map(category -> PMMLObjectUtil.createExpression(category, context))
 			.collect(Collectors.toList());
 
 		JInvocation invocation = populateConstant(constant, literals, context);

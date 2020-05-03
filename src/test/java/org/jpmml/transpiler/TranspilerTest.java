@@ -26,9 +26,9 @@ import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Visitor;
 import org.jpmml.codemodel.JCodeModelClassLoader;
-import org.jpmml.evaluator.Batch;
-import org.jpmml.evaluator.IntegrationTest;
-import org.jpmml.evaluator.IntegrationTestBatch;
+import org.jpmml.evaluator.testing.Batch;
+import org.jpmml.evaluator.testing.IntegrationTest;
+import org.jpmml.evaluator.testing.IntegrationTestBatch;
 import org.jpmml.model.PMMLUtil;
 
 public class TranspilerTest extends IntegrationTest {

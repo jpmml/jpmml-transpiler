@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.google.common.collect.Iterables;
 import org.dmg.pmml.PMMLObject;
 import org.jpmml.model.ReflectionUtil;
@@ -32,9 +34,9 @@ public class Template {
 
 		List<Field> instanceFields = ReflectionUtil.getFields(clazz);
 		for(Field instanceField : instanceFields){
+			boolean xmlTransient = (instanceField.getAnnotation(XmlTransient.class) != null);
 
-			// XXX: Nullify instead?
-			if(("locator").equals(instanceField.getName())){
+			if(xmlTransient){
 				continue;
 			}
 

@@ -27,9 +27,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
@@ -43,28 +41,19 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.DataDictionary;
-import org.dmg.pmml.DataField;
-import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.HasFieldReference;
 import org.dmg.pmml.MathContext;
-import org.dmg.pmml.MiningField;
 import org.dmg.pmml.MiningFunction;
-import org.dmg.pmml.MiningSchema;
 import org.dmg.pmml.Model;
-import org.dmg.pmml.OpType;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Target;
-import org.dmg.pmml.Targets;
 import org.dmg.pmml.Visitor;
 import org.dmg.pmml.VisitorAction;
 import org.jpmml.evaluator.EvaluationContext;
-import org.jpmml.evaluator.HasModel;
-import org.jpmml.evaluator.HasPMML;
-import org.jpmml.evaluator.IndexableUtil;
+import org.jpmml.evaluator.ModelManager;
 import org.jpmml.evaluator.TargetField;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.Value;
@@ -75,18 +64,19 @@ import org.jpmml.model.visitors.FieldReferenceFinder;
 import org.jpmml.model.visitors.FieldResolver;
 
 abstract
-public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
-
-	private PMML pmml = null;
-
-	private M model = null;
-
-	private TargetField targetField = null;
-
+public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 	public ModelTranslator(PMML pmml, M model){
-		setPMML(Objects.requireNonNull(pmml));
-		setModel(Objects.requireNonNull(model));
+		super(pmml, model);
+
+		MathContext mathContext = model.getMathContext();
+		switch(mathContext){
+			case FLOAT:
+			case DOUBLE:
+				break;
+			default:
+				throw new UnsupportedAttributeException(model, mathContext);
+		}
 	}
 
 	public JExpression translate(TranslationContext context){
@@ -257,124 +247,12 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 		return result;
 	}
 
-	public String[] getTargetCategories(){
+	public Object[] getTargetCategories(){
 		TargetField targetField = getTargetField();
 
-		List<String> categories = targetField.getCategories();
+		List<?> categories = targetField.getCategories();
 
-		return categories.toArray(new String[categories.size()]);
-	}
-
-	public TargetField getTargetField(){
-
-		if(this.targetField == null){
-			this.targetField = createTargetField();
-		}
-
-		return this.targetField;
-	}
-
-	private TargetField createTargetField(){
-		PMML pmml = getPMML();
-		M model = getModel();
-
-		MiningField targetMiningField = null;
-
-		MiningSchema miningSchema = model.getMiningSchema();
-		if(miningSchema != null && miningSchema.hasMiningFields()){
-			List<MiningField> miningFields = miningSchema.getMiningFields();
-
-			List<MiningField> targetMiningFields = miningFields.stream()
-				.filter(miningField -> {
-					MiningField.UsageType usageType = miningField.getUsageType();
-
-					switch(usageType){
-						case PREDICTED:
-						case TARGET:
-							return true;
-						default:
-							return false;
-					}
-				})
-				.collect(Collectors.toList());
-
-			if(targetMiningFields.size() > 0){
-				targetMiningField = Iterables.getOnlyElement(targetMiningFields);
-			}
-		}
-
-		FieldName name = null;
-
-		if(targetMiningField != null){
-			name = targetMiningField.getName();
-		}
-
-		DataField targetDataField = null;
-
-		if(name != null){
-			DataDictionary dataDictionary = pmml.getDataDictionary();
-
-			if(dataDictionary != null && dataDictionary.hasDataFields()){
-				List<DataField> dataFields = dataDictionary.getDataFields();
-
-				targetDataField = IndexableUtil.findIndexable(dataFields, name);
-			}
-		} else
-
-		{
-			MiningFunction miningFunction = model.getMiningFunction();
-
-			switch(miningFunction){
-				case REGRESSION:
-					MathContext mathContext = model.getMathContext();
-
-					switch(mathContext){
-						case FLOAT:
-							targetDataField = new DataField(name, OpType.CONTINUOUS, DataType.FLOAT);
-							break;
-						case DOUBLE:
-							targetDataField = new DataField(name, OpType.CONTINUOUS, DataType.DOUBLE);
-							break;
-						default:
-							throw new UnsupportedAttributeException(model, mathContext);
-					}
-					break;
-				case CLASSIFICATION:
-					targetDataField = new DataField(name, OpType.CATEGORICAL, DataType.STRING);
-					break;
-				default:
-					throw new UnsupportedAttributeException(model, miningFunction);
-			}
-		}
-
-		Target targetTarget = null;
-
-		Targets targets = model.getTargets();
-		if(targets != null && targets.hasTargets()){
-			List<Target> _targets = targets.getTargets();
-
-			targetTarget = IndexableUtil.findIndexable(_targets, name, true);
-		}
-
-		return new TargetField(targetDataField, targetMiningField, targetTarget);
-	}
-
-	@Override
-	public PMML getPMML(){
-		return this.pmml;
-	}
-
-	private void setPMML(PMML pmml){
-		this.pmml = pmml;
-	}
-
-	@Override
-	public M getModel(){
-		return this.model;
-	}
-
-	private void setModel(M model){
-		this.model = model;
+		return categories.toArray(new Object[categories.size()]);
 	}
 
 	static
@@ -466,6 +344,10 @@ public class ModelTranslator<M extends Model> implements HasPMML, HasModel<M> {
 			TypeVariable<?>[] typeVariables = type.getTypeParameters();
 			if(typeVariables.length == 1){
 				method.type(context.ref(type).narrow(numberTypeVar));
+			} else
+
+			if(typeVariables.length == 2){
+				method.type(context.ref(type).narrow(context.ref(Object.class), numberTypeVar));
 			}
 
 			method.param(context.ref(ValueFactory.class).narrow(numberTypeVar), Scope.VAR_VALUEFACTORY);

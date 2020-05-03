@@ -18,7 +18,7 @@
  */
 package org.jpmml.transpiler;
 
-import org.jpmml.evaluator.PMMLEquivalence;
+import org.jpmml.evaluator.testing.PMMLEquivalence;
 import org.junit.Test;
 
 public class AnomalyDetectionTest extends TranspilerTest {

@@ -44,7 +44,6 @@ import org.dmg.pmml.regression.RegressionTable;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.InvalidElementException;
 import org.jpmml.evaluator.ProbabilityDistribution;
-import org.jpmml.evaluator.TypeUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
@@ -128,9 +127,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					context.popScope();
 				}
 
-				String targetCategory = TypeUtil.format(regressionTable.getTargetCategory());
-
-				valueMapBuilder.update("put", targetCategory, createEvaluatorMethodInvocation(evaluateMethod, context));
+				valueMapBuilder.update("put", regressionTable.getTargetCategory(), createEvaluatorMethodInvocation(evaluateMethod, context));
 			}
 
 			computeClassification(valueMapBuilder, regressionModel, context);

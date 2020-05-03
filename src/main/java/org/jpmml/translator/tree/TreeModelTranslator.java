@@ -153,7 +153,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Node node = treeModel.getNode();
 
-		String[] categories = getTargetCategories();
+		Object[] categories = getTargetCategories();
 
 		JDefinedClass owner = context.getOwner();
 
@@ -481,7 +481,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private ValueMapBuilder createScoreDistribution(String[] categories, JVar scoreVar, TranslationContext context){
+	private ValueMapBuilder createScoreDistribution(Object[] categories, JVar scoreVar, TranslationContext context){
 		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
 			.construct("values");
 

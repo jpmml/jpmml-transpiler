@@ -35,7 +35,6 @@ import org.dmg.pmml.Predicate;
 import org.dmg.pmml.ResultFeature;
 import org.dmg.pmml.True;
 import org.dmg.pmml.mining.MiningModel;
-import org.dmg.pmml.mining.PMMLElements;
 import org.dmg.pmml.mining.Segment;
 import org.dmg.pmml.mining.Segmentation;
 import org.dmg.pmml.regression.NumericPredictor;
@@ -44,7 +43,6 @@ import org.dmg.pmml.regression.RegressionTable;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.InvalidElementException;
 import org.jpmml.evaluator.MissingElementException;
-import org.jpmml.evaluator.TypeUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.model.XPathUtil;
@@ -71,13 +69,6 @@ public class ModelChainTranslator extends MiningModelTranslator {
 		}
 
 		MathContext mathContext = miningModel.getMathContext();
-		switch(mathContext){
-			case FLOAT:
-			case DOUBLE:
-				break;
-			default:
-				throw new UnsupportedAttributeException(miningModel, mathContext);
-		}
 
 		Segmentation segmentation = miningModel.getSegmentation();
 
@@ -90,9 +81,6 @@ public class ModelChainTranslator extends MiningModelTranslator {
 		}
 
 		List<Segment> segments = segmentation.getSegments();
-		if(segments.size() < 1){
-			throw new MissingElementException(segmentation, PMMLElements.SEGMENTATION_SEGMENTS);
-		}
 
 		List<Segment> regressorSegments = segments.subList(0, segments.size() - 1);
 		for(Segment regressorSegment : regressorSegments){
@@ -258,8 +246,6 @@ public class ModelChainTranslator extends MiningModelTranslator {
 			for(RegressionTable regressionTable : regressionTables){
 				List<NumericPredictor> numericPredictors = regressionTable.getNumericPredictors();
 
-				String targetCategory = TypeUtil.format(regressionTable.getTargetCategory());
-
 				Number intercept = regressionTable.getIntercept();
 
 				JExpression valueExpr;
@@ -290,7 +276,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 					}
 				}
 
-				valueMapBuilder.update("put", targetCategory, valueExpr);
+				valueMapBuilder.update("put", regressionTable.getTargetCategory(), valueExpr);
 			}
 
 			RegressionModelTranslator.computeClassification(valueMapBuilder, regressionModel, context);

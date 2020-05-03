@@ -15,7 +15,7 @@ JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "trans
 
 # Prerequisites #
 
-* JPMML-Evaluator 1.4.13 or newer.
+* JPMML-Evaluator 1.5.0 or newer.
 
 # Installation #
 
@@ -179,7 +179,7 @@ For example, evaluating the `/src/test/resources/pmml/LightGBMAudit.pmml` model 
 Evaluating the model in interpreted mode:
 
 ```
-$ java -jar pmml-evaluator-example-executable-1.4-SNAPSHOT.jar --model LightGBMAudit.pmml --input Audit.csv --output /dev/null --optimize --intern --loop 100
+$ java -jar pmml-evaluator-example-executable-1.5-SNAPSHOT.jar --model LightGBMAudit.pmml --input Audit.csv --output /dev/null --optimize --intern --loop 100
 
 -- Timers ----------------------------------------------------------------------
 main
@@ -215,7 +215,7 @@ $ java -jar target/jpmml-transpiler-executable-1.1-SNAPSHOT.jar --help
 Evaluating the model in transpiled mode:
 
 ```
-$ java -jar pmml-evaluator-example-executable-1.4-SNAPSHOT.jar --model LightGBMAudit.jar --input Audit.csv --output /dev/null --loop 1000
+$ java -jar pmml-evaluator-example-executable-1.5-SNAPSHOT.jar --model LightGBMAudit.jar --input Audit.csv --output /dev/null --loop 1000
 
 -- Timers ----------------------------------------------------------------------
 main

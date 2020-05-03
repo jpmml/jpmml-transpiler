@@ -1,0 +1,4 @@
+org.jpmml.translator.mining.ModelChainTranslator
+org.jpmml.translator.mining.TreeModelAggregatorTranslator
+org.jpmml.translator.regression.RegressionModelTranslator
+org.jpmml.translator.tree.TreeModelTranslator 
