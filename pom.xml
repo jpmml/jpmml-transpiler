@@ -10,7 +10,7 @@
 
 	<groupId>org.jpmml</groupId>
 	<artifactId>jpmml-transpiler</artifactId>
-	<version>1.1.0</version>
+	<version>1.1-SNAPSHOT</version>
 
 	<name>JPMML-Transpiler</name>
 	<description>Java transpiler (translator + compiler) API for Predictive Model Markup Language (PMML)</description>
@@ -28,7 +28,7 @@
 		<connection>scm:git:git@github.com:jpmml/jpmml-transpiler.git</connection>
 		<developerConnection>scm:git:git@github.com:jpmml/jpmml-transpiler.git</developerConnection>
 		<url>git://github.com/jpmml/jpmml-transpiler.git</url>
-		<tag>1.1.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<issueManagement>
 		<system>GitHub</system>
