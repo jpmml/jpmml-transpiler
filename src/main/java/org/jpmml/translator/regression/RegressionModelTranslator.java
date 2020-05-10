@@ -47,6 +47,7 @@ import org.jpmml.evaluator.ProbabilityDistribution;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
+import org.jpmml.evaluator.VoteDistribution;
 import org.jpmml.evaluator.regression.RegressionModelUtil;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.IdentifierUtil;
@@ -200,7 +201,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 		} else
 
 		{
-			classificationExpr = context._new(Classification.class, Classification.Type.VOTE, valueMapBuilder);
+			classificationExpr = context._new(VoteDistribution.class, valueMapBuilder);
 		}
 
 		context._return(classificationExpr);
