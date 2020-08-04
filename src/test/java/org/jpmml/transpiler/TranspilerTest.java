@@ -18,12 +18,6 @@
  */
 package org.jpmml.transpiler;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
 import java.io.Serializable;
 import java.util.function.Predicate;
 
@@ -39,6 +33,7 @@ import org.jpmml.evaluator.testing.Batch;
 import org.jpmml.evaluator.testing.IntegrationTest;
 import org.jpmml.evaluator.testing.IntegrationTestBatch;
 import org.jpmml.model.PMMLUtil;
+import org.jpmml.model.SerializationUtil;
 
 public class TranspilerTest extends IntegrationTest {
 
@@ -96,45 +91,7 @@ public class TranspilerTest extends IntegrationTest {
 
 					ClassLoader clazzLoader = (JCodeModelClassLoader)pmmlClazz.getClassLoader();
 
-					clone(clazzLoader, (Serializable)evaluator);
-				}
-			}
-
-			private Object clone(ClassLoader clazzLoader, Serializable object) throws Exception {
-				byte[] buffer;
-
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-
-				ObjectOutputStream oos = new ObjectOutputStream(os);
-
-				try {
-					oos.writeObject(object);
-
-					buffer = os.toByteArray();
-				} finally {
-					oos.close();
-				}
-
-				ByteArrayInputStream is = new ByteArrayInputStream(buffer);
-
-				ObjectInputStream ois = new ObjectInputStream(is){
-
-					@Override
-					public Class<?> resolveClass(ObjectStreamClass objectStreamClass) throws ClassNotFoundException, IOException {
-						Class<?> clazz = Class.forName(objectStreamClass.getName(), false, clazzLoader);
-
-						if(clazz != null){
-							return clazz;
-						}
-
-						return super.resolveClass(objectStreamClass);
-					}
-				};
-
-				try {
-					return ois.readObject();
-				} finally {
-					ois.close();
+					SerializationUtil.clone((Serializable)evaluator, clazzLoader);
 				}
 			}
 		};

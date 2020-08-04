@@ -18,8 +18,11 @@
  */
 package org.jpmml.translator;
 
+import java.util.Set;
+
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
+import org.dmg.pmml.ResultFeature;
 import org.jpmml.evaluator.ModelManagerFactory;
 
 public class ModelTranslatorFactory extends ModelManagerFactory<ModelTranslator<?>> {
@@ -30,6 +33,10 @@ public class ModelTranslatorFactory extends ModelManagerFactory<ModelTranslator<
 
 	public ModelTranslator<?> newModelTranslator(PMML pmml, Model model){
 		return newModelManager(pmml, model);
+	}
+
+	public ModelTranslator<?> newModelTranslator(PMML pmml, Model model, Set<ResultFeature> extraResultFeature){
+		return newModelManager(pmml, model, extraResultFeature);
 	}
 
 	static
