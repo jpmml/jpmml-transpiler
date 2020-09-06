@@ -42,7 +42,7 @@ public class Main {
 	private boolean help = false;
 
 	@Parameter (
-		names = {"--input", "--xml-input"},
+		names = {"--input", "--pmml-input", "--xml-input"},
 		description = "PMML XML input file",
 		required = true
 	)

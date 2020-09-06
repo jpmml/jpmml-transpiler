@@ -203,7 +203,7 @@ main
 Transpiling the model:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.1-SNAPSHOT.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
+$ java -jar target/jpmml-transpiler-executable-1.1-SNAPSHOT.jar --pmml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
 ```
 
 Getting help:
