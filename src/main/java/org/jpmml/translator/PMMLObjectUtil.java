@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
@@ -366,7 +367,22 @@ public class PMMLObjectUtil {
 		if((Element.class).isAssignableFrom(clazz)){
 			Element domElement = (Element)value;
 
-			QName xmlName = new QName(domElement.getNamespaceURI(), domElement.getLocalName(), domElement.getPrefix());
+			String namespaceURI = domElement.getNamespaceURI();
+			if(namespaceURI == null){
+				namespaceURI = XMLConstants.NULL_NS_URI;
+			}
+
+			String localName = domElement.getLocalName();
+			if(localName == null){
+				localName = "";
+			}
+
+			String prefix = domElement.getPrefix();
+			if(prefix == null){
+				prefix = XMLConstants.DEFAULT_NS_PREFIX;
+			}
+
+			QName xmlName = new QName(namespaceURI, localName, prefix);
 			String stringValue = domElement.getTextContent();
 
 			return createExpression(new JAXBElement<>(xmlName, String.class, stringValue), context);
