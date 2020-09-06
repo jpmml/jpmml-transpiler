@@ -18,22 +18,13 @@
  */
 package org.jpmml.transpiler;
 
-import java.io.Serializable;
 import java.util.function.Predicate;
 
 import com.google.common.base.Equivalence;
-import com.sun.codemodel.JCodeModel;
-import org.dmg.pmml.PMML;
 import org.dmg.pmml.Visitor;
-import org.jpmml.codemodel.JCodeModelClassLoader;
-import org.jpmml.evaluator.Evaluator;
-import org.jpmml.evaluator.HasPMML;
 import org.jpmml.evaluator.ResultField;
 import org.jpmml.evaluator.testing.Batch;
 import org.jpmml.evaluator.testing.IntegrationTest;
-import org.jpmml.evaluator.testing.IntegrationTestBatch;
-import org.jpmml.model.PMMLUtil;
-import org.jpmml.model.SerializationUtil;
 
 public class TranspilerTest extends IntegrationTest {
 
@@ -52,47 +43,11 @@ public class TranspilerTest extends IntegrationTest {
 
 	@Override
 	protected Batch createBatch(String name, String dataset, Predicate<ResultField> predicate, Equivalence<Object> equivalence){
-		Batch result = new IntegrationTestBatch(name, dataset, predicate, equivalence){
+		Batch result = new TranspilerTestBatch(name, dataset, predicate, equivalence){
 
 			@Override
 			public TranspilerTest getIntegrationTest(){
 				return TranspilerTest.this;
-			}
-
-			@Override
-			public PMML getPMML() throws Exception {
-				PMML xmlPmml = super.getPMML();
-
-				JCodeModel codeModel = TranspilerUtil.translate(xmlPmml, null);
-
-				TranspilerUtil.compile(codeModel);
-
-				ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
-
-				PMML javaPmml = PMMLUtil.load(clazzLoader);
-
-				Visitor checker = getChecker();
-				if(checker != null){
-					checker.applyTo(javaPmml);
-				}
-
-				return javaPmml;
-			}
-
-			@Override
-			protected void validateEvaluator(Evaluator evaluator) throws Exception {
-
-				if(evaluator instanceof Serializable){
-					HasPMML hasPMML = (HasPMML)evaluator;
-
-					PMML pmml = hasPMML.getPMML();
-
-					Class<? extends PMML> pmmlClazz = pmml.getClass();
-
-					ClassLoader clazzLoader = (JCodeModelClassLoader)pmmlClazz.getClassLoader();
-
-					SerializationUtil.clone((Serializable)evaluator, clazzLoader);
-				}
 			}
 		};
 
