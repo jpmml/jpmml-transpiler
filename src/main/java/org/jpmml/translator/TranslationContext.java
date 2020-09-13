@@ -98,12 +98,11 @@ public class TranslationContext {
 
 	public void pushOwner(JDefinedClass owner){
 
-		if(this.fieldNameManager == null){
+		if(isSubclass(PMML.class, owner)){
 			this.fieldNameManager = new ArrayManager<FieldName>(ref(FieldName.class), "fieldNames"){
 
 				{
 					initArrayVar(owner);
-					initArray();
 				}
 
 				@Override
@@ -111,14 +110,11 @@ public class TranslationContext {
 					return staticInvoke(FieldName.class, "create", name.getValue());
 				}
 			};
-		} // End if
 
-		if(this.xmlNameManager == null){
 			this.xmlNameManager = new ArrayManager<QName>(ref(QName.class), "xmlNames"){
 
 				{
 					initArrayVar(owner);
-					initArray();
 				}
 
 				@Override
@@ -132,6 +128,24 @@ public class TranslationContext {
 	}
 
 	public void popOwner(){
+		JDefinedClass owner = this.owners.peekFirst();
+
+		if(isSubclass(PMML.class, owner)){
+			PMML pmml = getPMML();
+
+			JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(this, IdentifierUtil.create(PMML.class.getSimpleName(), pmml) + ".data");
+
+			FieldName[] fieldNames = this.fieldNameManager.getElements()
+				.toArray(new FieldName[this.fieldNameManager.size()]);
+
+			resourceInitializer.initFieldNames(this.fieldNameManager.getArrayVar(), fieldNames);
+
+			QName[] xmlNames = this.xmlNameManager.getElements()
+				.toArray(new QName[this.xmlNameManager.size()]);
+
+			resourceInitializer.initQNames(this.xmlNameManager.getArrayVar(), xmlNames);
+		}
+
 		this.owners.removeFirst();
 	}
 
@@ -480,5 +494,12 @@ public class TranslationContext {
 
 	public void putRepresentation(PMMLObject pmmlObject, JExpression reprExpr){
 		this.representations.put(pmmlObject, reprExpr);
+	}
+
+	static
+	private boolean isSubclass(Class<?> clazz, JDefinedClass owner){
+		JClass superClazz = owner._extends();
+
+		return (clazz.getName()).equals(superClazz.fullName());
 	}
 }

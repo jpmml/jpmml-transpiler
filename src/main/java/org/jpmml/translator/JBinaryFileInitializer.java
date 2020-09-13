@@ -26,6 +26,8 @@ import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import com.sun.codemodel.JArray;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
@@ -40,6 +42,7 @@ import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.codemodel.fmt.JBinaryFile;
+import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.jpmml.evaluator.ResourceUtil;
 
@@ -108,6 +111,40 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		JBlock init = owner.init();
 
 		init.add(tryWithResources);
+	}
+
+	public void initFieldNames(JFieldVar field, FieldName[] names){
+		TranslationContext context = getContext();
+		JBinaryFile binaryFile = getBinaryFile();
+
+		try(OutputStream os = binaryFile.getDataStore()){
+			DataOutput dataOutput = new DataOutputStream(os);
+
+			ResourceUtil.writeFieldNames(dataOutput, names);
+		} catch(IOException ioe){
+			throw new RuntimeException(ioe);
+		}
+
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readFieldNames", this.dataInputVar, JExpr.lit(names.length));
+
+		this.tryBody.assign(field, invocation);
+	}
+
+	public void initQNames(JFieldVar field, QName[] names){
+		TranslationContext context = getContext();
+		JBinaryFile binaryFile = getBinaryFile();
+
+		try(OutputStream os = binaryFile.getDataStore()){
+			DataOutput dataOutput = new DataOutputStream(os);
+
+			ResourceUtil.writeQNames(dataOutput, names);
+		} catch(IOException ioe){
+			throw new RuntimeException(ioe);
+		}
+
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readQNames", this.dataInputVar, JExpr.lit(names.length));
+
+		this.tryBody.assign(field, invocation);
 	}
 
 	public JFieldVar initNumbers(String name, MathContext mathContext, Number[] values){

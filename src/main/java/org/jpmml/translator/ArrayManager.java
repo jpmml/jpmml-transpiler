@@ -68,6 +68,13 @@ public class ArrayManager<E> {
 		this.array = JExpr.newArray(componentType);
 
 		this.arrayVar.init(this.array);
+
+		Collection<Map.Entry<E, Integer>> entries = this.indices.entrySet();
+		for(Map.Entry<E, Integer> entry : entries){
+			E element = entry.getKey();
+
+			this.array.add(createExpression(element));
+		}
 	}
 
 	public int size(){
