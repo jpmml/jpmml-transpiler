@@ -60,6 +60,10 @@ public class JBinaryFileInitializer extends JClassInitializer {
 
 
 	public JBinaryFileInitializer(TranslationContext context, String name){
+		this(context, name, -1);
+	}
+
+	public JBinaryFileInitializer(TranslationContext context, String name, int pos){
 		super(context);
 
 		JBinaryFile binaryFile = new JBinaryFile(name);
@@ -109,6 +113,10 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		};
 
 		JBlock init = owner.init();
+
+		if(pos > -1){
+			init.pos(pos);
+		}
 
 		init.add(tryWithResources);
 	}

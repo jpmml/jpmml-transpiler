@@ -133,7 +133,7 @@ public class TranslationContext {
 		if(isSubclass(PMML.class, owner)){
 			PMML pmml = getPMML();
 
-			JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(this, IdentifierUtil.create(PMML.class.getSimpleName(), pmml) + ".data");
+			JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(this, IdentifierUtil.create(PMML.class.getSimpleName(), pmml) + ".data", 0);
 
 			FieldName[] fieldNames = this.fieldNameManager.getElements()
 				.toArray(new FieldName[this.fieldNameManager.size()]);
