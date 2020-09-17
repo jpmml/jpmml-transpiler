@@ -25,6 +25,8 @@ public class FieldInfo {
 
 	private Field<?> field = null;
 
+	private FunctionInvocation functionInvocation = null;
+
 	private boolean primary = false;
 
 	private Encoder encoder = null;
@@ -47,6 +49,14 @@ public class FieldInfo {
 
 	private void setField(Field<?> field){
 		this.field = field;
+	}
+
+	public FunctionInvocation getFunctionInvocation(){
+		return this.functionInvocation;
+	}
+
+	public void setFunctionInvocation(FunctionInvocation functionInvocation){
+		this.functionInvocation = functionInvocation;
 	}
 
 	public boolean isPrimary(){

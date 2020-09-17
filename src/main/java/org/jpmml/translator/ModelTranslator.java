@@ -41,6 +41,9 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
+import org.dmg.pmml.DefineFunction;
+import org.dmg.pmml.DerivedField;
+import org.dmg.pmml.Expression;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.HasFieldReference;
@@ -240,6 +243,25 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			Field<?> field = bodyFields.get(name);
 
 			FieldInfo fieldInfo = new FieldInfo(field);
+
+			if(field instanceof DerivedField){
+				DerivedField derivedField = (DerivedField)field;
+
+				Expression expression = derivedField.getExpression();
+
+				FunctionInvocationContext context = new FunctionInvocationContext(){
+
+					@Override
+					public DefineFunction getDefineFunction(String name){
+						return ModelTranslator.this.getDefineFunction(name);
+					}
+				};
+
+				FunctionInvocation functionInvocation = FunctionInvocationUtil.match(expression, context);
+				if(functionInvocation != null){
+					fieldInfo.setFunctionInvocation(functionInvocation);
+				}
+			}
 
 			result.put(name, fieldInfo);
 		}

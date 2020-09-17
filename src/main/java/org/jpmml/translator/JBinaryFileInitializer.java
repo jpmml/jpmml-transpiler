@@ -147,6 +147,27 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		this.tryBody.assign(field, invocation);
 	}
 
+	public JFieldVar initStringLists(String name, List<String>[] stringLists){
+		TranslationContext context = getContext();
+		JBinaryFile binaryFile = getBinaryFile();
+
+		JFieldVar constant = createConstant(name, context.ref(List.class).narrow(String.class), context);
+
+		try(OutputStream os = binaryFile.getDataStore()){
+			DataOutput dataOutput = new DataOutputStream(os);
+
+			ResourceUtil.writeStringLists(dataOutput, stringLists);
+		} catch(IOException ioe){
+			throw new RuntimeException(ioe);
+		}
+
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readStringLists", this.dataInputVar);
+
+		this.tryBody.add(context.staticInvoke(Collections.class, "addAll", constant, invocation));
+
+		return constant;
+	}
+
 	public JFieldVar initNumbers(String name, MathContext mathContext, Number[] values){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
