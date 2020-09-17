@@ -270,7 +270,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			methods.add(method);
 		}
 
-		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(context, IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
+		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
 		List<Number[]> scoreValues = scoreManagers.stream()
 			.map(scoreManager -> scoreManager.getValues())
@@ -435,7 +435,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			methods.add(method);
 		}
 
-		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(context, IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data");
+		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
 		List<Number[][]> scoreValues = scoreManagers.stream()
 			.map(scoreManager -> scoreManager.getValues())

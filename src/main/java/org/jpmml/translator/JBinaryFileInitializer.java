@@ -59,11 +59,11 @@ public class JBinaryFileInitializer extends JClassInitializer {
 	private JBlock catchBody = new JBlock();
 
 
-	public JBinaryFileInitializer(TranslationContext context, String name){
-		this(context, name, -1);
+	public JBinaryFileInitializer(String name, TranslationContext context){
+		this(name, -1, context);
 	}
 
-	public JBinaryFileInitializer(TranslationContext context, String name, int pos){
+	public JBinaryFileInitializer(String name, int pos, TranslationContext context){
 		super(context);
 
 		JBinaryFile binaryFile = new JBinaryFile(name);

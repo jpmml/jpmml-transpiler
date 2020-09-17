@@ -352,7 +352,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			return;
 		}
 
-		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(context, IdentifierUtil.create(RegressionTable.class.getSimpleName(), regressionTable) + ".data");
+		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(RegressionTable.class.getSimpleName(), regressionTable) + ".data", context);
 
 		Function<FunctionInvocationPredictor, TextIndex> textIndexFunction = new Function<FunctionInvocationPredictor, TextIndex>(){
 
