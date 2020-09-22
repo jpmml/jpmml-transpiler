@@ -1,0 +1,3154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.6.5"/>
+		<Timestamp>2020-09-22T05:41:15Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="Score" optype="categorical" dataType="integer">
+			<Value value="0"/>
+			<Value value="1"/>
+		</DataField>
+		<DataField name="Sentence" optype="categorical" dataType="string"/>
+	</DataDictionary>
+	<TransformationDictionary>
+		<DefineFunction name="tf" optype="continuous" dataType="double">
+			<ParameterField name="document"/>
+			<ParameterField name="term"/>
+			<TextIndex textField="document">
+				<FieldRef field="term"/>
+			</TextIndex>
+		</DefineFunction>
+	</TransformationDictionary>
+	<RegressionModel functionName="classification" normalizationMethod="logit">
+		<MiningSchema>
+			<MiningField name="Score" usageType="target"/>
+			<MiningField name="Sentence"/>
+		</MiningSchema>
+		<LocalTransformations>
+			<DerivedField name="lowercase(Sentence)" optype="categorical" dataType="string">
+				<Apply function="lowercase">
+					<FieldRef field="Sentence"/>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(2 days)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">2 days</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(2 years)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">2 years</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(a charm)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">a charm</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(a great)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">a great</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(a lot)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">a lot</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(a waste)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">a waste</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(a week)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">a week</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(able to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">able to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(after)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">after</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(all the)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">all the</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(am very)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">am very</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(an excellent)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">an excellent</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(and)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">and</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(and all)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">and all</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(and clear)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">and clear</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(and is)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">and is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(and the)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">and the</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(and then)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">and then</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(and time)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">and time</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(any)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">any</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(anyone)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">anyone</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(anything)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">anything</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(are not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">are not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(area)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">area</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(as well)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">as well</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(at)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">at</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(awesome)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">awesome</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(back)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">back</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(bad)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">bad</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(beautiful)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">beautiful</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(been)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">been</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(best)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">best</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(best headset)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">best headset</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(best phone)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">best phone</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(better than)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">better than</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(bluetooth)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">bluetooth</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(both)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">both</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(break)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">break</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(broke)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">broke</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(buttons)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">buttons</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(buy)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">buy</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(buy it)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">buy it</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(buy this)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">buy this</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(buying)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">buying</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(by)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">by</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(calls)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">calls</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(came with)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">came with</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(camera)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">camera</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(care)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">care</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(cases)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">cases</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(cell)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">cell</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(charge)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">charge</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(charm)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">charm</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(cingular)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">cingular</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(clear)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">clear</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(comfort)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">comfort</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(comfortable)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">comfortable</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(comfortably)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">comfortably</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(company)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">company</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(completely)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">completely</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(conversations)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">conversations</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(cool)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">cool</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(could)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">could</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(could not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">could not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(crap)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">crap</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(customer)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">customer</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(customer service)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">customer service</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(dead)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">dead</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(definitely)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">definitely</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(design)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">design</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(device)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">device</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(did not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">did not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(didn't)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">didn't</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(difficult)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">difficult</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(difficult to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">difficult to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(disappointed)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">disappointed</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(disappointed with)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">disappointed with</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(disappointing)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">disappointing</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(disappointment)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">disappointment</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(display)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">display</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(do)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">do</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(do not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">do not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(does)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">does</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(does not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">does not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(doesn't)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">doesn't</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(doesn't work)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">doesn't work</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(don't)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">don't</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(don't buy)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">don't buy</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(dont)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">dont</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(drain)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">drain</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(easily)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">easily</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(easy)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">easy</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(easy to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">easy to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(enough)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">enough</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(ever)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">ever</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(everything)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">everything</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(excellent)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">excellent</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(excellent product)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">excellent product</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(expensive)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">expensive</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(experience)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">experience</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(failed)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">failed</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(family)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">family</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(fantastic)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">fantastic</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(far)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">far</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(fast)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">fast</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(features)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">features</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(fine)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">fine</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(first)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">first</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(fits)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">fits</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(fits comfortably)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">fits comfortably</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(fits my)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">fits my</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(found)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">found</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(free)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">free</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(from them)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">from them</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(get it)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">get it</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(glad)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">glad</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(glad i)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">glad i</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(goes)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">goes</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(good)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">good</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(good phone)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">good phone</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(good product)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">good product</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(good quality)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">good quality</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(great)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">great</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(great for)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">great for</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(great phone)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">great phone</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(great product)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">great product</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(had a)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">had a</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(had problems)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">had problems</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(had to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">had to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(happier)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">happier</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(happy)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">happy</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(happy with)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">happy with</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(has)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">has</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(hate)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">hate</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(have been)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">have been</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(have to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">have to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(have used)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">have used</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(headset)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">headset</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(headset is)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">headset is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(hear)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">hear</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(highly)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">highly</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(highly recommend)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">highly recommend</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(horrible)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">horrible</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(how)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">how</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(however)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">however</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(i am)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i am</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(i hate)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i hate</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(i highly)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i highly</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(i just)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i just</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(i love)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i love</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(i wear)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i wear</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(i'm not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i'm not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(i've)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i've</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(i've tried)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i've tried</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(if)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">if</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(if i)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">if i</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(if you)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">if you</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(in)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">in</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(in a)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">in a</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(in my)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">in my</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(instead)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">instead</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(instructions)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">instructions</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(is)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(is awesome)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">is awesome</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(is excellent)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">is excellent</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(is great)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">is great</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(is sturdy)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">is sturdy</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(is terrible)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">is terrible</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(is very)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">is very</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it broke)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it broke</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it doesn't)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it doesn't</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it fits)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it fits</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it has)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it has</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it in)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it in</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it is)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it only)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it only</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(it works)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it works</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(its not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">its not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(jabra)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">jabra</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(jawbone)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">jawbone</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(junk)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">junk</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(last)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">last</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(later)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">later</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(leather)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">leather</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(longer)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">longer</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(lost)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">lost</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(lot)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">lot</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(love)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">love</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(love the)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">love the</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(love this)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">love this</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(low quality)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">low quality</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(market)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">market</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(may)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">may</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(me)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">me</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(me to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">me to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(might)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">might</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(mistake)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">mistake</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(money)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">money</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(must have)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">must have</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(my ear)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">my ear</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(my money)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">my money</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(my purchase)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">my purchase</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(never)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">never</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(nice)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">nice</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(noise)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">noise</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(none)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">none</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(none of)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">none of</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(not a)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">not a</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(not fit)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">not fit</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(not good)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">not good</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(not impressed)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">not impressed</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(not recommend)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">not recommend</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(not work)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">not work</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(nothing)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">nothing</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(of)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">of</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(of junk)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">of junk</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(off)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">off</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(old)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">old</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(on my)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">on my</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(on this)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">on this</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(one is)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">one is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(only)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">only</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(order)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">order</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(out)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">out</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(out of)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">out of</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(overall)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">overall</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(overall i)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">overall i</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(pay)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">pay</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(pc)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">pc</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(perfectly)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">perfectly</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(phone in)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">phone in</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(phone on)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">phone on</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(picture)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">picture</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(piece)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">piece</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(piece of)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">piece of</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(player)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">player</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(pleased)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">pleased</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(plug)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">plug</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(plugged)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">plugged</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(poor)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">poor</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(poorly)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">poorly</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(pretty)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">pretty</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(price)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">price</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(priced)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">priced</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(product)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">product</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(put)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">put</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(quality)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">quality</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(quality of)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">quality of</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(range)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">range</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(reasonably)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">reasonably</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(reception and)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">reception and</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(recommend)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">recommend</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(recommend this)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">recommend this</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(refund)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">refund</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(return)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">return</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(return it)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">return it</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(rocks)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">rocks</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(same)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">same</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(same problem)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">same problem</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(satisfied)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">satisfied</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(satisfied with)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">satisfied with</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(seems)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">seems</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(seller)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">seller</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(service)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">service</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(setup)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">setup</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(signal)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">signal</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(slow)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">slow</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(so)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">so</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(so far)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">so far</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(sound)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">sound</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(sound is)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">sound is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(sprint)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">sprint</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(stay)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">stay</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(stay away)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">stay away</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(still)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">still</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(still not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">still not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(sturdy)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">sturdy</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(sucks)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">sucks</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(support)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">support</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(talk)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">talk</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(terrible)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">terrible</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(than)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">than</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(than the)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">than the</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(that)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">that</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(that i)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">that i</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the battery)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the battery</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the best)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the best</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the buttons)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the buttons</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the car)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the car</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the charger)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the charger</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the first)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the first</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the jabra)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the jabra</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the original)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the original</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the phone)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the phone</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the price)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the price</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the same)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the same</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the service)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the service</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the sound)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the sound</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the unit)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the unit</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the voice)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the voice</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(the worst)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the worst</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(them again)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">them again</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(then)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">then</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(there is)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">there is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(there was)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">there was</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(they are)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">they are</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(thing)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">thing</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(thing that)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">thing that</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(this company)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">this company</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(this device)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">this device</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(this headset)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">this headset</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(this is)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">this is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(this nokia)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">this nokia</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(thought it)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">thought it</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(tinny)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">tinny</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(tips)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">tips</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(to charge)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">to charge</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(to hear)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">to hear</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(to keep)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">to keep</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(to my)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">to my</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(to pull)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">to pull</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(to return)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">to return</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(told)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">told</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(tones)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">tones</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(too big)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">too big</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(too small)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">too small</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(tremendous)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">tremendous</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(try to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">try to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(trying to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">trying to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(turned)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">turned</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(turned off)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">turned off</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(two days)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">two days</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(uncomfortable)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">uncomfortable</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(uncomfortable and)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">uncomfortable and</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(understand)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">understand</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(unfortunately)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">unfortunately</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(unhappy)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">unhappy</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(unhappy with)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">unhappy with</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(unit)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">unit</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(unreliable)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">unreliable</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(unusable)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">unusable</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(up very)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">up very</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(use the)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">use the</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(useless)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">useless</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(usually)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">usually</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(usually don't)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">usually don't</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(value)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">value</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very cheap)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very cheap</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very disappointed)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very disappointed</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very excited)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very excited</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very good)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very good</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very happy)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very happy</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very helpful)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very helpful</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very impressed)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very impressed</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very nice)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very nice</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very pleased)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very pleased</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very poor)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very poor</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very very)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very very</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(very well)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very well</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(video)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">video</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(voice dialing)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">voice dialing</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(voice recognition)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">voice recognition</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(volume is)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">volume is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(want)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">want</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(warning)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">warning</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(was)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">was</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(was new)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">was new</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(was no)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">was no</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(was not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">was not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(was still)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">was still</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(was terrible)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">was terrible</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(was the)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">was the</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(waste)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">waste</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(waste of)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">waste of</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(wasted)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">wasted</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(wasted my)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">wasted my</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(weak)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">weak</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(wear)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">wear</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(wear glasses)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">wear glasses</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(wear it)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">wear it</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(wearing)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">wearing</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(week)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">week</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(weeks but)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">weeks but</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(well)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">well</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(went)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">went</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(went black)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">went black</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(went to)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">went to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(what)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">what</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(what a)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">what a</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(what you)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">what you</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(whatsoever)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">whatsoever</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(when)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">when</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(when i)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">when i</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(where i)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">where i</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(whole)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">whole</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(will)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">will</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(will not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">will not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(wired)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">wired</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(with)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">with</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(with a)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">with a</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(with no)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">with no</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(with that)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">with that</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(with this)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">with this</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(with your)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">with your</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(within)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">within</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(within 2)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">within 2</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(without)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">without</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(won't)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">won't</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(work)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">work</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(work great)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">work great</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(work with)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">work with</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(worked like)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">worked like</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(working)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">working</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(working great)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">working great</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(works)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">works</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(works fine)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">works fine</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(works great)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">works great</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(works like)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">works like</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(works well)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">works well</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(worst)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">worst</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(worst customer)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">worst customer</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(worst phone)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">worst phone</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(worthless)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">worthless</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(worthwhile)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">worthwhile</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(would highly)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">would highly</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(would not)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">would not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(would order)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">would order</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(would recommend)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">would recommend</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(wow)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">wow</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(wrong)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">wrong</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(year the)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">year the</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(years)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">years</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(years ago)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">years ago</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(you)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">you</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(you could)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">you could</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(you pay)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">you pay</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(you plan)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">you plan</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(your money)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">your money</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(your phone)" optype="continuous" dataType="double">
+				<Apply function="tf">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">your phone</Constant>
+				</Apply>
+			</DerivedField>
+		</LocalTransformations>
+		<RegressionTable intercept="-0.06335981628189948" targetCategory="1">
+			<NumericPredictor name="tf(2 days)" coefficient="-0.011288869215118551"/>
+			<NumericPredictor name="tf(2 years)" coefficient="0.30526049870432825"/>
+			<NumericPredictor name="tf(a charm)" coefficient="0.4587116982613559"/>
+			<NumericPredictor name="tf(a great)" coefficient="0.8862912179653355"/>
+			<NumericPredictor name="tf(a lot)" coefficient="0.21092392970921545"/>
+			<NumericPredictor name="tf(a waste)" coefficient="-0.18924589201774292"/>
+			<NumericPredictor name="tf(a week)" coefficient="-0.09353507307375519"/>
+			<NumericPredictor name="tf(able to)" coefficient="0.13715163371612632"/>
+			<NumericPredictor name="tf(after)" coefficient="-0.12793789145997683"/>
+			<NumericPredictor name="tf(all the)" coefficient="0.9417457695302225"/>
+			<NumericPredictor name="tf(am very)" coefficient="0.40662041063586063"/>
+			<NumericPredictor name="tf(an excellent)" coefficient="0.06272633966020785"/>
+			<NumericPredictor name="tf(and)" coefficient="0.12091432901821007"/>
+			<NumericPredictor name="tf(and all)" coefficient="0.21944876438441996"/>
+			<NumericPredictor name="tf(and clear)" coefficient="0.3171709525820087"/>
+			<NumericPredictor name="tf(and is)" coefficient="0.30020636066844675"/>
+			<NumericPredictor name="tf(and the)" coefficient="0.9623254273906535"/>
+			<NumericPredictor name="tf(and then)" coefficient="-0.370400955213301"/>
+			<NumericPredictor name="tf(and time)" coefficient="6.938893903907228E-18"/>
+			<NumericPredictor name="tf(any)" coefficient="0.5809193228868538"/>
+			<NumericPredictor name="tf(anyone)" coefficient="-0.3401034482811686"/>
+			<NumericPredictor name="tf(anything)" coefficient="-0.6133730366192166"/>
+			<NumericPredictor name="tf(are not)" coefficient="-0.5528932085587179"/>
+			<NumericPredictor name="tf(area)" coefficient="-0.2820702120250124"/>
+			<NumericPredictor name="tf(as well)" coefficient="0.17177210645535854"/>
+			<NumericPredictor name="tf(at)" coefficient="-0.10333198700042855"/>
+			<NumericPredictor name="tf(awesome)" coefficient="0.7660355253942916"/>
+			<NumericPredictor name="tf(back)" coefficient="-0.42284293116618266"/>
+			<NumericPredictor name="tf(bad)" coefficient="-0.8727664133722015"/>
+			<NumericPredictor name="tf(beautiful)" coefficient="0.8701575313059552"/>
+			<NumericPredictor name="tf(been)" coefficient="0.43622942195627584"/>
+			<NumericPredictor name="tf(best)" coefficient="0.7993099381876048"/>
+			<NumericPredictor name="tf(best headset)" coefficient="0.6135354502722954"/>
+			<NumericPredictor name="tf(best phone)" coefficient="0.12459109746593282"/>
+			<NumericPredictor name="tf(better than)" coefficient="0.30002815910937897"/>
+			<NumericPredictor name="tf(bluetooth)" coefficient="0.5699960436186018"/>
+			<NumericPredictor name="tf(both)" coefficient="1.1844339293820743"/>
+			<NumericPredictor name="tf(break)" coefficient="-0.13155440914579702"/>
+			<NumericPredictor name="tf(broke)" coefficient="-0.8585721136127122"/>
+			<NumericPredictor name="tf(buttons)" coefficient="-0.23606600522022847"/>
+			<NumericPredictor name="tf(buy)" coefficient="-0.07658467461409965"/>
+			<NumericPredictor name="tf(buy it)" coefficient="-0.39957547535219207"/>
+			<NumericPredictor name="tf(buy this)" coefficient="-0.45251206298808644"/>
+			<NumericPredictor name="tf(buying)" coefficient="-0.8919974571144164"/>
+			<NumericPredictor name="tf(by)" coefficient="-3.469446951953614E-17"/>
+			<NumericPredictor name="tf(calls)" coefficient="-0.6500417949081404"/>
+			<NumericPredictor name="tf(came with)" coefficient="0.36580126605544805"/>
+			<NumericPredictor name="tf(camera)" coefficient="-0.5675181592211949"/>
+			<NumericPredictor name="tf(care)" coefficient="-1.734723475976807E-18"/>
+			<NumericPredictor name="tf(cases)" coefficient="0.4568886367569319"/>
+			<NumericPredictor name="tf(cell)" coefficient="0.35763962467379296"/>
+			<NumericPredictor name="tf(charge)" coefficient="-0.617381834131187"/>
+			<NumericPredictor name="tf(charm)" coefficient="0.7332488566819172"/>
+			<NumericPredictor name="tf(cingular)" coefficient="-1.3877787807814457E-17"/>
+			<NumericPredictor name="tf(clear)" coefficient="0.46668843870306087"/>
+			<NumericPredictor name="tf(comfort)" coefficient="0.03149641906312984"/>
+			<NumericPredictor name="tf(comfortable)" coefficient="1.2525048747711338"/>
+			<NumericPredictor name="tf(comfortably)" coefficient="0.33983383217750396"/>
+			<NumericPredictor name="tf(company)" coefficient="-0.5858644839957946"/>
+			<NumericPredictor name="tf(completely)" coefficient="-0.2831019598559714"/>
+			<NumericPredictor name="tf(conversations)" coefficient="-0.9621510730836007"/>
+			<NumericPredictor name="tf(cool)" coefficient="0.6484812157059509"/>
+			<NumericPredictor name="tf(could)" coefficient="-0.35616173749414437"/>
+			<NumericPredictor name="tf(could not)" coefficient="-0.019688532216457992"/>
+			<NumericPredictor name="tf(crap)" coefficient="-0.7654479826760581"/>
+			<NumericPredictor name="tf(customer)" coefficient="-0.0372816573561801"/>
+			<NumericPredictor name="tf(customer service)" coefficient="-0.0372816573561801"/>
+			<NumericPredictor name="tf(dead)" coefficient="-0.09353507307375519"/>
+			<NumericPredictor name="tf(definitely)" coefficient="1.0604960813666413"/>
+			<NumericPredictor name="tf(design)" coefficient="-0.3162768693357775"/>
+			<NumericPredictor name="tf(device)" coefficient="0.30819128430636555"/>
+			<NumericPredictor name="tf(did not)" coefficient="-0.20853562446095164"/>
+			<NumericPredictor name="tf(didn't)" coefficient="-0.5463208531994672"/>
+			<NumericPredictor name="tf(difficult)" coefficient="-0.7257769711611595"/>
+			<NumericPredictor name="tf(difficult to)" coefficient="-0.39213326763013995"/>
+			<NumericPredictor name="tf(disappointed)" coefficient="-0.8447893540862481"/>
+			<NumericPredictor name="tf(disappointed with)" coefficient="-0.22231500545476496"/>
+			<NumericPredictor name="tf(disappointing)" coefficient="-1.2613589614991427"/>
+			<NumericPredictor name="tf(disappointment)" coefficient="-0.8548473631506233"/>
+			<NumericPredictor name="tf(display)" coefficient="0.01566163006627042"/>
+			<NumericPredictor name="tf(do)" coefficient="-0.46808664050433174"/>
+			<NumericPredictor name="tf(do not)" coefficient="0.17141856525775068"/>
+			<NumericPredictor name="tf(does)" coefficient="0.23042689479694273"/>
+			<NumericPredictor name="tf(does not)" coefficient="-0.01225691318795697"/>
+			<NumericPredictor name="tf(doesn't)" coefficient="-0.6088596432276168"/>
+			<NumericPredictor name="tf(doesn't work)" coefficient="-0.07234070370569655"/>
+			<NumericPredictor name="tf(don't)" coefficient="-0.4516691016482368"/>
+			<NumericPredictor name="tf(don't buy)" coefficient="-0.18032138340006323"/>
+			<NumericPredictor name="tf(dont)" coefficient="-0.21925409195212908"/>
+			<NumericPredictor name="tf(drain)" coefficient="-0.4876287732119943"/>
+			<NumericPredictor name="tf(easily)" coefficient="-0.770516650448309"/>
+			<NumericPredictor name="tf(easy)" coefficient="0.7996993757860434"/>
+			<NumericPredictor name="tf(easy to)" coefficient="0.2747949063163996"/>
+			<NumericPredictor name="tf(enough)" coefficient="-0.09282857493900079"/>
+			<NumericPredictor name="tf(ever)" coefficient="0.03942546830815981"/>
+			<NumericPredictor name="tf(everything)" coefficient="0.4279209880948284"/>
+			<NumericPredictor name="tf(excellent)" coefficient="0.9290283371769397"/>
+			<NumericPredictor name="tf(excellent product)" coefficient="0.15349614499807804"/>
+			<NumericPredictor name="tf(expensive)" coefficient="0.6713207008073765"/>
+			<NumericPredictor name="tf(experience)" coefficient="-0.6526942649678751"/>
+			<NumericPredictor name="tf(failed)" coefficient="-0.6522443192013111"/>
+			<NumericPredictor name="tf(family)" coefficient="0.803006187086382"/>
+			<NumericPredictor name="tf(fantastic)" coefficient="1.0227904281081326"/>
+			<NumericPredictor name="tf(far)" coefficient="-0.28373877953154997"/>
+			<NumericPredictor name="tf(fast)" coefficient="0.5607180260418737"/>
+			<NumericPredictor name="tf(features)" coefficient="0.23499434351575044"/>
+			<NumericPredictor name="tf(fine)" coefficient="0.29621293384875164"/>
+			<NumericPredictor name="tf(first)" coefficient="-0.6459982567695609"/>
+			<NumericPredictor name="tf(fits)" coefficient="0.3901924556733578"/>
+			<NumericPredictor name="tf(fits comfortably)" coefficient="0.13535117995194"/>
+			<NumericPredictor name="tf(fits my)" coefficient="0.2044826522255634"/>
+			<NumericPredictor name="tf(found)" coefficient="-0.07952951970615918"/>
+			<NumericPredictor name="tf(free)" coefficient="0.08955386890812873"/>
+			<NumericPredictor name="tf(from them)" coefficient="0.41974574029083705"/>
+			<NumericPredictor name="tf(get it)" coefficient="-0.047853013290162595"/>
+			<NumericPredictor name="tf(glad)" coefficient="0.5005849401991544"/>
+			<NumericPredictor name="tf(glad i)" coefficient="0.5005849401991544"/>
+			<NumericPredictor name="tf(goes)" coefficient="-0.09353507307375519"/>
+			<NumericPredictor name="tf(good)" coefficient="0.9553979307497491"/>
+			<NumericPredictor name="tf(good phone)" coefficient="0.030510370628985387"/>
+			<NumericPredictor name="tf(good product)" coefficient="0.13591733137092257"/>
+			<NumericPredictor name="tf(good quality)" coefficient="0.4260259280236896"/>
+			<NumericPredictor name="tf(great)" coefficient="0.9841832164212909"/>
+			<NumericPredictor name="tf(great for)" coefficient="0.05278416178169291"/>
+			<NumericPredictor name="tf(great phone)" coefficient="0.07308596868169483"/>
+			<NumericPredictor name="tf(great product)" coefficient="0.1400724249110749"/>
+			<NumericPredictor name="tf(had a)" coefficient="-0.536693755668414"/>
+			<NumericPredictor name="tf(had problems)" coefficient="-0.547410869444549"/>
+			<NumericPredictor name="tf(had to)" coefficient="-0.6068936897509913"/>
+			<NumericPredictor name="tf(happier)" coefficient="1.3681402456389287"/>
+			<NumericPredictor name="tf(happy)" coefficient="0.2828865438492376"/>
+			<NumericPredictor name="tf(happy with)" coefficient="0.15803785884114388"/>
+			<NumericPredictor name="tf(has)" coefficient="-0.06219483770333792"/>
+			<NumericPredictor name="tf(hate)" coefficient="-0.32608126410124005"/>
+			<NumericPredictor name="tf(have been)" coefficient="-1.0408340855860843E-17"/>
+			<NumericPredictor name="tf(have to)" coefficient="-0.28331499661408255"/>
+			<NumericPredictor name="tf(have used)" coefficient="0.12187255869084421"/>
+			<NumericPredictor name="tf(headset)" coefficient="-0.634744892600827"/>
+			<NumericPredictor name="tf(headset is)" coefficient="0.7252450607513602"/>
+			<NumericPredictor name="tf(hear)" coefficient="-0.6680502749871396"/>
+			<NumericPredictor name="tf(highly)" coefficient="0.19376771919063762"/>
+			<NumericPredictor name="tf(highly recommend)" coefficient="0.19376771919063768"/>
+			<NumericPredictor name="tf(horrible)" coefficient="-0.7076873950464191"/>
+			<NumericPredictor name="tf(how)" coefficient="-0.2675031486141261"/>
+			<NumericPredictor name="tf(however)" coefficient="-0.09396537731267635"/>
+			<NumericPredictor name="tf(i am)" coefficient="-0.056502676033447954"/>
+			<NumericPredictor name="tf(i hate)" coefficient="-0.32608126410124005"/>
+			<NumericPredictor name="tf(i highly)" coefficient="0.06912985325465432"/>
+			<NumericPredictor name="tf(i just)" coefficient="0.21944876438442004"/>
+			<NumericPredictor name="tf(i love)" coefficient="0.152802860386812"/>
+			<NumericPredictor name="tf(i wear)" coefficient="0.05647382186037705"/>
+			<NumericPredictor name="tf(i'm not)" coefficient="-0.18554884669252522"/>
+			<NumericPredictor name="tf(i've)" coefficient="0.035670551530316355"/>
+			<NumericPredictor name="tf(i've tried)" coefficient="0.20448265222556328"/>
+			<NumericPredictor name="tf(if)" coefficient="-0.3118846712508868"/>
+			<NumericPredictor name="tf(if i)" coefficient="-0.4538855065104127"/>
+			<NumericPredictor name="tf(if you)" coefficient="-0.8409390950601311"/>
+			<NumericPredictor name="tf(in)" coefficient="-0.22153063584798166"/>
+			<NumericPredictor name="tf(in a)" coefficient="-0.7714363888889982"/>
+			<NumericPredictor name="tf(in my)" coefficient="-0.467090752785258"/>
+			<NumericPredictor name="tf(instead)" coefficient="1.105946277728139"/>
+			<NumericPredictor name="tf(instructions)" coefficient="-0.6519239099332925"/>
+			<NumericPredictor name="tf(is)" coefficient="0.0402406150508338"/>
+			<NumericPredictor name="tf(is awesome)" coefficient="0.17138853499748888"/>
+			<NumericPredictor name="tf(is excellent)" coefficient="0.1995252644876295"/>
+			<NumericPredictor name="tf(is great)" coefficient="-0.4582982351175863"/>
+			<NumericPredictor name="tf(is sturdy)" coefficient="0.2648702380649629"/>
+			<NumericPredictor name="tf(is terrible)" coefficient="-0.25172555032370164"/>
+			<NumericPredictor name="tf(is very)" coefficient="-0.08572315542877419"/>
+			<NumericPredictor name="tf(it)" coefficient="-0.13159873843131015"/>
+			<NumericPredictor name="tf(it broke)" coefficient="-0.6445303327614577"/>
+			<NumericPredictor name="tf(it doesn't)" coefficient="-0.7919493891020363"/>
+			<NumericPredictor name="tf(it fits)" coefficient="0.0039256059527282144"/>
+			<NumericPredictor name="tf(it has)" coefficient="0.06258046522842761"/>
+			<NumericPredictor name="tf(it in)" coefficient="-0.5188357483815886"/>
+			<NumericPredictor name="tf(it is)" coefficient="0.41789539680489607"/>
+			<NumericPredictor name="tf(it only)" coefficient="-0.37049272729039656"/>
+			<NumericPredictor name="tf(it to)" coefficient="-0.8748358706168593"/>
+			<NumericPredictor name="tf(it works)" coefficient="0.02805931361653125"/>
+			<NumericPredictor name="tf(its not)" coefficient="-0.5808293563812144"/>
+			<NumericPredictor name="tf(jabra)" coefficient="0.1326301443325372"/>
+			<NumericPredictor name="tf(jawbone)" coefficient="0.2768253620426015"/>
+			<NumericPredictor name="tf(junk)" coefficient="-0.759287409225667"/>
+			<NumericPredictor name="tf(last)" coefficient="-0.3803446468697988"/>
+			<NumericPredictor name="tf(later)" coefficient="-0.7273485989685907"/>
+			<NumericPredictor name="tf(leather)" coefficient="0.14225812204577823"/>
+			<NumericPredictor name="tf(longer)" coefficient="-0.1048239422888738"/>
+			<NumericPredictor name="tf(lost)" coefficient="-4.163336342344337E-17"/>
+			<NumericPredictor name="tf(lot)" coefficient="0.3925358909428248"/>
+			<NumericPredictor name="tf(love)" coefficient="0.8917401562650594"/>
+			<NumericPredictor name="tf(love the)" coefficient="0.2512121933584003"/>
+			<NumericPredictor name="tf(love this)" coefficient="0.35634640643455284"/>
+			<NumericPredictor name="tf(low quality)" coefficient="-0.9159260755267242"/>
+			<NumericPredictor name="tf(market)" coefficient="0.10341558375720786"/>
+			<NumericPredictor name="tf(may)" coefficient="-0.23524894656580878"/>
+			<NumericPredictor name="tf(me)" coefficient="-0.10287956492038125"/>
+			<NumericPredictor name="tf(me to)" coefficient="-1.581341622906823"/>
+			<NumericPredictor name="tf(might)" coefficient="-0.3295404004203719"/>
+			<NumericPredictor name="tf(mistake)" coefficient="-0.6237567076827282"/>
+			<NumericPredictor name="tf(money)" coefficient="-0.31902105621139193"/>
+			<NumericPredictor name="tf(must have)" coefficient="1.2486140891198767"/>
+			<NumericPredictor name="tf(my ear)" coefficient="-0.21221933443863064"/>
+			<NumericPredictor name="tf(my money)" coefficient="-0.6405876329988525"/>
+			<NumericPredictor name="tf(my purchase)" coefficient="0.7263684150677009"/>
+			<NumericPredictor name="tf(never)" coefficient="-0.6118721933298368"/>
+			<NumericPredictor name="tf(nice)" coefficient="1.069251505994596"/>
+			<NumericPredictor name="tf(noise)" coefficient="0.9881713563911574"/>
+			<NumericPredictor name="tf(none)" coefficient="-0.4322361355330965"/>
+			<NumericPredictor name="tf(none of)" coefficient="-0.4322361355330965"/>
+			<NumericPredictor name="tf(not)" coefficient="-0.9382491291836376"/>
+			<NumericPredictor name="tf(not a)" coefficient="-0.6358603801829591"/>
+			<NumericPredictor name="tf(not fit)" coefficient="-0.173250108407915"/>
+			<NumericPredictor name="tf(not good)" coefficient="-0.9219590030474495"/>
+			<NumericPredictor name="tf(not impressed)" coefficient="1.214306433183765E-17"/>
+			<NumericPredictor name="tf(not recommend)" coefficient="-0.10240859767073668"/>
+			<NumericPredictor name="tf(not work)" coefficient="-0.418348228965412"/>
+			<NumericPredictor name="tf(nothing)" coefficient="-0.5176924321000979"/>
+			<NumericPredictor name="tf(of)" coefficient="0.1640808683121538"/>
+			<NumericPredictor name="tf(of junk)" coefficient="-0.04987442479023014"/>
+			<NumericPredictor name="tf(off)" coefficient="0.16590817884180853"/>
+			<NumericPredictor name="tf(old)" coefficient="-1.2032908393273976"/>
+			<NumericPredictor name="tf(on my)" coefficient="-0.37302466688283453"/>
+			<NumericPredictor name="tf(on this)" coefficient="-0.9613958662061086"/>
+			<NumericPredictor name="tf(one is)" coefficient="0.3562425717845954"/>
+			<NumericPredictor name="tf(only)" coefficient="-0.2863181658100096"/>
+			<NumericPredictor name="tf(order)" coefficient="0.6317780197742842"/>
+			<NumericPredictor name="tf(out)" coefficient="0.03846501765078124"/>
+			<NumericPredictor name="tf(out of)" coefficient="0.30495447542551823"/>
+			<NumericPredictor name="tf(overall)" coefficient="0.07952744879656158"/>
+			<NumericPredictor name="tf(overall i)" coefficient="0.07952744879656158"/>
+			<NumericPredictor name="tf(pay)" coefficient="-0.5342058781695391"/>
+			<NumericPredictor name="tf(pc)" coefficient="0.09379706633649958"/>
+			<NumericPredictor name="tf(perfectly)" coefficient="1.1764453910512624"/>
+			<NumericPredictor name="tf(phone in)" coefficient="0.10341558375720793"/>
+			<NumericPredictor name="tf(phone on)" coefficient="1.1544715526723053"/>
+			<NumericPredictor name="tf(picture)" coefficient="-0.5548082154831061"/>
+			<NumericPredictor name="tf(piece)" coefficient="-0.21055213048017546"/>
+			<NumericPredictor name="tf(piece of)" coefficient="-0.6100707144030596"/>
+			<NumericPredictor name="tf(player)" coefficient="-0.1349803410996294"/>
+			<NumericPredictor name="tf(pleased)" coefficient="0.7089062959564165"/>
+			<NumericPredictor name="tf(plug)" coefficient="-0.2005217174896844"/>
+			<NumericPredictor name="tf(plugged)" coefficient="-0.591769196797227"/>
+			<NumericPredictor name="tf(poor)" coefficient="-1.0419900718448847"/>
+			<NumericPredictor name="tf(poorly)" coefficient="-0.8073044885261188"/>
+			<NumericPredictor name="tf(pretty)" coefficient="0.5540011047168643"/>
+			<NumericPredictor name="tf(price)" coefficient="0.2216897609836223"/>
+			<NumericPredictor name="tf(priced)" coefficient="0.41923493228162906"/>
+			<NumericPredictor name="tf(product)" coefficient="-0.09591339225690533"/>
+			<NumericPredictor name="tf(put)" coefficient="1.2368782610032436E-4"/>
+			<NumericPredictor name="tf(quality)" coefficient="0.15004679239276614"/>
+			<NumericPredictor name="tf(quality of)" coefficient="0.30428257161244654"/>
+			<NumericPredictor name="tf(range)" coefficient="0.8311420207210325"/>
+			<NumericPredictor name="tf(reasonably)" coefficient="1.0878349998189847"/>
+			<NumericPredictor name="tf(reception and)" coefficient="4.163336342344337E-17"/>
+			<NumericPredictor name="tf(recommend)" coefficient="0.48970922422280266"/>
+			<NumericPredictor name="tf(recommend this)" coefficient="0.09507176310865945"/>
+			<NumericPredictor name="tf(refund)" coefficient="-0.613373036921926"/>
+			<NumericPredictor name="tf(return)" coefficient="-0.22527409757310254"/>
+			<NumericPredictor name="tf(return it)" coefficient="-0.22527409757310254"/>
+			<NumericPredictor name="tf(rocks)" coefficient="0.7563259124501627"/>
+			<NumericPredictor name="tf(same)" coefficient="-0.45273028284871364"/>
+			<NumericPredictor name="tf(same problem)" coefficient="-0.32260737969237246"/>
+			<NumericPredictor name="tf(satisfied)" coefficient="0.36939670382877415"/>
+			<NumericPredictor name="tf(satisfied with)" coefficient="0.14825566559824555"/>
+			<NumericPredictor name="tf(seems)" coefficient="0.576129976804803"/>
+			<NumericPredictor name="tf(seller)" coefficient="0.719960947987502"/>
+			<NumericPredictor name="tf(service)" coefficient="0.22228129190840273"/>
+			<NumericPredictor name="tf(setup)" coefficient="0.8744053515259604"/>
+			<NumericPredictor name="tf(signal)" coefficient="-0.23643832968464967"/>
+			<NumericPredictor name="tf(slow)" coefficient="-0.6512540940187543"/>
+			<NumericPredictor name="tf(so)" coefficient="0.20769229392283992"/>
+			<NumericPredictor name="tf(so far)" coefficient="0.9504826271092145"/>
+			<NumericPredictor name="tf(sound)" coefficient="-0.028678237169023752"/>
+			<NumericPredictor name="tf(sound is)" coefficient="-0.029241794263391442"/>
+			<NumericPredictor name="tf(sprint)" coefficient="-0.7726150249251298"/>
+			<NumericPredictor name="tf(stay)" coefficient="-0.39437478311722335"/>
+			<NumericPredictor name="tf(stay away)" coefficient="-0.39437478311722335"/>
+			<NumericPredictor name="tf(still)" coefficient="-0.3485320511263802"/>
+			<NumericPredictor name="tf(still not)" coefficient="-0.33197518217585775"/>
+			<NumericPredictor name="tf(sturdy)" coefficient="0.7760722166993607"/>
+			<NumericPredictor name="tf(sucks)" coefficient="-0.749313002629008"/>
+			<NumericPredictor name="tf(support)" coefficient="-0.8532683243203963"/>
+			<NumericPredictor name="tf(talk)" coefficient="-0.7005624950707692"/>
+			<NumericPredictor name="tf(terrible)" coefficient="-0.8842896822647248"/>
+			<NumericPredictor name="tf(than)" coefficient="0.5231669676646273"/>
+			<NumericPredictor name="tf(than the)" coefficient="0.2768253620426016"/>
+			<NumericPredictor name="tf(that)" coefficient="-0.06067885958377266"/>
+			<NumericPredictor name="tf(that i)" coefficient="0.36959462163915363"/>
+			<NumericPredictor name="tf(the)" coefficient="-0.20519910070397096"/>
+			<NumericPredictor name="tf(the battery)" coefficient="-1.1439183592163333"/>
+			<NumericPredictor name="tf(the best)" coefficient="0.30764704660615283"/>
+			<NumericPredictor name="tf(the buttons)" coefficient="-0.1349803410996294"/>
+			<NumericPredictor name="tf(the car)" coefficient="0.8641975382843301"/>
+			<NumericPredictor name="tf(the charger)" coefficient="0.3620881959535484"/>
+			<NumericPredictor name="tf(the first)" coefficient="-0.05325733342323449"/>
+			<NumericPredictor name="tf(the jabra)" coefficient="0.11707692846696881"/>
+			<NumericPredictor name="tf(the original)" coefficient="0.5976498760789514"/>
+			<NumericPredictor name="tf(the phone)" coefficient="-0.06597685504280633"/>
+			<NumericPredictor name="tf(the price)" coefficient="0.5054861149324631"/>
+			<NumericPredictor name="tf(the same)" coefficient="-0.1301229031563419"/>
+			<NumericPredictor name="tf(the service)" coefficient="-0.06167685607734168"/>
+			<NumericPredictor name="tf(the sound)" coefficient="0.9192481775319191"/>
+			<NumericPredictor name="tf(the unit)" coefficient="-0.40686531687206656"/>
+			<NumericPredictor name="tf(the voice)" coefficient="0.5627552051915823"/>
+			<NumericPredictor name="tf(the worst)" coefficient="-0.38773281093521367"/>
+			<NumericPredictor name="tf(them again)" coefficient="0.41974574029083705"/>
+			<NumericPredictor name="tf(then)" coefficient="-0.5019553643590979"/>
+			<NumericPredictor name="tf(there is)" coefficient="-0.8406400970647433"/>
+			<NumericPredictor name="tf(there was)" coefficient="-0.6237567076827282"/>
+			<NumericPredictor name="tf(they are)" coefficient="0.13812406994111434"/>
+			<NumericPredictor name="tf(thing)" coefficient="-0.12509216176595916"/>
+			<NumericPredictor name="tf(thing that)" coefficient="-0.1312797686063846"/>
+			<NumericPredictor name="tf(this company)" coefficient="-0.0056442797581068155"/>
+			<NumericPredictor name="tf(this device)" coefficient="0.2737161570978113"/>
+			<NumericPredictor name="tf(this headset)" coefficient="0.3187435884601069"/>
+			<NumericPredictor name="tf(this is)" coefficient="-0.08891688640840312"/>
+			<NumericPredictor name="tf(this nokia)" coefficient="-0.8423109743362684"/>
+			<NumericPredictor name="tf(thought it)" coefficient="0.6144452424491895"/>
+			<NumericPredictor name="tf(tinny)" coefficient="-0.6868664545994876"/>
+			<NumericPredictor name="tf(tips)" coefficient="0.10897304337546955"/>
+			<NumericPredictor name="tf(to)" coefficient="-0.016582765517957"/>
+			<NumericPredictor name="tf(to charge)" coefficient="-0.009946950433486345"/>
+			<NumericPredictor name="tf(to hear)" coefficient="-0.4478138637575241"/>
+			<NumericPredictor name="tf(to keep)" coefficient="-0.18554884669252517"/>
+			<NumericPredictor name="tf(to my)" coefficient="0.48165122416302253"/>
+			<NumericPredictor name="tf(to pull)" coefficient="6.938893903907228E-18"/>
+			<NumericPredictor name="tf(to return)" coefficient="-0.22527409757310254"/>
+			<NumericPredictor name="tf(told)" coefficient="-0.05319538518882083"/>
+			<NumericPredictor name="tf(tones)" coefficient="-0.13672986123186864"/>
+			<NumericPredictor name="tf(too big)" coefficient="-0.49641049912008955"/>
+			<NumericPredictor name="tf(too small)" coefficient="-0.4670497018551398"/>
+			<NumericPredictor name="tf(tremendous)" coefficient="0.4092476501800453"/>
+			<NumericPredictor name="tf(try to)" coefficient="4.3368086899420177E-19"/>
+			<NumericPredictor name="tf(trying to)" coefficient="-0.4925135451983776"/>
+			<NumericPredictor name="tf(turned)" coefficient="-0.41108859723464625"/>
+			<NumericPredictor name="tf(turned off)" coefficient="-0.41108859723464614"/>
+			<NumericPredictor name="tf(two days)" coefficient="-0.4478138637575241"/>
+			<NumericPredictor name="tf(uncomfortable)" coefficient="-0.1955666173058271"/>
+			<NumericPredictor name="tf(uncomfortable and)" coefficient="-0.02694132068092924"/>
+			<NumericPredictor name="tf(understand)" coefficient="-0.5538992590954643"/>
+			<NumericPredictor name="tf(unfortunately)" coefficient="-0.6619655542100846"/>
+			<NumericPredictor name="tf(unhappy)" coefficient="-0.23524894656580878"/>
+			<NumericPredictor name="tf(unhappy with)" coefficient="-0.23524894656580878"/>
+			<NumericPredictor name="tf(unit)" coefficient="-0.40686531687206656"/>
+			<NumericPredictor name="tf(unreliable)" coefficient="-0.9052063892977656"/>
+			<NumericPredictor name="tf(unusable)" coefficient="-0.11125407301872839"/>
+			<NumericPredictor name="tf(up very)" coefficient="0.1561740872396895"/>
+			<NumericPredictor name="tf(use the)" coefficient="0.295521578011249"/>
+			<NumericPredictor name="tf(useless)" coefficient="-0.8746072029030294"/>
+			<NumericPredictor name="tf(usually)" coefficient="0.8527807512316568"/>
+			<NumericPredictor name="tf(usually don't)" coefficient="0.8527807512316568"/>
+			<NumericPredictor name="tf(value)" coefficient="0.22799812917539156"/>
+			<NumericPredictor name="tf(very)" coefficient="0.031683236763106505"/>
+			<NumericPredictor name="tf(very cheap)" coefficient="-0.025771476997612276"/>
+			<NumericPredictor name="tf(very disappointed)" coefficient="-0.10569480254002381"/>
+			<NumericPredictor name="tf(very excited)" coefficient="0.6144452424491896"/>
+			<NumericPredictor name="tf(very good)" coefficient="0.030510370628985373"/>
+			<NumericPredictor name="tf(very happy)" coefficient="0.3362480006337609"/>
+			<NumericPredictor name="tf(very helpful)" coefficient="0.2695408997314932"/>
+			<NumericPredictor name="tf(very impressed)" coefficient="0.6260301571064482"/>
+			<NumericPredictor name="tf(very nice)" coefficient="0.06268166187781228"/>
+			<NumericPredictor name="tf(very pleased)" coefficient="-1.3877787807814457E-17"/>
+			<NumericPredictor name="tf(very poor)" coefficient="-0.14476549218483784"/>
+			<NumericPredictor name="tf(very very)" coefficient="-6.245004513516506E-17"/>
+			<NumericPredictor name="tf(very well)" coefficient="0.3452352583200803"/>
+			<NumericPredictor name="tf(video)" coefficient="0.1529573539592253"/>
+			<NumericPredictor name="tf(voice dialing)" coefficient="0.3956242672952611"/>
+			<NumericPredictor name="tf(voice recognition)" coefficient="0.4092476501800452"/>
+			<NumericPredictor name="tf(volume is)" coefficient="-0.5662157769339292"/>
+			<NumericPredictor name="tf(want)" coefficient="0.10553294396080787"/>
+			<NumericPredictor name="tf(warning)" coefficient="-0.09859393357836281"/>
+			<NumericPredictor name="tf(was)" coefficient="-0.0201291988328134"/>
+			<NumericPredictor name="tf(was new)" coefficient="1.2165939311726388"/>
+			<NumericPredictor name="tf(was no)" coefficient="-0.011288869215118558"/>
+			<NumericPredictor name="tf(was not)" coefficient="-0.38994214242320485"/>
+			<NumericPredictor name="tf(was still)" coefficient="-0.05319538518882083"/>
+			<NumericPredictor name="tf(was terrible)" coefficient="-0.5278627663519421"/>
+			<NumericPredictor name="tf(was the)" coefficient="-0.6237567076827283"/>
+			<NumericPredictor name="tf(waste)" coefficient="-0.5776526606560117"/>
+			<NumericPredictor name="tf(waste of)" coefficient="-0.38840676863826773"/>
+			<NumericPredictor name="tf(wasted)" coefficient="-0.5242914582615852"/>
+			<NumericPredictor name="tf(wasted my)" coefficient="-0.5242914582615852"/>
+			<NumericPredictor name="tf(weak)" coefficient="-0.5791126870275339"/>
+			<NumericPredictor name="tf(wear)" coefficient="0.02089358329465283"/>
+			<NumericPredictor name="tf(wear glasses)" coefficient="0.05647382186037705"/>
+			<NumericPredictor name="tf(wear it)" coefficient="0.5532859779395619"/>
+			<NumericPredictor name="tf(wearing)" coefficient="-0.18554884669252514"/>
+			<NumericPredictor name="tf(week)" coefficient="-0.09353507307375518"/>
+			<NumericPredictor name="tf(weeks but)" coefficient="0.5837406003616572"/>
+			<NumericPredictor name="tf(well)" coefficient="0.5833939062644203"/>
+			<NumericPredictor name="tf(went)" coefficient="-0.09108728457843807"/>
+			<NumericPredictor name="tf(went black)" coefficient="-0.587798560795987"/>
+			<NumericPredictor name="tf(went to)" coefficient="-1.734723475976807E-18"/>
+			<NumericPredictor name="tf(what)" coefficient="0.24655600249336132"/>
+			<NumericPredictor name="tf(what a)" coefficient="-0.32167595597963616"/>
+			<NumericPredictor name="tf(what you)" coefficient="-0.5342058781695392"/>
+			<NumericPredictor name="tf(whatsoever)" coefficient="-0.27042052886888696"/>
+			<NumericPredictor name="tf(when)" coefficient="0.13917761093468486"/>
+			<NumericPredictor name="tf(when i)" coefficient="-0.12239468871264814"/>
+			<NumericPredictor name="tf(where i)" coefficient="-0.026941320680929276"/>
+			<NumericPredictor name="tf(whole)" coefficient="0.21310838029673862"/>
+			<NumericPredictor name="tf(will)" coefficient="-0.514829880478416"/>
+			<NumericPredictor name="tf(will not)" coefficient="-2.168404344971009E-18"/>
+			<NumericPredictor name="tf(wired)" coefficient="-1.137432297179242"/>
+			<NumericPredictor name="tf(with)" coefficient="0.2216371451539842"/>
+			<NumericPredictor name="tf(with a)" coefficient="0.693250988645828"/>
+			<NumericPredictor name="tf(with no)" coefficient="0.30769715260825325"/>
+			<NumericPredictor name="tf(with that)" coefficient="0.5804786043849764"/>
+			<NumericPredictor name="tf(with this)" coefficient="0.4714729209239781"/>
+			<NumericPredictor name="tf(with your)" coefficient="-6.938893903907228E-18"/>
+			<NumericPredictor name="tf(within)" coefficient="-0.7143249724446216"/>
+			<NumericPredictor name="tf(within 2)" coefficient="-0.5873754312001699"/>
+			<NumericPredictor name="tf(without)" coefficient="0.8396684052944062"/>
+			<NumericPredictor name="tf(won't)" coefficient="0.8049269142132519"/>
+			<NumericPredictor name="tf(work)" coefficient="-0.23735526984885003"/>
+			<NumericPredictor name="tf(work great)" coefficient="0.2963124022894626"/>
+			<NumericPredictor name="tf(work with)" coefficient="-0.4660954166051974"/>
+			<NumericPredictor name="tf(worked like)" coefficient="0.4014212112220316"/>
+			<NumericPredictor name="tf(working)" coefficient="0.5289213355688782"/>
+			<NumericPredictor name="tf(working great)" coefficient="0.019440016309871223"/>
+			<NumericPredictor name="tf(works)" coefficient="1.197198769925985"/>
+			<NumericPredictor name="tf(works fine)" coefficient="2.0816681711721685E-17"/>
+			<NumericPredictor name="tf(works great)" coefficient="0.17607355382647497"/>
+			<NumericPredictor name="tf(works like)" coefficient="0.057290487039323795"/>
+			<NumericPredictor name="tf(works well)" coefficient="0.08045651260429365"/>
+			<NumericPredictor name="tf(worst)" coefficient="-0.8672768718372555"/>
+			<NumericPredictor name="tf(worst customer)" coefficient="-0.18943585334141536"/>
+			<NumericPredictor name="tf(worst phone)" coefficient="-0.0725269510790491"/>
+			<NumericPredictor name="tf(worthless)" coefficient="-0.5604846907010824"/>
+			<NumericPredictor name="tf(worthwhile)" coefficient="0.7089059724862468"/>
+			<NumericPredictor name="tf(would highly)" coefficient="0.12463786593598415"/>
+			<NumericPredictor name="tf(would not)" coefficient="-0.08272006545427857"/>
+			<NumericPredictor name="tf(would order)" coefficient="0.4179386755466146"/>
+			<NumericPredictor name="tf(would recommend)" coefficient="0.5200585060872034"/>
+			<NumericPredictor name="tf(wow)" coefficient="0.6900134569617842"/>
+			<NumericPredictor name="tf(wrong)" coefficient="-0.017301496109981766"/>
+			<NumericPredictor name="tf(year the)" coefficient="1.3877787807814457E-17"/>
+			<NumericPredictor name="tf(years)" coefficient="-0.020820765396911405"/>
+			<NumericPredictor name="tf(years ago)" coefficient="0.30526049870432825"/>
+			<NumericPredictor name="tf(you)" coefficient="0.3432622760904634"/>
+			<NumericPredictor name="tf(you could)" coefficient="-0.31460264271745797"/>
+			<NumericPredictor name="tf(you pay)" coefficient="-0.5342058781695392"/>
+			<NumericPredictor name="tf(you plan)" coefficient="-0.4151459814251546"/>
+			<NumericPredictor name="tf(your money)" coefficient="-0.43552686329883855"/>
+			<NumericPredictor name="tf(your phone)" coefficient="-0.47003125431065645"/>
+		</RegressionTable>
+		<RegressionTable intercept="0.0" targetCategory="0"/>
+	</RegressionModel>
+</PMML>

@@ -1,11 +1,12 @@
 from lightgbm import LGBMClassifier, LGBMRegressor
 from pandas import DataFrame
 from sklearn.ensemble import AdaBoostRegressor, GradientBoostingClassifier, GradientBoostingRegressor, IsolationForest, RandomForestClassifier, RandomForestRegressor, VotingRegressor
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.feature_selection import f_classif
 from sklearn.feature_selection import SelectKBest
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.preprocessing import LabelBinarizer, LabelEncoder
+from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeClassifier, ExtraTreeRegressor
 from sklearn_pandas import DataFrameMapper
 from sklearn2pmml import sklearn2pmml
@@ -130,9 +131,9 @@ def load_sentiment(name):
 
 sentiment_X, sentiment_y = load_sentiment("Sentiment")
 
-def build_sentiment(classifier, name, **pmml_options):
+def build_sentiment(classifier, transformer, name, with_proba = True, **pmml_options):
 	pipeline = PMMLPipeline([
-		("tf-idf", TfidfVectorizer(analyzer = "word", preprocessor = None, strip_accents = None, lowercase = True, token_pattern = None, tokenizer = Splitter(), stop_words = "english", ngram_range = (1, 3), norm = None, dtype = numpy.float64)),
+		("transformer", transformer),
 		("selector", SelectKBest(f_classif, k = 500)),
 		("classifier", classifier)
 	])
@@ -140,12 +141,15 @@ def build_sentiment(classifier, name, **pmml_options):
 	pipeline.configure(**pmml_options)
 	store_pmml(pipeline, name)
 	score = DataFrame(pipeline.predict(sentiment_X), columns = ["Score"])
-	score_proba = DataFrame(pipeline.predict_proba(sentiment_X), columns = ["probability(0)", "probability(1)"])
-	score = pandas.concat((score, score_proba), axis = 1)
+	if with_proba:
+		score_proba = DataFrame(pipeline.predict_proba(sentiment_X), columns = ["probability(0)", "probability(1)"])
+		score = pandas.concat((score, score_proba), axis = 1)
 	store_csv(score, name)
 
 if "Sentiment" in datasets:
-	build_sentiment(LogisticRegression(multi_class = "ovr"), "LogisticRegressionSentiment")
+	pmml_textindex_args = dict(analyzer = "word", preprocessor = None, strip_accents = None, token_pattern = None, tokenizer = Splitter(), dtype = numpy.float64)
+	build_sentiment(LinearSVC(random_state = 13), CountVectorizer(ngram_range = (1, 2), **pmml_textindex_args), "LinearSVCSentiment", with_proba = False)
+	build_sentiment(LogisticRegression(multi_class = "ovr"), TfidfVectorizer(stop_words = "english", ngram_range = (1, 3), norm = None, **pmml_textindex_args), "LogisticRegressionSentiment")
 
 #
 # Multi-class classification

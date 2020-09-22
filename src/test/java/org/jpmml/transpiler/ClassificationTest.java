@@ -70,6 +70,11 @@ public class ClassificationTest extends TranspilerTest {
 	}
 
 	@Test
+	public void evaluateLinearSVCSentiment() throws Exception {
+		evaluate("LinearSVC", "Sentiment");
+	}
+
+	@Test
 	public void evaluateLogisticRegressionSentiment() throws Exception {
 		evaluate("LogisticRegression", "Sentiment");
 	}
