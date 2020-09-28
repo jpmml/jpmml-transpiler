@@ -19,13 +19,18 @@
 package org.jpmml.translator;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
+import com.sun.codemodel.JArray;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
@@ -37,6 +42,7 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
+import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.Header;
@@ -152,6 +158,45 @@ public class PMMLObjectUtil {
 	}
 
 	static
+	public JMethod createArrayBuilderMethod(Class<?> clazz, List<?> objects, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		JMethod method = owner.method((JMod.PRIVATE | JMod.FINAL | (owner.isAnonymous() ? 0 : JMod.STATIC)), context.ref(clazz).array(), IdentifierUtil.create("build" + clazz.getSimpleName() + "Array", objects));
+
+		JBlock block = method.body();
+
+		JVar resultVar = block.decl(context.ref(List.class).narrow(clazz), "result", JExpr._new(context.ref(ArrayList.class).narrow(Collections.emptyList())).arg(JExpr.lit(objects.size())));
+
+		for(int i = 0; i < objects.size(); i += PMMLObjectUtil.CHUNK_SIZE){
+			List<?> chunk = objects.subList(i, Math.min(i + PMMLObjectUtil.CHUNK_SIZE, objects.size()));
+
+			JMethod chunkMethod = owner.method((method.mods()).getValue(), method.type(), method.name() + "$" + i + "_" + (i + chunk.size()));
+
+			try {
+				context.pushScope(new MethodScope(chunkMethod));
+
+				JArray array = JExpr.newArray(context.ref(clazz));
+
+				for(Object object : chunk){
+					array.add(PMMLObjectUtil.createExpression(object, context));
+				}
+
+				context._return(array);
+			} finally {
+				context.popScope();
+			}
+
+			JInvocation invocation = context.staticInvoke(Collections.class, "addAll", resultVar, JExpr.invoke(chunkMethod));
+
+			block.add(invocation);
+		}
+
+		block._return(resultVar.invoke("toArray").arg(JExpr.newArray(context.ref(clazz), resultVar.invoke("size"))));
+
+		return method;
+	}
+
+	static
 	public JInvocation createObject(PMMLObject object, TranslationContext context){
 		Class<? extends PMMLObject> clazz = object.getClass();
 
@@ -183,9 +228,7 @@ public class PMMLObjectUtil {
 
 				JInvocation listInvocation = context.staticInvoke(Arrays.class, "asList");
 
-				for(Object element : elements){
-					listInvocation.arg(createExpression(element, context));
-				}
+				initializeArray(valueConstructorField, elements, listInvocation, context);
 
 				invocation.arg(listInvocation);
 			} else
@@ -403,9 +446,7 @@ public class PMMLObjectUtil {
 
 			invocation = JExpr.invoke(invocation, formatSetterName("add", setterMethodField));
 
-			for(Object element : elements){
-				invocation.arg(createExpression(element, context));
-			}
+			initializeArray(setterMethodField, elements, invocation, context);
 		} else
 
 		{
@@ -424,9 +465,40 @@ public class PMMLObjectUtil {
 	}
 
 	static
+	private JInvocation initializeArray(Field field, List<?> elements, JInvocation invocation, TranslationContext context){
+
+		if(elements.size() <= PMMLObjectUtil.CHUNK_SIZE){
+
+			for(Object element : elements){
+				invocation.arg(createExpression(element, context));
+			}
+		} else
+
+		{
+			Class<?> listClazz = field.getType();
+
+			if(!(List.class).equals(listClazz)){
+				throw new IllegalArgumentException();
+			}
+
+			ParameterizedType listType = (ParameterizedType)field.getGenericType();
+
+			Type listElementType = listType.getActualTypeArguments()[0];
+
+			JMethod method = createArrayBuilderMethod((Class)listElementType, elements, context);
+
+			invocation.arg(JExpr.invoke(method));
+		}
+
+		return invocation;
+	}
+
+	static
 	private String formatSetterName(String prefix, Field field){
 		String name = field.getName();
 
 		return prefix + (name.substring(0, 1)).toUpperCase() + name.substring(1);
 	}
+
+	private static final int CHUNK_SIZE = 256;
 }
