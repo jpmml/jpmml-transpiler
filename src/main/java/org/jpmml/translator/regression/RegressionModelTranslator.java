@@ -449,7 +449,11 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				.map(weightFunction)
 				.toArray(Number[]::new);
 
-			JFieldVar weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", regressionTable), MathContext.DOUBLE, weights);
+			JFieldVar weightsVar = null;
+
+			if((Arrays.stream(weights)).anyMatch(weight -> (weights != null && weight.doubleValue() != 1d))){
+				weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", regressionTable), MathContext.DOUBLE, weights);
+			}
 
 			// XXX
 			FieldInfo textFieldInfo = new FieldInfo(new DerivedField(localTextIndex.getTextField(), OpType.CATEGORICAL, DataType.STRING, null));
@@ -491,9 +495,16 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				JVar indexVar = context.declare(context.ref(Integer.class), "termIndex", termIndicesVar.invoke("get").arg(termVar));
 
 				JVar coefficientVar = context.declare(context.ref(Number.class), "coefficient", coefficientsVar.invoke("get").arg(indexVar));
-				JVar weightVar = context.declare(context.ref(Number.class), "weight", weightsVar.invoke("get").arg(indexVar));
 
-				valueBuilder.update("add", coefficientVar, weightVar, frequencyVar);
+				if(weightsVar != null){
+					JVar weightVar = context.declare(context.ref(Number.class), "weight", weightsVar.invoke("get").arg(indexVar));
+
+					valueBuilder.update("add", coefficientVar, weightVar, frequencyVar);
+				} else
+
+				{
+					valueBuilder.update("add", coefficientVar, frequencyVar);
+				}
 			} finally {
 				context.popScope();
 			}
