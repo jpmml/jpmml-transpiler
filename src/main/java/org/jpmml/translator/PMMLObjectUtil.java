@@ -44,6 +44,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataDictionary;
+import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.Header;
 import org.dmg.pmml.LocalTransformations;
@@ -56,6 +57,8 @@ import org.dmg.pmml.Output;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.TransformationDictionary;
+import org.dmg.pmml.mining.Segment;
+import org.dmg.pmml.mining.Segmentation;
 import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.model.ReflectionUtil;
@@ -372,6 +375,18 @@ public class PMMLObjectUtil {
 			} else
 
 			if(pmmlObject instanceof org.dmg.pmml.Field){
+				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
+
+				return JExpr.invoke(builderMethod);
+			} else
+
+			if(pmmlObject instanceof DefineFunction){
+				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
+
+				return JExpr.invoke(builderMethod);
+			} else
+
+			if((pmmlObject instanceof Segmentation) || (pmmlObject instanceof Segment)){
 				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
 
 				return JExpr.invoke(builderMethod);
