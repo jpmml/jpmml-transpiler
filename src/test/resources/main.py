@@ -97,6 +97,10 @@ def build_audit(classifier, name, **pmml_options):
 	])
 	if isinstance(classifier, LGBMClassifier):
 		pipeline.fit(audit_X, audit_y, classifier__categorical_feature = [0, 1, 2, 3, 4, 5])
+	elif isinstance(classifier, XGBClassifier):
+		if name == "XGBoostAuditNA":
+			audit_X["Age"] = audit_X["Age"].astype(float)
+		pipeline.fit(audit_X, audit_y)
 	else:
 		pipeline.fit(audit_X, audit_y)
 	if isinstance(classifier, XGBClassifier):

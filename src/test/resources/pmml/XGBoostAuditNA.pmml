@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.5.35"/>
-		<Timestamp>2020-05-03T18:02:41Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.5"/>
+		<Timestamp>2020-10-13T19:49:16Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -81,7 +81,7 @@
 			<MiningField name="Income" missingValueTreatment="asIs" invalidValueTreatment="asMissing"/>
 			<MiningField name="Hours" missingValueTreatment="asIs" invalidValueTreatment="asMissing"/>
 		</MiningSchema>
-		<Segmentation multipleModelMethod="modelChain" x-missingPredictionTreatment="returnMissing">
+		<Segmentation multipleModelMethod="modelChain" missingPredictionTreatment="returnMissing">
 			<Segment id="1">
 				<True/>
 				<MiningModel functionName="regression" x-mathContext="float">
@@ -7530,7 +7530,7 @@
 			</VerificationFields>
 			<InlineTable>
 				<row>
-					<data:Age>60</data:Age>
+					<data:Age>60.0</data:Age>
 					<data:Employment>PSState</data:Employment>
 					<data:Education>Master</data:Education>
 					<data:Marital>Married</data:Marital>
@@ -7541,7 +7541,7 @@
 					<data:probability_1>0.8065799</data:probability_1>
 				</row>
 				<row>
-					<data:Age>65</data:Age>
+					<data:Age>65.0</data:Age>
 					<data:Employment>PSState</data:Employment>
 					<data:Education>HSgrad</data:Education>
 					<data:Marital>Married</data:Marital>
@@ -7553,7 +7553,7 @@
 					<data:probability_1>0.7874319</data:probability_1>
 				</row>
 				<row>
-					<data:Age>40</data:Age>
+					<data:Age>40.0</data:Age>
 					<data:Employment>Private</data:Employment>
 					<data:Education>College</data:Education>
 					<data:Marital>Married</data:Marital>

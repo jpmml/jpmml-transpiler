@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.5.35"/>
-		<Timestamp>2020-05-03T18:02:45Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.5"/>
+		<Timestamp>2020-10-13T19:39:22Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -76,7 +76,7 @@
 				<FieldRef field="float(Sepal.Width)"/>
 			</DerivedField>
 		</LocalTransformations>
-		<Segmentation multipleModelMethod="modelChain" x-missingPredictionTreatment="returnMissing">
+		<Segmentation multipleModelMethod="modelChain" missingPredictionTreatment="returnMissing">
 			<Segment id="1">
 				<True/>
 				<MiningModel functionName="regression">
@@ -103,11 +103,18 @@
 							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 								<MiningSchema>
 									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
 								</MiningSchema>
-								<Node score="-1.0000000000000002">
+								<Node score="-0.9999999999999999">
 									<True/>
 									<Node score="2.0">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									</Node>
+									<Node score="-0.9999999999999997">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
+									</Node>
+									<Node score="-0.9999999999999997">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="6.5"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -145,12 +152,12 @@
 									<MiningField name="double(float(Sepal.Length))"/>
 									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="-0.9120076993614799">
+								<Node score="-0.9120076993614801">
 									<True/>
 									<Node score="1.4278947666851596">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 									</Node>
-									<Node score="-0.8570932442572089">
+									<Node score="-0.8570932442572088">
 										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 										<Node score="-0.9106465690541399">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
@@ -170,18 +177,18 @@
 									<MiningField name="double(float(Sepal.Length))"/>
 									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="-0.878486763459273">
+								<Node score="-0.8784869277483348">
 									<True/>
 									<Node score="1.2692383115262686">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 									</Node>
-									<Node score="-0.816478336141472">
+									<Node score="-0.8164783361414721">
 										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-										<Node score="-0.876315743223271">
+										<Node score="-0.8763157432232711">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
 										</Node>
 									</Node>
-									<Node score="-0.8749150778859232">
+									<Node score="-0.8749149359641504">
 										<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.950000047683716"/>
 									</Node>
 								</Node>
@@ -195,18 +202,24 @@
 									<MiningField name="double(float(Sepal.Length))"/>
 									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="-0.8465086992279797">
+								<Node score="-0.8465087974436662">
 									<True/>
-									<Node score="1.152960038522332">
+									<Node score="1.1529600385223322">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+										<Node score="1.152960038522332">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.25"/>
+										</Node>
+										<Node score="1.1529600385223324">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="4.099999904632568"/>
+										</Node>
 									</Node>
-									<Node score="-0.7867853493029409">
+									<Node score="-0.786785349302941">
 										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-										<Node score="-0.8479082619019592">
+										<Node score="-0.8479082619019593">
 											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.450000047683716"/>
 										</Node>
 									</Node>
-									<Node score="-0.8509531879300348">
+									<Node score="-0.8509529799735204">
 										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.950000047683716"/>
 									</Node>
 								</Node>
@@ -219,19 +232,26 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="-0.819876269707553">
+								<Node score="-0.819876275105281">
 									<True/>
-									<Node score="1.0648978974041992">
+									<Node score="1.064897897404199">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
-									</Node>
-									<Node score="-0.7641905268292811">
-										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-										<Node score="-0.8237485002280834">
-											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
+										<Node score="1.064897897404199">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.6499998569488525"/>
+										</Node>
+										<Node score="1.064897897404199">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="3.350000023841858"/>
 										</Node>
 									</Node>
-									<Node score="-0.8254422089069018">
+									<Node score="-0.7641905268237198">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.8237485002124765">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.450000047683716"/>
+										</Node>
+									</Node>
+									<Node score="-0.8254422057139855">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
 									</Node>
 								</Node>
@@ -244,19 +264,26 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="-0.7985799358986154">
+								<Node score="-0.7985799407246771">
 									<True/>
-									<Node score="0.9964857032788876">
+									<Node score="0.9964857032788873">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
-									</Node>
-									<Node score="-0.7495261995820459">
-										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-										<Node score="-0.8020736432656116">
-											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
+										<Node score="0.9964857032788873">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="4.299999952316284"/>
+											<Node score="0.9964857032788874">
+												<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="4.1499998569488525"/>
+											</Node>
 										</Node>
 									</Node>
-									<Node score="-0.8048372636242895">
+									<Node score="-0.7495261995920656">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.8020736432273602">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.450000047683716"/>
+										</Node>
+									</Node>
+									<Node score="-0.804837260801055">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
 									</Node>
 								</Node>
@@ -270,18 +297,18 @@
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
 								</MiningSchema>
-								<Node score="-0.7804681877119208">
+								<Node score="-0.7804681920031484">
 									<True/>
 									<Node score="0.9422825735348582">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 									</Node>
-									<Node score="-0.7373606474041835">
+									<Node score="-0.7373606474236731">
 										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-										<Node score="-0.7836012082226158">
+										<Node score="-0.7836012081712677">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
 										</Node>
 									</Node>
-									<Node score="-0.7873262972060221">
+									<Node score="-0.7873262947296122">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
 									</Node>
 								</Node>
@@ -294,18 +321,18 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
 								</MiningSchema>
-								<Node score="-0.7650720637239842">
+								<Node score="-0.765072070176039">
 									<True/>
-									<Node score="0.8986564214437072">
+									<Node score="0.8986564214437076">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
 									</Node>
-									<Node score="-0.727993981084628">
+									<Node score="-0.7279939781533423">
 										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-										<Node score="-0.7678114948902092">
+										<Node score="-0.7678114948321875">
 											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.350000023841858"/>
 										</Node>
 									</Node>
-									<Node score="-0.77243545260271">
+									<Node score="-0.7724354496615837">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
 									</Node>
 								</Node>
@@ -316,21 +343,28 @@
 							<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 								<MiningSchema>
 									<MiningField name="double(float(Petal.Width))"/>
+									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
 									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="-0.7519459004503426">
+								<Node score="-0.7519459059497899">
 									<True/>
-									<Node score="0.8630916360866475">
+									<Node score="0.8630916360866473">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
-									</Node>
-									<Node score="-0.7180893994379933">
-										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-										<Node score="-0.7549384550154049">
-											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.450000047683716"/>
+										<Node score="0.8630916360866473">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="3.25"/>
+										</Node>
+										<Node score="0.8630916360866474">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.1499998569488525"/>
 										</Node>
 									</Node>
-									<Node score="-0.7594426802272806">
+									<Node score="-0.7180893968876636">
+										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										<Node score="-0.7549384549897005">
+											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
+										</Node>
+									</Node>
+									<Node score="-0.7594426776205832">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
 									</Node>
 								</Node>
@@ -344,18 +378,18 @@
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
 								</MiningSchema>
-								<Node score="-0.7408057623773888">
+								<Node score="-0.7408057670769976">
 									<True/>
-									<Node score="0.8337920816536498">
-										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+									<Node score="0.8337920816536496">
+										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 									</Node>
-									<Node score="-0.7126321323469995">
+									<Node score="-0.7126321302647113">
 										<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-										<Node score="-0.7432197695852192">
+										<Node score="-0.743219769554895">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="3.899999976158142"/>
 										</Node>
 									</Node>
-									<Node score="-0.7485719774522355">
+									<Node score="-0.7485719750433284">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
 									</Node>
 								</Node>
@@ -370,6 +404,8 @@
 					<MiningSchema>
 						<MiningField name="double(float(Petal.Width))"/>
 						<MiningField name="double(float(Petal.Length))"/>
+						<MiningField name="double(float(Sepal.Length))"/>
+						<MiningField name="double(float(Sepal.Width))"/>
 					</MiningSchema>
 					<Output>
 						<OutputField name="decisionFunction(versicolor)" optype="continuous" dataType="double" isFinalResult="false"/>
@@ -419,7 +455,7 @@
 									<Node score="-0.9503716554588938">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
 									</Node>
-									<Node score="0.0038202575627446075">
+									<Node score="0.0038202575627447745">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
 										<Node score="1.6062616988237863">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
@@ -443,13 +479,13 @@
 									<Node score="-0.9089620164762351">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 									</Node>
-									<Node score="0.009297598404632245">
+									<Node score="0.009297598404632356">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
-										<Node score="1.3864298765992482">
+										<Node score="1.3864298765992484">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 										</Node>
 									</Node>
-									<Node score="0.010068163749361933">
+									<Node score="0.010068163749362102">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -462,7 +498,7 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 								</MiningSchema>
-								<Node score="-0.874202989759498">
+								<Node score="-0.8742029898323506">
 									<True/>
 									<Node score="-0.8741917995402393">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
@@ -473,7 +509,7 @@
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.349999904632568"/>
 										</Node>
 									</Node>
-									<Node score="0.016461848287834233">
+									<Node score="0.016461848287834348">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -485,19 +521,29 @@
 								<MiningSchema>
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="-0.8448770270399263">
+								<Node score="-0.8448770276331063">
 									<True/>
-									<Node score="-0.8448590640762464">
+									<Node score="-0.8448590640762468">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+										<Node score="-0.8448590640762464">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="3.350000023841858"/>
+											<Node score="-0.8448590640762464">
+												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.2500000074505806"/>
+											</Node>
+										</Node>
+										<Node score="-0.8448590640762464">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="3.649999976158142"/>
+										</Node>
 									</Node>
-									<Node score="-0.9583083660372864">
+									<Node score="-0.9583083668656762">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
-										<Node score="1.0686238076514156">
+										<Node score="1.0686238088788256">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.349999904632568"/>
 										</Node>
 									</Node>
-									<Node score="0.02305623094724596">
+									<Node score="0.02305622872278263">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -509,19 +555,26 @@
 								<MiningSchema>
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
 								</MiningSchema>
-								<Node score="-0.7441600452477481">
+								<Node score="-0.7441600459575414">
 									<True/>
-									<Node score="-0.8200105456408745">
+									<Node score="-0.8200105456408748">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+										<Node score="-0.8200105456408746">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
+										</Node>
+										<Node score="-0.8200105456408746">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.3500001430511475"/>
+										</Node>
 									</Node>
-									<Node score="-0.37107566231864436">
+									<Node score="-0.37107566266010605">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="1.077759708316842">
+										<Node score="1.0777597104895256">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 										</Node>
 									</Node>
-									<Node score="0.17588226096775628">
+									<Node score="0.17588225687188797">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
 									</Node>
 								</Node>
@@ -534,18 +587,18 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 								</MiningSchema>
-								<Node score="-0.716218315284572">
+								<Node score="-0.7162183158985663">
 									<True/>
 									<Node score="-0.7988908225699728">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 									</Node>
-									<Node score="-0.3328969459253056">
+									<Node score="-0.33289694615264276">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="1.0065435919086254">
+										<Node score="1.006543593691033">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 										</Node>
 									</Node>
-									<Node score="0.16715716458719104">
+									<Node score="0.16715716076301407">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
 									</Node>
 								</Node>
@@ -558,18 +611,18 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 								</MiningSchema>
-								<Node score="-0.7827148395176413">
+								<Node score="-0.7827149409043324">
 									<True/>
 									<Node score="-0.7808826384592991">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 									</Node>
-									<Node score="-0.2972220363200126">
+									<Node score="-0.29722203645290995">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="0.9502722567616185">
+										<Node score="0.9502722582420857">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 										</Node>
 									</Node>
-									<Node score="-0.19200301773993886">
+									<Node score="-0.19200172380546227">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.049999952316284"/>
 									</Node>
 								</Node>
@@ -581,19 +634,27 @@
 								<MiningSchema>
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="-0.7677691381642561">
+								<Node score="-0.7677691272316547">
 									<True/>
-									<Node score="-0.7654828041872671">
+									<Node score="-0.7654828041872669">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
+										<Node score="-0.7654828041872672">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
+										</Node>
+										<Node score="-0.7654828041872672">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="3.450000047683716"/>
+										</Node>
 									</Node>
-									<Node score="-0.8610765132802776">
+									<Node score="-0.861076514180723">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
-										<Node score="0.8186627173947459">
+										<Node score="0.8186627140513825">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.349999904632568"/>
 										</Node>
 									</Node>
-									<Node score="0.16719788702097454">
+									<Node score="0.1671977916159106">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -606,18 +667,18 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 								</MiningSchema>
-								<Node score="-0.5618393772352219">
+								<Node score="-0.5618393780884495">
 									<True/>
 									<Node score="-0.7522788144147148">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 									</Node>
-									<Node score="-0.2630599538114237">
+									<Node score="-0.2630599537039135">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="0.8700591296993707">
+										<Node score="0.8700591308574736">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 										</Node>
 									</Node>
-									<Node score="-1.0063686548030817">
+									<Node score="-1.006368696880885">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.650000095367432"/>
 									</Node>
 								</Node>
@@ -629,19 +690,27 @@
 								<MiningSchema>
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
+									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="-0.7443875513124762">
+								<Node score="-0.7443875422449486">
 									<True/>
-									<Node score="-0.7409307214202507">
+									<Node score="-0.7409307214202508">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
+										<Node score="-0.7409307214202511">
+											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="3.350000023841858"/>
+										</Node>
+										<Node score="-0.7409307214202511">
+											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.25"/>
+										</Node>
 									</Node>
-									<Node score="-0.8290865375312745">
+									<Node score="-0.8290865382411563">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
-										<Node score="0.7492929485205565">
+										<Node score="0.749292944993573">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.349999904632568"/>
 										</Node>
 									</Node>
-									<Node score="0.23728103505476217">
+									<Node score="0.23728094521021217">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -712,7 +781,7 @@
 								</MiningSchema>
 								<Node score="1.6544242942422906">
 									<True/>
-									<Node score="-0.032249101538204726">
+									<Node score="-0.0322491015382044">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
 										<Node score="1.8230584742034082">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
@@ -724,9 +793,9 @@
 											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
 										</Node>
 									</Node>
-									<Node score="1.7063659825064659">
+									<Node score="1.7063659825064665">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
-										<Node score="-0.9833472083473733">
+										<Node score="-0.9833472083473732">
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.950000047683716"/>
 										</Node>
 									</Node>
@@ -740,14 +809,15 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="1.4278764526548384">
+								<Node score="1.427856906240208">
 									<True/>
-									<Node score="-0.05877787854284596">
+									<Node score="-0.05877787854284587">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
 										<Node score="1.6905793549713883">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-											<Node score="-0.9097780716913535">
+											<Node score="-0.9097780716913533">
 												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
 											</Node>
 										</Node>
@@ -757,9 +827,12 @@
 									</Node>
 									<Node score="1.5056887154959047">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
-										<Node score="-0.9665542340231648">
+										<Node score="-0.9665542340231645">
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.950000047683716"/>
 										</Node>
+									</Node>
+									<Node score="1.4279169418680298">
+										<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.850000023841858"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -771,14 +844,15 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
+									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="1.269187913841031">
+								<Node score="1.2691433396145648">
 									<True/>
 									<Node score="-1.0436748857192535">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
 										<Node score="1.586682597449597">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
-											<Node score="-0.8752213383923928">
+											<Node score="-0.8752213383923924">
 												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
 											</Node>
 										</Node>
@@ -792,6 +866,9 @@
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.950000047683716"/>
 										</Node>
 									</Node>
+									<Node score="1.2692631316075937">
+										<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.950000047683716"/>
+									</Node>
 								</Node>
 							</TreeModel>
 						</Segment>
@@ -804,27 +881,27 @@
 									<MiningField name="double(float(Sepal.Length))"/>
 									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="1.152874495192702">
+								<Node score="1.1528744930147963">
 									<True/>
-									<Node score="1.395141549496358">
+									<Node score="1.3951415496874529">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="-0.8479597379742396">
+										<Node score="-0.8479597377391185">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 											<Node score="-0.8448062375836101">
 												<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 											</Node>
 										</Node>
-										<Node score="0.16196660803284132">
+										<Node score="0.16196661171953008">
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="6.049999952316284"/>
 										</Node>
 									</Node>
-									<Node score="-0.9946087411292478">
+									<Node score="-0.9946087431711985">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
 										<Node score="1.499577055365054">
 											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="2.75"/>
 										</Node>
 									</Node>
-									<Node score="0.6156207663471615">
+									<Node score="0.6156207643379425">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -838,27 +915,27 @@
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
 								</MiningSchema>
-								<Node score="1.0647846713871483">
+								<Node score="1.0647846686176332">
 									<True/>
-									<Node score="1.2725058640988758">
+									<Node score="1.2725058617256486">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="-0.8237947090104446">
+										<Node score="-0.8237947085998412">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 											<Node score="-0.8199674183912021">
 												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
 											</Node>
 										</Node>
-										<Node score="0.17727759594556886">
+										<Node score="0.17727759675693544">
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="6.049999952316284"/>
 										</Node>
 									</Node>
-									<Node score="-0.9523411561134932">
+									<Node score="-0.9523411585446241">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
-										<Node score="1.4273102744005943">
+										<Node score="1.427310274471599">
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.799999952316284"/>
 										</Node>
 									</Node>
-									<Node score="0.5498980467422672">
+									<Node score="0.5498980454463845">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -872,27 +949,27 @@
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
 								</MiningSchema>
-								<Node score="0.9976337447695037">
+								<Node score="0.9976337424348312">
 									<True/>
-									<Node score="1.1736034751299913">
+									<Node score="1.1736034732572331">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="-0.802116339469084">
+										<Node score="-0.8021163391356638">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 											<Node score="-0.7988552757902094">
 												<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 											</Node>
 										</Node>
-										<Node score="0.12955540142840302">
+										<Node score="0.12955540219860082">
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="6.049999952316284"/>
 										</Node>
 									</Node>
-									<Node score="-0.930278707238085">
+									<Node score="-0.9302787093127194">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
-										<Node score="1.3234157296906044">
+										<Node score="1.3234157295396036">
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.799999952316284"/>
 										</Node>
 									</Node>
-									<Node score="0.4607749604669376">
+									<Node score="0.4607749593951336">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -905,27 +982,27 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 								</MiningSchema>
-								<Node score="0.9443487158340802">
+								<Node score="0.9443487138522753">
 									<True/>
-									<Node score="0.06280363514628744">
+									<Node score="0.06280363208318236">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="-0.783641824230788">
+										<Node score="-0.7836418239588167">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 											<Node score="-0.780853100332832">
 												<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 											</Node>
 										</Node>
-										<Node score="1.1116911532881233">
+										<Node score="1.111691153994471">
 											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
 										</Node>
 									</Node>
-									<Node score="-0.9099360144077988">
+									<Node score="-0.9099360161895768">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
-										<Node score="1.2402885925877252">
+										<Node score="1.2402885922879405">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.75"/>
 										</Node>
 									</Node>
-									<Node score="0.38215619785086297">
+									<Node score="0.38215619694238573">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -939,27 +1016,27 @@
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Length))"/>
 								</MiningSchema>
-								<Node score="0.9011576369309572">
+								<Node score="0.9011576231084493">
 									<True/>
-									<Node score="1.0534077655995628">
+									<Node score="1.0534077641602837">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="-0.7678502095834402">
+										<Node score="-0.7678502093605845">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 											<Node score="-0.7654580876176449">
 												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
 											</Node>
 										</Node>
-										<Node score="0.01881390825670213">
+										<Node score="0.018813909068202194">
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="6.049999952316284"/>
 										</Node>
 									</Node>
-									<Node score="-0.8969782739563554">
+									<Node score="-0.896978254073365">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
-										<Node score="1.158272798609474">
+										<Node score="1.1582728493492949">
 											<SimplePredicate field="double(float(Sepal.Length))" operator="lessOrEqual" value="5.799999952316284"/>
 										</Node>
 									</Node>
-									<Node score="0.33136062994826565">
+									<Node score="0.3313606810188554">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.8500001430511475"/>
 									</Node>
 								</Node>
@@ -972,24 +1049,24 @@
 									<MiningField name="double(float(Petal.Width))"/>
 									<MiningField name="double(float(Petal.Length))"/>
 								</MiningSchema>
-								<Node score="0.8177788076007084">
+								<Node score="0.8177788000789895">
 									<True/>
-									<Node score="-0.024219407187520425">
+									<Node score="-0.02421940998565274">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="-0.754975433646334">
+										<Node score="-0.7549754334947824">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 											<Node score="-0.7522580085126318">
 												<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="0.800000011920929"/>
 											</Node>
 										</Node>
-										<Node score="1.0371165682313868">
+										<Node score="1.0371165686580004">
 											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
 										</Node>
 									</Node>
-									<Node score="1.128342257226218">
+									<Node score="1.1283423038251252">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.650000095367432"/>
 									</Node>
-									<Node score="-0.8690167843793439">
+									<Node score="-0.8690167663829272">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.75"/>
 									</Node>
 								</Node>
@@ -1003,25 +1080,28 @@
 									<MiningField name="double(float(Petal.Length))"/>
 									<MiningField name="double(float(Sepal.Width))"/>
 								</MiningSchema>
-								<Node score="0.8373112089654362">
+								<Node score="0.8373624268996007">
 									<True/>
-									<Node score="-0.051150956467824936">
+									<Node score="-0.05115095894286619">
 										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.6500000357627869"/>
-										<Node score="-0.7432534427486868">
+										<Node score="-0.7432534426239331">
 											<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="4.950000047683716"/>
 											<Node score="-0.7409131172585712">
 												<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="2.449999988079071"/>
 											</Node>
 										</Node>
-										<Node score="0.9896470129139521">
+										<Node score="0.9896470132698986">
 											<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.550000011920929"/>
 										</Node>
 									</Node>
-									<Node score="-1.1638819051515552">
+									<Node score="-1.163881866997431">
 										<SimplePredicate field="double(float(Petal.Length))" operator="lessOrEqual" value="5.049999952316284"/>
-										<Node score="0.7257615879901265">
+										<Node score="0.7257606563741403">
 											<SimplePredicate field="double(float(Sepal.Width))" operator="lessOrEqual" value="3.100000023841858"/>
 										</Node>
+									</Node>
+									<Node score="0.8370851303277381">
+										<SimplePredicate field="double(float(Petal.Width))" operator="lessOrEqual" value="1.8499999642372131"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -1071,18 +1151,18 @@
 					<data:Sepal.Width>2.8</data:Sepal.Width>
 					<data:Petal.Length>4.5</data:Petal.Length>
 					<data:Petal.Width>1.3</data:Petal.Width>
-					<data:probability_setosa>0.09114865302547258</data:probability_setosa>
-					<data:probability_versicolor>0.8174831578411743</data:probability_versicolor>
-					<data:probability_virginica>0.09136818913335304</data:probability_virginica>
+					<data:probability_setosa>0.0911486560516097</data:probability_setosa>
+					<data:probability_versicolor>0.8174831551126884</data:probability_versicolor>
+					<data:probability_virginica>0.09136818883570193</data:probability_virginica>
 				</row>
 				<row>
 					<data:Sepal.Length>5.6</data:Sepal.Length>
 					<data:Sepal.Width>2.9</data:Sepal.Width>
 					<data:Petal.Length>3.6</data:Petal.Length>
 					<data:Petal.Width>1.3</data:Petal.Width>
-					<data:probability_setosa>0.0911355865330056</data:probability_setosa>
-					<data:probability_versicolor>0.8174949107395547</data:probability_versicolor>
-					<data:probability_virginica>0.09136950272743968</data:probability_virginica>
+					<data:probability_setosa>0.09113558955875242</data:probability_setosa>
+					<data:probability_versicolor>0.8174949080114198</data:probability_versicolor>
+					<data:probability_virginica>0.0913695024298279</data:probability_virginica>
 				</row>
 				<row>
 					<data:Sepal.Length>5.1</data:Sepal.Length>
