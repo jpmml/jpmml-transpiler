@@ -72,17 +72,17 @@ public class FpPrimitiveEncoder implements Encoder {
 				throw new IllegalArgumentException(primitiveType.fullName());
 		}
 
-		JMethod encoderMethod = owner.getMethod(methodName, new JType[]{type});
-		if(encoderMethod != null){
-			return encoderMethod;
+		JMethod method = owner.getMethod(methodName, new JType[]{type});
+		if(method != null){
+			return method;
 		}
 
-		encoderMethod = owner.method(ModelTranslator.MEMBER_PRIVATE, primitiveType, methodName);
+		method = owner.method(ModelTranslator.MEMBER_PRIVATE, primitiveType, methodName);
 
-		JVar valueParam = encoderMethod.param(type, "value");
+		JVar valueParam = method.param(type, "value");
 
 		try {
-			context.pushScope(new MethodScope(encoderMethod));
+			context.pushScope(new MethodScope(method));
 
 			JExpression nanExpr;
 
@@ -102,6 +102,6 @@ public class FpPrimitiveEncoder implements Encoder {
 			context.popScope();
 		}
 
-		return encoderMethod;
+		return method;
 	}
 }

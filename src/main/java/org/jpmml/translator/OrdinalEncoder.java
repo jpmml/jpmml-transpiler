@@ -67,12 +67,12 @@ public class OrdinalEncoder implements Encoder {
 	public JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod encoderMethod = owner.method(ModelTranslator.MEMBER_PRIVATE, context._ref(int.class), IdentifierUtil.create("toOrdinal", name));
+		JMethod method = owner.method(ModelTranslator.MEMBER_PRIVATE, context._ref(int.class), IdentifierUtil.create("toOrdinal", name));
 
-		JVar valueParam = encoderMethod.param(type, "value");
+		JVar valueParam = method.param(type, "value");
 
 		try {
-			context.pushScope(new MethodScope(encoderMethod));
+			context.pushScope(new MethodScope(method));
 
 			context._returnIf(valueParam.eq(JExpr._null()), OrdinalEncoder.MISSING_VALUE);
 
@@ -81,7 +81,7 @@ public class OrdinalEncoder implements Encoder {
 			context.popScope();
 		}
 
-		return encoderMethod;
+		return method;
 	}
 
 	public JMethod ensureIsSetMethod(TranslationContext context){
