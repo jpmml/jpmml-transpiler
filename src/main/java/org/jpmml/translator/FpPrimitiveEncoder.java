@@ -59,7 +59,25 @@ public class FpPrimitiveEncoder implements Encoder {
 
 		JPrimitiveType primitiveType = (JPrimitiveType)type.unboxify();
 
-		JMethod encoderMethod = owner.method(ModelTranslator.MEMBER_PRIVATE, primitiveType, IdentifierUtil.create("toFloatingPointPrimitive", name));
+		String methodName;
+
+		switch(primitiveType.name()){
+			case "float":
+				methodName = "toFloatPrimitive";
+				break;
+			case "double":
+				methodName = "toDoublePrimitive";
+				break;
+			default:
+				throw new IllegalArgumentException(primitiveType.fullName());
+		}
+
+		JMethod encoderMethod = owner.getMethod(methodName, new JType[]{type});
+		if(encoderMethod != null){
+			return encoderMethod;
+		}
+
+		encoderMethod = owner.method(ModelTranslator.MEMBER_PRIVATE, primitiveType, methodName);
 
 		JVar valueParam = encoderMethod.param(type, "value");
 
