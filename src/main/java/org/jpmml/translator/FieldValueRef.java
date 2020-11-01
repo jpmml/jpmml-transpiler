@@ -20,6 +20,7 @@ package org.jpmml.translator;
 
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JVar;
+import org.dmg.pmml.DataType;
 import org.jpmml.evaluator.FieldValue;
 
 /**
@@ -27,8 +28,32 @@ import org.jpmml.evaluator.FieldValue;
  */
 public class FieldValueRef extends JVarRef {
 
-	public FieldValueRef(JVar variable){
+	private DataType dataType = null;
+
+
+	public FieldValueRef(JVar variable, DataType dataType){
 		super(variable);
+
+		setDataType(dataType);
+	}
+
+	public JInvocation asJavaValue(){
+		DataType dataType = getDataType();
+
+		switch(dataType){
+			case STRING:
+				return asString();
+			case INTEGER:
+				return asInteger();
+			case FLOAT:
+				return asFloat();
+			case DOUBLE:
+				return asDouble();
+			case BOOLEAN:
+				return asBoolean();
+			default:
+				throw new IllegalArgumentException(dataType.toString());
+		}
 	}
 
 	/**
@@ -71,5 +96,13 @@ public class FieldValueRef extends JVarRef {
 	 */
 	public JInvocation asBoolean(){
 		return invoke("asBoolean");
+	}
+
+	public DataType getDataType(){
+		return this.dataType;
+	}
+
+	private void setDataType(DataType dataType){
+		this.dataType = dataType;
 	}
 }

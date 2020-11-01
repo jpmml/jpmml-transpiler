@@ -18,6 +18,7 @@
  */
 package org.jpmml.translator;
 
+import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -25,7 +26,9 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JPrimitiveType;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.FieldName;
+import org.dmg.pmml.DataType;
+import org.dmg.pmml.Field;
+import org.jpmml.evaluator.FieldValue;
 
 public class FpPrimitiveEncoder implements Encoder {
 
@@ -54,50 +57,59 @@ public class FpPrimitiveEncoder implements Encoder {
 	}
 
 	@Override
-	public JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context){
+	public JMethod createEncoderMethod(Field<?> field, TranslationContext context){
+		JCodeModel codeModel = context.getCodeModel();
+
 		JDefinedClass owner = context.getOwner();
 
-		JPrimitiveType primitiveType = (JPrimitiveType)type.unboxify();
+		DataType dataType = field.getDataType();
 
-		String methodName;
+		JType fieldValueClazz = context.ref(FieldValue.class);
 
-		switch(primitiveType.name()){
-			case "float":
-				methodName = "toFloatPrimitive";
+		String name;
+		JPrimitiveType returnType;
+
+		switch(dataType){
+			case FLOAT:
+				name = "toFloatPrimitive";
+				returnType = codeModel.FLOAT;
 				break;
-			case "double":
-				methodName = "toDoublePrimitive";
+			case DOUBLE:
+				name = "toDoublePrimitive";
+				returnType = codeModel.DOUBLE;
 				break;
 			default:
-				throw new IllegalArgumentException(primitiveType.fullName());
+				throw new IllegalArgumentException(dataType.toString());
 		}
 
-		JMethod method = owner.getMethod(methodName, new JType[]{type});
+		JMethod method = owner.getMethod(name, new JType[]{fieldValueClazz});
 		if(method != null){
 			return method;
 		}
 
-		method = owner.method(ModelTranslator.MEMBER_PRIVATE, primitiveType, methodName);
+		method = owner.method(ModelTranslator.MEMBER_PRIVATE, returnType, name);
 
-		JVar valueParam = method.param(type, "value");
+		JVar valueParam = method.param(fieldValueClazz, "value");
+
+		FieldValueRef fieldValueRef = new FieldValueRef(valueParam, dataType);
 
 		try {
 			context.pushScope(new MethodScope(method));
 
 			JExpression nanExpr;
 
-			switch(primitiveType.name()){
-				case "float":
+			switch(dataType){
+				case FLOAT:
 					nanExpr = JExpr.lit(Float.NaN);
 					break;
-				case "double":
+				case DOUBLE:
 					nanExpr = JExpr.lit(Double.NaN);
 					break;
 				default:
-					throw new IllegalArgumentException(primitiveType.fullName());
+					throw new IllegalArgumentException(dataType.toString());
 			}
 
-			context._return(valueParam.eq(JExpr._null()), nanExpr, valueParam);
+			context._return(valueParam.eq(JExpr._null()), nanExpr, fieldValueRef.asJavaValue());
 		} finally {
 			context.popScope();
 		}

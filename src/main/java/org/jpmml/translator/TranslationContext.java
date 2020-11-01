@@ -184,6 +184,7 @@ public class TranslationContext {
 		Field<?> field = fieldInfo.getField();
 
 		FieldName name = field.getName();
+		DataType dataType = field.getDataType();
 
 		String stringName = IdentifierUtil.create("value", name);
 
@@ -195,7 +196,7 @@ public class TranslationContext {
 			variable = declare(FieldValue.class, stringName, getContextVariable().evaluate(constantFieldName(name)));
 		}
 
-		return new FieldValueRef(variable);
+		return new FieldValueRef(variable, dataType);
 	}
 
 	public boolean isNonMissing(JVar variable){

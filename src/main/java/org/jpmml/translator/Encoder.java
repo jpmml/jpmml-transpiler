@@ -19,9 +19,8 @@
 package org.jpmml.translator;
 
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.FieldName;
+import org.dmg.pmml.Field;
 
 public interface Encoder {
 
@@ -31,5 +30,5 @@ public interface Encoder {
 
 	OperableRef ref(JVar variable);
 
-	JMethod createEncoderMethod(JType type, FieldName name, TranslationContext context);
+	JMethod createEncoderMethod(Field<?> field, TranslationContext context);
 }

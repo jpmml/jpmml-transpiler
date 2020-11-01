@@ -91,7 +91,7 @@ public class ArgumentsRef extends JVarRef {
 			try {
 				context.pushOwner(argumentsClazz);
 
-				encoderMethod = encoder.createEncoderMethod(type, name, context);
+				encoderMethod = encoder.createEncoderMethod(field, context);
 			} finally {
 				context.popOwner();
 			}
@@ -123,34 +123,16 @@ public class ArgumentsRef extends JVarRef {
 
 		JVar valueVar = initializerBlock.decl(context.ref(FieldValue.class), IdentifierUtil.create("value", name), context.invoke(JExpr.refthis("context"), "evaluate", name));
 
-		FieldValueRef fieldValueRef = new FieldValueRef(valueVar);
-
 		JExpression valueExpr;
 
-		switch(dataType){
-			case STRING:
-				valueExpr = fieldValueRef.asString();
-				break;
-			case INTEGER:
-				valueExpr = fieldValueRef.asInteger();
-				break;
-			case FLOAT:
-				valueExpr = fieldValueRef.asFloat();
-				break;
-			case DOUBLE:
-				valueExpr = fieldValueRef.asDouble();
-				break;
-			case BOOLEAN:
-				valueExpr = fieldValueRef.asBoolean();
-				break;
-			default:
-				throw new UnsupportedAttributeException(field, dataType);
-		}
-
-		valueExpr = JOp.cond(valueVar.ne(JExpr._null()), valueExpr, JExpr._null());
-
 		if(encoder != null && encoderMethod != null){
-			valueExpr = JExpr.invoke(encoderMethod).arg(valueExpr);
+			valueExpr = JExpr.invoke(encoderMethod).arg(valueVar);
+		} else
+
+		{
+			FieldValueRef fieldValueRef = new FieldValueRef(valueVar, dataType);
+
+			valueExpr = JOp.cond(valueVar.ne(JExpr._null()), fieldValueRef.asJavaValue(), JExpr._null());
 		}
 
 		initializerBlock.assign(JExpr.refthis(fieldVar.name()), valueExpr);
