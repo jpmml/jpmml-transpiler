@@ -15,13 +15,13 @@ JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "trans
 
 # Prerequisites #
 
-* JPMML-Evaluator 1.5.0 or newer.
+* JPMML-Evaluator 1.5.3 or newer.
 
 # Installation #
 
 ### Release versions
 
-The current release version is **1.1.2** (5 October, 2020):
+The current release version is **1.1.3** (2 November, 2020):
 
 JPMML-Transpiler library JAR files (together with accompanying Java source and Javadocs JAR files) are released via [Maven Central Repository](https://repo1.maven.org/maven2/org/jpmml/).
 
@@ -29,7 +29,7 @@ JPMML-Transpiler library JAR files (together with accompanying Java source and J
 <dependency>
 	<groupId>org.jpmml</groupId>
 	<artifactId>jpmml-transpiler</artifactId>
-	<version>1.1.2</version>
+	<version>1.1.3</version>
 </dependency>
 ```
 
