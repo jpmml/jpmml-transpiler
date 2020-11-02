@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2020 Villu Ruusmann
+ *
+ * This file is part of JPMML-Transpiler
+ *
+ * JPMML-Transpiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JPMML-Transpiler is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with JPMML-Transpiler.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.jpmml.translator;
 
 import java.lang.annotation.Annotation;
@@ -15,6 +33,8 @@ import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.google.common.collect.Iterables;
+import org.dmg.pmml.Model;
+import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.jpmml.model.ReflectionUtil;
 import org.jpmml.model.annotations.Property;
@@ -30,9 +50,12 @@ public class Template {
 
 
 	Template(Class<? extends PMMLObject> clazz){
+		this(clazz, ReflectionUtil.getFields(clazz));
+	}
+
+	Template(Class<? extends PMMLObject> clazz, List<Field> instanceFields){
 		Map<String, Field> fields = new LinkedHashMap<>();
 
-		List<Field> instanceFields = ReflectionUtil.getFields(clazz);
 		for(Field instanceField : instanceFields){
 			boolean xmlTransient = (instanceField.getAnnotation(XmlTransient.class) != null);
 
@@ -99,7 +122,18 @@ public class Template {
 		Template template = Template.templates.get(clazz);
 
 		if(template == null){
-			template = new Template(clazz);
+
+			if((PMML.class).isAssignableFrom(clazz)){
+				template = new PMMLTemplate(clazz.asSubclass(PMML.class));
+			} else
+
+			if((Model.class).isAssignableFrom(clazz)){
+				template = new ModelTemplate(clazz.asSubclass(Model.class));
+			} else
+
+			{
+				template = new Template(clazz);
+			}
 
 			Template.templates.put(clazz, template);
 		}
