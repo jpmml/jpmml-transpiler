@@ -26,8 +26,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -73,6 +75,8 @@ public class TranslationContext {
 	private ArrayManager<FieldName> fieldNameManager = null;
 
 	private ArrayManager<QName> xmlNameManager = null;
+
+	private Set<Field<?>> suppressedFields = new LinkedHashSet<>();
 
 
 	public TranslationContext(PMML pmml, JCodeModel codeModel){
@@ -495,6 +499,18 @@ public class TranslationContext {
 
 	public void putRepresentation(PMMLObject pmmlObject, JExpression reprExpr){
 		this.representations.put(pmmlObject, reprExpr);
+	}
+
+	public boolean isSuppressed(Field<?> field){
+		return this.suppressedFields.contains(field);
+	}
+
+	public void suppressField(Field<?> field){
+		this.suppressedFields.add(field);
+	}
+
+	public void clearSuppressedFields(){
+		this.suppressedFields.clear();
 	}
 
 	static

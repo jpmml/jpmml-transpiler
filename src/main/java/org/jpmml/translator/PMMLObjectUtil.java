@@ -181,7 +181,11 @@ public class PMMLObjectUtil {
 				JArray array = JExpr.newArray(context.ref(clazz));
 
 				for(Object object : chunk){
-					array.add(PMMLObjectUtil.createExpression(object, context));
+					JExpression expression = PMMLObjectUtil.createExpression(object, context);
+
+					if(expression != null){
+						array.add(expression);
+					}
 				}
 
 				context._return(array);
@@ -375,6 +379,12 @@ public class PMMLObjectUtil {
 			} else
 
 			if(pmmlObject instanceof org.dmg.pmml.Field){
+				org.dmg.pmml.Field<?> pmmlField = (org.dmg.pmml.Field<?>)pmmlObject;
+
+				if(context.isSuppressed(pmmlField)){
+					return null;
+				}
+
 				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
 
 				return JExpr.invoke(builderMethod);
@@ -485,7 +495,11 @@ public class PMMLObjectUtil {
 		if(elements.size() <= PMMLObjectUtil.CHUNK_SIZE){
 
 			for(Object element : elements){
-				invocation.arg(createExpression(element, context));
+				JExpression expression = createExpression(element, context);
+
+				if(expression != null){
+					invocation.arg(expression);
+				}
 			}
 		} else
 

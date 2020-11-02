@@ -265,6 +265,8 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 					tfTerms.put(tf.getTextField(), tfTerm);
 
+					context.suppressField(fieldInfo.getField());
+
 					continue;
 				}
 
