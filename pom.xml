@@ -84,7 +84,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator</artifactId>
-			<version>[1.5.3,)</version>
+			<version>[1.5.5,)</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jpmml</groupId>
@@ -99,7 +99,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-extension</artifactId>
-			<version>[1.5.3,)</version>
+			<version>[1.5.5,)</version>
 		</dependency>
 
 		<dependency>
@@ -112,7 +112,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>[2.9.4, 2.11.1]</version>
+			<version>[2.9.4, 2.11.3]</version>
 			<!--
 			<scope>provided</scope>
 			-->
@@ -128,7 +128,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-testing</artifactId>
-			<version>[1.5.3,)</version>
+			<version>[1.5.5,)</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

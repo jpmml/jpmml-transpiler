@@ -63,7 +63,7 @@ import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.ValueFactoryFactory;
 import org.jpmml.evaluator.java.JavaModel;
-import org.jpmml.model.visitors.FieldReferenceFinder;
+import org.jpmml.model.visitors.ActiveFieldFinder;
 import org.jpmml.model.visitors.FieldResolver;
 
 abstract
@@ -230,12 +230,12 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		};
 		fieldResolver.applyTo(pmml);
 
-		FieldReferenceFinder fieldReferenceFinder = new FieldReferenceFinder();
+		ActiveFieldFinder activeFieldFinder = new ActiveFieldFinder();
 		for(PMMLObject bodyObject : bodyObjects){
-			fieldReferenceFinder.applyTo(bodyObject);
+			activeFieldFinder.applyTo(bodyObject);
 		}
 
-		Set<FieldName> names = fieldReferenceFinder.getFieldNames();
+		Set<FieldName> names = activeFieldFinder.getFieldNames();
 
 		Map<FieldName, FieldInfo> result = new LinkedHashMap<>();
 

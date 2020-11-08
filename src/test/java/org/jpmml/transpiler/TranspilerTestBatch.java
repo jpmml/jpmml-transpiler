@@ -18,7 +18,6 @@
  */
 package org.jpmml.transpiler;
 
-import java.io.Serializable;
 import java.util.function.Predicate;
 
 import com.google.common.base.Equivalence;
@@ -68,17 +67,14 @@ public class TranspilerTestBatch extends IntegrationTestBatch {
 
 	@Override
 	protected void validateEvaluator(Evaluator evaluator) throws Exception {
+		HasPMML hasPMML = (HasPMML)evaluator;
 
-		if(evaluator instanceof Serializable){
-			HasPMML hasPMML = (HasPMML)evaluator;
+		PMML pmml = hasPMML.getPMML();
 
-			PMML pmml = hasPMML.getPMML();
+		Class<? extends PMML> pmmlClazz = pmml.getClass();
 
-			Class<? extends PMML> pmmlClazz = pmml.getClass();
+		ClassLoader clazzLoader = pmmlClazz.getClassLoader();
 
-			ClassLoader clazzLoader = pmmlClazz.getClassLoader();
-
-			SerializationUtil.clone((Serializable)evaluator, clazzLoader);
-		}
+		SerializationUtil.clone(evaluator, clazzLoader);
 	}
 }
