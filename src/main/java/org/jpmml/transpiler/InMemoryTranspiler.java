@@ -19,32 +19,28 @@
 package org.jpmml.transpiler;
 
 import java.io.IOException;
-import java.util.Objects;
 
+import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
-import org.jpmml.evaluator.PMMLTransformer;
+import org.jpmml.codemodel.JCodeModelClassLoader;
+import org.jpmml.model.PMMLUtil;
 
-public class TranspilerTransformer implements PMMLTransformer<IOException> {
+public class InMemoryTranspiler extends Transpiler {
 
-	private Transpiler transpiler = null;
-
-
-	public TranspilerTransformer(Transpiler transpiler){
-		setTranspiler(transpiler);
+	public InMemoryTranspiler(String className){
+		super(className);
 	}
 
 	@Override
-	public PMML apply(PMML pmml) throws IOException {
-		Transpiler transpiler = getTranspiler();
+	public PMML transpile(PMML pmml) throws IOException {
+		String className = getClassName();
 
-		return transpiler.transpile(pmml);
-	}
+		JCodeModel codeModel = TranspilerUtil.translate(pmml, className);
 
-	public Transpiler getTranspiler(){
-		return this.transpiler;
-	}
+		TranspilerUtil.compile(codeModel);
 
-	private void setTranspiler(Transpiler archiver){
-		this.transpiler = Objects.requireNonNull(archiver);
+		ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
+
+		return PMMLUtil.load(clazzLoader);
 	}
 }

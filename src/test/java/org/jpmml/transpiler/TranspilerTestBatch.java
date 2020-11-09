@@ -46,9 +46,9 @@ public class TranspilerTestBatch extends IntegrationTestBatch {
 
 		PMML xmlPmml = super.getPMML();
 
-		TranspilerTransformer transformer = new TranspilerTransformer(null);
+		Transpiler transpiler = new InMemoryTranspiler(null);
 
-		PMML javaPmml = transformer.apply(xmlPmml);
+		PMML javaPmml = transpiler.transpile(xmlPmml);
 
 		Visitor checker = transpilerTest.getChecker();
 		if(checker != null){

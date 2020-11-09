@@ -19,32 +19,27 @@
 package org.jpmml.transpiler;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import org.dmg.pmml.PMML;
-import org.jpmml.evaluator.PMMLTransformer;
 
-public class TranspilerTransformer implements PMMLTransformer<IOException> {
+abstract
+public class Transpiler {
 
-	private Transpiler transpiler = null;
+	private String className = null;
 
 
-	public TranspilerTransformer(Transpiler transpiler){
-		setTranspiler(transpiler);
+	public Transpiler(String className){
+		setClassName(className);
 	}
 
-	@Override
-	public PMML apply(PMML pmml) throws IOException {
-		Transpiler transpiler = getTranspiler();
+	abstract
+	public PMML transpile(PMML pmml) throws IOException;
 
-		return transpiler.transpile(pmml);
+	public String getClassName(){
+		return this.className;
 	}
 
-	public Transpiler getTranspiler(){
-		return this.transpiler;
-	}
-
-	private void setTranspiler(Transpiler archiver){
-		this.transpiler = Objects.requireNonNull(archiver);
+	private void setClassName(String className){
+		this.className = className;
 	}
 }

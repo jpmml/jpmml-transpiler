@@ -18,33 +18,48 @@
  */
 package org.jpmml.transpiler;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Objects;
 
+import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
-import org.jpmml.evaluator.PMMLTransformer;
+import org.jpmml.model.PMMLUtil;
 
-public class TranspilerTransformer implements PMMLTransformer<IOException> {
+public class FileTranspiler extends Transpiler {
 
-	private Transpiler transpiler = null;
+	private File file = null;
 
 
-	public TranspilerTransformer(Transpiler transpiler){
-		setTranspiler(transpiler);
+	public FileTranspiler(String className, File file){
+		super(className);
+
+		setFile(file);
 	}
 
 	@Override
-	public PMML apply(PMML pmml) throws IOException {
-		Transpiler transpiler = getTranspiler();
+	public PMML transpile(PMML pmml) throws IOException {
+		File file = getFile();
+		String className = getClassName();
 
-		return transpiler.transpile(pmml);
+		JCodeModel codeModel = TranspilerUtil.translate(pmml, className);
+
+		TranspilerUtil.compile(codeModel);
+
+		try(OutputStream os = new FileOutputStream(file)){
+			TranspilerUtil.archive(codeModel, os);
+		}
+
+		return PMMLUtil.load((file.toURI()).toURL());
 	}
 
-	public Transpiler getTranspiler(){
-		return this.transpiler;
+	public File getFile(){
+		return this.file;
 	}
 
-	private void setTranspiler(Transpiler archiver){
-		this.transpiler = Objects.requireNonNull(archiver);
+	private void setFile(File file){
+		this.file = Objects.requireNonNull(file);
 	}
 }
