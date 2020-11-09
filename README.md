@@ -3,6 +3,19 @@ JPMML-Transpiler
 
 Java Transpiler (Translator + Compiler) API for Predictive Model Markup Language (PMML).
 
+# Table of Contents #
+
+* [Features](#features)
+* [Prerequisites](#prerequisites)
+* [Installation](#installation)
+* [Usage](#usage)
+  * [TL;DR](#tldr)
+  * [Deep dive](#deep-dive)
+* [Benchmarking](#benchmarking)
+* [Support](#support)
+* [License](#license)
+* [Additional information](#additional-information)
+
 # Features #
 
 JPMML-Transpiler is a value add-on library to the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library platform.
@@ -52,7 +65,48 @@ The build produces two files:
 
 # Usage #
 
-### Transpiling XML-backed PMML objects to Java codemodel objects
+### TL;DR
+
+Building a model evaluator from a PMML file using the `org.jpmml.evaluator.LoadingModelEvaluatorBuilder` builder class.
+
+The transpilation is attempted by invoking the `LoadingModelEvaluatorBuilder#transform(PMMLTransformer)` method (between the load and build stages) with a properly configured `org.jpmml.transpiler.TranspilerTransformer` argument:
+
+```java
+import org.jpmml.evaluator.Evaluator;
+import org.jpmml.evaluator.LoadingModelEvaluatorBuilder;
+import org.jpmml.evaluator.visitors.DefaultModelEvaluatorBattery;
+import org.jpmml.model.visitors.ArrayListTransformer;
+import org.jpmml.model.visitors.VisitorBattery;
+import org.jpmml.transpiler.FileTranspiler
+import org.jpmml.transpiler.InMemoryTranspiler
+import org.jpmml.transpiler.Transpiler
+import org.jpmml.transpiler.TranspilerTransformer
+
+VisitorBattery visitorBattery = new DefaultModelEvaluatorBattery();
+visitorBattery.remove(ArrayListTransformer.class);
+
+File pmmlFile = ...;
+
+LoadingModelEvaluatorBuilder evaluatorBuilder = new LoadingModelEvaluatorBuilder()
+	.setVisitors(visitorBattery)
+	.load(pmmlFile);
+
+try {
+	Transpiler transpiler = new FileTranspiler("com.mycompany.MyModel", new File(pmmlFile.getAbsolutePath() + ".jar"));
+	//Transpiler transpiler = new InMemoryTranspiler("com.mycompany.MyModel");
+
+	evaluatorBuilder = evaluatorBuilder.transform(new TranspilerTransformer(transpiler));
+} catch(IOException ioe){
+	ioe.printStackTrace(System.err);
+	//throw ioe;
+}
+
+Evaluator evaluator = evaluatorBuilder.build();
+```
+
+The internal state of the model evaluator builder is only updated if the transpilation succeeds.
+
+### Deep dive
 
 Transpiling an XML-backed `org.dmg.pmml.PMML` object to an `com.sun.codemodel.JCodeModel` object:
 
@@ -71,8 +125,6 @@ try(InputStream is = ...){
 JCodeModel codeModel = TranspilerUtil.transpile(xmlPmml, "com.mycompany.MyModel");
 ```
 
-### Storing Java codemodel objects to PMML service provider JAR files
-
 Storing the `JCodeModel` object to a PMML service provider Java archive:
 
 ```java
@@ -84,8 +136,6 @@ try(OutputStream os = new FileOutputStream(jarFile)){
 	ArchiverUtil.archive(codeModel, os);
 }
 ```
-
-### Loading Java-backed PMML objects from PMML service provider JAR files
 
 A PMML service provider Java archive is a Java ARchive (JAR) file that contains all transpilation results (Java source and bytecode files), plus a `/META-INF/services/org.dmg.pmml.PMML` service provider configuration file.
 
@@ -142,8 +192,6 @@ PMML javaPmml = pmmlClazz.newInstance();
 ```
 
 The Java-backed `PMML` object is at its peak performance right from the start. There is no need to apply any optimizers or interners to it. The only noteworthy downside of the Java-backed object compared to the XML-backed object is the lack of SAX Locator information, which makes pinpointing evaluation exceptions to exact model source code location more difficult.
-
-### Building model evaluators
 
 Building a model evaluator from a Java-backed `PMML` object:
 
