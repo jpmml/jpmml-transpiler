@@ -21,15 +21,12 @@ package org.jpmml.transpiler;
 import java.util.function.Predicate;
 
 import com.google.common.base.Equivalence;
-import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Visitor;
-import org.jpmml.codemodel.JCodeModelClassLoader;
 import org.jpmml.evaluator.Evaluator;
 import org.jpmml.evaluator.HasPMML;
 import org.jpmml.evaluator.ResultField;
 import org.jpmml.evaluator.testing.IntegrationTestBatch;
-import org.jpmml.model.PMMLUtil;
 import org.jpmml.model.SerializationUtil;
 
 abstract
@@ -49,13 +46,9 @@ public class TranspilerTestBatch extends IntegrationTestBatch {
 
 		PMML xmlPmml = super.getPMML();
 
-		JCodeModel codeModel = TranspilerUtil.translate(xmlPmml, null);
+		TranspilerTransformer transformer = new TranspilerTransformer(null);
 
-		TranspilerUtil.compile(codeModel);
-
-		ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
-
-		PMML javaPmml = PMMLUtil.load(clazzLoader);
+		PMML javaPmml = transformer.apply(xmlPmml);
 
 		Visitor checker = transpilerTest.getChecker();
 		if(checker != null){
