@@ -28,7 +28,7 @@ JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "trans
 
 # Prerequisites #
 
-* JPMML-Evaluator 1.5.5 or newer.
+* JPMML-Evaluator 1.5.6 or newer.
 
 # Installation #
 
@@ -74,16 +74,10 @@ The transpilation is attempted by invoking the `LoadingModelEvaluatorBuilder#tra
 ```java
 import org.jpmml.evaluator.Evaluator;
 import org.jpmml.evaluator.LoadingModelEvaluatorBuilder;
-import org.jpmml.evaluator.visitors.DefaultModelEvaluatorBattery;
-import org.jpmml.model.visitors.ArrayListTransformer;
-import org.jpmml.model.visitors.VisitorBattery;
 import org.jpmml.transpiler.FileTranspiler
-import org.jpmml.transpiler.InMemoryTranspiler
+//import org.jpmml.transpiler.InMemoryTranspiler
 import org.jpmml.transpiler.Transpiler
 import org.jpmml.transpiler.TranspilerTransformer
-
-VisitorBattery visitorBattery = new DefaultModelEvaluatorBattery();
-visitorBattery.remove(ArrayListTransformer.class);
 
 File pmmlFile = ...;
 

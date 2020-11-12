@@ -230,12 +230,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		};
 		fieldResolver.applyTo(pmml);
 
-		ActiveFieldFinder activeFieldFinder = new ActiveFieldFinder();
-		for(PMMLObject bodyObject : bodyObjects){
-			activeFieldFinder.applyTo(bodyObject);
-		}
-
-		Set<FieldName> names = activeFieldFinder.getFieldNames();
+		Set<FieldName> names = ActiveFieldFinder.getFieldNames(bodyObjects.toArray(new PMMLObject[bodyObjects.size()]));
 
 		Map<FieldName, FieldInfo> result = new LinkedHashMap<>();
 

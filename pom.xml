@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>[21.0, 29.0-jre]</version>
+			<version>[21.0, 30.0-jre]</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.code.findbugs</groupId>
@@ -84,7 +84,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator</artifactId>
-			<version>[1.5.5,)</version>
+			<version>[1.5.6,)</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jpmml</groupId>
@@ -99,7 +99,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-extension</artifactId>
-			<version>[1.5.5,)</version>
+			<version>[1.5.6,)</version>
 		</dependency>
 
 		<dependency>
@@ -128,7 +128,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-testing</artifactId>
-			<version>[1.5.5,)</version>
+			<version>[1.5.6,)</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
