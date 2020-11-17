@@ -217,12 +217,13 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 						FieldName name = field.getName();
 
 						Field<?> previousField = bodyFields.put(name, field);
-						if(previousField != null){
+						if((previousField != null) && (previousField != field)){
 							throw new IllegalArgumentException(name.getValue());
 						}
 					}
 
-					return VisitorAction.TERMINATE;
+					// XXX
+					return VisitorAction.SKIP;
 				}
 
 				return super.visit(object);

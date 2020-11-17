@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -133,7 +134,6 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			}
 
 			checkMiningSchema(model);
-			checkLocalTransformations(model);
 			checkTargets(model);
 			checkOutput(model);
 
@@ -182,14 +182,20 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 	@Override
 	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
-		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(bodyObjects);
+		Segmentation segmentation = (Segmentation)Iterables.getOnlyElement(bodyObjects);
 
-		Set<Node> nodes = bodyObjects.stream()
-			.map(bodyObject -> (Segmentation)bodyObject)
-			.flatMap(segmentation -> (segmentation.getSegments()).stream())
-			.map(segment -> (TreeModel)segment.getModel())
-			.map(treeModel -> treeModel.getNode())
-			.collect(Collectors.toCollection(LinkedHashSet::new));
+		Set<Node> nodes = new LinkedHashSet<>();
+
+		List<Segment> segments = segmentation.getSegments();
+		for(Segment segment : segments){
+			TreeModel treeModel = (TreeModel)segment.getModel();
+
+			Node node = treeModel.getNode();
+
+			nodes.add(node);
+		}
+
+		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(nodes);
 
 		fieldInfos = TreeModelTranslator.enhanceFieldInfos(nodes, fieldInfos);
 
