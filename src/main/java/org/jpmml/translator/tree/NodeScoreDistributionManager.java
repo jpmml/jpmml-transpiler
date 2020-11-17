@@ -21,6 +21,7 @@ package org.jpmml.translator.tree;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import com.sun.codemodel.JArray;
 import com.sun.codemodel.JExpr;
@@ -134,6 +135,6 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 	}
 
 	private void setCategories(Object[] categories){
-		this.categories = categories;
+		this.categories = Objects.requireNonNull(categories);
 	}
 }

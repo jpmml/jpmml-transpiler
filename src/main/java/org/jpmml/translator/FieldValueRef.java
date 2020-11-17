@@ -18,6 +18,8 @@
  */
 package org.jpmml.translator;
 
+import java.util.Objects;
+
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
@@ -103,6 +105,6 @@ public class FieldValueRef extends JVarRef {
 	}
 
 	private void setDataType(DataType dataType){
-		this.dataType = dataType;
+		this.dataType = Objects.requireNonNull(dataType);
 	}
 }

@@ -18,6 +18,8 @@
  */
 package org.jpmml.translator;
 
+import java.util.Objects;
+
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 
@@ -48,7 +50,7 @@ public class FieldInfo {
 	}
 
 	private void setField(Field<?> field){
-		this.field = field;
+		this.field = Objects.requireNonNull(field);
 	}
 
 	public FunctionInvocation getFunctionInvocation(){

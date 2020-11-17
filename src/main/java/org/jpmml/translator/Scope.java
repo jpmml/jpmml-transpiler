@@ -21,6 +21,7 @@ package org.jpmml.translator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.sun.codemodel.JBlock;
@@ -105,7 +106,7 @@ public class Scope {
 	}
 
 	private void setBlock(JBlock block){
-		this.block = block;
+		this.block = Objects.requireNonNull(block);
 	}
 
 	public boolean isOpen(){

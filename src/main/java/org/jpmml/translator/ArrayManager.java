@@ -21,6 +21,7 @@ package org.jpmml.translator;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import com.sun.codemodel.JArray;
 import com.sun.codemodel.JDefinedClass;
@@ -120,7 +121,7 @@ public class ArrayManager<E> {
 	}
 
 	private void setComponentType(JType componentType){
-		this.componentType = componentType;
+		this.componentType = Objects.requireNonNull(componentType);
 	}
 
 	public String getName(){
@@ -128,7 +129,7 @@ public class ArrayManager<E> {
 	}
 
 	private void setName(String name){
-		this.name = name;
+		this.name = Objects.requireNonNull(name);
 	}
 
 	public JFieldVar getArrayVar(){

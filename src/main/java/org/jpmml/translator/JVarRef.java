@@ -18,6 +18,8 @@
  */
 package org.jpmml.translator;
 
+import java.util.Objects;
+
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
@@ -66,6 +68,6 @@ public class JVarRef {
 	}
 
 	private void setVariable(JVar variable){
-		this.variable = variable;
+		this.variable = Objects.requireNonNull(variable);
 	}
 }
