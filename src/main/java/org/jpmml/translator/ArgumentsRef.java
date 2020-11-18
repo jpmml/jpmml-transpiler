@@ -45,7 +45,6 @@ public class ArgumentsRef extends JVarRef {
 		JDefinedClass argumentsClazz = (JDefinedClass)type();
 
 		Field<?> field = fieldInfo.getField();
-		boolean primary = fieldInfo.isPrimary();
 		Encoder encoder = fieldInfo.getEncoder();
 
 		FieldName name = field.getName();
@@ -105,21 +104,21 @@ public class ArgumentsRef extends JVarRef {
 
 		JBlock initializerBlock;
 
-		if(primary){
-			initializerBlock = constructorBody;
-		} else
-
-		{
+		Integer count = fieldInfo.getCount();
+		if(count != null && count > 1){
 			JFieldVar fieldFlagVar = argumentsClazz.field(JMod.PRIVATE, boolean.class, "_" + stringName, JExpr.FALSE);
+			JFieldVar fieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName);
 
 			JBlock thenBlock = methodBody._if(JExpr.refthis(fieldFlagVar.name()).not())._then();
 
 			thenBlock.assign(JExpr.refthis(fieldFlagVar.name()), JExpr.TRUE);
 
 			initializerBlock = thenBlock;
-		}
+		} else
 
-		JFieldVar fieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName);
+		{
+			initializerBlock = methodBody;
+		}
 
 		JVar valueVar = initializerBlock.decl(context.ref(FieldValue.class), IdentifierUtil.create("value", name), context.invoke(JExpr.refthis("context"), "evaluate", name));
 
@@ -133,11 +132,19 @@ public class ArgumentsRef extends JVarRef {
 			FieldValueRef fieldValueRef = new FieldValueRef(valueVar, dataType);
 
 			valueExpr = JOp.cond(valueVar.ne(JExpr._null()), fieldValueRef.asJavaValue(), JExpr._null());
+		} // End if
+
+		if(count != null && count > 1){
+			JFieldVar fieldVar = (argumentsClazz.fields()).get(stringName);
+
+			initializerBlock.assign(JExpr.refthis(fieldVar.name()), valueExpr);
+
+			methodBody._return(JExpr.refthis(fieldVar.name()));
+		} else
+
+		{
+			methodBody._return(valueExpr);
 		}
-
-		initializerBlock.assign(JExpr.refthis(fieldVar.name()), valueExpr);
-
-		methodBody._return(JExpr.refthis(fieldVar.name()));
 
 		return method;
 	}

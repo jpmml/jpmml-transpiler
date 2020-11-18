@@ -426,17 +426,16 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	static
 	public Map<FieldName, FieldInfo> enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, Map<FieldName, FieldInfo> fieldInfos){
-		PrimaryFieldReferenceFinder primaryFieldReferenceFinder = new PrimaryFieldReferenceFinder();
+		CountingActiveFieldFinder countingActiveFieldFinder = new CountingActiveFieldFinder();
 		DiscreteValueFinder discreteValueFinder = new DiscreteValueFinder();
 
 		for(PMMLObject bodyObject : bodyObjects){
 			Node node = (Node)bodyObject;
 
-			primaryFieldReferenceFinder.applyTo(node);
+			countingActiveFieldFinder.applyTo(node);
 			discreteValueFinder.applyTo(node);
 		}
 
-		Set<FieldName> primaryFieldNames = primaryFieldReferenceFinder.getFieldNames();
 		Map<FieldName, Set<Object>> discreteFieldValues = discreteValueFinder.getFieldValues();
 
 		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
@@ -449,7 +448,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			OpType opType = field.getOpType();
 			DataType dataType = field.getDataType();
 
-			fieldInfo.setPrimary(primaryFieldNames.contains(name));
+			fieldInfo.updateCount(countingActiveFieldFinder.getCount(name));
 
 			switch(opType){
 				case CONTINUOUS:

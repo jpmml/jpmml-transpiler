@@ -29,7 +29,7 @@ public class FieldInfo {
 
 	private FunctionInvocation functionInvocation = null;
 
-	private boolean primary = false;
+	private Integer count = null;
 
 	private Encoder encoder = null;
 
@@ -61,12 +61,27 @@ public class FieldInfo {
 		this.functionInvocation = functionInvocation;
 	}
 
-	public boolean isPrimary(){
-		return this.primary;
+	public void updateCount(Integer count){
+
+		if(count == null){
+			return;
+		} // End if
+
+		if(this.count == null){
+			this.count = count;
+		} else
+
+		{
+			this.count += count;
+		}
 	}
 
-	public void setPrimary(boolean primary){
-		this.primary = primary;
+	public Integer getCount(){
+		return this.count;
+	}
+
+	public void setCount(Integer count){
+		this.count = count;
 	}
 
 	public Encoder getEncoder(){
