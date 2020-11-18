@@ -27,9 +27,11 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.Field;
+import org.dmg.pmml.FieldName;
 import org.jpmml.evaluator.FieldValue;
 
 public class OrdinalEncoder implements Encoder {
@@ -68,16 +70,18 @@ public class OrdinalEncoder implements Encoder {
 	public JMethod createEncoderMethod(Field<?> field, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(ModelTranslator.MEMBER_PRIVATE, context._ref(int.class), IdentifierUtil.create("toOrdinal", field.getName()));
+		JMethod method = owner.method(JMod.PRIVATE, context._ref(int.class), IdentifierUtil.create("toOrdinal", field.getName()));
 
-		JVar valueParam = method.param(FieldValue.class, "value");
-
-		FieldValueRef fieldValueRef = new FieldValueRef(valueParam, field.getDataType());
+		JVar nameParam = method.param(FieldName.class, "name");
 
 		try {
 			context.pushScope(new MethodScope(method));
 
-			context._returnIf(valueParam.eq(JExpr._null()), OrdinalEncoder.MISSING_VALUE);
+			JVar valueVar = context.declare(FieldValue.class, "value", context.invoke(JExpr.refthis("context"), "evaluate", nameParam));
+
+			FieldValueRef fieldValueRef = new FieldValueRef(valueVar, field.getDataType());
+
+			context._returnIf(valueVar.eq(JExpr._null()), OrdinalEncoder.MISSING_VALUE);
 
 			context._return(fieldValueRef.asJavaValue(), this.indexMap, 0);
 		} finally {

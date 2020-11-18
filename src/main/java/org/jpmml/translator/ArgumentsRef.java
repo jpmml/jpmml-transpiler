@@ -18,7 +18,6 @@
  */
 package org.jpmml.translator;
 
-import com.google.common.collect.Iterators;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -48,7 +47,6 @@ public class ArgumentsRef extends JVarRef {
 		Encoder encoder = fieldInfo.getEncoder();
 
 		FieldName name = field.getName();
-		DataType dataType = field.getDataType();
 
 		String stringName = fieldInfo.getVariableName();
 
@@ -57,33 +55,7 @@ public class ArgumentsRef extends JVarRef {
 			return method;
 		}
 
-		JMethod constructor = Iterators.getOnlyElement(argumentsClazz.constructors());
-
-		JBlock constructorBody = constructor.body();
-
-		JType type;
-
-		switch(dataType){
-			case STRING:
-				type = context.ref(String.class);
-				break;
-			case INTEGER:
-				type = context.ref(Integer.class);
-				break;
-			case FLOAT:
-				type = context.ref(Float.class);
-				break;
-			case DOUBLE:
-				type = context.ref(Double.class);
-				break;
-			case BOOLEAN:
-				type = context.ref(Boolean.class);
-				break;
-			default:
-				throw new UnsupportedAttributeException(field, dataType);
-		}
-
-		JMethod encoderMethod = null;
+		JMethod encoderMethod;
 
 		if(encoder != null){
 
@@ -94,13 +66,23 @@ public class ArgumentsRef extends JVarRef {
 			} finally {
 				context.popOwner();
 			}
+		} else
 
-			type = encoderMethod.type();
+		{
+			try {
+				context.pushOwner(argumentsClazz);
+
+				encoderMethod = createEncoderMethod(field, context);
+			} finally {
+				context.popOwner();
+			}
 		}
+
+		JType type = encoderMethod.type();
 
 		method = argumentsClazz.method(JMod.PUBLIC, type, stringName);
 
-		JBlock methodBody = method.body();
+		JBlock block = method.body();
 
 		JBlock initializerBlock;
 
@@ -109,7 +91,7 @@ public class ArgumentsRef extends JVarRef {
 			JFieldVar fieldFlagVar = argumentsClazz.field(JMod.PRIVATE, boolean.class, "_" + stringName, JExpr.FALSE);
 			JFieldVar fieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName);
 
-			JBlock thenBlock = methodBody._if(JExpr.refthis(fieldFlagVar.name()).not())._then();
+			JBlock thenBlock = block._if(JExpr.refthis(fieldFlagVar.name()).not())._then();
 
 			thenBlock.assign(JExpr.refthis(fieldFlagVar.name()), JExpr.TRUE);
 
@@ -117,33 +99,80 @@ public class ArgumentsRef extends JVarRef {
 		} else
 
 		{
-			initializerBlock = methodBody;
+			initializerBlock = block;
 		}
 
-		JVar valueVar = initializerBlock.decl(context.ref(FieldValue.class), IdentifierUtil.create("value", name), context.invoke(JExpr.refthis("context"), "evaluate", name));
-
-		JExpression valueExpr;
-
-		if(encoder != null && encoderMethod != null){
-			valueExpr = JExpr.invoke(encoderMethod).arg(valueVar);
-		} else
-
-		{
-			FieldValueRef fieldValueRef = new FieldValueRef(valueVar, dataType);
-
-			valueExpr = JOp.cond(valueVar.ne(JExpr._null()), fieldValueRef.asJavaValue(), JExpr._null());
-		} // End if
+		JExpression valueExpr = JExpr.invoke(encoderMethod).arg(context.constantFieldName(name));
 
 		if(count != null && count > 1){
 			JFieldVar fieldVar = (argumentsClazz.fields()).get(stringName);
 
 			initializerBlock.assign(JExpr.refthis(fieldVar.name()), valueExpr);
 
-			methodBody._return(JExpr.refthis(fieldVar.name()));
+			block._return(JExpr.refthis(fieldVar.name()));
 		} else
 
 		{
-			methodBody._return(valueExpr);
+			block._return(valueExpr);
+		}
+
+		return method;
+	}
+
+	public JMethod createEncoderMethod(Field<?> field, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		JType fieldNameClazz = context.ref(FieldName.class);
+
+		DataType dataType = field.getDataType();
+
+		String name;
+		JType returnType;
+
+		switch(dataType){
+			case STRING:
+				name = "toString";
+				returnType = context.ref(String.class);
+				break;
+			case INTEGER:
+				name = "toInteger";
+				returnType = context.ref(Integer.class);
+				break;
+			case FLOAT:
+				name = "toFloat";
+				returnType = context.ref(Float.class);
+				break;
+			case DOUBLE:
+				name = "toDouble";
+				returnType = context.ref(Double.class);
+				break;
+			case BOOLEAN:
+				name = "toBoolean";
+				returnType = context.ref(Boolean.class);
+				break;
+			default:
+				throw new UnsupportedAttributeException(field, dataType);
+		}
+
+		JMethod method = owner.getMethod(name, new JType[]{fieldNameClazz});
+		if(method != null){
+			return method;
+		}
+
+		method = owner.method(JMod.PRIVATE, returnType, name);
+
+		JVar nameParam = method.param(fieldNameClazz, "name");
+
+		try {
+			context.pushScope(new MethodScope(method));
+
+			JVar valueVar = context.declare(FieldValue.class, "value", context.invoke(JExpr.refthis("context"), "evaluate", nameParam));
+
+			FieldValueRef fieldValueRef = new FieldValueRef(valueVar, dataType);
+
+			context._return(JOp.cond(valueVar.ne(JExpr._null()), fieldValueRef.asJavaValue(), JExpr._null()));
+		} finally {
+			context.popScope();
 		}
 
 		return method;

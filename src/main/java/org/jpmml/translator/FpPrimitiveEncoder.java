@@ -23,11 +23,13 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPrimitiveType;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
+import org.dmg.pmml.FieldName;
 import org.jpmml.evaluator.FieldValue;
 
 public class FpPrimitiveEncoder implements Encoder {
@@ -64,7 +66,7 @@ public class FpPrimitiveEncoder implements Encoder {
 
 		DataType dataType = field.getDataType();
 
-		JType fieldValueClazz = context.ref(FieldValue.class);
+		JType fieldNameClazz = context.ref(FieldName.class);
 
 		String name;
 		JPrimitiveType returnType;
@@ -82,19 +84,21 @@ public class FpPrimitiveEncoder implements Encoder {
 				throw new IllegalArgumentException(dataType.toString());
 		}
 
-		JMethod method = owner.getMethod(name, new JType[]{fieldValueClazz});
+		JMethod method = owner.getMethod(name, new JType[]{fieldNameClazz});
 		if(method != null){
 			return method;
 		}
 
-		method = owner.method(ModelTranslator.MEMBER_PRIVATE, returnType, name);
+		method = owner.method(JMod.PRIVATE, returnType, name);
 
-		JVar valueParam = method.param(fieldValueClazz, "value");
-
-		FieldValueRef fieldValueRef = new FieldValueRef(valueParam, dataType);
+		JVar nameParam = method.param(fieldNameClazz, "name");
 
 		try {
 			context.pushScope(new MethodScope(method));
+
+			JVar valueVar = context.declare(FieldValue.class, "value", context.invoke(JExpr.refthis("context"), "evaluate", nameParam));
+
+			FieldValueRef fieldValueRef = new FieldValueRef(valueVar, dataType);
 
 			JExpression nanExpr;
 
@@ -109,7 +113,7 @@ public class FpPrimitiveEncoder implements Encoder {
 					throw new IllegalArgumentException(dataType.toString());
 			}
 
-			context._return(valueParam.eq(JExpr._null()), nanExpr, fieldValueRef.asJavaValue());
+			context._return(valueVar.eq(JExpr._null()), nanExpr, fieldValueRef.asJavaValue());
 		} finally {
 			context.popScope();
 		}

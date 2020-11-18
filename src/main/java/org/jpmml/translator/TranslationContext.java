@@ -52,7 +52,6 @@ import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
-import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.Value;
@@ -182,25 +181,6 @@ public class TranslationContext {
 		JVar variable = getVariable(Scope.VAR_VALUEFACTORY);
 
 		return new ValueFactoryRef(variable);
-	}
-
-	public FieldValueRef ensureFieldValueVariable(FieldInfo fieldInfo){
-		Field<?> field = fieldInfo.getField();
-
-		FieldName name = field.getName();
-		DataType dataType = field.getDataType();
-
-		String stringName = IdentifierUtil.create("value", name);
-
-		JVar variable;
-
-		try {
-			variable = getVariable(stringName);
-		} catch(IllegalArgumentException iae){
-			variable = declare(FieldValue.class, stringName, getContextVariable().evaluate(constantFieldName(name)));
-		}
-
-		return new FieldValueRef(variable, dataType);
 	}
 
 	public boolean isNonMissing(JVar variable){
