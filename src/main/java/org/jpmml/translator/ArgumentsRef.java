@@ -72,7 +72,7 @@ public class ArgumentsRef extends JVarRef {
 			try {
 				context.pushOwner(argumentsClazz);
 
-				encoderMethod = createEncoderMethod(field, context);
+				encoderMethod = ArgumentsRef.createEncoderMethod(field, context);
 			} finally {
 				context.popOwner();
 			}
@@ -84,30 +84,25 @@ public class ArgumentsRef extends JVarRef {
 
 		JBlock block = method.body();
 
-		JBlock initializerBlock;
+		JExpression valueExpr = JExpr.invoke(encoderMethod).arg(context.constantFieldName(name));
 
 		Integer count = fieldInfo.getCount();
 		if(count != null && count > 1){
-			JFieldVar fieldFlagVar = argumentsClazz.field(JMod.PRIVATE, boolean.class, "_" + stringName, JExpr.FALSE);
-			JFieldVar fieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName);
+			JExpression initExpr;
 
-			JBlock thenBlock = block._if(JExpr.refthis(fieldFlagVar.name()).not())._then();
+			if(encoder != null){
+				initExpr = encoder.createInitExpression(field, context);
+			} else
 
-			thenBlock.assign(JExpr.refthis(fieldFlagVar.name()), JExpr.TRUE);
+			{
+				initExpr = ArgumentsRef.createInitExpression(field, context);
+			}
 
-			initializerBlock = thenBlock;
-		} else
+			JFieldVar fieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName, initExpr);
 
-		{
-			initializerBlock = block;
-		}
+			JBlock thenBlock = block._if(JExpr.refthis(fieldVar.name()).eq(initExpr))._then();
 
-		JExpression valueExpr = JExpr.invoke(encoderMethod).arg(context.constantFieldName(name));
-
-		if(count != null && count > 1){
-			JFieldVar fieldVar = (argumentsClazz.fields()).get(stringName);
-
-			initializerBlock.assign(JExpr.refthis(fieldVar.name()), valueExpr);
+			thenBlock.assign(JExpr.refthis(fieldVar.name()), valueExpr);
 
 			block._return(JExpr.refthis(fieldVar.name()));
 		} else
@@ -119,7 +114,8 @@ public class ArgumentsRef extends JVarRef {
 		return method;
 	}
 
-	public JMethod createEncoderMethod(Field<?> field, TranslationContext context){
+	static
+	private JMethod createEncoderMethod(Field<?> field, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
 		JType fieldNameClazz = context.ref(FieldName.class);
@@ -176,5 +172,69 @@ public class ArgumentsRef extends JVarRef {
 		}
 
 		return method;
+	}
+
+	static
+	private JExpression createInitExpression(Field<?> field, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		DataType dataType = field.getDataType();
+
+		String name;
+
+		switch(dataType){
+			case STRING:
+				name = "INIT_STRING_VALUE";
+				break;
+			case INTEGER:
+				name = "INIT_INTEGER_VALUE";
+				break;
+			case FLOAT:
+				name = "INIT_FLOAT_VALUE";
+				break;
+			case DOUBLE:
+				name = "INIT_DOUBLE_VALUE";
+				break;
+			case BOOLEAN:
+				name = "INIT_BOOLEAN_VALUE";
+				break;
+			default:
+				throw new IllegalArgumentException(dataType.toString());
+		}
+
+		JFieldVar constantVar = (owner.fields()).get(name);
+		if(constantVar == null){
+			JType type;
+			JExpression initExpr;
+
+			switch(dataType){
+				case STRING:
+					type = context.ref(String.class);
+					initExpr = JExpr._new(type);
+					break;
+				case INTEGER:
+					type = context.ref(Integer.class);
+					initExpr = JExpr._new(type).arg(JExpr.lit(-999));
+					break;
+				case FLOAT:
+					type = context.ref(Float.class);
+					initExpr = JExpr._new(type).arg(JExpr.lit(-999f));
+					break;
+				case DOUBLE:
+					type = context.ref(Double.class);
+					initExpr = JExpr._new(type).arg(JExpr.lit(-999d));
+					break;
+				case BOOLEAN:
+					type = context.ref(Boolean.class);
+					initExpr = JExpr._new(type).arg(JExpr.lit(false));
+					break;
+				default:
+					throw new IllegalArgumentException(dataType.toString());
+			}
+
+			constantVar = owner.field((JMod.PRIVATE | JMod.FINAL | JMod.STATIC), type, name, initExpr);
+		}
+
+		return owner.staticRef(constantVar);
 	}
 }

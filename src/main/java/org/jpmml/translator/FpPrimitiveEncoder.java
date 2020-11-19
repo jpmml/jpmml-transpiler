@@ -104,10 +104,10 @@ public class FpPrimitiveEncoder implements Encoder {
 
 			switch(dataType){
 				case FLOAT:
-					nanExpr = JExpr.lit(Float.NaN);
+					nanExpr = FpPrimitiveEncoder.NAN_VALUE_FLOAT;
 					break;
 				case DOUBLE:
-					nanExpr = JExpr.lit(Double.NaN);
+					nanExpr = FpPrimitiveEncoder.NAN_VALUE_DOUBLE;
 					break;
 				default:
 					throw new IllegalArgumentException(dataType.toString());
@@ -120,4 +120,24 @@ public class FpPrimitiveEncoder implements Encoder {
 
 		return method;
 	}
+
+	@Override
+	public JExpression createInitExpression(Field<?> field, TranslationContext context){
+		DataType dataType = field.getDataType();
+
+		switch(dataType){
+			case FLOAT:
+				return FpPrimitiveEncoder.INIT_VALUE_FLOAT;
+			case DOUBLE:
+				return FpPrimitiveEncoder.INIT_VALUE_DOUBLE;
+			default:
+				throw new IllegalArgumentException(dataType.toString());
+		}
+	}
+
+	public static final JExpression INIT_VALUE_FLOAT = JExpr.lit(-999f);
+	public static final JExpression INIT_VALUE_DOUBLE = JExpr.lit(-999d);
+
+	public static final JExpression NAN_VALUE_FLOAT = JExpr.lit(Float.NaN);
+	public static final JExpression NAN_VALUE_DOUBLE = JExpr.lit(Double.NaN);
 }

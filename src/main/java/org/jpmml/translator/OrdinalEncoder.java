@@ -91,6 +91,11 @@ public class OrdinalEncoder implements Encoder {
 		return method;
 	}
 
+	@Override
+	public JExpression createInitExpression(Field<?> field, TranslationContext context){
+		return OrdinalEncoder.INIT_VALUE;
+	}
+
 	public JMethod ensureIsSetMethod(TranslationContext context){
 
 		if(this.isSetMethod == null){
@@ -128,5 +133,6 @@ public class OrdinalEncoder implements Encoder {
 		return isSetMethod;
 	}
 
+	public static final JExpression INIT_VALUE = JExpr.lit(-999);
 	public static final JExpression MISSING_VALUE = JExpr.lit(-1);
 }
