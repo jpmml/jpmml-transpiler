@@ -216,8 +216,6 @@ public class ModelChainTranslator extends MiningModelTranslator {
 		for(Segment regressorSegment : regressorSegments){
 			Model model = regressorSegment.getModel();
 
-			pullUpDerivedFields(miningModel, model);
-
 			Output modelOutput = model.getOutput();
 
 			OutputField outputField = Iterables.getOnlyElement(modelOutput.getOutputFields());
@@ -229,6 +227,8 @@ public class ModelChainTranslator extends MiningModelTranslator {
 			JInvocation methodInvocation = createEvaluatorMethodInvocation(evaluateMethod, context);
 
 			context.declare(context.getValueType(), IdentifierUtil.create("value", outputField.getName()), methodInvocation);
+
+			pullUpDerivedFields(miningModel, model);
 		}
 
 		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
@@ -240,9 +240,6 @@ public class ModelChainTranslator extends MiningModelTranslator {
 			RegressionModel regressionModel = (RegressionModel)classifierSegment.getModel();
 
 			List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
-
-			pullUpOutputFields(miningModel, regressionModel);
-
 			for(RegressionTable regressionTable : regressionTables){
 				List<NumericPredictor> numericPredictors = regressionTable.getNumericPredictors();
 
@@ -280,6 +277,8 @@ public class ModelChainTranslator extends MiningModelTranslator {
 			}
 
 			RegressionModelTranslator.computeClassification(valueMapBuilder, regressionModel, context);
+
+			pullUpOutputFields(miningModel, regressionModel);
 		}
 	}
 }

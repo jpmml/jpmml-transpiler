@@ -274,6 +274,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			JMethod method = createEvaluatorMethod(treeModel, node, scoreManager, fieldInfos, context);
 
 			methods.add(method);
+
+			pullUpDerivedFields(miningModel, treeModel);
 		}
 
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
@@ -439,6 +441,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			JMethod method = createEvaluatorMethod(treeModel, node, scoreManager, fieldInfos, context);
 
 			methods.add(method);
+
+			pullUpDerivedFields(miningModel, treeModel);
 		}
 
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);

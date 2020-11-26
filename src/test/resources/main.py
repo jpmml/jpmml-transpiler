@@ -154,6 +154,7 @@ if "Sentiment" in datasets:
 	pmml_textindex_args = dict(analyzer = "word", preprocessor = None, strip_accents = None, token_pattern = None, tokenizer = Splitter(), dtype = numpy.float64)
 	build_sentiment(LinearSVC(random_state = 13), CountVectorizer(ngram_range = (1, 2), **pmml_textindex_args), "LinearSVCSentiment", with_proba = False)
 	build_sentiment(LogisticRegression(multi_class = "ovr"), TfidfVectorizer(stop_words = "english", ngram_range = (1, 3), norm = None, **pmml_textindex_args), "LogisticRegressionSentiment")
+	build_sentiment(RandomForestClassifier(max_depth = 8, min_samples_leaf = 10, n_estimators = 31, random_state = 13), CountVectorizer(ngram_range = (1, 2), **pmml_textindex_args), "RandomForestSentiment")
 
 #
 # Multi-class classification

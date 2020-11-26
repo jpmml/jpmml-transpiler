@@ -80,6 +80,11 @@ public class ClassificationTest extends TranspilerTest {
 	}
 
 	@Test
+	public void evaluateRandomForestSentiment() throws Exception {
+		evaluate("RandomForest", "Sentiment");
+	}
+
+	@Test
 	public void evaluateDecisionTreeIris() throws Exception {
 		evaluate("DecisionTree", "Iris");
 	}

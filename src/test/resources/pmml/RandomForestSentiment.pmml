@@ -1,0 +1,2949 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.6.7"/>
+		<Timestamp>2020-11-26T21:31:48Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="Score" optype="categorical" dataType="integer">
+			<Value value="0"/>
+			<Value value="1"/>
+		</DataField>
+		<DataField name="Sentence" optype="categorical" dataType="string"/>
+	</DataDictionary>
+	<TransformationDictionary>
+		<DefineFunction name="tf(lowercase(Sentence))" optype="continuous" dataType="double">
+			<ParameterField name="document"/>
+			<ParameterField name="term"/>
+			<TextIndex textField="document">
+				<FieldRef field="term"/>
+			</TextIndex>
+		</DefineFunction>
+	</TransformationDictionary>
+	<MiningModel functionName="classification">
+		<MiningSchema>
+			<MiningField name="Score" usageType="target"/>
+			<MiningField name="Sentence"/>
+		</MiningSchema>
+		<Output>
+			<OutputField name="probability(0)" optype="continuous" dataType="double" feature="probability" value="0"/>
+			<OutputField name="probability(1)" optype="continuous" dataType="double" feature="probability" value="1"/>
+		</Output>
+		<LocalTransformations>
+			<DerivedField name="lowercase(Sentence)" optype="categorical" dataType="string">
+				<Apply function="lowercase">
+					<FieldRef field="Sentence"/>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), after)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">after</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), after))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), after)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), and)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">and</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), and))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), and)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), at)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">at</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), at))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), at)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), bad)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">bad</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), bad))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), bad)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), best)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">best</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), best))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), best)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), comfortable)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">comfortable</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), comfortable))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), comfortable)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), doesn't)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">doesn't</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), doesn't))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), doesn't)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), don't)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">don't</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), don't))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), don't)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), easy)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">easy</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), easy))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), easy)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), excellent)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">excellent</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), excellent))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), excellent)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), first)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">first</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), first))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), first)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), good)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">good</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), good))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), good)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), great)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">great</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), great))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), great)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), has)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">has</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), has))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), has)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), headset)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">headset</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), headset))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), headset)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), i love)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">i love</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), i love))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), i love)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), if)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">if</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), if))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), if)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), in)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">in</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), in))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), in)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), is)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), is))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), is)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), it)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), it))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), it)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), it is)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">it is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), it is))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), it is)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), love)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">love</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), love))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), love)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), me)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">me</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), me))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), me)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), money)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">money</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), money))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), money)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), nice)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">nice</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), nice))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), nice)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), not)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">not</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), not))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), not)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), of)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">of</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), of))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), of)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), out)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">out</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), out))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), out)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), price)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">price</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), price))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), price)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), quality)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">quality</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), quality))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), quality)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), recommend)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">recommend</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), recommend))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), recommend)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), so)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">so</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), so))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), so)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), sound)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">sound</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), sound))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), sound)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), than)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">than</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), than))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), than)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), the)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), the))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), the)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), the battery)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the battery</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), the battery))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), the battery)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), the best)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the best</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), the best))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), the best)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), the phone)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the phone</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), the phone))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), the phone)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), the price)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">the price</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), the price))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), the price)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), then)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">then</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), then))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), then)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), this is)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">this is</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), this is))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), this is)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), to)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">to</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), to))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), to)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), very)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">very</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), very))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), very)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), well)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">well</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), well))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), well)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), what)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">what</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), what))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), what)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), with)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">with</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), with))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), with)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), work)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">work</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), work))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), work)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), works)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">works</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), works))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), works)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), works great)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">works great</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), works great))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), works great)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), worst)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">worst</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), worst))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), worst)"/>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), you)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">you</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), you))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), you)"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), if)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), if))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), bad)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), bad))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), i love)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), i love))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), me)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), me))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), money)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), money))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), to)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), to))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), has)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), has))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), nice)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), nice))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), works great)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), works great))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), best)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), best))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), price)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), price))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), and)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), and))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), good)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), good))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), recommend)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), recommend))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), this is)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), this is))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), not)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), not))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), headset)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), headset))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), don't)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), don't))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), of)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), of))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), then)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), then))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), sound)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), sound))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), very)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), very))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), the phone)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), the phone))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), the price)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), the price))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), doesn't)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), doesn't))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), the)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), the))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), it)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), it))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), love)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), love))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), it is)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), it is))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), first)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), first))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), comfortable)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), comfortable))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), with)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), with))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), excellent)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), excellent))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), worst)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), worst))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), works)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), works))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), what)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), what))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), after)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), after))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), at)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), at))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), easy)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), easy))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), great)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), great))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), work)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), work))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), quality)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), quality))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), you)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), you))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), well)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), well))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), so)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), so))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), is)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), is))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), out)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), out))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), the battery)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), the battery))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), the best)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), the best))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), in)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), in))"/>
+			</DerivedField>
+			<DerivedField name="double(float(tf(lowercase(Sentence), than)))" optype="continuous" dataType="double">
+				<FieldRef field="float(tf(lowercase(Sentence), than))"/>
+			</DerivedField>
+		</LocalTransformations>
+		<Segmentation multipleModelMethod="average">
+			<Segment id="1">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), if)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), bad)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), if)))" operator="lessOrEqual" value="0.5"/>
+							<Node score="1" recordCount="958">
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), bad)))" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="439"/>
+								<ScoreDistribution value="1" recordCount="519"/>
+							</Node>
+							<Node score="0" recordCount="15">
+								<True/>
+								<ScoreDistribution value="0" recordCount="15"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node score="0" recordCount="27">
+							<True/>
+							<ScoreDistribution value="0" recordCount="24"/>
+							<ScoreDistribution value="1" recordCount="3"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="2">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), i love)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), me)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), money)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), to)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), has)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), nice)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), does)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">does</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), does))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), does)"/>
+						</DerivedField>
+						<DerivedField name="tf(lowercase(Sentence), the sound)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">the sound</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), the sound))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), the sound)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), the sound)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), the sound))"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), does)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), does))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), i love)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), me)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), money)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), the sound)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), to)))" operator="lessOrEqual" value="1.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), does)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), has)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="823">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), nice)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="432"/>
+														<ScoreDistribution value="1" recordCount="391"/>
+													</Node>
+													<Node score="1" recordCount="27">
+														<True/>
+														<ScoreDistribution value="0" recordCount="0"/>
+														<ScoreDistribution value="1" recordCount="27"/>
+													</Node>
+												</Node>
+												<Node score="1" recordCount="34">
+													<True/>
+													<ScoreDistribution value="0" recordCount="10"/>
+													<ScoreDistribution value="1" recordCount="24"/>
+												</Node>
+											</Node>
+											<Node score="0" recordCount="14">
+												<True/>
+												<ScoreDistribution value="0" recordCount="10"/>
+												<ScoreDistribution value="1" recordCount="4"/>
+											</Node>
+										</Node>
+										<Node score="0" recordCount="19">
+											<True/>
+											<ScoreDistribution value="0" recordCount="15"/>
+											<ScoreDistribution value="1" recordCount="4"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="20">
+										<True/>
+										<ScoreDistribution value="0" recordCount="4"/>
+										<ScoreDistribution value="1" recordCount="16"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="19">
+									<True/>
+									<ScoreDistribution value="0" recordCount="18"/>
+									<ScoreDistribution value="1" recordCount="1"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="26">
+								<True/>
+								<ScoreDistribution value="0" recordCount="20"/>
+								<ScoreDistribution value="1" recordCount="6"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="18">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="18"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="3">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), works great)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), best)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), price)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), works great)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), best)))" operator="lessOrEqual" value="0.5"/>
+								<Node score="0" recordCount="922">
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), price)))" operator="lessOrEqual" value="0.5"/>
+									<ScoreDistribution value="0" recordCount="473"/>
+									<ScoreDistribution value="1" recordCount="449"/>
+								</Node>
+								<Node score="1" recordCount="29">
+									<True/>
+									<ScoreDistribution value="0" recordCount="3"/>
+									<ScoreDistribution value="1" recordCount="26"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="29">
+								<True/>
+								<ScoreDistribution value="0" recordCount="4"/>
+								<ScoreDistribution value="1" recordCount="25"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="20">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="20"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="4">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), and)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), good)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), recommend)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), this is)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), not)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), headset)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), don't)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), of)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), and)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), good)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), recommend)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), this is)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), headset)))" operator="lessOrEqual" value="0.5"/>
+												<Node score="0" recordCount="492">
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), don't)))" operator="lessOrEqual" value="0.5"/>
+													<ScoreDistribution value="0" recordCount="275"/>
+													<ScoreDistribution value="1" recordCount="217"/>
+												</Node>
+												<Node score="0" recordCount="21">
+													<True/>
+													<ScoreDistribution value="0" recordCount="21"/>
+													<ScoreDistribution value="1" recordCount="0"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="35">
+												<True/>
+												<ScoreDistribution value="0" recordCount="10"/>
+												<ScoreDistribution value="1" recordCount="25"/>
+											</Node>
+										</Node>
+										<Node score="0" recordCount="72">
+											<True/>
+											<ScoreDistribution value="0" recordCount="67"/>
+											<ScoreDistribution value="1" recordCount="5"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="35">
+										<True/>
+										<ScoreDistribution value="0" recordCount="16"/>
+										<ScoreDistribution value="1" recordCount="19"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="23">
+									<True/>
+									<ScoreDistribution value="0" recordCount="8"/>
+									<ScoreDistribution value="1" recordCount="15"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="53">
+								<True/>
+								<ScoreDistribution value="0" recordCount="20"/>
+								<ScoreDistribution value="1" recordCount="33"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="224">
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), of)))" operator="lessOrEqual" value="0.5"/>
+							<ScoreDistribution value="0" recordCount="76"/>
+							<ScoreDistribution value="1" recordCount="148"/>
+						</Node>
+						<Node score="0" recordCount="45">
+							<True/>
+							<ScoreDistribution value="0" recordCount="25"/>
+							<ScoreDistribution value="1" recordCount="20"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="5">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), money)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), has)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), best)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), price)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), this is)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), then)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), sound)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), very)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), has)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), best)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), then)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), price)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), money)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), sound)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), very)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="742">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), this is)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="406"/>
+														<ScoreDistribution value="1" recordCount="336"/>
+													</Node>
+													<Node score="1" recordCount="19">
+														<True/>
+														<ScoreDistribution value="0" recordCount="6"/>
+														<ScoreDistribution value="1" recordCount="13"/>
+													</Node>
+												</Node>
+												<Node score="1" recordCount="72">
+													<True/>
+													<ScoreDistribution value="0" recordCount="22"/>
+													<ScoreDistribution value="1" recordCount="50"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="38">
+												<True/>
+												<ScoreDistribution value="0" recordCount="9"/>
+												<ScoreDistribution value="1" recordCount="29"/>
+											</Node>
+										</Node>
+										<Node score="0" recordCount="21">
+											<True/>
+											<ScoreDistribution value="0" recordCount="21"/>
+											<ScoreDistribution value="1" recordCount="0"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="29">
+										<True/>
+										<ScoreDistribution value="0" recordCount="5"/>
+										<ScoreDistribution value="1" recordCount="24"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="18">
+									<True/>
+									<ScoreDistribution value="0" recordCount="17"/>
+									<ScoreDistribution value="1" recordCount="1"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="20">
+								<True/>
+								<ScoreDistribution value="0" recordCount="2"/>
+								<ScoreDistribution value="1" recordCount="18"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="41">
+							<True/>
+							<ScoreDistribution value="0" recordCount="10"/>
+							<ScoreDistribution value="1" recordCount="31"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="6">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), nice)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), works great)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), very)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the phone)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), a great)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">a great</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), a great))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), a great)"/>
+						</DerivedField>
+						<DerivedField name="tf(lowercase(Sentence), i've)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">i've</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), i've))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), i've)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), a great)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), a great))"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), i've)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), i've))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), a great)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), nice)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), the phone)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), very)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), works great)))" operator="lessOrEqual" value="0.5"/>
+											<Node score="0" recordCount="772">
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), i've)))" operator="lessOrEqual" value="0.5"/>
+												<ScoreDistribution value="0" recordCount="428"/>
+												<ScoreDistribution value="1" recordCount="344"/>
+											</Node>
+											<Node score="1" recordCount="21">
+												<True/>
+												<ScoreDistribution value="0" recordCount="6"/>
+												<ScoreDistribution value="1" recordCount="15"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="18">
+											<True/>
+											<ScoreDistribution value="0" recordCount="0"/>
+											<ScoreDistribution value="1" recordCount="18"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="108">
+										<True/>
+										<ScoreDistribution value="0" recordCount="41"/>
+										<ScoreDistribution value="1" recordCount="67"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="34">
+									<True/>
+									<ScoreDistribution value="0" recordCount="27"/>
+									<ScoreDistribution value="1" recordCount="7"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="29">
+								<True/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="29"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="18">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="18"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="7">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), to)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), and)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), not)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the price)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), doesn't)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), it)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), the price)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), doesn't)))" operator="lessOrEqual" value="0.5"/>
+									<Node score="0" recordCount="615">
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), and)))" operator="lessOrEqual" value="0.5"/>
+										<ScoreDistribution value="0" recordCount="309"/>
+										<ScoreDistribution value="1" recordCount="306"/>
+									</Node>
+									<Node score="1" recordCount="194">
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), to)))" operator="lessOrEqual" value="0.5"/>
+										<ScoreDistribution value="0" recordCount="67"/>
+										<ScoreDistribution value="1" recordCount="127"/>
+									</Node>
+									<Node score="1" recordCount="67">
+										<True/>
+										<ScoreDistribution value="0" recordCount="31"/>
+										<ScoreDistribution value="1" recordCount="36"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="18">
+									<True/>
+									<ScoreDistribution value="0" recordCount="16"/>
+									<ScoreDistribution value="1" recordCount="2"/>
+								</Node>
+							</Node>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), the)))" operator="lessOrEqual" value="0.5"/>
+								<Node score="0" recordCount="33">
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), it)))" operator="lessOrEqual" value="0.5"/>
+									<ScoreDistribution value="0" recordCount="30"/>
+									<ScoreDistribution value="1" recordCount="3"/>
+								</Node>
+								<Node score="0" recordCount="15">
+									<True/>
+									<ScoreDistribution value="0" recordCount="12"/>
+									<ScoreDistribution value="1" recordCount="3"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="46">
+								<True/>
+								<ScoreDistribution value="0" recordCount="41"/>
+								<ScoreDistribution value="1" recordCount="5"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="12">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="12"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="8">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), works great)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), recommend)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), not)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the phone)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), love)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), it is)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), works great)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), recommend)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), the phone)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
+											<Node score="0" recordCount="746">
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), it is)))" operator="lessOrEqual" value="0.5"/>
+												<ScoreDistribution value="0" recordCount="390"/>
+												<ScoreDistribution value="1" recordCount="356"/>
+											</Node>
+											<Node score="1" recordCount="25">
+												<True/>
+												<ScoreDistribution value="0" recordCount="10"/>
+												<ScoreDistribution value="1" recordCount="15"/>
+											</Node>
+										</Node>
+										<Node score="0" recordCount="120">
+											<True/>
+											<ScoreDistribution value="0" recordCount="95"/>
+											<ScoreDistribution value="1" recordCount="25"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="20">
+										<True/>
+										<ScoreDistribution value="0" recordCount="0"/>
+										<ScoreDistribution value="1" recordCount="20"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="43">
+									<True/>
+									<ScoreDistribution value="0" recordCount="34"/>
+									<ScoreDistribution value="1" recordCount="9"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="24">
+								<True/>
+								<ScoreDistribution value="0" recordCount="6"/>
+								<ScoreDistribution value="1" recordCount="18"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="22">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="22"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="9">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), money)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), nice)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), price)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), this is)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), not)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), love)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), first)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), comfortable)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), with)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), this is)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), first)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), money)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), comfortable)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), price)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="1" recordCount="705">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), nice)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="328"/>
+														<ScoreDistribution value="1" recordCount="377"/>
+													</Node>
+													<Node score="1" recordCount="32">
+														<True/>
+														<ScoreDistribution value="0" recordCount="0"/>
+														<ScoreDistribution value="1" recordCount="32"/>
+													</Node>
+												</Node>
+												<Node score="0" recordCount="82">
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), with)))" operator="lessOrEqual" value="0.5"/>
+													<ScoreDistribution value="0" recordCount="76"/>
+													<ScoreDistribution value="1" recordCount="6"/>
+												</Node>
+												<Node score="0" recordCount="24">
+													<True/>
+													<ScoreDistribution value="0" recordCount="18"/>
+													<ScoreDistribution value="1" recordCount="6"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="33">
+												<True/>
+												<ScoreDistribution value="0" recordCount="2"/>
+												<ScoreDistribution value="1" recordCount="31"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="21">
+											<True/>
+											<ScoreDistribution value="0" recordCount="4"/>
+											<ScoreDistribution value="1" recordCount="17"/>
+										</Node>
+									</Node>
+									<Node score="0" recordCount="24">
+										<True/>
+										<ScoreDistribution value="0" recordCount="23"/>
+										<ScoreDistribution value="1" recordCount="1"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="29">
+									<True/>
+									<ScoreDistribution value="0" recordCount="0"/>
+									<ScoreDistribution value="1" recordCount="29"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="18">
+								<True/>
+								<ScoreDistribution value="0" recordCount="17"/>
+								<ScoreDistribution value="1" recordCount="1"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="32">
+							<True/>
+							<ScoreDistribution value="0" recordCount="11"/>
+							<ScoreDistribution value="1" recordCount="21"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="10">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), has)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), nice)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), works great)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), then)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), excellent)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), worst)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), i am)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">i am</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), i am))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), i am)"/>
+						</DerivedField>
+						<DerivedField name="tf(lowercase(Sentence), product)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">product</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), product))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), product)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), product)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), product))"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), i am)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), i am))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), works great)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), nice)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), product)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), excellent)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), i am)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), has)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), then)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="803">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), worst)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="433"/>
+														<ScoreDistribution value="1" recordCount="370"/>
+													</Node>
+													<Node score="0" recordCount="16">
+														<True/>
+														<ScoreDistribution value="0" recordCount="16"/>
+														<ScoreDistribution value="1" recordCount="0"/>
+													</Node>
+												</Node>
+												<Node score="0" recordCount="23">
+													<True/>
+													<ScoreDistribution value="0" recordCount="20"/>
+													<ScoreDistribution value="1" recordCount="3"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="30">
+												<True/>
+												<ScoreDistribution value="0" recordCount="8"/>
+												<ScoreDistribution value="1" recordCount="22"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="18">
+											<True/>
+											<ScoreDistribution value="0" recordCount="4"/>
+											<ScoreDistribution value="1" recordCount="14"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="16">
+										<True/>
+										<ScoreDistribution value="0" recordCount="0"/>
+										<ScoreDistribution value="1" recordCount="16"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="45">
+									<True/>
+									<ScoreDistribution value="0" recordCount="15"/>
+									<ScoreDistribution value="1" recordCount="30"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="26">
+								<True/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="26"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="23">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="23"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="11">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), bad)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), me)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), good)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), love)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), it is)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), works)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), what)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), after)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), good)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), what)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), bad)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), me)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), it is)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="739">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), after)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="400"/>
+														<ScoreDistribution value="1" recordCount="339"/>
+													</Node>
+													<Node score="0" recordCount="26">
+														<True/>
+														<ScoreDistribution value="0" recordCount="23"/>
+														<ScoreDistribution value="1" recordCount="3"/>
+													</Node>
+												</Node>
+												<Node score="1" recordCount="31">
+													<True/>
+													<ScoreDistribution value="0" recordCount="14"/>
+													<ScoreDistribution value="1" recordCount="17"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="21">
+												<True/>
+												<ScoreDistribution value="0" recordCount="0"/>
+												<ScoreDistribution value="1" recordCount="21"/>
+											</Node>
+										</Node>
+										<Node score="0" recordCount="23">
+											<True/>
+											<ScoreDistribution value="0" recordCount="18"/>
+											<ScoreDistribution value="1" recordCount="5"/>
+										</Node>
+									</Node>
+									<Node score="0" recordCount="16">
+										<True/>
+										<ScoreDistribution value="0" recordCount="16"/>
+										<ScoreDistribution value="1" recordCount="0"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="22">
+									<True/>
+									<ScoreDistribution value="0" recordCount="21"/>
+									<ScoreDistribution value="1" recordCount="1"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="82">
+								<True/>
+								<ScoreDistribution value="0" recordCount="13"/>
+								<ScoreDistribution value="1" recordCount="69"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="40">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="40"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="12">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), and)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), good)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), at)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), and)))" operator="lessOrEqual" value="0.5"/>
+							<Node score="0" recordCount="731">
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), at)))" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="390"/>
+								<ScoreDistribution value="1" recordCount="341"/>
+							</Node>
+							<Node score="0" recordCount="19">
+								<True/>
+								<ScoreDistribution value="0" recordCount="14"/>
+								<ScoreDistribution value="1" recordCount="5"/>
+							</Node>
+						</Node>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), good)))" operator="lessOrEqual" value="0.5"/>
+							<Node score="1" recordCount="205">
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), and)))" operator="lessOrEqual" value="1.5"/>
+								<ScoreDistribution value="0" recordCount="90"/>
+								<ScoreDistribution value="1" recordCount="115"/>
+							</Node>
+							<Node score="1" recordCount="18">
+								<True/>
+								<ScoreDistribution value="0" recordCount="7"/>
+								<ScoreDistribution value="1" recordCount="11"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="27">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="27"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="13">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), i love)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), has)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), this is)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), sound)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), excellent)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), works)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), after)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), easy)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), sound)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), after)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), easy)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), has)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), i love)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), this is)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), excellent)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="785">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="439"/>
+														<ScoreDistribution value="1" recordCount="346"/>
+													</Node>
+													<Node score="1" recordCount="46">
+														<True/>
+														<ScoreDistribution value="0" recordCount="0"/>
+														<ScoreDistribution value="1" recordCount="46"/>
+													</Node>
+												</Node>
+												<Node score="1" recordCount="23">
+													<True/>
+													<ScoreDistribution value="0" recordCount="2"/>
+													<ScoreDistribution value="1" recordCount="21"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="20">
+												<True/>
+												<ScoreDistribution value="0" recordCount="4"/>
+												<ScoreDistribution value="1" recordCount="16"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="18">
+											<True/>
+											<ScoreDistribution value="0" recordCount="0"/>
+											<ScoreDistribution value="1" recordCount="18"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="28">
+										<True/>
+										<ScoreDistribution value="0" recordCount="4"/>
+										<ScoreDistribution value="1" recordCount="24"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="18">
+									<True/>
+									<ScoreDistribution value="0" recordCount="2"/>
+									<ScoreDistribution value="1" recordCount="16"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="29">
+								<True/>
+								<ScoreDistribution value="0" recordCount="25"/>
+								<ScoreDistribution value="1" recordCount="4"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="33">
+							<True/>
+							<ScoreDistribution value="0" recordCount="8"/>
+							<ScoreDistribution value="1" recordCount="25"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="14">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), if)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), excellent)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), great)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), excellent)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), the)))" operator="lessOrEqual" value="1.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), great)))" operator="lessOrEqual" value="0.5"/>
+									<Node score="0" recordCount="743">
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), if)))" operator="lessOrEqual" value="0.5"/>
+										<ScoreDistribution value="0" recordCount="410"/>
+										<ScoreDistribution value="1" recordCount="333"/>
+									</Node>
+									<Node score="0" recordCount="25">
+										<True/>
+										<ScoreDistribution value="0" recordCount="20"/>
+										<ScoreDistribution value="1" recordCount="5"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="78">
+									<True/>
+									<ScoreDistribution value="0" recordCount="3"/>
+									<ScoreDistribution value="1" recordCount="75"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="124">
+								<True/>
+								<ScoreDistribution value="0" recordCount="76"/>
+								<ScoreDistribution value="1" recordCount="48"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="30">
+							<True/>
+							<ScoreDistribution value="0" recordCount="1"/>
+							<ScoreDistribution value="1" recordCount="29"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="15">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), bad)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), good)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), it)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), love)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), excellent)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), after)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), work)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), good)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), work)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), it)))" operator="lessOrEqual" value="1.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), bad)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), excellent)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), the)))" operator="lessOrEqual" value="1.5"/>
+													<Node score="1" recordCount="675">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), after)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="313"/>
+														<ScoreDistribution value="1" recordCount="362"/>
+													</Node>
+													<Node score="0" recordCount="21">
+														<True/>
+														<ScoreDistribution value="0" recordCount="18"/>
+														<ScoreDistribution value="1" recordCount="3"/>
+													</Node>
+												</Node>
+												<Node score="0" recordCount="70">
+													<True/>
+													<ScoreDistribution value="0" recordCount="44"/>
+													<ScoreDistribution value="1" recordCount="26"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="27">
+												<True/>
+												<ScoreDistribution value="0" recordCount="1"/>
+												<ScoreDistribution value="1" recordCount="26"/>
+											</Node>
+										</Node>
+										<Node score="0" recordCount="16">
+											<True/>
+											<ScoreDistribution value="0" recordCount="16"/>
+											<ScoreDistribution value="1" recordCount="0"/>
+										</Node>
+									</Node>
+									<Node score="0" recordCount="49">
+										<True/>
+										<ScoreDistribution value="0" recordCount="29"/>
+										<ScoreDistribution value="1" recordCount="20"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="19">
+									<True/>
+									<ScoreDistribution value="0" recordCount="0"/>
+									<ScoreDistribution value="1" recordCount="19"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="21">
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), it)))" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="17"/>
+								<ScoreDistribution value="1" recordCount="4"/>
+							</Node>
+							<Node score="0" recordCount="15">
+								<True/>
+								<ScoreDistribution value="0" recordCount="13"/>
+								<ScoreDistribution value="1" recordCount="2"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="87">
+							<True/>
+							<ScoreDistribution value="0" recordCount="16"/>
+							<ScoreDistribution value="1" recordCount="71"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="16">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), to)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), nice)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), worst)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), works)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), easy)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), great)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), quality)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), you)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), well)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), nice)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), worst)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), quality)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), great)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), easy)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), you)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="717">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), well)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="429"/>
+														<ScoreDistribution value="1" recordCount="288"/>
+													</Node>
+													<Node score="1" recordCount="25">
+														<True/>
+														<ScoreDistribution value="0" recordCount="10"/>
+														<ScoreDistribution value="1" recordCount="15"/>
+													</Node>
+												</Node>
+												<Node score="0" recordCount="15">
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), to)))" operator="lessOrEqual" value="0.5"/>
+													<ScoreDistribution value="0" recordCount="13"/>
+													<ScoreDistribution value="1" recordCount="2"/>
+												</Node>
+												<Node score="0" recordCount="12">
+													<True/>
+													<ScoreDistribution value="0" recordCount="6"/>
+													<ScoreDistribution value="1" recordCount="6"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="16">
+												<True/>
+												<ScoreDistribution value="0" recordCount="3"/>
+												<ScoreDistribution value="1" recordCount="13"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="73">
+											<True/>
+											<ScoreDistribution value="0" recordCount="5"/>
+											<ScoreDistribution value="1" recordCount="68"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="45">
+										<True/>
+										<ScoreDistribution value="0" recordCount="18"/>
+										<ScoreDistribution value="1" recordCount="27"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="47">
+									<True/>
+									<ScoreDistribution value="0" recordCount="1"/>
+									<ScoreDistribution value="1" recordCount="46"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="19">
+								<True/>
+								<ScoreDistribution value="0" recordCount="19"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="31">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="31"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="17">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), best)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), and)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), very)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the phone)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), doesn't)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), great)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), quality)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), so)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), great)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), very)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), the phone)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), doesn't)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), best)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), so)))" operator="lessOrEqual" value="0.5"/>
+												<Node score="0" recordCount="656">
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), quality)))" operator="lessOrEqual" value="0.5"/>
+													<ScoreDistribution value="0" recordCount="399"/>
+													<ScoreDistribution value="1" recordCount="257"/>
+												</Node>
+												<Node score="1" recordCount="34">
+													<True/>
+													<ScoreDistribution value="0" recordCount="11"/>
+													<ScoreDistribution value="1" recordCount="23"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="19">
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), and)))" operator="lessOrEqual" value="0.5"/>
+												<ScoreDistribution value="0" recordCount="5"/>
+												<ScoreDistribution value="1" recordCount="14"/>
+											</Node>
+											<Node score="0" recordCount="16">
+												<True/>
+												<ScoreDistribution value="0" recordCount="9"/>
+												<ScoreDistribution value="1" recordCount="7"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="27">
+											<True/>
+											<ScoreDistribution value="0" recordCount="2"/>
+											<ScoreDistribution value="1" recordCount="25"/>
+										</Node>
+									</Node>
+									<Node score="0" recordCount="23">
+										<True/>
+										<ScoreDistribution value="0" recordCount="23"/>
+										<ScoreDistribution value="1" recordCount="0"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="34">
+									<True/>
+									<ScoreDistribution value="0" recordCount="26"/>
+									<ScoreDistribution value="1" recordCount="8"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="99">
+								<True/>
+								<ScoreDistribution value="0" recordCount="39"/>
+								<ScoreDistribution value="1" recordCount="60"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="92">
+							<True/>
+							<ScoreDistribution value="0" recordCount="6"/>
+							<ScoreDistribution value="1" recordCount="86"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="18">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), if)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), and)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), headset)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), with)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), at)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), is)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), ever)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">ever</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), ever))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), ever)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), ever)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), ever))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), ever)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), with)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), if)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), at)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), is)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), headset)))" operator="lessOrEqual" value="0.5"/>
+												<Node score="0" recordCount="487">
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), and)))" operator="lessOrEqual" value="0.5"/>
+													<ScoreDistribution value="0" recordCount="266"/>
+													<ScoreDistribution value="1" recordCount="221"/>
+												</Node>
+												<Node score="1" recordCount="136">
+													<True/>
+													<ScoreDistribution value="0" recordCount="58"/>
+													<ScoreDistribution value="1" recordCount="78"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="24">
+												<True/>
+												<ScoreDistribution value="0" recordCount="8"/>
+												<ScoreDistribution value="1" recordCount="16"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="173">
+											<True/>
+											<ScoreDistribution value="0" recordCount="58"/>
+											<ScoreDistribution value="1" recordCount="115"/>
+										</Node>
+									</Node>
+									<Node score="0" recordCount="19">
+										<True/>
+										<ScoreDistribution value="0" recordCount="15"/>
+										<ScoreDistribution value="1" recordCount="4"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="25">
+									<True/>
+									<ScoreDistribution value="0" recordCount="21"/>
+									<ScoreDistribution value="1" recordCount="4"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="110">
+								<True/>
+								<ScoreDistribution value="0" recordCount="47"/>
+								<ScoreDistribution value="1" recordCount="63"/>
+							</Node>
+						</Node>
+						<Node score="0" recordCount="26">
+							<True/>
+							<ScoreDistribution value="0" recordCount="20"/>
+							<ScoreDistribution value="1" recordCount="6"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="19">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), best)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the price)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), with)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), works)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), is)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), out)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), could)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">could</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), could))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), could)"/>
+						</DerivedField>
+						<DerivedField name="tf(lowercase(Sentence), when)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">when</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), when))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), when)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), could)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), could))"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), when)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), when))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), the price)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), with)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), could)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), out)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), when)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), best)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="731">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), is)))" operator="lessOrEqual" value="1.5"/>
+														<ScoreDistribution value="0" recordCount="382"/>
+														<ScoreDistribution value="1" recordCount="349"/>
+													</Node>
+													<Node score="1" recordCount="23">
+														<True/>
+														<ScoreDistribution value="0" recordCount="6"/>
+														<ScoreDistribution value="1" recordCount="17"/>
+													</Node>
+												</Node>
+												<Node score="1" recordCount="19">
+													<True/>
+													<ScoreDistribution value="0" recordCount="1"/>
+													<ScoreDistribution value="1" recordCount="18"/>
+												</Node>
+											</Node>
+											<Node score="0" recordCount="25">
+												<True/>
+												<ScoreDistribution value="0" recordCount="22"/>
+												<ScoreDistribution value="1" recordCount="3"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="33">
+											<True/>
+											<ScoreDistribution value="0" recordCount="0"/>
+											<ScoreDistribution value="1" recordCount="33"/>
+										</Node>
+									</Node>
+									<Node score="0" recordCount="19">
+										<True/>
+										<ScoreDistribution value="0" recordCount="15"/>
+										<ScoreDistribution value="1" recordCount="4"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="24">
+									<True/>
+									<ScoreDistribution value="0" recordCount="20"/>
+									<ScoreDistribution value="1" recordCount="4"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="104">
+								<True/>
+								<ScoreDistribution value="0" recordCount="44"/>
+								<ScoreDistribution value="1" recordCount="60"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="22">
+							<True/>
+							<ScoreDistribution value="0" recordCount="1"/>
+							<ScoreDistribution value="1" recordCount="21"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="20">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema/>
+					<Node score="1" recordCount="1000">
+						<True/>
+						<ScoreDistribution value="0" recordCount="477"/>
+						<ScoreDistribution value="1" recordCount="523"/>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="21">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), very)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), works)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), well)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), very)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
+								<Node score="0" recordCount="850">
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), well)))" operator="lessOrEqual" value="0.5"/>
+									<ScoreDistribution value="0" recordCount="482"/>
+									<ScoreDistribution value="1" recordCount="368"/>
+								</Node>
+								<Node score="1" recordCount="18">
+									<True/>
+									<ScoreDistribution value="0" recordCount="5"/>
+									<ScoreDistribution value="1" recordCount="13"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="42">
+								<True/>
+								<ScoreDistribution value="0" recordCount="2"/>
+								<ScoreDistribution value="1" recordCount="40"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="90">
+							<True/>
+							<ScoreDistribution value="0" recordCount="23"/>
+							<ScoreDistribution value="1" recordCount="67"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="22">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), good)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), not)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), doesn't)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), at)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the battery)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), enough)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">enough</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), enough))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), enough)"/>
+						</DerivedField>
+						<DerivedField name="tf(lowercase(Sentence), piece)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">piece</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), piece))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), piece)"/>
+						</DerivedField>
+						<DerivedField name="tf(lowercase(Sentence), waste)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">waste</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), waste))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), waste)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), enough)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), enough))"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), piece)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), piece))"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), waste)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), waste))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), enough)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), doesn't)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), good)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), the battery)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), piece)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), at)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="1" recordCount="729">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), waste)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="301"/>
+														<ScoreDistribution value="1" recordCount="428"/>
+													</Node>
+													<Node score="0" recordCount="16">
+														<True/>
+														<ScoreDistribution value="0" recordCount="16"/>
+														<ScoreDistribution value="1" recordCount="0"/>
+													</Node>
+												</Node>
+												<Node score="0" recordCount="17">
+													<True/>
+													<ScoreDistribution value="0" recordCount="15"/>
+													<ScoreDistribution value="1" recordCount="2"/>
+												</Node>
+											</Node>
+											<Node score="0" recordCount="16">
+												<True/>
+												<ScoreDistribution value="0" recordCount="15"/>
+												<ScoreDistribution value="1" recordCount="1"/>
+											</Node>
+										</Node>
+										<Node score="0" recordCount="15">
+											<True/>
+											<ScoreDistribution value="0" recordCount="11"/>
+											<ScoreDistribution value="1" recordCount="4"/>
+										</Node>
+									</Node>
+									<Node score="0" recordCount="95">
+										<True/>
+										<ScoreDistribution value="0" recordCount="84"/>
+										<ScoreDistribution value="1" recordCount="11"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="75">
+									<True/>
+									<ScoreDistribution value="0" recordCount="10"/>
+									<ScoreDistribution value="1" recordCount="65"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="18">
+								<True/>
+								<ScoreDistribution value="0" recordCount="15"/>
+								<ScoreDistribution value="1" recordCount="3"/>
+							</Node>
+						</Node>
+						<Node score="0" recordCount="19">
+							<True/>
+							<ScoreDistribution value="0" recordCount="15"/>
+							<ScoreDistribution value="1" recordCount="4"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="23">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), money)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), not)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), love)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), money)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
+								<Node score="1" recordCount="852">
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
+									<ScoreDistribution value="0" recordCount="371"/>
+									<ScoreDistribution value="1" recordCount="481"/>
+								</Node>
+								<Node score="1" recordCount="20">
+									<True/>
+									<ScoreDistribution value="0" recordCount="0"/>
+									<ScoreDistribution value="1" recordCount="20"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="102">
+								<True/>
+								<ScoreDistribution value="0" recordCount="87"/>
+								<ScoreDistribution value="1" recordCount="15"/>
+							</Node>
+						</Node>
+						<Node score="0" recordCount="26">
+							<True/>
+							<ScoreDistribution value="0" recordCount="25"/>
+							<ScoreDistribution value="1" recordCount="1"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="24">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), good)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), doesn't)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), it)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), doesn't)))" operator="lessOrEqual" value="0.5"/>
+							<Node score="0" recordCount="910">
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), good)))" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="506"/>
+								<ScoreDistribution value="1" recordCount="404"/>
+							</Node>
+							<Node score="1" recordCount="59">
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), it)))" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="9"/>
+								<ScoreDistribution value="1" recordCount="50"/>
+							</Node>
+							<Node score="1" recordCount="17">
+								<True/>
+								<ScoreDistribution value="0" recordCount="6"/>
+								<ScoreDistribution value="1" recordCount="11"/>
+							</Node>
+						</Node>
+						<Node score="0" recordCount="14">
+							<True/>
+							<ScoreDistribution value="0" recordCount="11"/>
+							<ScoreDistribution value="1" recordCount="3"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="25">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), don't)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), first)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), quality)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), well)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), out)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the best)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), in)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), fine)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">fine</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), fine))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), fine)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), fine)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), fine))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), the best)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), well)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), quality)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), don't)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), fine)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), out)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), in)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="754">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), first)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="378"/>
+														<ScoreDistribution value="1" recordCount="376"/>
+													</Node>
+													<Node score="0" recordCount="15">
+														<True/>
+														<ScoreDistribution value="0" recordCount="14"/>
+														<ScoreDistribution value="1" recordCount="1"/>
+													</Node>
+												</Node>
+												<Node score="0" recordCount="69">
+													<True/>
+													<ScoreDistribution value="0" recordCount="46"/>
+													<ScoreDistribution value="1" recordCount="23"/>
+												</Node>
+											</Node>
+											<Node score="0" recordCount="16">
+												<True/>
+												<ScoreDistribution value="0" recordCount="16"/>
+												<ScoreDistribution value="1" recordCount="0"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="16">
+											<True/>
+											<ScoreDistribution value="0" recordCount="1"/>
+											<ScoreDistribution value="1" recordCount="15"/>
+										</Node>
+									</Node>
+									<Node score="0" recordCount="24">
+										<True/>
+										<ScoreDistribution value="0" recordCount="18"/>
+										<ScoreDistribution value="1" recordCount="6"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="48">
+									<True/>
+									<ScoreDistribution value="0" recordCount="16"/>
+									<ScoreDistribution value="1" recordCount="32"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="33">
+								<True/>
+								<ScoreDistribution value="0" recordCount="4"/>
+								<ScoreDistribution value="1" recordCount="29"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="25">
+							<True/>
+							<ScoreDistribution value="0" recordCount="2"/>
+							<ScoreDistribution value="1" recordCount="23"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="26">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), comfortable)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), work)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), poor)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">poor</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), poor))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), poor)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), poor)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), poor))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), work)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), comfortable)))" operator="lessOrEqual" value="0.5"/>
+								<Node score="1" recordCount="941">
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), poor)))" operator="lessOrEqual" value="0.5"/>
+									<ScoreDistribution value="0" recordCount="445"/>
+									<ScoreDistribution value="1" recordCount="496"/>
+								</Node>
+								<Node score="0" recordCount="17">
+									<True/>
+									<ScoreDistribution value="0" recordCount="17"/>
+									<ScoreDistribution value="1" recordCount="0"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="15">
+								<True/>
+								<ScoreDistribution value="0" recordCount="3"/>
+								<ScoreDistribution value="1" recordCount="12"/>
+							</Node>
+						</Node>
+						<Node score="0" recordCount="27">
+							<True/>
+							<ScoreDistribution value="0" recordCount="23"/>
+							<ScoreDistribution value="1" recordCount="4"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="27">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), and)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), not)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), headset)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), love)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), excellent)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), you)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the battery)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), than)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), excellent)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), than)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), headset)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), you)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), the battery)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="543">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), and)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="283"/>
+														<ScoreDistribution value="1" recordCount="260"/>
+													</Node>
+													<Node score="1" recordCount="170">
+														<True/>
+														<ScoreDistribution value="0" recordCount="51"/>
+														<ScoreDistribution value="1" recordCount="119"/>
+													</Node>
+												</Node>
+												<Node score="0" recordCount="19">
+													<True/>
+													<ScoreDistribution value="0" recordCount="16"/>
+													<ScoreDistribution value="1" recordCount="3"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="24">
+												<True/>
+												<ScoreDistribution value="0" recordCount="0"/>
+												<ScoreDistribution value="1" recordCount="24"/>
+											</Node>
+										</Node>
+										<Node score="0" recordCount="49">
+											<True/>
+											<ScoreDistribution value="0" recordCount="32"/>
+											<ScoreDistribution value="1" recordCount="17"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="37">
+										<True/>
+										<ScoreDistribution value="0" recordCount="14"/>
+										<ScoreDistribution value="1" recordCount="23"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="103">
+									<True/>
+									<ScoreDistribution value="0" recordCount="90"/>
+									<ScoreDistribution value="1" recordCount="13"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="32">
+								<True/>
+								<ScoreDistribution value="0" recordCount="6"/>
+								<ScoreDistribution value="1" recordCount="26"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="23">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="23"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="28">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), nice)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), don't)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), love)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), works)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), so)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the best)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), cell)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">cell</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), cell))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), cell)"/>
+						</DerivedField>
+						<DerivedField name="tf(lowercase(Sentence), only)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">only</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), only))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), only)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), cell)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), cell))"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), only)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), only))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), the best)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), don't)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), so)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), cell)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), only)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="0" recordCount="802">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), nice)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="427"/>
+														<ScoreDistribution value="1" recordCount="375"/>
+													</Node>
+													<Node score="1" recordCount="15">
+														<True/>
+														<ScoreDistribution value="0" recordCount="0"/>
+														<ScoreDistribution value="1" recordCount="15"/>
+													</Node>
+												</Node>
+												<Node score="0" recordCount="27">
+													<True/>
+													<ScoreDistribution value="0" recordCount="24"/>
+													<ScoreDistribution value="1" recordCount="3"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="16">
+												<True/>
+												<ScoreDistribution value="0" recordCount="5"/>
+												<ScoreDistribution value="1" recordCount="11"/>
+											</Node>
+										</Node>
+										<Node score="1" recordCount="14">
+											<True/>
+											<ScoreDistribution value="0" recordCount="0"/>
+											<ScoreDistribution value="1" recordCount="14"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="34">
+										<True/>
+										<ScoreDistribution value="0" recordCount="15"/>
+										<ScoreDistribution value="1" recordCount="19"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="21">
+									<True/>
+									<ScoreDistribution value="0" recordCount="16"/>
+									<ScoreDistribution value="1" recordCount="5"/>
+								</Node>
+							</Node>
+							<Node score="1" recordCount="20">
+								<True/>
+								<ScoreDistribution value="0" recordCount="2"/>
+								<ScoreDistribution value="1" recordCount="18"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="51">
+							<True/>
+							<ScoreDistribution value="0" recordCount="1"/>
+							<ScoreDistribution value="1" recordCount="50"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="29">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), the price)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), love)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), what)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), well)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the best)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), in)))"/>
+						<MiningField name="lowercase(Sentence)"/>
+					</MiningSchema>
+					<LocalTransformations>
+						<DerivedField name="tf(lowercase(Sentence), happy)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">happy</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), happy))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), happy)"/>
+						</DerivedField>
+						<DerivedField name="tf(lowercase(Sentence), thing)" optype="continuous" dataType="double">
+							<Apply function="tf(lowercase(Sentence))">
+								<FieldRef field="lowercase(Sentence)"/>
+								<Constant dataType="string">thing</Constant>
+							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), thing))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), thing)"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), happy)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), happy))"/>
+						</DerivedField>
+						<DerivedField name="double(float(tf(lowercase(Sentence), thing)))" optype="continuous" dataType="double">
+							<FieldRef field="float(tf(lowercase(Sentence), thing))"/>
+						</DerivedField>
+					</LocalTransformations>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), what)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), in)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), happy)))" operator="lessOrEqual" value="0.5"/>
+										<Node>
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), thing)))" operator="lessOrEqual" value="0.5"/>
+											<Node>
+												<SimplePredicate field="double(float(tf(lowercase(Sentence), the price)))" operator="lessOrEqual" value="0.5"/>
+												<Node>
+													<SimplePredicate field="double(float(tf(lowercase(Sentence), well)))" operator="lessOrEqual" value="0.5"/>
+													<Node score="1" recordCount="774">
+														<SimplePredicate field="double(float(tf(lowercase(Sentence), the best)))" operator="lessOrEqual" value="0.5"/>
+														<ScoreDistribution value="0" recordCount="385"/>
+														<ScoreDistribution value="1" recordCount="389"/>
+													</Node>
+													<Node score="1" recordCount="17">
+														<True/>
+														<ScoreDistribution value="0" recordCount="1"/>
+														<ScoreDistribution value="1" recordCount="16"/>
+													</Node>
+												</Node>
+												<Node score="1" recordCount="41">
+													<True/>
+													<ScoreDistribution value="0" recordCount="8"/>
+													<ScoreDistribution value="1" recordCount="33"/>
+												</Node>
+											</Node>
+											<Node score="1" recordCount="15">
+												<True/>
+												<ScoreDistribution value="0" recordCount="1"/>
+												<ScoreDistribution value="1" recordCount="14"/>
+											</Node>
+										</Node>
+										<Node score="0" recordCount="18">
+											<True/>
+											<ScoreDistribution value="0" recordCount="14"/>
+											<ScoreDistribution value="1" recordCount="4"/>
+										</Node>
+									</Node>
+									<Node score="1" recordCount="18">
+										<True/>
+										<ScoreDistribution value="0" recordCount="4"/>
+										<ScoreDistribution value="1" recordCount="14"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="78">
+									<True/>
+									<ScoreDistribution value="0" recordCount="48"/>
+									<ScoreDistribution value="1" recordCount="30"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="19">
+								<True/>
+								<ScoreDistribution value="0" recordCount="17"/>
+								<ScoreDistribution value="1" recordCount="2"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="20">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="20"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="30">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), and)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), not)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the phone)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), is)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), the battery)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), in)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), the battery)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), in)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), the phone)))" operator="lessOrEqual" value="0.5"/>
+									<Node>
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
+										<Node score="1" recordCount="569">
+											<SimplePredicate field="double(float(tf(lowercase(Sentence), and)))" operator="lessOrEqual" value="0.5"/>
+											<ScoreDistribution value="0" recordCount="267"/>
+											<ScoreDistribution value="1" recordCount="302"/>
+										</Node>
+										<Node score="1" recordCount="203">
+											<True/>
+											<ScoreDistribution value="0" recordCount="59"/>
+											<ScoreDistribution value="1" recordCount="144"/>
+										</Node>
+									</Node>
+									<Node score="0" recordCount="75">
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), is)))" operator="lessOrEqual" value="0.5"/>
+										<ScoreDistribution value="0" recordCount="68"/>
+										<ScoreDistribution value="1" recordCount="7"/>
+									</Node>
+									<Node score="0" recordCount="21">
+										<True/>
+										<ScoreDistribution value="0" recordCount="13"/>
+										<ScoreDistribution value="1" recordCount="8"/>
+									</Node>
+								</Node>
+								<Node score="0" recordCount="32">
+									<True/>
+									<ScoreDistribution value="0" recordCount="22"/>
+									<ScoreDistribution value="1" recordCount="10"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="80">
+								<True/>
+								<ScoreDistribution value="0" recordCount="50"/>
+								<ScoreDistribution value="1" recordCount="30"/>
+							</Node>
+						</Node>
+						<Node score="0" recordCount="20">
+							<True/>
+							<ScoreDistribution value="0" recordCount="15"/>
+							<ScoreDistribution value="1" recordCount="5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="31">
+				<True/>
+				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+					<MiningSchema>
+						<MiningField name="double(float(tf(lowercase(Sentence), headset)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), of)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), works)))"/>
+						<MiningField name="double(float(tf(lowercase(Sentence), than)))"/>
+					</MiningSchema>
+					<Node>
+						<True/>
+						<Node>
+							<SimplePredicate field="double(float(tf(lowercase(Sentence), headset)))" operator="lessOrEqual" value="0.5"/>
+							<Node>
+								<SimplePredicate field="double(float(tf(lowercase(Sentence), of)))" operator="lessOrEqual" value="0.5"/>
+								<Node>
+									<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
+									<Node score="0" recordCount="778">
+										<SimplePredicate field="double(float(tf(lowercase(Sentence), than)))" operator="lessOrEqual" value="0.5"/>
+										<ScoreDistribution value="0" recordCount="429"/>
+										<ScoreDistribution value="1" recordCount="349"/>
+									</Node>
+									<Node score="1" recordCount="35">
+										<True/>
+										<ScoreDistribution value="0" recordCount="10"/>
+										<ScoreDistribution value="1" recordCount="25"/>
+									</Node>
+								</Node>
+								<Node score="1" recordCount="36">
+									<True/>
+									<ScoreDistribution value="0" recordCount="0"/>
+									<ScoreDistribution value="1" recordCount="36"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="103">
+								<True/>
+								<ScoreDistribution value="0" recordCount="73"/>
+								<ScoreDistribution value="1" recordCount="30"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="48">
+							<True/>
+							<ScoreDistribution value="0" recordCount="16"/>
+							<ScoreDistribution value="1" recordCount="32"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+		</Segmentation>
+	</MiningModel>
+</PMML>
