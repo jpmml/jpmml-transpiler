@@ -25,6 +25,7 @@ import org.dmg.pmml.Constant;
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.Expression;
 import org.dmg.pmml.FieldName;
+import org.dmg.pmml.FieldRef;
 import org.dmg.pmml.PMMLFunctions;
 import org.dmg.pmml.ParameterField;
 import org.dmg.pmml.TextIndex;
@@ -37,6 +38,10 @@ public class FunctionInvocationUtil {
 	static
 	public FunctionInvocation match(Expression expression, FunctionInvocationContext context){
 
+		if(expression instanceof FieldRef){
+			return matchFieldRef((FieldRef)expression, context);
+		} else
+
 		if(expression instanceof TextIndex){
 			return matchTextIndex((TextIndex)expression, context);
 		} else
@@ -46,6 +51,17 @@ public class FunctionInvocationUtil {
 		}
 
 		return null;
+	}
+
+	static
+	public FunctionInvocation matchFieldRef(FieldRef fieldRef, FunctionInvocationContext context){
+		return new FunctionInvocation.Ref(){
+
+			@Override
+			public FieldName getField(){
+				return fieldRef.getField();
+			}
+		};
 	}
 
 	static

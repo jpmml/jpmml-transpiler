@@ -27,6 +27,8 @@ public class FieldInfo {
 
 	private Field<?> field = null;
 
+	private FieldInfo ref = null;
+
 	private FunctionInvocation functionInvocation = null;
 
 	private Integer count = null;
@@ -51,6 +53,14 @@ public class FieldInfo {
 
 	private void setField(Field<?> field){
 		this.field = Objects.requireNonNull(field);
+	}
+
+	public FieldInfo getRef(){
+		return this.ref;
+	}
+
+	public void setRef(FieldInfo ref){
+		this.ref = ref;
 	}
 
 	public FunctionInvocation getFunctionInvocation(){
@@ -107,11 +117,25 @@ public class FieldInfo {
 
 	private String createVariableName(){
 		Field<?> field = getField();
+		FieldInfo ref = getRef();
 		Encoder encoder = getEncoder();
 
 		FieldName name = field.getName();
 
-		String result = IdentifierUtil.sanitize(IdentifierUtil.truncate(name.getValue()));
+		while(ref != null){
+			Field<?> refField = ref.getField();
+
+			// XXX
+			if(!(field.getOpType()).equals(refField.getOpType())){
+				break;
+			}
+
+			name = refField.getName();
+
+			ref = ref.getRef();
+		}
+
+		String result = IdentifierUtil.sanitize(name.getValue());
 
 		if(encoder != null){
 			result = (result + "2" + encoder.getName());

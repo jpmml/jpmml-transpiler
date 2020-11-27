@@ -27,6 +27,12 @@ import org.jpmml.evaluator.TextUtil;
 public interface FunctionInvocation {
 
 	static
+	interface Ref extends FunctionInvocation {
+
+		FieldName getField();
+	}
+
+	static
 	interface Tf extends FunctionInvocation {
 
 		TextIndex getTextIndex();

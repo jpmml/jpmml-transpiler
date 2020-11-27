@@ -19,6 +19,7 @@
 package org.jpmml.translator;
 
 import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -234,32 +235,25 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		Set<FieldName> names = ActiveFieldFinder.getFieldNames(bodyObjects.toArray(new PMMLObject[bodyObjects.size()]));
 
 		Map<FieldName, FieldInfo> result = new LinkedHashMap<>();
-
 		for(FieldName name : names){
 			Field<?> field = bodyFields.get(name);
 
 			FieldInfo fieldInfo = new FieldInfo(field);
 
-			if(field instanceof DerivedField){
-				DerivedField derivedField = (DerivedField)field;
-
-				Expression expression = derivedField.getExpression();
-
-				FunctionInvocationContext context = new FunctionInvocationContext(){
-
-					@Override
-					public DefineFunction getDefineFunction(String name){
-						return ModelTranslator.this.getDefineFunction(name);
-					}
-				};
-
-				FunctionInvocation functionInvocation = FunctionInvocationUtil.match(expression, context);
-				if(functionInvocation != null){
-					fieldInfo.setFunctionInvocation(functionInvocation);
-				}
-			}
-
 			result.put(name, fieldInfo);
+		}
+
+		FunctionInvocationContext context = new FunctionInvocationContext(){
+
+			@Override
+			public DefineFunction getDefineFunction(String name){
+				return ModelTranslator.this.getDefineFunction(name);
+			}
+		};
+
+		Collection<FieldInfo> fieldInfos = new ArrayList<>(result.values());
+		for(FieldInfo fieldInfo : fieldInfos){
+			enhanceFieldInfo(fieldInfo, bodyFields, result, context);
 		}
 
 		return result;
@@ -435,6 +429,42 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		block.assign(JExpr.refthis(contextVar.name()), contextParam);
 
 		return argumentsClazz;
+	}
+
+	static
+	private void enhanceFieldInfo(FieldInfo fieldInfo, Map<FieldName, Field<?>> bodyFields, Map<FieldName, FieldInfo> fieldInfos, FunctionInvocationContext context){
+		Field<?> field = fieldInfo.getField();
+
+		if(field instanceof DerivedField){
+			DerivedField derivedField = (DerivedField)field;
+
+			Expression expression = derivedField.getExpression();
+
+			FunctionInvocation functionInvocation = FunctionInvocationUtil.match(expression, context);
+
+			if(functionInvocation instanceof FunctionInvocation.Ref){
+				FunctionInvocation.Ref ref = (FunctionInvocation.Ref)functionInvocation;
+
+				FieldName name = ref.getField();
+
+				FieldInfo refFieldInfo = fieldInfos.get(name);
+				if(refFieldInfo == null){
+					Field<?> refField = bodyFields.get(name);
+
+					refFieldInfo = new FieldInfo(refField);
+
+					fieldInfos.put(name, refFieldInfo);
+
+					enhanceFieldInfo(refFieldInfo, bodyFields, fieldInfos, context);
+				}
+
+				fieldInfo.setRef(refFieldInfo);
+
+				functionInvocation = null;
+			}
+
+			fieldInfo.setFunctionInvocation(functionInvocation);
+		}
 	}
 
 	public static final int MEMBER_PUBLIC = (JMod.PUBLIC | JMod.FINAL | JMod.STATIC);
