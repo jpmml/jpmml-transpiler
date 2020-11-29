@@ -21,7 +21,6 @@ package org.jpmml.translator;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.Field;
 
 public interface Encoder {
 
@@ -31,7 +30,12 @@ public interface Encoder {
 
 	OperableRef ref(JVar variable);
 
-	JMethod createEncoderMethod(Field<?> field, TranslationContext context);
+	default
+	FieldInfo follow(FieldInfo fieldInfo){
+		return fieldInfo;
+	}
 
-	JExpression createInitExpression(Field<?> field, TranslationContext context);
+	JMethod createEncoderMethod(FieldInfo fieldInfo, TranslationContext context);
+
+	JExpression createInitExpression(FieldInfo fieldInfo, TranslationContext context);
 }

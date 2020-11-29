@@ -208,7 +208,17 @@ public class TranslationContext {
 		FieldName name = field.getName();
 		DataType dataType = field.getDataType();
 
-		String stringName = fieldInfo.getVariableName();
+		String stringName;
+
+		if(encoder != null){
+			FieldInfo finalFieldInfo = encoder.follow(fieldInfo);
+
+			stringName = finalFieldInfo.getVariableName();
+		} else
+
+		{
+			stringName = fieldInfo.getVariableName();
+		}
 
 		JVar variable;
 

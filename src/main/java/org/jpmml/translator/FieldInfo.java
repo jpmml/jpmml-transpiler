@@ -117,23 +117,9 @@ public class FieldInfo {
 
 	private String createVariableName(){
 		Field<?> field = getField();
-		FieldInfo ref = getRef();
 		Encoder encoder = getEncoder();
 
 		FieldName name = field.getName();
-
-		while(ref != null){
-			Field<?> refField = ref.getField();
-
-			// XXX
-			if(!(field.getOpType()).equals(refField.getOpType())){
-				break;
-			}
-
-			name = refField.getName();
-
-			ref = ref.getRef();
-		}
 
 		String result = IdentifierUtil.sanitize(name.getValue());
 

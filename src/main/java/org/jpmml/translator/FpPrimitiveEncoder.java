@@ -18,6 +18,9 @@
  */
 package org.jpmml.translator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -30,6 +33,7 @@ import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
+import org.dmg.pmml.OpType;
 import org.jpmml.evaluator.FieldValue;
 
 public class FpPrimitiveEncoder implements Encoder {
@@ -59,10 +63,29 @@ public class FpPrimitiveEncoder implements Encoder {
 	}
 
 	@Override
-	public JMethod createEncoderMethod(Field<?> field, TranslationContext context){
+	public FieldInfo follow(FieldInfo fieldInfo){
+		FieldInfo result = fieldInfo;
+
+		for(FieldInfo ref = fieldInfo.getRef(); ref != null; ref = ref.getRef()){
+			Field<?> refField = ref.getField();
+
+			if(!isCastable(refField)){
+				break;
+			}
+
+			result = ref;
+		}
+
+		return result;
+	}
+
+	@Override
+	public JMethod createEncoderMethod(FieldInfo fieldInfo, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
 		JDefinedClass owner = context.getOwner();
+
+		Field<?> field = fieldInfo.getField();
 
 		DataType dataType = field.getDataType();
 
@@ -73,16 +96,52 @@ public class FpPrimitiveEncoder implements Encoder {
 
 		switch(dataType){
 			case FLOAT:
-				name = "toFloatPrimitive";
+				name = "Float";
 				returnType = codeModel.FLOAT;
 				break;
 			case DOUBLE:
-				name = "toDoublePrimitive";
+				name = "Double";
 				returnType = codeModel.DOUBLE;
 				break;
 			default:
 				throw new IllegalArgumentException(dataType.toString());
 		}
+
+		List<JPrimitiveType> castSequenceTypes = null;
+
+		for(FieldInfo ref = fieldInfo.getRef(); ref != null; ref = ref.getRef()){
+			Field<?> refField = ref.getField();
+
+			if(!isCastable(refField)){
+				break;
+			}
+
+			// XXX
+			//context.suppressField(field);
+
+			field = refField;
+
+			dataType = field.getDataType();
+
+			if(castSequenceTypes == null){
+				castSequenceTypes = new ArrayList<>();
+			}
+
+			switch(dataType){
+				case FLOAT:
+					name += "Float";
+					castSequenceTypes.add(codeModel.FLOAT);
+					break;
+				case DOUBLE:
+					name += "Double";
+					castSequenceTypes.add(codeModel.DOUBLE);
+					break;
+				default:
+					throw new IllegalArgumentException(dataType.toString());
+			}
+		}
+
+		name = ("to" + name + "Primitive");
 
 		JMethod method = owner.getMethod(name, new JType[]{fieldNameClazz});
 		if(method != null){
@@ -102,18 +161,30 @@ public class FpPrimitiveEncoder implements Encoder {
 
 			JExpression nanExpr;
 
-			switch(dataType){
-				case FLOAT:
-					nanExpr = FpPrimitiveEncoder.NAN_VALUE_FLOAT;
-					break;
-				case DOUBLE:
-					nanExpr = FpPrimitiveEncoder.NAN_VALUE_DOUBLE;
-					break;
-				default:
-					throw new IllegalArgumentException(dataType.toString());
+			if((codeModel.FLOAT).equals(returnType)){
+				nanExpr = FpPrimitiveEncoder.NAN_VALUE_FLOAT;
+			} else
+
+			if((codeModel.DOUBLE).equals(returnType)){
+				nanExpr = FpPrimitiveEncoder.NAN_VALUE_DOUBLE;
+			} else
+
+			{
+				throw new IllegalArgumentException();
 			}
 
-			context._return(valueVar.eq(JExpr._null()), nanExpr, fieldValueRef.asJavaValue());
+			JExpression javaValueExpr = fieldValueRef.asJavaPrimitiveValue();
+
+			if(castSequenceTypes != null){
+				castSequenceTypes.add(0, returnType);
+				castSequenceTypes.remove(castSequenceTypes.size() - 1);
+
+				for(int i = (castSequenceTypes.size() - 1); i > -1; i--){
+					javaValueExpr = JExpr.cast(castSequenceTypes.get(i), javaValueExpr);
+				}
+			}
+
+			context._return(valueVar.eq(JExpr._null()), nanExpr, javaValueExpr);
 		} finally {
 			context.popScope();
 		}
@@ -122,7 +193,9 @@ public class FpPrimitiveEncoder implements Encoder {
 	}
 
 	@Override
-	public JExpression createInitExpression(Field<?> field, TranslationContext context){
+	public JExpression createInitExpression(FieldInfo fieldInfo, TranslationContext context){
+		Field<?> field = fieldInfo.getField();
+
 		DataType dataType = field.getDataType();
 
 		switch(dataType){
@@ -133,6 +206,29 @@ public class FpPrimitiveEncoder implements Encoder {
 			default:
 				throw new IllegalArgumentException(dataType.toString());
 		}
+	}
+
+	static
+	private boolean isCastable(Field<?> field){
+
+		OpType opType = field.getOpType();
+		switch(opType){
+			case CONTINUOUS:
+				break;
+			default:
+				return false;
+		}
+
+		DataType dataType = field.getDataType();
+		switch(dataType){
+			case FLOAT:
+			case DOUBLE:
+				break;
+			default:
+				return false;
+		}
+
+		return true;
 	}
 
 	public static final JExpression INIT_VALUE_FLOAT = JExpr.lit(-999f);

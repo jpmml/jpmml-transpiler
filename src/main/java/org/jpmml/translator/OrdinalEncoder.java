@@ -67,8 +67,10 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
-	public JMethod createEncoderMethod(Field<?> field, TranslationContext context){
+	public JMethod createEncoderMethod(FieldInfo fieldInfo, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
+
+		Field<?> field = fieldInfo.getField();
 
 		JMethod method = owner.method(JMod.PRIVATE, context._ref(int.class), IdentifierUtil.create("toOrdinal", field.getName()));
 
@@ -92,7 +94,7 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
-	public JExpression createInitExpression(Field<?> field, TranslationContext context){
+	public JExpression createInitExpression(FieldInfo fieldInfo, TranslationContext context){
 		return OrdinalEncoder.INIT_VALUE;
 	}
 

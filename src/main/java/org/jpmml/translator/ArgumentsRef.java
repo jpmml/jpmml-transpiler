@@ -48,7 +48,21 @@ public class ArgumentsRef extends JVarRef {
 
 		FieldName name = field.getName();
 
-		String stringName = fieldInfo.getVariableName();
+		String stringName;
+
+		if(encoder != null){
+			FieldInfo finalFieldInfo = encoder.follow(fieldInfo);
+
+			Field<?> finalField = finalFieldInfo.getField();
+
+			name = finalField.getName();
+
+			stringName = finalFieldInfo.getVariableName();
+		} else
+
+		{
+			stringName = fieldInfo.getVariableName();
+		}
 
 		JMethod method = argumentsClazz.getMethod(stringName, new JType[0]);
 		if(method != null){
@@ -62,7 +76,7 @@ public class ArgumentsRef extends JVarRef {
 			try {
 				context.pushOwner(argumentsClazz);
 
-				encoderMethod = encoder.createEncoderMethod(field, context);
+				encoderMethod = encoder.createEncoderMethod(fieldInfo, context);
 			} finally {
 				context.popOwner();
 			}
@@ -91,7 +105,7 @@ public class ArgumentsRef extends JVarRef {
 			JExpression initExpr;
 
 			if(encoder != null){
-				initExpr = encoder.createInitExpression(field, context);
+				initExpr = encoder.createInitExpression(fieldInfo, context);
 			} else
 
 			{

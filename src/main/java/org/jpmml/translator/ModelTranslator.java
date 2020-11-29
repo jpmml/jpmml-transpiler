@@ -42,6 +42,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
+import org.dmg.pmml.DataField;
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.DerivedField;
 import org.dmg.pmml.Expression;
@@ -49,8 +50,11 @@ import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.HasFieldReference;
 import org.dmg.pmml.MathContext;
+import org.dmg.pmml.MiningField;
 import org.dmg.pmml.MiningFunction;
+import org.dmg.pmml.MiningSchema;
 import org.dmg.pmml.Model;
+import org.dmg.pmml.Output;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Target;
@@ -202,6 +206,9 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		PMML pmml = getPMML();
 		M model = getModel();
 
+		MiningSchema miningSchema = model.getMiningSchema();
+		Output output = model.getOutput();
+
 		Map<FieldName, Field<?>> bodyFields = new HashMap<>();
 
 		Visitor fieldResolver = new FieldResolver(){
@@ -253,7 +260,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 		Collection<FieldInfo> fieldInfos = new ArrayList<>(result.values());
 		for(FieldInfo fieldInfo : fieldInfos){
-			enhanceFieldInfo(fieldInfo, bodyFields, result, context);
+			enhanceFieldInfo(fieldInfo, miningSchema, bodyFields, result, context);
 		}
 
 		return result;
@@ -432,7 +439,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	}
 
 	static
-	private void enhanceFieldInfo(FieldInfo fieldInfo, Map<FieldName, Field<?>> bodyFields, Map<FieldName, FieldInfo> fieldInfos, FunctionInvocationContext context){
+	private void enhanceFieldInfo(FieldInfo fieldInfo, MiningSchema miningSchema, Map<FieldName, Field<?>> bodyFields, Map<FieldName, FieldInfo> fieldInfos, FunctionInvocationContext context){
 		Field<?> field = fieldInfo.getField();
 
 		if(field instanceof DerivedField){
@@ -455,7 +462,12 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 					fieldInfos.put(name, refFieldInfo);
 
-					enhanceFieldInfo(refFieldInfo, bodyFields, fieldInfos, context);
+					// XXX
+					if(refField instanceof DataField){
+						ensureActive(refField, miningSchema);
+					}
+
+					enhanceFieldInfo(refFieldInfo, miningSchema, bodyFields, fieldInfos, context);
 				}
 
 				fieldInfo.setRef(refFieldInfo);
@@ -465,6 +477,26 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 			fieldInfo.setFunctionInvocation(functionInvocation);
 		}
+	}
+
+	static
+	private void ensureActive(Field<?> field, MiningSchema miningSchema){
+		FieldName name = field.getName();
+
+		if(miningSchema.hasMiningFields()){
+			List<MiningField> miningFields = miningSchema.getMiningFields();
+
+			for(MiningField miningField : miningFields){
+
+				if((miningField.getName()).equals(name)){
+					return;
+				}
+			}
+		}
+
+		MiningField miningField = new MiningField(name);
+
+		miningSchema.addMiningFields(miningField);
 	}
 
 	public static final int MEMBER_PUBLIC = (JMod.PUBLIC | JMod.FINAL | JMod.STATIC);

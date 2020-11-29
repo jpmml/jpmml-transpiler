@@ -58,6 +58,25 @@ public class FieldValueRef extends JVarRef {
 		}
 	}
 
+	public JInvocation asJavaPrimitiveValue(){
+		DataType dataType = getDataType();
+
+		switch(dataType){
+			case STRING:
+				return asString();
+			case INTEGER:
+				return asInteger().invoke("intValue");
+			case FLOAT:
+				return asFloat().invoke("floatValue");
+			case DOUBLE:
+				return asDouble().invoke("doubleValue");
+			case BOOLEAN:
+				return asBoolean().invoke("booleanValue");
+			default:
+				throw new IllegalArgumentException(dataType.toString());
+		}
+	}
+
 	/**
 	 * @see FieldValue#asString()
 	 */
