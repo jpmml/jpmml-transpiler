@@ -52,8 +52,12 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
-	public String getName(){
-		return "ordinal";
+	public String getVariableName(FieldInfo fieldInfo){
+		Field<?> field = fieldInfo.getField();
+
+		FieldName name = field.getName();
+
+		return IdentifierUtil.sanitize(name.getValue()) + "2ordinal";
 	}
 
 	@Override
@@ -133,6 +137,11 @@ public class OrdinalEncoder implements Encoder {
 		block._return(JExpr.FALSE);
 
 		return isSetMethod;
+	}
+
+	static
+	public OrdinalEncoder create(FieldInfo fieldInfo, Set<?> values){
+		return new OrdinalEncoder(values);
 	}
 
 	public static final JExpression INIT_VALUE = JExpr.lit(-999);

@@ -42,8 +42,12 @@ public class FpPrimitiveEncoder implements Encoder {
 	}
 
 	@Override
-	public String getName(){
-		return "fp";
+	public String getVariableName(FieldInfo fieldInfo){
+		Field<?> field = fieldInfo.getField();
+
+		FieldName name = field.getName();
+
+		return IdentifierUtil.sanitize(name.getValue()) + "2fp";
 	}
 
 	@Override
@@ -209,8 +213,33 @@ public class FpPrimitiveEncoder implements Encoder {
 	}
 
 	static
-	private boolean isCastable(Field<?> field){
+	public FpPrimitiveEncoder create(FieldInfo fieldInfo){
 
+		while(fieldInfo != null){
+			Field<?> field = fieldInfo.getField();
+
+			if(!isCastable(field)){
+				break;
+			}
+
+			FunctionInvocation functionInvocation = fieldInfo.getFunctionInvocation();
+			if(functionInvocation != null){
+
+				if(functionInvocation instanceof FunctionInvocation.Tf){
+					return new TermFrequencyEncoder();
+				}
+
+				break;
+			}
+
+			fieldInfo = fieldInfo.getRef();
+		}
+
+		return new FpPrimitiveEncoder();
+	}
+
+	static
+	protected boolean isCastable(Field<?> field){
 		OpType opType = field.getOpType();
 		switch(opType){
 			case CONTINUOUS:

@@ -18,7 +18,11 @@
  */
 package org.jpmml.translator;
 
+import java.util.Arrays;
+
+import com.sun.codemodel.JAssignmentTarget;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -28,6 +32,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -41,6 +46,8 @@ public class ArgumentsRef extends JVarRef {
 	}
 
 	public JMethod getMethod(FieldInfo fieldInfo, TranslationContext context){
+		JCodeModel codeModel = context.getCodeModel();
+
 		JDefinedClass argumentsClazz = (JDefinedClass)type();
 
 		Field<?> field = fieldInfo.getField();
@@ -48,7 +55,8 @@ public class ArgumentsRef extends JVarRef {
 
 		FieldName name = field.getName();
 
-		String stringName;
+		String memberName;
+		JType[] argTypes = new JType[0];
 
 		if(encoder != null){
 			FieldInfo finalFieldInfo = encoder.follow(fieldInfo);
@@ -57,14 +65,18 @@ public class ArgumentsRef extends JVarRef {
 
 			name = finalField.getName();
 
-			stringName = finalFieldInfo.getVariableName();
+			memberName = finalFieldInfo.getMemberName();
+
+			if(encoder instanceof TermFrequencyEncoder){
+				argTypes = new JType[]{codeModel.INT, context.ref(FieldName.class)};
+			}
 		} else
 
 		{
-			stringName = fieldInfo.getVariableName();
+			memberName = fieldInfo.getMemberName();
 		}
 
-		JMethod method = argumentsClazz.getMethod(stringName, new JType[0]);
+		JMethod method = argumentsClazz.getMethod(memberName, argTypes);
 		if(method != null){
 			return method;
 		}
@@ -94,11 +106,27 @@ public class ArgumentsRef extends JVarRef {
 
 		JType type = encoderMethod.type();
 
-		method = argumentsClazz.method(JMod.PUBLIC, type, stringName);
+		method = argumentsClazz.method(JMod.PUBLIC, type, memberName);
+
+		JVar indexParam = null;
+		JVar nameParam = null;
+
+		if(encoder instanceof TermFrequencyEncoder){
+			indexParam = method.param(codeModel.INT, "index");
+			nameParam = method.param(codeModel.ref(FieldName.class), "name");
+		}
 
 		JBlock block = method.body();
 
-		JExpression valueExpr = JExpr.invoke(encoderMethod).arg(context.constantFieldName(name));
+		JExpression valueExpr;
+
+		if(encoder instanceof TermFrequencyEncoder){
+			valueExpr = JExpr.invoke(encoderMethod).arg(nameParam);
+		} else
+
+		{
+			valueExpr = JExpr.invoke(encoderMethod).arg(context.constantFieldName(name));
+		}
 
 		Integer count = fieldInfo.getCount();
 		if(count != null && count > 1){
@@ -112,13 +140,37 @@ public class ArgumentsRef extends JVarRef {
 				initExpr = ArgumentsRef.createInitExpression(field, context);
 			}
 
-			JFieldVar fieldVar = argumentsClazz.field(JMod.PRIVATE, type, stringName, initExpr);
+			JFieldVar fieldVar;
 
-			JBlock thenBlock = block._if(JExpr.refthis(fieldVar.name()).eq(initExpr))._then();
+			if(encoder instanceof ArrayEncoder){
+				fieldVar = (argumentsClazz.fields()).get(memberName);
 
-			thenBlock.assign(JExpr.refthis(fieldVar.name()), valueExpr);
+				if(fieldVar == null){
+					ArrayEncoder arrayEncoder = (ArrayEncoder)fieldInfo.getEncoder();
 
-			block._return(JExpr.refthis(fieldVar.name()));
+					fieldVar = argumentsClazz.field(JMod.PRIVATE, type.array(), memberName, JExpr.newArray(type, arrayEncoder.getLength()));
+
+					JBlock init = argumentsClazz.instanceInit();
+
+					init.add(context.ref(Arrays.class).staticInvoke("fill").arg(fieldVar).arg(initExpr));
+				}
+			} else
+
+			{
+				fieldVar = argumentsClazz.field(JMod.PRIVATE, type, memberName, initExpr);
+			}
+
+			JExpression fieldVarRef = JExpr.refthis(fieldVar.name());
+
+			if(encoder instanceof ArrayEncoder){
+				fieldVarRef = fieldVarRef.component(indexParam);
+			}
+
+			JBlock thenBlock = block._if(fieldVarRef.eq(initExpr))._then();
+
+			thenBlock.assign((JAssignmentTarget)fieldVarRef, valueExpr);
+
+			block._return(fieldVarRef);
 		} else
 
 		{

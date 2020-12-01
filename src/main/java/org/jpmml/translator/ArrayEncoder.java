@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Villu Ruusmann
+ * Copyright (c) 2020 Villu Ruusmann
  *
  * This file is part of JPMML-Transpiler
  *
@@ -18,29 +18,9 @@
  */
 package org.jpmml.translator;
 
-import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JVar;
+public interface ArrayEncoder extends Encoder {
 
-public interface Encoder {
+	int getIndex();
 
-	String getVariableName(FieldInfo fieldInfo);
-
-	default
-	String getMemberName(FieldInfo fieldInfo){
-		return getVariableName(fieldInfo);
-	}
-
-	Object encode(Object value);
-
-	OperableRef ref(JVar variable);
-
-	default
-	FieldInfo follow(FieldInfo fieldInfo){
-		return fieldInfo;
-	}
-
-	JMethod createEncoderMethod(FieldInfo fieldInfo, TranslationContext context);
-
-	JExpression createInitExpression(FieldInfo fieldInfo, TranslationContext context);
+	int getLength();
 }

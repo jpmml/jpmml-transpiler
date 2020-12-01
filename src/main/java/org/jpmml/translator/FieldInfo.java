@@ -37,6 +37,8 @@ public class FieldInfo {
 
 	private String variableName = null;
 
+	private String memberName = null;
+
 
 	public FieldInfo(Field<?> field){
 		this(field, null);
@@ -115,18 +117,48 @@ public class FieldInfo {
 		this.variableName = varibaleName;
 	}
 
-	private String createVariableName(){
-		Field<?> field = getField();
-		Encoder encoder = getEncoder();
+	public String getMemberName(){
 
-		FieldName name = field.getName();
-
-		String result = IdentifierUtil.sanitize(name.getValue());
-
-		if(encoder != null){
-			result = (result + "2" + encoder.getName());
+		if(this.memberName == null){
+			this.memberName = createMemberName();
 		}
 
-		return result;
+		return this.memberName;
+	}
+
+	public void setMemberName(String memberName){
+		this.memberName = memberName;
+	}
+
+	private String createVariableName(){
+		Encoder encoder = getEncoder();
+
+		if(encoder != null){
+			return encoder.getVariableName(this);
+		} else
+
+		{
+			Field<?> field = getField();
+
+			FieldName name = field.getName();
+
+			return IdentifierUtil.sanitize(name.getValue());
+		}
+	}
+
+	private String createMemberName(){
+		Encoder encoder = getEncoder();
+
+		if(encoder != null){
+			return encoder.getMemberName(this);
+		} else
+
+		{
+			Field<?> field = getField();
+
+			FieldName name = field.getName();
+
+			return IdentifierUtil.sanitize(name.getValue());
+		}
 	}
 }

@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -31,6 +33,7 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+
 import org.dmg.pmml.ComplexArray;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.False;
@@ -55,8 +58,10 @@ import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.translator.ArrayManager;
+import org.jpmml.translator.Encoder;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FpPrimitiveEncoder;
+import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
@@ -64,6 +69,7 @@ import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.OperableRef;
 import org.jpmml.translator.OrdinalEncoder;
 import org.jpmml.translator.Scope;
+import org.jpmml.translator.TermFrequencyEncoder;
 import org.jpmml.translator.TranslationContext;
 import org.jpmml.translator.ValueFactoryRef;
 import org.jpmml.translator.ValueMapBuilder;
@@ -438,6 +444,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Map<FieldName, Set<Object>> discreteFieldValues = discreteValueFinder.getFieldValues();
 
+		ListMultimap<FieldName, List<String>> tfTokens = ArrayListMultimap.create();
+
 		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
 		for(Map.Entry<FieldName, FieldInfo> entry : entries){
 			FieldName name = entry.getKey();
@@ -456,7 +464,26 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 						switch(dataType){
 							case FLOAT:
 							case DOUBLE:
-								fieldInfo.setEncoder(new FpPrimitiveEncoder());
+								Encoder encoder = FpPrimitiveEncoder.create(fieldInfo);
+
+								if(encoder instanceof TermFrequencyEncoder){
+									TermFrequencyEncoder termFrequencyEncoder = (TermFrequencyEncoder)encoder;
+
+									FunctionInvocation.Tf tf = termFrequencyEncoder.getTf(fieldInfo);
+
+									List<List<String>> tokens = tfTokens.get(tf.getTextField());
+
+									int index = tokens.indexOf(tf.getTermTokens());
+									if(index < 0){
+										index = tokens.size();
+
+										tokens.add(tf.getTermTokens());
+									}
+
+									termFrequencyEncoder.setIndex(index);
+								}
+
+								fieldInfo.setEncoder(encoder);
 								break;
 							default:
 								break;
@@ -467,12 +494,29 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					{
 						Set<?> values = discreteFieldValues.get(name);
 						if(values != null && values.size() > 0){
-							fieldInfo.setEncoder(new OrdinalEncoder(values));
+							Encoder encoder = OrdinalEncoder.create(fieldInfo, values);
+
+							fieldInfo.setEncoder(encoder);
 						}
 					}
 					break;
 				default:
 					break;
+			}
+		}
+
+		for(Map.Entry<FieldName, FieldInfo> entry : entries){
+			FieldName name = entry.getKey();
+			FieldInfo fieldInfo = entry.getValue();
+
+			Encoder encoder = fieldInfo.getEncoder();
+
+			if(encoder instanceof TermFrequencyEncoder){
+				TermFrequencyEncoder termFrequencyEncoder = (TermFrequencyEncoder)encoder;
+
+				FunctionInvocation.Tf tf = termFrequencyEncoder.getTf(fieldInfo);
+
+				termFrequencyEncoder.setVocabulary(tfTokens.get(tf.getTextField()));
 			}
 		}
 

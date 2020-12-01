@@ -47,6 +47,7 @@ import com.sun.codemodel.JSwitch;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
+
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -205,31 +206,42 @@ public class TranslationContext {
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();
 
-		FieldName name = field.getName();
 		DataType dataType = field.getDataType();
 
-		String stringName;
+		String variableName;
 
 		if(encoder != null){
 			FieldInfo finalFieldInfo = encoder.follow(fieldInfo);
 
-			stringName = finalFieldInfo.getVariableName();
+			variableName = finalFieldInfo.getVariableName();
 		} else
 
 		{
-			stringName = fieldInfo.getVariableName();
+			variableName = fieldInfo.getVariableName();
 		}
 
 		JVar variable;
 
 		try {
-			variable = getVariable(stringName);
+			variable = getVariable(variableName);
 		} catch(IllegalArgumentException iae){
 			ArgumentsRef argumentsRef = getArgumentsVariable();
 
 			JMethod method = argumentsRef.getMethod(fieldInfo, this);
 
-			variable = declare(method.type(), stringName, argumentsRef.invoke(method));
+			JExpression[] initArgExprs = new JExpression[0];
+
+			if(encoder instanceof TermFrequencyEncoder){
+				TermFrequencyEncoder termFrequencyEncoder = (TermFrequencyEncoder)encoder;
+
+				FieldInfo finalFieldInfo = termFrequencyEncoder.follow(fieldInfo);
+
+				Field<?> finalField = finalFieldInfo.getField();
+
+				initArgExprs = new JExpression[]{JExpr.lit(termFrequencyEncoder.getIndex()), constantFieldName(finalField.getName())};
+			}
+
+			variable = declare(method.type(), variableName, argumentsRef.invoke(method, initArgExprs));
 		}
 
 		if(encoder != null){
