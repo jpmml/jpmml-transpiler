@@ -30,6 +30,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPrimitiveType;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -99,6 +100,10 @@ public class FpPrimitiveEncoder implements Encoder {
 		JPrimitiveType returnType;
 
 		switch(dataType){
+			case INTEGER:
+				name = "Integer";
+				returnType = codeModel.DOUBLE;
+				break;
 			case FLOAT:
 				name = "Float";
 				returnType = codeModel.FLOAT;
@@ -132,6 +137,10 @@ public class FpPrimitiveEncoder implements Encoder {
 			}
 
 			switch(dataType){
+				case INTEGER:
+					name += "Integer";
+					castSequenceTypes.add(codeModel.INT);
+					break;
 				case FLOAT:
 					name += "Float";
 					castSequenceTypes.add(codeModel.FLOAT);
@@ -203,6 +212,8 @@ public class FpPrimitiveEncoder implements Encoder {
 		DataType dataType = field.getDataType();
 
 		switch(dataType){
+			case INTEGER:
+				return FpPrimitiveEncoder.INIT_VALUE_DOUBLE;
 			case FLOAT:
 				return FpPrimitiveEncoder.INIT_VALUE_FLOAT;
 			case DOUBLE:
@@ -250,6 +261,7 @@ public class FpPrimitiveEncoder implements Encoder {
 
 		DataType dataType = field.getDataType();
 		switch(dataType){
+			case INTEGER:
 			case FLOAT:
 			case DOUBLE:
 				break;

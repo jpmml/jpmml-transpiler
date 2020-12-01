@@ -462,6 +462,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				case CONTINUOUS:
 					{
 						switch(dataType){
+							// XXX
+							case INTEGER:
+								// Falls through
 							case FLOAT:
 							case DOUBLE:
 								Encoder encoder = FpPrimitiveEncoder.create(fieldInfo);
@@ -481,6 +484,13 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 									}
 
 									termFrequencyEncoder.setIndex(index);
+								} else
+
+								{
+									// XXX
+									if((DataType.INTEGER).equals(dataType)){
+										encoder = null;
+									}
 								}
 
 								fieldInfo.setEncoder(encoder);
