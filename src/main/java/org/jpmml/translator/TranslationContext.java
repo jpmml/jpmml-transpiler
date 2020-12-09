@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +51,6 @@ import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
-import org.dmg.pmml.PMMLObject;
 import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.Value;
@@ -69,8 +67,6 @@ public class TranslationContext {
 	private Deque<JDefinedClass> owners = new ArrayDeque<>();
 
 	private Deque<Scope> scopes = new ArrayDeque<>();
-
-	private Map<PMMLObject, JExpression> representations = new LinkedHashMap<>();
 
 	private ArrayManager<FieldName> fieldNameManager = null;
 
@@ -493,14 +489,6 @@ public class TranslationContext {
 
 	public List<PMMLException> getIssues(){
 		return this.issues;
-	}
-
-	public JExpression getRepresentation(PMMLObject pmmlObject){
-		return this.representations.get(pmmlObject);
-	}
-
-	public void putRepresentation(PMMLObject pmmlObject, JExpression reprExpr){
-		this.representations.put(pmmlObject, reprExpr);
 	}
 
 	public boolean isSuppressed(Field<?> field){

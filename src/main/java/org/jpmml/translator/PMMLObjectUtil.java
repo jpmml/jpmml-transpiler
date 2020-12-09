@@ -45,6 +45,7 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+
 import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.FieldName;
@@ -360,11 +361,6 @@ public class PMMLObjectUtil {
 
 		if((PMMLObject.class).isAssignableFrom(clazz)){
 			PMMLObject pmmlObject = (PMMLObject)value;
-
-			JExpression representation = context.getRepresentation(pmmlObject);
-			if(representation != null){
-				return representation;
-			} // End if
 
 			// PMML-level elements
 			if((pmmlObject instanceof Header) || (pmmlObject instanceof DataDictionary) || (pmmlObject instanceof TransformationDictionary)){
