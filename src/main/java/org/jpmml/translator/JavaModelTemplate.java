@@ -19,32 +19,40 @@
 package org.jpmml.translator;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.MoreCollectors;
+import com.sun.codemodel.JInvocation;
 
-import org.dmg.pmml.LocalTransformations;
 import org.dmg.pmml.Model;
+import org.dmg.pmml.PMMLObject;
+import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.model.ReflectionUtil;
 
-public class ModelTemplate extends Template {
+public class JavaModelTemplate extends ModelTemplate {
 
-	ModelTemplate(Class<? extends Model> clazz){
-		super(clazz, getFields(clazz));
+	public JavaModelTemplate(){
+		super(JavaModel.class);
 	}
 
-	static
-	private List<Field> getFields(Class<? extends Model> clazz){
-		List<Field> fields = new ArrayList<>(ReflectionUtil.getFields(clazz));
+	@Override
+	public JInvocation initializeObject(PMMLObject object, JInvocation invocation, TranslationContext context){
+		Model model = (Model)object;
 
-		Field localTransformationsField = fields.stream()
-			.filter(field -> (LocalTransformations.class).isAssignableFrom(field.getType()))
-			.collect(MoreCollectors.onlyElement());
+		Template modelTemplate = Template.getTemplate(model.getClass());
 
-		fields.remove(localTransformationsField);
-		fields.add(fields.size(), localTransformationsField);
+		List<Field> instanceFields = getInstanceFields();
+		for(Field instanceField : instanceFields){
+			Field modelInstanceField = modelTemplate.getInstanceField(instanceField.getName());
 
-		return fields;
+			if(modelInstanceField == null){
+				continue;
+			}
+
+			Object value = ReflectionUtil.getFieldValue(modelInstanceField, object);
+
+			invocation = PMMLObjectUtil.addSetterMethod(instanceField, value, invocation, context);
+		}
+
+		return invocation;
 	}
 }

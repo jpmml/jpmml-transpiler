@@ -219,75 +219,23 @@ public class PMMLObjectUtil {
 
 	static
 	public JInvocation constructObject(PMMLObject object, JInvocation invocation, TranslationContext context){
-		Class<? extends PMMLObject> clazz = object.getClass();
+		Template template = Template.getTemplate(object.getClass());
 
-		Template template = Template.getTemplate(clazz);
-
-		List<Field> valueConstructorFields = template.getValueConstructorFields();
-		for(Field valueConstructorField : valueConstructorFields){
-			Object value = ReflectionUtil.getFieldValue(valueConstructorField, object);
-
-			if(value == null){
-				invocation.arg(JExpr._null());
-
-				continue;
-			} // End if
-
-			if(value instanceof List){
-				List<?> elements = (List<?>)value;
-
-				JInvocation listInvocation = context.staticInvoke(Arrays.class, "asList");
-
-				initializeArray(valueConstructorField, elements, listInvocation, context);
-
-				invocation.arg(listInvocation);
-			} else
-
-			{
-				invocation.arg(createExpression(value, context));
-			}
-		}
-
-		return invocation;
+		return template.constructObject(object, invocation, context);
 	}
 
 	static
 	public JInvocation initializeObject(PMMLObject object, JInvocation invocation, TranslationContext context){
-		Class<? extends PMMLObject> clazz = object.getClass();
+		Template template = Template.getTemplate(object.getClass());
 
-		Template template = Template.getTemplate(clazz);
-
-		List<Field> setterMethodFields = template.getSetterMethodFields();
-		for(Field setterMethodField : setterMethodFields){
-			Object value = ReflectionUtil.getFieldValue(setterMethodField, object);
-
-			invocation = initialize(setterMethodField, value, invocation, context);
-		}
-
-		return invocation;
+		return template.initializeObject(object, invocation, context);
 	}
 
 	static
 	public JInvocation initializeJavaModel(Model model, JInvocation invocation, TranslationContext context){
-		Class<? extends Model> modelClazz = model.getClass();
+		JavaModelTemplate javaModelTemplate = (JavaModelTemplate)Template.getTemplate(JavaModel.class);
 
-		Template modelTemplate = Template.getTemplate(modelClazz);
-		Template javaModelTemplate = Template.getTemplate(JavaModel.class);
-
-		List<Field> javaModelInstanceFields = javaModelTemplate.getInstanceFields();
-		for(Field javaModelInstanceField : javaModelInstanceFields){
-			Field modelInstanceField = modelTemplate.getInstanceField(javaModelInstanceField.getName());
-
-			if(modelInstanceField == null){
-				continue;
-			}
-
-			Object value = ReflectionUtil.getFieldValue(modelInstanceField, model);
-
-			invocation = initialize(javaModelInstanceField, value, invocation, context);
-		}
-
-		return invocation;
+		return javaModelTemplate.initializeObject(model, invocation, context);
 	}
 
 	static
@@ -458,7 +406,31 @@ public class PMMLObjectUtil {
 	}
 
 	static
-	private JInvocation initialize(Field setterMethodField, Object value, JInvocation invocation, TranslationContext context){
+	public void addValueConstructorParam(Field valueConstructorField, Object value, JInvocation invocation, TranslationContext context){
+
+		if(value == null){
+			invocation.arg(JExpr._null());
+
+			return;
+		} // End if
+
+		if(value instanceof List){
+			List<?> elements = (List<?>)value;
+
+			JInvocation listInvocation = context.staticInvoke(Arrays.class, "asList");
+
+			PMMLObjectUtil.initializeArray(valueConstructorField, elements, listInvocation, context);
+
+			invocation.arg(listInvocation);
+		} else
+
+		{
+			invocation.arg(PMMLObjectUtil.createExpression(value, context));
+		}
+	}
+
+	static
+	public JInvocation addSetterMethod(Field setterMethodField, Object value, JInvocation invocation, TranslationContext context){
 
 		if(value == null){
 			return invocation;

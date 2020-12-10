@@ -33,9 +33,12 @@ import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.google.common.collect.Iterables;
+import com.sun.codemodel.JInvocation;
+
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
+import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.model.ReflectionUtil;
 import org.jpmml.model.annotations.Property;
 import org.jpmml.model.annotations.ValueConstructor;
@@ -92,6 +95,30 @@ public class Template {
 		this.setterMethodFields = new ArrayList<>(fields.values());
 	}
 
+	public JInvocation constructObject(PMMLObject object, JInvocation invocation, TranslationContext context){
+		List<Field> valueConstructorFields = getValueConstructorFields();
+
+		for(Field valueConstructorField : valueConstructorFields){
+			Object value = ReflectionUtil.getFieldValue(valueConstructorField, object);
+
+			PMMLObjectUtil.addValueConstructorParam(valueConstructorField, value, invocation, context);
+		}
+
+		return invocation;
+	}
+
+	public JInvocation initializeObject(PMMLObject object, JInvocation invocation, TranslationContext context){
+		List<Field> setterMethodFields = getSetterMethodFields();
+
+		for(Field setterMethodField : setterMethodFields){
+			Object value = ReflectionUtil.getFieldValue(setterMethodField, object);
+
+			invocation = PMMLObjectUtil.addSetterMethod(setterMethodField, value, invocation, context);
+		}
+
+		return invocation;
+	}
+
 	public Field getInstanceField(String name){
 		List<Field> instanceFields = getInstanceFields();
 
@@ -125,6 +152,10 @@ public class Template {
 
 			if((PMML.class).isAssignableFrom(clazz)){
 				template = new PMMLTemplate(clazz.asSubclass(PMML.class));
+			} else
+
+			if((JavaModel.class).isAssignableFrom(clazz)){
+				template = new JavaModelTemplate();
 			} else
 
 			if((Model.class).isAssignableFrom(clazz)){
