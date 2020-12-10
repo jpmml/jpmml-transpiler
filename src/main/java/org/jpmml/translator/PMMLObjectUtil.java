@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBElement;
@@ -184,11 +182,7 @@ public class PMMLObjectUtil {
 				JArray array = JExpr.newArray(context.ref(clazz));
 
 				for(Object object : chunk){
-					JExpression expression = PMMLObjectUtil.createExpression(object, context);
-
-					if(expression != null){
-						array.add(expression);
-					}
+					array.add(createExpression(object, context));
 				}
 
 				context._return(array);
@@ -251,7 +245,7 @@ public class PMMLObjectUtil {
 			JVarBuilder variableBuilder = (JVarBuilder)value;
 
 			return variableBuilder.getVariable();
-		}
+		} // End if
 
 		if(value instanceof JExpression){
 			JExpression expression = (JExpression)value;
@@ -325,12 +319,6 @@ public class PMMLObjectUtil {
 			} else
 
 			if(pmmlObject instanceof org.dmg.pmml.Field){
-				org.dmg.pmml.Field<?> pmmlField = (org.dmg.pmml.Field<?>)pmmlObject;
-
-				if(context.isSuppressed(pmmlField)){
-					return null;
-				}
-
 				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
 
 				return JExpr.invoke(builderMethod);
@@ -419,13 +407,13 @@ public class PMMLObjectUtil {
 
 			JInvocation listInvocation = context.staticInvoke(Arrays.class, "asList");
 
-			PMMLObjectUtil.initializeArray(valueConstructorField, elements, listInvocation, context);
+			initializeArray(valueConstructorField, elements, listInvocation, context);
 
 			invocation.arg(listInvocation);
 		} else
 
 		{
-			invocation.arg(PMMLObjectUtil.createExpression(value, context));
+			invocation.arg(createExpression(value, context));
 		}
 	}
 
@@ -461,33 +449,11 @@ public class PMMLObjectUtil {
 
 	static
 	private JInvocation initializeArray(Field field, List<?> elements, JInvocation invocation, TranslationContext context){
-		Predicate<Object> predicate = new Predicate<Object>(){
-
-			@Override
-			public boolean test(Object object){
-
-				if(object instanceof org.dmg.pmml.Field){
-					org.dmg.pmml.Field<?> pmmlField = (org.dmg.pmml.Field<?>)object;
-
-					return !context.isSuppressed(pmmlField);
-				}
-
-				return true;
-			}
-		};
-
-		elements = elements.stream()
-			.filter(predicate)
-			.collect(Collectors.toList());
 
 		if(elements.size() <= PMMLObjectUtil.CHUNK_SIZE){
 
 			for(Object element : elements){
-				JExpression expression = createExpression(element, context);
-
-				if(expression != null){
-					invocation.arg(expression);
-				}
+				invocation.arg(createExpression(element, context));
 			}
 		} else
 

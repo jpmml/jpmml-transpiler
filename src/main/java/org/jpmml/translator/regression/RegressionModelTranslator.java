@@ -46,6 +46,7 @@ import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
+
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.DerivedField;
 import org.dmg.pmml.FieldName;
@@ -264,8 +265,6 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					FunctionInvocation.Tf tf = tfTerm.getTf();
 
 					tfTerms.put(tf.getTextField(), tfTerm);
-
-					context.suppressField(fieldInfo.getField());
 
 					continue;
 				}

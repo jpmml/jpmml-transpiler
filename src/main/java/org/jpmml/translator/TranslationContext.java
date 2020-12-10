@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,7 @@ import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
+import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.UnsupportedAttributeException;
@@ -72,7 +74,9 @@ public class TranslationContext {
 
 	private ArrayManager<QName> xmlNameManager = null;
 
-	private Set<Field<?>> suppressedFields = new LinkedHashSet<>();
+	private Map<Model, TranslatedModel> translations = new IdentityHashMap<>();
+
+	private Set<FieldName> activeFieldNames = new LinkedHashSet<>();
 
 
 	public TranslationContext(PMML pmml, JCodeModel codeModel){
@@ -234,7 +238,7 @@ public class TranslationContext {
 
 				Field<?> finalField = finalFieldInfo.getField();
 
-				initArgExprs = new JExpression[]{JExpr.lit(termFrequencyEncoder.getIndex()), constantFieldName(finalField.getName())};
+				initArgExprs = new JExpression[]{JExpr.lit(termFrequencyEncoder.getIndex()), constantFieldName(finalField.getName(), true)};
 			}
 
 			variable = declare(method.type(), variableName, argumentsRef.invoke(method, initArgExprs));
@@ -447,12 +451,20 @@ public class TranslationContext {
 	}
 
 	public JExpression constantFieldName(FieldName name){
+		return constantFieldName(name, false);
+	}
+
+	public JExpression constantFieldName(FieldName name, boolean markActive){
 
 		if(name == null){
 			return JExpr._null();
 		}
 
 		ArrayManager<FieldName> fieldNameManager = this.fieldNameManager;
+
+		if(markActive){
+			this.activeFieldNames.add(name);
+		}
 
 		int index = fieldNameManager.getOrInsert(name);
 
@@ -491,16 +503,16 @@ public class TranslationContext {
 		return this.issues;
 	}
 
-	public boolean isSuppressed(Field<?> field){
-		return this.suppressedFields.contains(field);
+	public Map<Model, TranslatedModel> getTranslations(){
+		return this.translations;
 	}
 
-	public void suppressField(Field<?> field){
-		this.suppressedFields.add(field);
+	public void addTranslation(Model model, TranslatedModel translatedModel){
+		this.translations.put(model, translatedModel);
 	}
 
-	public void clearSuppressedFields(){
-		this.suppressedFields.clear();
+	public Set<FieldName> getActiveFieldNames(){
+		return this.activeFieldNames;
 	}
 
 	static

@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +43,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
+
 import org.dmg.pmml.DataField;
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.DerivedField;
@@ -94,6 +96,9 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 		javaModelClazz._extends(JavaModel.class);
 
+		Set<FieldName> activeFieldNames = context.getActiveFieldNames();
+		activeFieldNames.clear();
+
 		try {
 			context.pushOwner(javaModelClazz);
 
@@ -102,11 +107,15 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			context.popOwner();
 		}
 
-		JInvocation invocation = JExpr._new(javaModelClazz);
+		JWrappedExpression expression = new JWrappedExpression(JExpr._new(javaModelClazz));
 
-		invocation = PMMLObjectUtil.initializeJavaModel(model, invocation, context);
+		TranslatedModel translatedModel = new TranslatedModel(model)
+			.setExpression(expression)
+			.setActiveFields(new LinkedHashSet<>(activeFieldNames));
 
-		return invocation;
+		context.addTranslation(model, translatedModel);
+
+		return expression;
 	}
 
 	public void createEvaluateMethod(TranslationContext context){

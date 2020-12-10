@@ -98,7 +98,7 @@ public class ArgumentsRef extends JVarRef {
 			try {
 				context.pushOwner(argumentsClazz);
 
-				encoderMethod = ArgumentsRef.createEncoderMethod(field, context);
+				encoderMethod = createEncoderMethod(field, context);
 			} finally {
 				context.popOwner();
 			}
@@ -125,7 +125,7 @@ public class ArgumentsRef extends JVarRef {
 		} else
 
 		{
-			valueExpr = JExpr.invoke(encoderMethod).arg(context.constantFieldName(name));
+			valueExpr = JExpr.invoke(encoderMethod).arg(context.constantFieldName(name, true));
 		}
 
 		Integer count = fieldInfo.getCount();
@@ -137,7 +137,7 @@ public class ArgumentsRef extends JVarRef {
 			} else
 
 			{
-				initExpr = ArgumentsRef.createInitExpression(field, context);
+				initExpr = createInitExpression(field, context);
 			}
 
 			JFieldVar fieldVar;
