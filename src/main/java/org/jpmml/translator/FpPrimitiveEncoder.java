@@ -125,9 +125,6 @@ public class FpPrimitiveEncoder implements Encoder {
 				break;
 			}
 
-			// XXX
-			//context.suppressField(field);
-
 			field = refField;
 
 			dataType = field.getDataType();
