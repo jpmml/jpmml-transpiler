@@ -42,6 +42,7 @@ import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.codemodel.fmt.JBinaryFile;
+
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.jpmml.evaluator.ResourceUtil;
@@ -121,6 +122,11 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		init.add(tryWithResources);
 	}
 
+	@Override
+	public void add(JStatement statement){
+		this.tryBody.add(statement);
+	}
+
 	public void initFieldNames(JFieldVar field, FieldName[] names){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
@@ -171,7 +177,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 
 		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readStringLists", this.dataInputVar);
 
-		this.tryBody.add(context.staticInvoke(Collections.class, "addAll", constant, invocation));
+		add(context.staticInvoke(Collections.class, "addAll", constant, invocation));
 
 		return constant;
 	}
@@ -201,7 +207,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 
 		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumbers(mathContext), this.dataInputVar, JExpr.lit(values.length));
 
-		this.tryBody.add(context.staticInvoke(Collections.class, "addAll", constant, invocation));
+		add(context.staticInvoke(Collections.class, "addAll", constant, invocation));
 
 		return constant;
 	}

@@ -38,6 +38,7 @@ public class JDirectInitializer extends JClassInitializer {
 		super(context);
 	}
 
+	@Override
 	public void add(JStatement statement){
 		TranslationContext context = getContext();
 

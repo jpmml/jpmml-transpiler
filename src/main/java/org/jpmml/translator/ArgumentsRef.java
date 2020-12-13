@@ -68,7 +68,7 @@ public class ArgumentsRef extends JVarRef {
 			memberName = finalFieldInfo.getMemberName();
 
 			if(encoder instanceof TermFrequencyEncoder){
-				argTypes = new JType[]{codeModel.INT, context.ref(FieldName.class)};
+				argTypes = new JType[]{codeModel.INT};
 			}
 		} else
 
@@ -109,11 +109,9 @@ public class ArgumentsRef extends JVarRef {
 		method = argumentsClazz.method(JMod.PUBLIC, type, memberName);
 
 		JVar indexParam = null;
-		JVar nameParam = null;
 
 		if(encoder instanceof TermFrequencyEncoder){
 			indexParam = method.param(codeModel.INT, "index");
-			nameParam = method.param(codeModel.ref(FieldName.class), "name");
 		}
 
 		JBlock block = method.body();
@@ -121,7 +119,7 @@ public class ArgumentsRef extends JVarRef {
 		JExpression valueExpr;
 
 		if(encoder instanceof TermFrequencyEncoder){
-			valueExpr = JExpr.invoke(encoderMethod).arg(nameParam);
+			valueExpr = JExpr.invoke(encoderMethod).arg(indexParam);
 		} else
 
 		{

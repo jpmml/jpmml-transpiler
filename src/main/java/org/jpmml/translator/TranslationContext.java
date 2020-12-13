@@ -18,6 +18,7 @@
  */
 package org.jpmml.translator;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.TypeVariable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JMods;
 import com.sun.codemodel.JOp;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JSwitch;
@@ -57,6 +59,7 @@ import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueMap;
+import org.jpmml.translator.tree.TreeModelTranslator;
 
 public class TranslationContext {
 
@@ -167,7 +170,28 @@ public class TranslationContext {
 	}
 
 	public ArgumentsRef getArgumentsVariable(){
-		JVar variable = getVariable(Scope.VAR_ARGUMENTS);
+		JDefinedClass owner = getOwner();
+
+		JVar variable;
+
+		// XXX
+		if(("Arguments").equals(owner.name())){
+
+			try {
+				Constructor<JVar> constuctor = JVar.class.getDeclaredConstructor(JMods.class, JType.class, String.class, JExpression.class);
+				if(!constuctor.isAccessible()){
+					constuctor.setAccessible(true);
+				}
+
+				variable = constuctor.newInstance(null, owner, "this", null);
+			} catch(ReflectiveOperationException roe){
+				throw new RuntimeException(roe);
+			}
+		} else
+
+		{
+			variable = getVariable(Scope.VAR_ARGUMENTS);
+		}
 
 		return new ArgumentsRef(variable);
 	}
@@ -225,21 +249,19 @@ public class TranslationContext {
 		try {
 			variable = getVariable(variableName);
 		} catch(IllegalArgumentException iae){
-			ArgumentsRef argumentsRef = getArgumentsVariable();
-
-			JMethod method = argumentsRef.getMethod(fieldInfo, this);
-
 			JExpression[] initArgExprs = new JExpression[0];
 
 			if(encoder instanceof TermFrequencyEncoder){
 				TermFrequencyEncoder termFrequencyEncoder = (TermFrequencyEncoder)encoder;
 
-				FieldInfo finalFieldInfo = termFrequencyEncoder.follow(fieldInfo);
+				TreeModelTranslator.ensureLocalTextIndex(fieldInfo, termFrequencyEncoder, this);
 
-				Field<?> finalField = finalFieldInfo.getField();
-
-				initArgExprs = new JExpression[]{JExpr.lit(termFrequencyEncoder.getIndex()), constantFieldName(finalField.getName(), true)};
+				initArgExprs = new JExpression[]{JExpr.lit(termFrequencyEncoder.getIndex())};
 			}
+
+			ArgumentsRef argumentsRef = getArgumentsVariable();
+
+			JMethod method = argumentsRef.getMethod(fieldInfo, this);
 
 			variable = declare(method.type(), variableName, argumentsRef.invoke(method, initArgExprs));
 		}

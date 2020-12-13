@@ -18,7 +18,27 @@
  */
 package org.jpmml.translator;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+
+import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JDefinedClass;
+import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JMod;
+import com.sun.codemodel.JPrimitiveType;
+import com.sun.codemodel.JType;
+import com.sun.codemodel.JVar;
+
+import org.dmg.pmml.DataType;
+import org.dmg.pmml.TextIndex;
 
 public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEncoder {
 
@@ -34,7 +54,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 	public String getVariableName(FieldInfo fieldInfo){
 		FunctionInvocation.Tf tf = getTf(fieldInfo);
 
-		return IdentifierUtil.sanitize((tf.getTextField()).getValue()) + "2tf" + "$" + IdentifierUtil.sanitize((tf.getTerm()).replaceAll("\\s", "_"));
+		return IdentifierUtil.sanitize((tf.getTextField()).getValue()) + "2tf" + "$" + String.valueOf(getIndex());
 	}
 
 	@Override
@@ -42,6 +62,94 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 		FunctionInvocation.Tf tf = getTf(fieldInfo);
 
 		return IdentifierUtil.sanitize((tf.getTextField()).getValue()) + "2tf";
+	}
+
+	@Override
+	public JMethod createEncoderMethod(FieldInfo fieldInfo, JPrimitiveType returnType, String name, List<JPrimitiveType> castSequenceTypes, DataType dataType, TranslationContext context){
+		JCodeModel codeModel = context.getCodeModel();
+
+		// JavaModel$Arguments
+		JDefinedClass owner = context.getOwner();
+
+		FunctionInvocation.Tf tf = getTf(fieldInfo);
+
+		name = IdentifierUtil.create(name, tf.getTextField());
+
+		JMethod method = owner.getMethod(name, new JType[]{codeModel.INT});
+		if(method != null){
+			return method;
+		}
+
+		// JavaModel
+		JDefinedClass ownerOwner = (JDefinedClass)owner.parentContainer();
+
+		JFieldVar textIndexVar = (ownerOwner.fields()).get(IdentifierUtil.create("textIndex", tf.getTextIndex()));
+		JFieldVar termsVar = (ownerOwner.fields()).get(IdentifierUtil.create("terms", tf.getTextField()));
+
+		JFieldVar termFrequencyTableVar = owner.field(JMod.PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("frequencyTable", tf.getTextField()));
+
+		JMethod frequencyTableMethod = owner.method(JMod.PRIVATE, termFrequencyTableVar.type(), termFrequencyTableVar.name());
+
+		try {
+			context.pushScope(new MethodScope(frequencyTableMethod));
+
+			JBlock block = frequencyTableMethod.body();
+
+			JBlock thenBlock = block._if(termFrequencyTableVar.eq(JExpr._null()))._then();
+
+			try {
+				context.pushScope(new Scope(thenBlock));
+
+				TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(tf.getTextField(), tf.getTextIndex());
+
+				int maxLength = getVocabulary().stream()
+					.mapToInt(List::size)
+					.max().orElseThrow(NoSuchElementException::new);
+
+				TextIndexUtil.computeTermFrequencyTable(termFrequencyTableVar, localTextIndex, textIndexVar, JExpr._new(context.ref(HashSet.class).narrow(Collections.emptyList())).arg(termsVar), maxLength, context);
+			} finally {
+				context.popScope();
+			}
+
+			block._return(termFrequencyTableVar);
+		} finally {
+			context.popScope();
+		}
+
+		method = owner.method(JMod.PRIVATE, returnType, name);
+
+		JVar indexParam = method.param(codeModel.INT, "index");
+
+		try {
+			context.pushScope(new MethodScope(method));
+
+			JVar frequencyVar = context.declare(Integer.class, "frequency", JExpr.invoke(frequencyTableMethod).invoke("get").arg(termsVar.invoke("get").arg(indexParam)));
+
+			JExpression nanExpr = JExpr.lit(0);
+			JExpression javaValueExpr;
+
+			switch(dataType){
+				case INTEGER:
+					javaValueExpr = frequencyVar.invoke("intValue");
+					break;
+				case FLOAT:
+					javaValueExpr = frequencyVar.invoke("floatValue");
+					break;
+				case DOUBLE:
+					javaValueExpr = frequencyVar.invoke("doubleValue");
+					break;
+				default:
+					throw new IllegalArgumentException(dataType.toString());
+			}
+
+			javaValueExpr = fpJavaValue(javaValueExpr, returnType, castSequenceTypes, context);
+
+			context._return(frequencyVar.eq(JExpr._null()), nanExpr, javaValueExpr);
+		} finally {
+			context.popScope();
+		}
+
+		return method;
 	}
 
 	@Override

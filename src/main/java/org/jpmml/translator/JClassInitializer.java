@@ -25,6 +25,7 @@ import java.util.List;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 
 abstract
@@ -36,6 +37,9 @@ class JClassInitializer {
 	JClassInitializer(TranslationContext context){
 		setContext(context);
 	}
+
+	abstract
+	public void add(JStatement statement);
 
 	public TranslationContext getContext(){
 		return this.context;
@@ -49,7 +53,7 @@ class JClassInitializer {
 	protected JFieldVar createConstant(String name, JType type, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JFieldVar constant = owner.field(ModelTranslator.MEMBER_PRIVATE, (context.ref(List.class)).narrow(type), name, JExpr._new((context.ref(ArrayList.class)).narrow(Collections.emptyList())));
+		JFieldVar constant = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(List.class).narrow(type), name, JExpr._new((context.ref(ArrayList.class)).narrow(Collections.emptyList())));
 
 		return constant;
 	}

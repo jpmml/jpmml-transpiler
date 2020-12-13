@@ -88,13 +88,9 @@ public class FpPrimitiveEncoder implements Encoder {
 	public JMethod createEncoderMethod(FieldInfo fieldInfo, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
-		JDefinedClass owner = context.getOwner();
-
 		Field<?> field = fieldInfo.getField();
 
 		DataType dataType = field.getDataType();
-
-		JType fieldNameClazz = context.ref(FieldName.class);
 
 		String name;
 		JPrimitiveType returnType;
@@ -153,6 +149,14 @@ public class FpPrimitiveEncoder implements Encoder {
 
 		name = ("to" + name + "Primitive");
 
+		return createEncoderMethod(fieldInfo, returnType, name, castSequenceTypes, dataType, context);
+	}
+
+	public JMethod createEncoderMethod(FieldInfo fieldInfo, JPrimitiveType returnType, String name, List<JPrimitiveType> castSequenceTypes, DataType dataType, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		JType fieldNameClazz = context.ref(FieldName.class);
+
 		JMethod method = owner.getMethod(name, new JType[]{fieldNameClazz});
 		if(method != null){
 			return method;
@@ -169,30 +173,8 @@ public class FpPrimitiveEncoder implements Encoder {
 
 			FieldValueRef fieldValueRef = new FieldValueRef(valueVar, dataType);
 
-			JExpression nanExpr;
-
-			if((codeModel.FLOAT).equals(returnType)){
-				nanExpr = FpPrimitiveEncoder.NAN_VALUE_FLOAT;
-			} else
-
-			if((codeModel.DOUBLE).equals(returnType)){
-				nanExpr = FpPrimitiveEncoder.NAN_VALUE_DOUBLE;
-			} else
-
-			{
-				throw new IllegalArgumentException();
-			}
-
-			JExpression javaValueExpr = fieldValueRef.asJavaPrimitiveValue();
-
-			if(castSequenceTypes != null){
-				castSequenceTypes.add(0, returnType);
-				castSequenceTypes.remove(castSequenceTypes.size() - 1);
-
-				for(int i = (castSequenceTypes.size() - 1); i > -1; i--){
-					javaValueExpr = JExpr.cast(castSequenceTypes.get(i), javaValueExpr);
-				}
-			}
+			JExpression nanExpr = fpNanValue(returnType, context);
+			JExpression javaValueExpr = fpJavaValue(fieldValueRef.asJavaPrimitiveValue(), returnType, castSequenceTypes, context);
 
 			context._return(valueVar.eq(JExpr._null()), nanExpr, javaValueExpr);
 		} finally {
@@ -200,6 +182,7 @@ public class FpPrimitiveEncoder implements Encoder {
 		}
 
 		return method;
+
 	}
 
 	@Override
@@ -267,6 +250,38 @@ public class FpPrimitiveEncoder implements Encoder {
 		}
 
 		return true;
+	}
+
+	static
+	protected JExpression fpNanValue(JPrimitiveType returnType, TranslationContext context){
+		JCodeModel codeModel = context.getCodeModel();
+
+		if((codeModel.FLOAT).equals(returnType)){
+			return FpPrimitiveEncoder.NAN_VALUE_FLOAT;
+		} else
+
+		if((codeModel.DOUBLE).equals(returnType)){
+			return FpPrimitiveEncoder.NAN_VALUE_DOUBLE;
+		} else
+
+		{
+			throw new IllegalArgumentException();
+		}
+	}
+
+	static
+	protected JExpression fpJavaValue(JExpression javaValueExpr, JPrimitiveType returnType, List<JPrimitiveType> castSequenceTypes, TranslationContext context){
+
+		if(castSequenceTypes != null){
+			castSequenceTypes.add(0, returnType);
+			castSequenceTypes.remove(castSequenceTypes.size() - 1);
+
+			for(int i = (castSequenceTypes.size() - 1); i > -1; i--){
+				javaValueExpr = JExpr.cast(castSequenceTypes.get(i), javaValueExpr);
+			}
+		}
+
+		return javaValueExpr;
 	}
 
 	public static final JExpression INIT_VALUE_FLOAT = JExpr.lit(-999f);

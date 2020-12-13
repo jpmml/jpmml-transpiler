@@ -34,7 +34,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
-import com.sun.codemodel.JAssignment;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
@@ -43,16 +42,12 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JForEach;
 import com.sun.codemodel.JForLoop;
-import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
 
-import org.dmg.pmml.DataType;
-import org.dmg.pmml.DerivedField;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
-import org.dmg.pmml.OpType;
 import org.dmg.pmml.Output;
 import org.dmg.pmml.OutputField;
 import org.dmg.pmml.PMML;
@@ -66,7 +61,6 @@ import org.dmg.pmml.regression.RegressionTable;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.InvalidElementException;
 import org.jpmml.evaluator.ProbabilityDistribution;
-import org.jpmml.evaluator.TextUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
@@ -81,7 +75,7 @@ import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.OperableRef;
 import org.jpmml.translator.PMMLObjectUtil;
 import org.jpmml.translator.Scope;
-import org.jpmml.translator.StringRef;
+import org.jpmml.translator.TextIndexUtil;
 import org.jpmml.translator.TranslationContext;
 import org.jpmml.translator.ValueBuilder;
 import org.jpmml.translator.ValueMapBuilder;
@@ -406,17 +400,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			TextIndex textIndex = Iterables.getOnlyElement(textIndexes);
 
-			TextIndex localTextIndex = new TextIndex(name, null)
-				.setLocalTermWeights(textIndex.getLocalTermWeights())
-				.setCaseSensitive(textIndex.isCaseSensitive())
-				.setMaxLevenshteinDistance(textIndex.getMaxLevenshteinDistance())
-				.setCountHits(textIndex.getCountHits())
-				.setWordSeparatorCharacterRE(textIndex.getWordSeparatorCharacterRE())
-				.setTokenize(textIndex.isTokenize());
-
-			if(textIndex.hasTextIndexNormalizations()){
-				(localTextIndex.getTextIndexNormalizations()).addAll(textIndex.getTextIndexNormalizations());
-			}
+			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(name, textIndex);
 
 			JFieldVar localTextIndexVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(TextIndex.class), IdentifierUtil.create("textIndex", regressionTable), PMMLObjectUtil.createObject(localTextIndex, context));
 
@@ -428,9 +412,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JFieldVar termIndicesVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable), JExpr._new(context.ref(LinkedHashMap.class).narrow(Collections.emptyList())));
 
-			JBlock init = owner.init();
-
-			JForLoop termIndicesForLoop = init._for();
+			JForLoop termIndicesForLoop = new JForLoop();
 
 			JVar termIndicesLoopVar = termIndicesForLoop.init(context._ref(int.class), "i", JExpr.lit(0));
 			termIndicesForLoop.test(termIndicesLoopVar.lt(JExpr.lit(terms.length)));
@@ -439,6 +421,8 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			JBlock termIndicesForBlock = termIndicesForLoop.body();
 
 			termIndicesForBlock.add(termIndicesVar.invoke("put").arg(termsVar.invoke("get").arg(termIndicesLoopVar)).arg(termIndicesLoopVar));
+
+			resourceInitializer.add(termIndicesForLoop);
 
 			Number[] coefficients = predictors.stream()
 				.map(coefficientFunction)
@@ -456,30 +440,11 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", regressionTable), MathContext.DOUBLE, weights);
 			}
 
-			// XXX
-			FieldInfo textFieldInfo = new FieldInfo(new DerivedField(localTextIndex.getTextField(), OpType.CATEGORICAL, DataType.STRING, null));
-
-			StringRef textRef = (StringRef)context.ensureOperableVariable(textFieldInfo);
-
-			JVar textVar = textRef.getVariable();
-
-			if(localTextIndex.hasTextIndexNormalizations()){
-				JInvocation textNormalizationInvocation = context.staticInvoke(TextUtil.class, "normalize", localTextIndexVar, textVar);
-
-				context.add((JAssignment)textVar.assign(textNormalizationInvocation));
-			}
-
-			JInvocation textTokenizationInvocation = context.staticInvoke(TextUtil.class, "tokenize", localTextIndexVar, textVar);
-
-			JVar textTokensVar = context.declare(context.ref(List.class).narrow(String.class), textVar.name() + "Tokens", textTokenizationInvocation);
-
 			int maxLength = Arrays.stream(terms)
 				.mapToInt(List::size)
 				.max().orElseThrow(NoSuchElementException::new);
 
-			JInvocation termFrequencyTableInvocation = context.staticInvoke(TextUtil.class, "termFrequencyTable", localTextIndexVar, textTokensVar, termIndicesVar.invoke("keySet"), JExpr.lit(maxLength));
-
-			JVar termFrequencyTableVar = context.declare(context.ref(Map.class).narrow(Arrays.asList((JClass)textTokensVar.type(), context.ref(Integer.class))), textVar.name() + "FrequencyTable", termFrequencyTableInvocation);
+			JVar termFrequencyTableVar = (JVar)TextIndexUtil.computeTermFrequencyTable(null, localTextIndex, localTextIndexVar, termIndicesVar.invoke("keySet"), maxLength, context);
 
 			JVar entriesVar = context.declare(context.ref(Collection.class).narrow(context.ref(Map.Entry.class).narrow(((JClass)termFrequencyTableVar.type()).getTypeParameters())), "entries", termFrequencyTableVar.invoke("entrySet"));
 
@@ -526,51 +491,11 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 		}
 
 		public FunctionInvocation.Tf getTf(){
-			FunctionInvocation functionInvocation = this.functionInvocation;
-
-			if(functionInvocation instanceof FunctionInvocation.Tf){
-				FunctionInvocation.Tf tf = (FunctionInvocation.Tf)functionInvocation;
-
-				return tf;
-			} else
-
-			if(functionInvocation instanceof FunctionInvocation.TfIdf){
-				FunctionInvocation.TfIdf tfIdf = (FunctionInvocation.TfIdf)functionInvocation;
-				FunctionInvocation.Tf tf = tfIdf.getTf();
-
-				return tf;
-			}
-
-			throw new IllegalArgumentException();
+			return TextIndexUtil.asTf(this.functionInvocation);
 		}
 
 		public FunctionInvocation.TfIdf getTfIdf(){
-			FunctionInvocation functionInvocation = this.functionInvocation;
-
-			if(functionInvocation instanceof FunctionInvocation.Tf){
-				FunctionInvocation.Tf tf = (FunctionInvocation.Tf)functionInvocation;
-
-				return new FunctionInvocation.TfIdf(){
-
-					@Override
-					public FunctionInvocation.Tf getTf(){
-						return tf;
-					}
-
-					@Override
-					public Number getWeight(){
-						return 1;
-					}
-				};
-			} else
-
-			if(functionInvocation instanceof FunctionInvocation.TfIdf){
-				FunctionInvocation.TfIdf tfIdf = (FunctionInvocation.TfIdf)functionInvocation;
-
-				return tfIdf;
-			}
-
-			throw new IllegalArgumentException();
+			return TextIndexUtil.asTfIdf(this.functionInvocation);
 		}
 	}
 }

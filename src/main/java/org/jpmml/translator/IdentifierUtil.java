@@ -18,6 +18,8 @@
  */
 package org.jpmml.translator;
 
+import org.dmg.pmml.FieldName;
+
 public class IdentifierUtil {
 
 	private IdentifierUtil(){
@@ -47,6 +49,11 @@ public class IdentifierUtil {
 		}
 
 		return sb.toString();
+	}
+
+	static
+	public String create(String prefix, FieldName name){
+		return create(prefix, (Object)name);
 	}
 
 	static

@@ -30,6 +30,7 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -45,6 +46,7 @@ import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Predicate;
 import org.dmg.pmml.SimplePredicate;
 import org.dmg.pmml.SimpleSetPredicate;
+import org.dmg.pmml.TextIndex;
 import org.dmg.pmml.True;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.PMMLAttributes;
@@ -63,13 +65,16 @@ import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FpPrimitiveEncoder;
 import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
+import org.jpmml.translator.JBinaryFileInitializer;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.OperableRef;
 import org.jpmml.translator.OrdinalEncoder;
+import org.jpmml.translator.PMMLObjectUtil;
 import org.jpmml.translator.Scope;
 import org.jpmml.translator.TermFrequencyEncoder;
+import org.jpmml.translator.TextIndexUtil;
 import org.jpmml.translator.TranslationContext;
 import org.jpmml.translator.ValueFactoryRef;
 import org.jpmml.translator.ValueMapBuilder;
@@ -531,6 +536,33 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		}
 
 		return fieldInfos;
+	}
+
+	static
+	public void ensureLocalTextIndex(FieldInfo fieldInfo, TermFrequencyEncoder encoder, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		FunctionInvocation.Tf tf = encoder.getTf(fieldInfo);
+
+		TextIndex textIndex = tf.getTextIndex();
+
+		String textIndexName = IdentifierUtil.create("textIndex", textIndex);
+
+		JFieldVar localTextIndexVar = (owner.fields()).get(textIndexName);
+		if(localTextIndexVar == null){
+			FieldName name = tf.getTextField();
+
+			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(name, textIndex);
+
+			JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(TextIndex.class.getSimpleName(), localTextIndex) + ".data", context);
+
+			localTextIndexVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(TextIndex.class), textIndexName, PMMLObjectUtil.createObject(localTextIndex, context));
+
+			List<String>[] terms = (encoder.getVocabulary()).stream()
+				.toArray(List[]::new);
+
+			JFieldVar termsVar = resourceInitializer.initStringLists(IdentifierUtil.create("terms", name), terms);
+		}
 	}
 
 	static
