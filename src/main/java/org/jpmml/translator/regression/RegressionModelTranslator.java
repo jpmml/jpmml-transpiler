@@ -400,17 +400,17 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			TextIndex textIndex = Iterables.getOnlyElement(textIndexes);
 
-			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(name, textIndex);
+			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(textIndex, name);
 
-			JFieldVar localTextIndexVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(TextIndex.class), IdentifierUtil.create("textIndex", regressionTable), PMMLObjectUtil.createObject(localTextIndex, context));
+			JFieldVar textIndexVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(TextIndex.class), IdentifierUtil.create("textIndex", regressionTable, name), PMMLObjectUtil.createObject(localTextIndex, context));
 
 			List<String>[] terms = predictors.stream()
 				.map(termFunction)
 				.toArray(List[]::new);
 
-			JFieldVar termsVar = resourceInitializer.initStringLists(IdentifierUtil.create("terms", regressionTable), terms);
+			JFieldVar termsVar = resourceInitializer.initStringLists(IdentifierUtil.create("terms", regressionTable, name), terms);
 
-			JFieldVar termIndicesVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable), JExpr._new(context.ref(LinkedHashMap.class).narrow(Collections.emptyList())));
+			JFieldVar termIndicesVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable, name), JExpr._new(context.ref(LinkedHashMap.class).narrow(Collections.emptyList())));
 
 			JForLoop termIndicesForLoop = new JForLoop();
 
@@ -428,7 +428,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				.map(coefficientFunction)
 				.toArray(Number[]::new);
 
-			JFieldVar coefficientsVar = resourceInitializer.initNumbers(IdentifierUtil.create("coefficients", regressionTable), MathContext.DOUBLE, coefficients);
+			JFieldVar coefficientsVar = resourceInitializer.initNumbers(IdentifierUtil.create("coefficients", regressionTable, name), MathContext.DOUBLE, coefficients);
 
 			Number[] weights = predictors.stream()
 				.map(weightFunction)
@@ -437,14 +437,14 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			JFieldVar weightsVar = null;
 
 			if((Arrays.stream(weights)).anyMatch(weight -> (weights != null && weight.doubleValue() != 1d))){
-				weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", regressionTable), MathContext.DOUBLE, weights);
+				weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", regressionTable, name), MathContext.DOUBLE, weights);
 			}
 
 			int maxLength = Arrays.stream(terms)
 				.mapToInt(List::size)
 				.max().orElseThrow(NoSuchElementException::new);
 
-			JVar termFrequencyTableVar = (JVar)TextIndexUtil.computeTermFrequencyTable(null, localTextIndex, localTextIndexVar, termIndicesVar.invoke("keySet"), maxLength, context);
+			JVar termFrequencyTableVar = (JVar)TextIndexUtil.computeTermFrequencyTable(null, localTextIndex, textIndexVar, termIndicesVar.invoke("keySet"), maxLength, context);
 
 			JVar entriesVar = context.declare(context.ref(Collection.class).narrow(context.ref(Map.Entry.class).narrow(((JClass)termFrequencyTableVar.type()).getTypeParameters())), "entries", termFrequencyTableVar.invoke("entrySet"));
 

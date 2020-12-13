@@ -254,7 +254,7 @@ public class TranslationContext {
 			if(encoder instanceof TermFrequencyEncoder){
 				TermFrequencyEncoder termFrequencyEncoder = (TermFrequencyEncoder)encoder;
 
-				TreeModelTranslator.ensureLocalTextIndex(fieldInfo, termFrequencyEncoder, this);
+				TreeModelTranslator.ensureTextIndexFields(fieldInfo, termFrequencyEncoder, this);
 
 				initArgExprs = new JExpression[]{JExpr.lit(termFrequencyEncoder.getIndex())};
 			}

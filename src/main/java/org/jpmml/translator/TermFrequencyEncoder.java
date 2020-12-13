@@ -83,10 +83,12 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 		// JavaModel
 		JDefinedClass ownerOwner = (JDefinedClass)owner.parentContainer();
 
-		JFieldVar textIndexVar = (ownerOwner.fields()).get(IdentifierUtil.create("textIndex", tf.getTextIndex()));
-		JFieldVar termsVar = (ownerOwner.fields()).get(IdentifierUtil.create("terms", tf.getTextField()));
+		Map<String, JFieldVar> fields = ownerOwner.fields();
 
-		JFieldVar termFrequencyTableVar = owner.field(JMod.PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("frequencyTable", tf.getTextField()));
+		JFieldVar textIndexVar = fields.get(IdentifierUtil.create("textIndex", tf.getTextIndex(), tf.getTextField()));
+		JFieldVar termsVar = fields.get(IdentifierUtil.create("terms", tf.getTextIndex(), tf.getTextField()));
+
+		JFieldVar termFrequencyTableVar = owner.field(JMod.PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termFrequencyTable", tf.getTextField()));
 
 		JMethod frequencyTableMethod = owner.method(JMod.PRIVATE, termFrequencyTableVar.type(), termFrequencyTableVar.name());
 
@@ -100,7 +102,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 			try {
 				context.pushScope(new Scope(thenBlock));
 
-				TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(tf.getTextField(), tf.getTextIndex());
+				TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(tf.getTextIndex(), tf.getTextField());
 
 				int maxLength = getVocabulary().stream()
 					.mapToInt(List::size)

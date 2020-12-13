@@ -41,7 +41,7 @@ public class TextIndexUtil {
 	}
 
 	static
-	public TextIndex toLocalTextIndex(FieldName name, TextIndex textIndex){
+	public TextIndex toLocalTextIndex(TextIndex textIndex, FieldName name){
 		TextIndex localTextIndex = new TextIndex(name, null)
 			.setLocalTermWeights(textIndex.getLocalTermWeights())
 			.setCaseSensitive(textIndex.isCaseSensitive())

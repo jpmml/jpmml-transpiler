@@ -18,7 +18,10 @@
  */
 package org.jpmml.translator;
 
+import java.util.List;
+
 import org.dmg.pmml.FieldName;
+import org.dmg.pmml.PMMLObject;
 
 public class IdentifierUtil {
 
@@ -53,11 +56,21 @@ public class IdentifierUtil {
 
 	static
 	public String create(String prefix, FieldName name){
-		return create(prefix, (Object)name);
+		return prefix + "$" + System.identityHashCode(name);
 	}
 
 	static
-	public String create(String prefix, Object object){
+	public String create(String prefix, PMMLObject object){
 		return prefix + "$" + System.identityHashCode(object);
+	}
+
+	static
+	public String create(String prefix, PMMLObject object, FieldName name){
+		return create(create(prefix, object), name);
+	}
+
+	static
+	public String create(String prefix, List<?> objects){
+		return prefix + "$" + System.identityHashCode(objects);
 	}
 }

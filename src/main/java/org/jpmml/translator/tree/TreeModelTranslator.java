@@ -539,29 +539,28 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public void ensureLocalTextIndex(FieldInfo fieldInfo, TermFrequencyEncoder encoder, TranslationContext context){
+	public void ensureTextIndexFields(FieldInfo fieldInfo, TermFrequencyEncoder encoder, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
 		FunctionInvocation.Tf tf = encoder.getTf(fieldInfo);
 
 		TextIndex textIndex = tf.getTextIndex();
+		FieldName name = tf.getTextField();
 
-		String textIndexName = IdentifierUtil.create("textIndex", textIndex);
+		String textIndexName = IdentifierUtil.create("textIndex", textIndex, name);
 
-		JFieldVar localTextIndexVar = (owner.fields()).get(textIndexName);
-		if(localTextIndexVar == null){
-			FieldName name = tf.getTextField();
+		JFieldVar textIndexVar = (owner.fields()).get(textIndexName);
+		if(textIndexVar == null){
+			JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(TextIndex.class.getSimpleName(), textIndex) + ".data", context);
 
-			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(name, textIndex);
+			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(textIndex, name);
 
-			JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(TextIndex.class.getSimpleName(), localTextIndex) + ".data", context);
-
-			localTextIndexVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(TextIndex.class), textIndexName, PMMLObjectUtil.createObject(localTextIndex, context));
+			textIndexVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(TextIndex.class), textIndexName, PMMLObjectUtil.createObject(localTextIndex, context));
 
 			List<String>[] terms = (encoder.getVocabulary()).stream()
 				.toArray(List[]::new);
 
-			JFieldVar termsVar = resourceInitializer.initStringLists(IdentifierUtil.create("terms", name), terms);
+			JFieldVar termsVar = resourceInitializer.initStringLists(IdentifierUtil.create("terms", textIndex, name), terms);
 		}
 	}
 

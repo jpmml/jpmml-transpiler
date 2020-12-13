@@ -355,7 +355,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 	static
 	public JMethod createEvaluatorMethod(Class<?> type, List<? extends PMMLObject> objects, boolean withValueFactory, TranslationContext context){
-		Object object = Iterables.getFirst(objects, null);
+		PMMLObject object = Iterables.getFirst(objects, null);
 
 		return createEvaluatorMethod(type, IdentifierUtil.create("evaluate" + (object.getClass()).getSimpleName() + "List", object), withValueFactory, context);
 	}
