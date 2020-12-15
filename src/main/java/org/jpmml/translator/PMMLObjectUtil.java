@@ -312,6 +312,11 @@ public class PMMLObjectUtil {
 
 			if((False.INSTANCE).equals(pmmlObject)){
 				return context.ref(False.class).staticRef("INSTANCE");
+			}
+
+			Class<?> pmmlObjectClazz = pmmlObject.getClass();
+			if(pmmlObjectClazz.isAnonymousClass()){
+				throw new IllegalArgumentException();
 			} // End if
 
 			// PMML-level elements
