@@ -1,4 +1,4 @@
-JPMML-Transpiler
+JPMML-Transpiler [![Build Status](https://github.com/jpmml/jpmml-transpiler/workflows/maven/badge.svg)](https://github.com/jpmml/jpmml-transpiler/actions?query=workflow%3A%22maven%22)
 ================
 
 Java Transpiler (Translator + Compiler) API for Predictive Model Markup Language (PMML).
