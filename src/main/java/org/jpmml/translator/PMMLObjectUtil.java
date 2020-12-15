@@ -46,6 +46,7 @@ import com.sun.codemodel.JVar;
 
 import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.DefineFunction;
+import org.dmg.pmml.False;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.Header;
 import org.dmg.pmml.LocalTransformations;
@@ -58,6 +59,7 @@ import org.dmg.pmml.Output;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.TransformationDictionary;
+import org.dmg.pmml.True;
 import org.dmg.pmml.mining.Segment;
 import org.dmg.pmml.mining.Segmentation;
 import org.jpmml.evaluator.PMMLException;
@@ -303,6 +305,14 @@ public class PMMLObjectUtil {
 
 		if((PMMLObject.class).isAssignableFrom(clazz)){
 			PMMLObject pmmlObject = (PMMLObject)value;
+
+			if((True.INSTANCE).equals(pmmlObject)){
+				return context.ref(True.class).staticRef("INSTANCE");
+			} else
+
+			if((False.INSTANCE).equals(pmmlObject)){
+				return context.ref(False.class).staticRef("INSTANCE");
+			} // End if
 
 			// PMML-level elements
 			if((pmmlObject instanceof Header) || (pmmlObject instanceof DataDictionary) || (pmmlObject instanceof TransformationDictionary)){

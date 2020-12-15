@@ -137,6 +137,14 @@
 			<version>1.5.7</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>pmml-model</artifactId>
+			<version>1.5.7</version>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
