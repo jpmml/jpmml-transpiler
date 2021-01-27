@@ -27,7 +27,6 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JVar;
-
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.DerivedField;
 import org.dmg.pmml.FieldName;
@@ -42,12 +41,20 @@ public class TextIndexUtil {
 
 	static
 	public TextIndex toLocalTextIndex(TextIndex textIndex, FieldName name){
+		String wordRE = textIndex.getWordRE();
+		String wordSeparatorCharacterRE = textIndex.getWordSeparatorCharacterRE();
+
+		if(wordRE != null){
+			wordSeparatorCharacterRE = null;
+		}
+
 		TextIndex localTextIndex = new TextIndex(name, null)
 			.setLocalTermWeights(textIndex.getLocalTermWeights())
 			.setCaseSensitive(textIndex.isCaseSensitive())
 			.setMaxLevenshteinDistance(textIndex.getMaxLevenshteinDistance())
 			.setCountHits(textIndex.getCountHits())
-			.setWordSeparatorCharacterRE(textIndex.getWordSeparatorCharacterRE())
+			.setWordRE(wordRE)
+			.setWordSeparatorCharacterRE(wordSeparatorCharacterRE)
 			.setTokenize(textIndex.isTokenize());
 
 		if(textIndex.hasTextIndexNormalizations()){
