@@ -11,7 +11,7 @@ from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTre
 from sklearn_pandas import DataFrameMapper
 from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.decoration import CategoricalDomain, ContinuousDomain
-from sklearn2pmml.feature_extraction.text import Splitter
+from sklearn2pmml.feature_extraction.text import Matcher, Splitter
 from sklearn2pmml.pipeline import PMMLPipeline
 from sklearn2pmml.preprocessing import PMMLLabelBinarizer, PMMLLabelEncoder
 from xgboost.sklearn import XGBClassifier, XGBRegressor
@@ -151,9 +151,9 @@ def build_sentiment(classifier, transformer, name, with_proba = True, **pmml_opt
 	store_csv(score, name)
 
 if "Sentiment" in datasets:
-	pmml_textindex_args = dict(analyzer = "word", preprocessor = None, strip_accents = None, token_pattern = None, tokenizer = Splitter(), dtype = numpy.float64)
-	build_sentiment(LinearSVC(random_state = 13), CountVectorizer(ngram_range = (1, 2), **pmml_textindex_args), "LinearSVCSentiment", with_proba = False)
-	build_sentiment(LogisticRegression(multi_class = "ovr"), TfidfVectorizer(stop_words = "english", ngram_range = (1, 3), norm = None, **pmml_textindex_args), "LogisticRegressionSentiment")
+	pmml_textindex_args = dict(analyzer = "word", preprocessor = None, strip_accents = None, dtype = numpy.float64)
+	build_sentiment(LinearSVC(random_state = 13), CountVectorizer(tokenizer = Splitter(), ngram_range = (1, 2), **pmml_textindex_args), "LinearSVCSentiment", with_proba = False)
+	build_sentiment(LogisticRegression(multi_class = "ovr"), TfidfVectorizer(stop_words = "english", tokenizer = Matcher(), ngram_range = (1, 3), norm = None, **pmml_textindex_args), "LogisticRegressionSentiment")
 	build_sentiment(RandomForestClassifier(max_depth = 8, min_samples_leaf = 10, n_estimators = 31, random_state = 13), CountVectorizer(ngram_range = (1, 2), **pmml_textindex_args), "RandomForestSentiment")
 
 #
