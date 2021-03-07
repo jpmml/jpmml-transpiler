@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>[21.0, 30.0-jre]</version>
+			<version>[21.0, 30.1-jre]</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.code.findbugs</groupId>
@@ -84,22 +84,12 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator</artifactId>
-			<version>1.5.11</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jpmml</groupId>
-					<artifactId>pmml-model-metro</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jpmml</groupId>
-					<artifactId>pmml-model-moxy</artifactId>
-				</exclusion>
-			</exclusions>
+			<version>1.5.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-extension</artifactId>
-			<version>1.5.11</version>
+			<version>1.5.14</version>
 		</dependency>
 
 		<dependency>
@@ -111,7 +101,17 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>jpmml-converter</artifactId>
-			<version>1.4.5</version>
+			<version>1.4.6</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jpmml</groupId>
+					<artifactId>pmml-model-metro</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Inherited from org.jpmml:pmml-model dependency -->
@@ -134,14 +134,28 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-testing</artifactId>
-			<version>1.5.11</version>
+			<version>1.5.14</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jpmml</groupId>
+					<artifactId>pmml-evaluator-kryo</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jpmml</groupId>
+					<artifactId>pmml-evaluator-metro</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jpmml</groupId>
+					<artifactId>pmml-evaluator-moxy</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-model</artifactId>
-			<version>1.5.11</version>
+			<version>1.5.14</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
