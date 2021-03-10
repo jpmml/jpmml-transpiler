@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.7"/>
-		<Timestamp>2020-11-20T06:40:26Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.13"/>
+		<Timestamp>2021-03-10T07:38:40Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -93,7 +93,7 @@
 			</UnivariateStats>
 			<UnivariateStats field="acceleration">
 				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
-				<NumericInfo minimum="8.0" maximum="24.8" mean="15.541326530612244" standardDeviation="2.7553429127509967" median="15.5" interQuartileRange="3.2499999999999964"/>
+				<NumericInfo minimum="8.0" maximum="24.8" mean="15.541326530612244" standardDeviation="2.7553429127509967" median="15.5" interQuartileRange="3.2499999999999982"/>
 			</UnivariateStats>
 		</ModelStats>
 		<RegressionTable intercept="39.99390503752615">
