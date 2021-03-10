@@ -1,4 +1,5 @@
 from lightgbm import LGBMClassifier, LGBMRegressor
+from mlxtend.preprocessing import DenseTransformer
 from pandas import DataFrame
 from sklearn.ensemble import AdaBoostRegressor, GradientBoostingClassifier, GradientBoostingRegressor, IsolationForest, RandomForestClassifier, RandomForestRegressor, VotingRegressor
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
@@ -138,6 +139,7 @@ sentiment_X, sentiment_y = load_sentiment("Sentiment")
 def build_sentiment(classifier, transformer, name, with_proba = True, **pmml_options):
 	pipeline = PMMLPipeline([
 		("transformer", transformer),
+		("densifier", DenseTransformer()),
 		("selector", SelectKBest(f_classif, k = 500)),
 		("classifier", classifier)
 	])
@@ -155,6 +157,7 @@ if "Sentiment" in datasets:
 	build_sentiment(LinearSVC(random_state = 13), CountVectorizer(tokenizer = Splitter(), ngram_range = (1, 2), **pmml_textindex_args), "LinearSVCSentiment", with_proba = False)
 	build_sentiment(LogisticRegression(multi_class = "ovr"), TfidfVectorizer(stop_words = "english", tokenizer = Matcher(), ngram_range = (1, 3), norm = None, **pmml_textindex_args), "LogisticRegressionSentiment")
 	build_sentiment(RandomForestClassifier(max_depth = 8, min_samples_leaf = 10, n_estimators = 31, random_state = 13), CountVectorizer(ngram_range = (1, 2), **pmml_textindex_args), "RandomForestSentiment")
+	build_sentiment(XGBClassifier(objective = "binary:logistic", ntree_limit = 31, random_state = 13), CountVectorizer(tokenizer = Matcher(), **pmml_textindex_args), "XGBoostSentiment")
 
 #
 # Multi-class classification

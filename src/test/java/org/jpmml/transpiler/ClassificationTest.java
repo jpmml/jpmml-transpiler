@@ -85,6 +85,11 @@ public class ClassificationTest extends TranspilerTest {
 	}
 
 	@Test
+	public void evaluateXGBoostSentiment() throws Exception {
+		evaluate("XGBoost", "Sentiment", excludeFields(FieldName.create("probability(0)")), new FloatEquivalence(8));
+	}
+
+	@Test
 	public void evaluateDecisionTreeIris() throws Exception {
 		evaluate("DecisionTree", "Iris");
 	}
