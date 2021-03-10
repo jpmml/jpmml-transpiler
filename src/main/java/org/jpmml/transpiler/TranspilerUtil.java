@@ -28,7 +28,6 @@ import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JPackage;
-
 import org.dmg.pmml.PMML;
 import org.jpmml.codemodel.ArchiverUtil;
 import org.jpmml.codemodel.CompilerUtil;
@@ -90,7 +89,7 @@ public class TranspilerUtil {
 	static {
 		String[] lines = {
 			"/*",
-			" * Copyright (c) 2020 Villu Ruusmann",
+			" * Copyright (c) 2021 Villu Ruusmann",
 			" *",
 			// All the generated code is functionally dependent on the JPMML-Evaluator library.
 			" * This file is part of JPMML-Evaluator",
