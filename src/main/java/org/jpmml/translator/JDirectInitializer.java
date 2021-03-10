@@ -56,13 +56,17 @@ public class JDirectInitializer extends JClassInitializer {
 
 		JFieldVar constant = createConstant(name, type, context);
 
+		JMethod initMethod = createMethod(name, context);
+
 		List<JExpression> lambdas = methods.stream()
 			.map(method -> JExpr.direct(owner.name() + "::" + method.name()))
 			.collect(Collectors.toList());
 
 		JInvocation invocation = populateConstant(constant, lambdas, context);
 
-		add(invocation);
+		initMethod.body().add(invocation);
+
+		add(JExpr.invoke(initMethod));
 
 		return constant;
 	}

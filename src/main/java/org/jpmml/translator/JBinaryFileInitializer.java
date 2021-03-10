@@ -37,12 +37,12 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JForEach;
 import com.sun.codemodel.JFormatter;
 import com.sun.codemodel.JInvocation;
+import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JPackage;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.codemodel.fmt.JBinaryFile;
-
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.jpmml.evaluator.ResourceUtil;
@@ -244,15 +244,22 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JBlock block = this.tryBody;
+		JMethod initMethod = createMethod(name, context)
+			._throws(IOException.class);
+
+		JVar dataInputParam = initMethod.param(DataInputStream.class, "dataInput");
+
+		JBlock block = initMethod.body();
 
 		JVar countsVar = block.decl(intType.array(), "counts", countArray);
 
 		JForEach forEach = block.forEach(intType, "count", countsVar);
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumbers(mathContext), this.dataInputVar, forEach.var());
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumbers(mathContext), dataInputParam, forEach.var());
 
 		forEach.body().add((constant.invoke("add")).arg(invocation));
+
+		add(JExpr.invoke(initMethod).arg(this.dataInputVar));
 
 		return constant;
 	}
@@ -289,15 +296,22 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JBlock block = this.tryBody;
+		JMethod initMethod = createMethod(name, context).
+			_throws(IOException.class);
+
+		JVar dataInputParam = initMethod.param(DataInputStream.class, "dataInput");
+
+		JBlock block = initMethod.body();
 
 		JVar countsVar = block.decl(intType.array(), "counts", countArray);
 
 		JForEach forEach = block.forEach(intType, "count", countsVar);
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumberArrays(mathContext), this.dataInputVar, forEach.var(), JExpr.lit(length));
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumberArrays(mathContext), dataInputParam, forEach.var(), JExpr.lit(length));
 
 		forEach.body().add((constant.invoke("add")).arg(invocation));
+
+		add(JExpr.invoke(initMethod).arg(this.dataInputVar));
 
 		return constant;
 	}
