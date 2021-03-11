@@ -42,11 +42,8 @@ public class FileTranspiler extends Transpiler {
 	@Override
 	public PMML transpile(PMML pmml) throws IOException {
 		File file = getFile();
-		String className = getClassName();
 
-		JCodeModel codeModel = TranspilerUtil.translate(pmml, className);
-
-		TranspilerUtil.compile(codeModel);
+		JCodeModel codeModel = compile(translate(pmml));
 
 		try(OutputStream os = new FileOutputStream(file)){
 			TranspilerUtil.archive(codeModel, os);

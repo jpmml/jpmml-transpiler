@@ -20,6 +20,7 @@ package org.jpmml.transpiler;
 
 import java.io.IOException;
 
+import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
 
 abstract
@@ -34,6 +35,23 @@ public class Transpiler {
 
 	abstract
 	public PMML transpile(PMML pmml) throws IOException;
+
+	@SuppressWarnings(
+		value = {"unused"}
+	)
+	protected JCodeModel translate(PMML pmml) throws IOException {
+		String className = getClassName();
+
+		JCodeModel codeModel = TranspilerUtil.translate(pmml, className);
+
+		return codeModel;
+	}
+
+	protected JCodeModel compile(JCodeModel codeModel) throws IOException {
+		TranspilerUtil.compile(codeModel);
+
+		return codeModel;
+	}
 
 	public String getClassName(){
 		return this.className;

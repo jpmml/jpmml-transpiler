@@ -33,11 +33,7 @@ public class InMemoryTranspiler extends Transpiler {
 
 	@Override
 	public PMML transpile(PMML pmml) throws IOException {
-		String className = getClassName();
-
-		JCodeModel codeModel = TranspilerUtil.translate(pmml, className);
-
-		TranspilerUtil.compile(codeModel);
+		JCodeModel codeModel = compile(translate(pmml));
 
 		ClassLoader clazzLoader = new JCodeModelClassLoader(codeModel);
 
