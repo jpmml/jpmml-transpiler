@@ -253,6 +253,9 @@
 				<configuration>
 					<argLine>${jacoco.agent}</argLine>
 					<trimStackTrace>false</trimStackTrace>
+					<systemPropertyVariables>
+						<org.jpmml.transpiler.TranspilerTestBatch.explodedArchiveDir>target/exploded-test-archives</org.jpmml.transpiler.TranspilerTestBatch.explodedArchiveDir>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 			<plugin>

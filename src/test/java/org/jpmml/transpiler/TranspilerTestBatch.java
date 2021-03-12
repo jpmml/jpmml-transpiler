@@ -18,9 +18,14 @@
  */
 package org.jpmml.transpiler;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.function.Predicate;
 
 import com.google.common.base.Equivalence;
+import com.sun.codemodel.CodeWriter;
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.writer.FileCodeWriter;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Visitor;
 import org.jpmml.evaluator.Evaluator;
@@ -31,6 +36,9 @@ import org.jpmml.model.SerializationUtil;
 
 abstract
 public class TranspilerTestBatch extends IntegrationTestBatch {
+
+	private String explodedArchiveDir = System.getProperty(TranspilerTestBatch.class.getName() + "." + "explodedArchiveDir", null);
+
 
 	public TranspilerTestBatch(String name, String dataset, Predicate<ResultField> predicate, Equivalence<Object> equivalence){
 		super(name, dataset, predicate, equivalence);
@@ -46,7 +54,47 @@ public class TranspilerTestBatch extends IntegrationTestBatch {
 
 		PMML xmlPmml = super.getPMML();
 
-		Transpiler transpiler = new InMemoryTranspiler(null);
+		Transpiler transpiler = new InMemoryTranspiler(null){
+
+			@Override
+			protected JCodeModel translate(PMML pmml) throws IOException {
+				JCodeModel codeModel = super.translate(pmml);
+
+				// Export sources and resources
+				export(codeModel);
+
+				return codeModel;
+			}
+
+			@Override
+			protected JCodeModel compile(JCodeModel codeModel) throws IOException {
+				codeModel = super.compile(codeModel);
+
+				// Re-export sources and resources, export classes
+				export(codeModel);
+
+				return codeModel;
+			}
+
+			private void export(JCodeModel codeModel) throws IOException {
+
+				if(TranspilerTestBatch.this.explodedArchiveDir != null){
+					File explodedArchiveDir = new File(TranspilerTestBatch.this.explodedArchiveDir + "/" + getName() + getDataset());
+
+					if(!explodedArchiveDir.exists()){
+						boolean success = explodedArchiveDir.mkdirs();
+
+						if(!success){
+							throw new IOException();
+						}
+					}
+
+					CodeWriter codeWriter = new FileCodeWriter(explodedArchiveDir);
+
+					codeModel.build(codeWriter);
+				}
+			}
+		};
 
 		PMML javaPmml = transpiler.transpile(xmlPmml);
 
