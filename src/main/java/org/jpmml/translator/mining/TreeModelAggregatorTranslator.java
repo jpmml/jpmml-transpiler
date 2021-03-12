@@ -21,21 +21,26 @@ package org.jpmml.translator.mining;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClassAlreadyExistsException;
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JMod;
+import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
@@ -278,6 +283,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			pullUpDerivedFields(miningModel, treeModel);
 		}
 
+		JDefinedClass treeFunctionInterface = ensureTreeFunction(context);
+
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
 		List<Number[]> scoreValues = scoreManagers.stream()
@@ -296,7 +303,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
-		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(context)), methods);
+		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), treeFunctionInterface.narrow(ensureArgumentsType(context)), methods);
 
 		JBlock block = context.block();
 
@@ -311,7 +318,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			context.pushScope(new Scope(forBlock));
 
-			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("applyAsInt").arg((context.getArgumentsVariable()).getVariable()));
+			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("apply").arg((context.getArgumentsVariable()).getVariable()));
 
 			context._returnIf(indexExpr.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
 
@@ -445,6 +452,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			pullUpDerivedFields(miningModel, treeModel);
 		}
 
+		JDefinedClass treeFunctionInterface = ensureTreeFunction(context);
+
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
 		List<Number[][]> scoreValues = scoreManagers.stream()
@@ -463,7 +472,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
-		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), (context.ref(ToIntFunction.class)).narrow(ensureArgumentsType(context)), methods);
+		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), treeFunctionInterface.narrow(ensureArgumentsType(context)), methods);
 
 		JFieldVar categoriesVar = codeInitializer.initTargetCategories("targetCategories", Arrays.asList(categories));
 
@@ -482,7 +491,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			context.pushScope(new Scope(forBlock));
 
-			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("applyAsInt").arg((context.getArgumentsVariable()).getVariable()));
+			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("apply").arg((context.getArgumentsVariable()).getVariable()));
 
 			context._returnIf(indexExpr.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
 
@@ -520,6 +529,38 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		}
 
 		context._return(context._new(ProbabilityDistribution.class, valueMapInit));
+	}
+
+	private JDefinedClass ensureTreeFunction(TranslationContext context){
+		JCodeModel codeModel = context.getCodeModel();
+
+		JDefinedClass owner = context.getOwner();
+
+		for(Iterator<JDefinedClass> it = owner.classes(); it.hasNext(); ){
+			JDefinedClass clazz = it.next();
+
+			if(("TreeFunction").equals(clazz.name())){
+				return clazz;
+			}
+		}
+
+		JDefinedClass definedClazz;
+
+		try {
+			definedClazz = owner._interface("TreeFunction");
+		} catch(JClassAlreadyExistsException jcaee){
+			throw new IllegalArgumentException(jcaee);
+		}
+
+		definedClazz.annotate(FunctionalInterface.class);
+
+		JTypeVar typeVar = definedClazz.generify("T");
+
+		JMethod method = definedClazz.method(JMod.PUBLIC | JMod.ABSTRACT, codeModel.INT, "apply");
+
+		method.param(typeVar, "value");
+
+		return definedClazz;
 	}
 
 	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){

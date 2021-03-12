@@ -287,7 +287,7 @@
 				<version>1.20</version>
 				<executions>
 					<execution>
-						<id>android-24</id>
+						<id>android-21</id>
 						<!-- Sniff translated classes only -->
 						<phase>prepare-package</phase>
 						<goals>
@@ -297,8 +297,8 @@
 							<outputDirectory>target/exploded-test-archives</outputDirectory>
 							<signature>
 								<groupId>net.sf.androidscents.signature</groupId>
-								<artifactId>android-api-level-24</artifactId>
-								<version>7.0_r2</version>
+								<artifactId>android-api-level-21</artifactId>
+								<version>5.0.1_r2</version>
 							</signature>
 						</configuration>
 					</execution>
