@@ -282,6 +282,29 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>animal-sniffer-maven-plugin</artifactId>
+				<version>1.20</version>
+				<executions>
+					<execution>
+						<id>android-24</id>
+						<!-- Sniff translated classes only -->
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/exploded-test-archives</outputDirectory>
+							<signature>
+								<groupId>net.sf.androidscents.signature</groupId>
+								<artifactId>android-api-level-24</artifactId>
+								<version>7.0_r2</version>
+							</signature>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>de.jutzig</groupId>
 				<artifactId>github-release-plugin</artifactId>
 				<version>1.2.0</version>
