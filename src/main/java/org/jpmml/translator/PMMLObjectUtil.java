@@ -23,13 +23,18 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.sun.codemodel.JArray;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
@@ -41,13 +46,14 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-
 import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.False;
 import org.dmg.pmml.FieldName;
+import org.dmg.pmml.HasDiscreteDomain;
 import org.dmg.pmml.Header;
 import org.dmg.pmml.LocalTransformations;
 import org.dmg.pmml.MiningSchema;
@@ -60,6 +66,7 @@ import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.TransformationDictionary;
 import org.dmg.pmml.True;
+import org.dmg.pmml.Value;
 import org.dmg.pmml.mining.Segment;
 import org.dmg.pmml.mining.Segmentation;
 import org.jpmml.evaluator.PMMLException;
@@ -334,7 +341,89 @@ public class PMMLObjectUtil {
 			} else
 
 			if(pmmlObject instanceof org.dmg.pmml.Field){
+				org.dmg.pmml.Field field = (org.dmg.pmml.Field)pmmlObject;
+
+				ListMultimap<Value.Property, Object> discreteValues = ArrayListMultimap.create();
+
+				List<Value> suppressedPmmlValues = null;
+
+				discreteValues:
+				if(field instanceof HasDiscreteDomain){
+					HasDiscreteDomain<?> hasDiscreteDomain = (HasDiscreteDomain<?>)field;
+
+					if(hasDiscreteDomain.hasValues()){
+						List<Value> pmmlValues = hasDiscreteDomain.getValues();
+
+						for(Value pmmlValue : pmmlValues){
+							String displayName = pmmlValue.getDisplayValue();
+
+							if(displayName != null || pmmlValue.hasExtensions()){
+								discreteValues.clear();
+
+								break discreteValues;
+							}
+
+							discreteValues.put(pmmlValue.getProperty(), pmmlValue.getValue());
+						}
+
+						suppressedPmmlValues = new ArrayList<>(pmmlValues);
+
+						pmmlValues.clear();
+					}
+				}
+
 				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
+
+				if(field instanceof HasDiscreteDomain){
+					HasDiscreteDomain<?> hasDiscreteDomain = (HasDiscreteDomain<?>)field;
+
+					if(suppressedPmmlValues != null){
+						List<Value> pmmlValues = hasDiscreteDomain.getValues();
+
+						pmmlValues.addAll(suppressedPmmlValues);
+					}
+
+					JBlock body = builderMethod.body();
+
+					JStatement _return;
+
+					Field returnExprField;
+
+					JInvocation invocation;
+
+					try {
+						Class<? extends JStatement> returnClazz = (Class)Class.forName("com.sun.codemodel.JReturn");
+
+						_return = returnClazz.cast(Iterables.getLast(body.getContents()));
+
+						returnExprField = returnClazz.getDeclaredField("expr");
+						if(!returnExprField.isAccessible()){
+							returnExprField.setAccessible(true);
+						}
+
+						invocation = (JInvocation)returnExprField.get(_return);
+					} catch(ReflectiveOperationException roe){
+						throw new IllegalArgumentException(roe);
+					}
+
+					Collection<Map.Entry<Value.Property, Collection<Object>>> entries = (discreteValues.asMap()).entrySet();
+					for(Map.Entry<Value.Property, Collection<Object>> entry : entries){
+						Value.Property property = entry.getKey();
+						List<?> arguments = (List<?>)entry.getValue();
+
+						if(arguments != null && !arguments.isEmpty()){
+							invocation = invocation.invoke("addValues").arg(createExpression(property, context));
+
+							invocation = initializeArray(Object.class, arguments, invocation, context);
+						}
+					}
+
+					try {
+						returnExprField.set(_return, invocation);
+					} catch(ReflectiveOperationException roe){
+						throw new IllegalArgumentException(roe);
+					}
+				}
 
 				return JExpr.invoke(builderMethod);
 			} else
@@ -442,6 +531,10 @@ public class PMMLObjectUtil {
 		if(value instanceof List){
 			List<?> elements = (List<?>)value;
 
+			if(elements.isEmpty()){
+				return invocation;
+			}
+
 			invocation = JExpr.invoke(invocation, formatSetterName("add", setterMethodField));
 
 			initializeArray(setterMethodField, elements, invocation, context);
@@ -464,6 +557,21 @@ public class PMMLObjectUtil {
 
 	static
 	private JInvocation initializeArray(Field field, List<?> elements, JInvocation invocation, TranslationContext context){
+		Class<?> listClazz = field.getType();
+
+		if(!(List.class).equals(listClazz)){
+			throw new IllegalArgumentException();
+		}
+
+		ParameterizedType listType = (ParameterizedType)field.getGenericType();
+
+		Type listElementType = listType.getActualTypeArguments()[0];
+
+		return initializeArray((Class)listElementType, elements, invocation, context);
+	}
+
+	static
+	private JInvocation initializeArray(Class<?> listElementType, List<?> elements, JInvocation invocation, TranslationContext context){
 
 		if(elements.size() <= PMMLObjectUtil.CHUNK_SIZE){
 
@@ -473,16 +581,6 @@ public class PMMLObjectUtil {
 		} else
 
 		{
-			Class<?> listClazz = field.getType();
-
-			if(!(List.class).equals(listClazz)){
-				throw new IllegalArgumentException();
-			}
-
-			ParameterizedType listType = (ParameterizedType)field.getGenericType();
-
-			Type listElementType = listType.getActualTypeArguments()[0];
-
 			JMethod method = createArrayBuilderMethod((Class)listElementType, elements, context);
 
 			invocation.arg(JExpr.invoke(method));
