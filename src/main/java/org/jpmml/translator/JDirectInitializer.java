@@ -18,6 +18,7 @@
  */
 package org.jpmml.translator;
 
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,14 +53,12 @@ public class JDirectInitializer extends JClassInitializer {
 	public JFieldVar initLambdas(String name, JType type, List<JMethod> methods){
 		TranslationContext context = getContext();
 
-		JDefinedClass owner = context.getOwner();
-
 		JFieldVar constant = createConstant(name, type, context);
 
 		JMethod initMethod = createMethod(name, context);
 
 		List<JExpression> lambdas = methods.stream()
-			.map(method -> JExpr.direct(owner.name() + "::" + method.name()))
+			.map(method -> JExpr.direct(formatLambda(method)))
 			.collect(Collectors.toList());
 
 		JInvocation invocation = populateConstant(constant, lambdas, context);
@@ -85,6 +84,24 @@ public class JDirectInitializer extends JClassInitializer {
 		add(invocation);
 
 		return constant;
+	}
+
+	static
+	private String formatLambda(JMethod method){
+		JDefinedClass outer;
+
+		try {
+			Field field = JMethod.class.getDeclaredField("outer");
+			if(!field.isAccessible()){
+				field.setAccessible(true);
+			}
+
+			outer = (JDefinedClass)field.get(method);
+		} catch(ReflectiveOperationException roe){
+			throw new RuntimeException(roe);
+		}
+
+		return outer.name() + "::" + method.name();
 	}
 
 	static

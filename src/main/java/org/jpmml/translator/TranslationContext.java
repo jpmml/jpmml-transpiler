@@ -49,7 +49,6 @@ import com.sun.codemodel.JSwitch;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
-
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -101,6 +100,10 @@ public class TranslationContext {
 
 	public JDefinedClass getOwner(){
 		return this.owners.getFirst();
+	}
+
+	public Deque<JDefinedClass> getOwners(){
+		return this.owners;
 	}
 
 	public void pushOwner(JDefinedClass owner){

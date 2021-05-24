@@ -72,6 +72,7 @@ import org.jpmml.translator.JDirectInitializer;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
+import org.jpmml.translator.PMMLObjectUtil;
 import org.jpmml.translator.Scope;
 import org.jpmml.translator.TranslationContext;
 import org.jpmml.translator.ValueBuilder;
@@ -564,16 +565,24 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	}
 
 	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
-		JMethod method = createEvaluatorMethod(int.class, node, false, context);
+		JDefinedClass treeModelClazz = PMMLObjectUtil.createMemberClass(ModelTranslator.MEMBER_PRIVATE, IdentifierUtil.create(TreeModel.class.getSimpleName(), treeModel), context);
 
 		try {
-			context.pushScope(new MethodScope(method));
+			context.pushOwner(treeModelClazz);
 
-			TreeModelTranslator.translateNode(treeModel, node, scoreManager, fieldInfos, context);
+			JMethod method = createEvaluatorMethod(int.class, node, false, context);
+
+			try {
+				context.pushScope(new MethodScope(method));
+
+				TreeModelTranslator.translateNode(treeModel, node, scoreManager, fieldInfos, context);
+
+				return method;
+			} finally {
+				context.popScope();
+			}
 		} finally {
-			context.popScope();
+			context.popOwner();
 		}
-
-		return method;
 	}
 }
