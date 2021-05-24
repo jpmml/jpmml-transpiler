@@ -29,6 +29,7 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
+import org.jpmml.evaluator.java.JavaModel;
 
 abstract
 class JClassInitializer {
@@ -53,7 +54,7 @@ class JClassInitializer {
 
 	static
 	protected JMethod createMethod(String name, TranslationContext context){
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		JMethod method = owner.method(JMod.PRIVATE | JMod.STATIC, void.class, "init" + (name.substring(0, 1)).toUpperCase() + name.substring(1));
 
@@ -62,7 +63,7 @@ class JClassInitializer {
 
 	static
 	protected JFieldVar createConstant(String name, JType type, TranslationContext context){
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		JFieldVar constant = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(List.class).narrow(type), name, JExpr._new((context.ref(ArrayList.class)).narrow(Collections.emptyList())));
 

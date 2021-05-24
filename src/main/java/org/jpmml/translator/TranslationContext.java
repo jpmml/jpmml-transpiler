@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +101,22 @@ public class TranslationContext {
 
 	public JDefinedClass getOwner(){
 		return this.owners.getFirst();
+	}
+
+	public JDefinedClass getOwner(Class<?> clazz){
+		Deque<JDefinedClass> owners = getOwners();
+
+		JClass superClazz = ref(clazz);
+
+		for(Iterator<JDefinedClass> it = owners.iterator(); it.hasNext(); ){
+			JDefinedClass owner = it.next();
+
+			if(superClazz.isAssignableFrom(owner)){
+				return owner;
+			}
+		}
+
+		throw new IllegalArgumentException();
 	}
 
 	public Deque<JDefinedClass> getOwners(){

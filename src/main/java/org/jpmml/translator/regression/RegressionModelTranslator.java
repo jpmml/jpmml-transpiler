@@ -44,7 +44,6 @@ import com.sun.codemodel.JForEach;
 import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
-
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
@@ -65,6 +64,7 @@ import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.VoteDistribution;
+import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.evaluator.regression.RegressionModelUtil;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FunctionInvocation;
@@ -341,7 +341,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 	static
 	private void addTermFrequencies(RegressionTable regressionTable, ValueBuilder valueBuilder, Map<FieldName, List<FunctionInvocationPredictor>> tfTerms, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		if(tfTerms.isEmpty()){
 			return;

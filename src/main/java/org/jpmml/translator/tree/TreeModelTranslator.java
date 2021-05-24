@@ -34,7 +34,6 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-
 import org.dmg.pmml.ComplexArray;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.False;
@@ -59,6 +58,7 @@ import org.jpmml.evaluator.ProbabilityDistribution;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.ValueFactory;
+import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.translator.ArrayManager;
 import org.jpmml.translator.Encoder;
 import org.jpmml.translator.FieldInfo;
@@ -540,7 +540,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	static
 	public void ensureTextIndexFields(FieldInfo fieldInfo, TermFrequencyEncoder encoder, TranslationContext context){
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		FunctionInvocation.Tf tf = encoder.getTf(fieldInfo);
 

@@ -33,6 +33,7 @@ import com.sun.codemodel.JVar;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.jpmml.evaluator.FieldValue;
+import org.jpmml.evaluator.java.JavaModel;
 
 public class OrdinalEncoder implements Encoder {
 
@@ -112,7 +113,7 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	private JMethod getOrCreateIsSetMethod(TranslationContext context){
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		JType intType = context._ref(int.class);
 

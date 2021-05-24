@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -34,7 +33,6 @@ import java.util.Set;
 
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -423,7 +421,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 	static
 	public JDefinedClass ensureArgumentsType(TranslationContext context){
-		JDefinedClass owner = getJavaModelClass(context);
+		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		for(Iterator<JDefinedClass> it = owner.classes(); it.hasNext(); ){
 			JDefinedClass clazz = it.next();
@@ -507,23 +505,6 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		MiningField miningField = new MiningField(name);
 
 		miningSchema.addMiningFields(miningField);
-	}
-
-	static
-	private JDefinedClass getJavaModelClass(TranslationContext context){
-		Deque<JDefinedClass> owners = context.getOwners();
-
-		JClass javaModelClass = context.ref(JavaModel.class);
-
-		for(Iterator<JDefinedClass> it = owners.iterator(); it.hasNext(); ){
-			JDefinedClass owner = it.next();
-
-			if(javaModelClass.isAssignableFrom(owner)){
-				return owner;
-			}
-		}
-
-		throw new IllegalArgumentException();
 	}
 
 	public static final int MEMBER_PUBLIC = (JMod.PUBLIC | JMod.FINAL | JMod.STATIC);
