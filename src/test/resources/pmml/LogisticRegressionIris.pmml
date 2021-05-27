@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.13"/>
-		<Timestamp>2021-03-10T07:38:24Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.18"/>
+		<Timestamp>2021-05-27T20:19:44Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -23,7 +23,7 @@
 			<Interval closure="closedClosed" leftMargin="0.1" rightMargin="2.5"/>
 		</DataField>
 	</DataDictionary>
-	<RegressionModel functionName="classification" normalizationMethod="softmax">
+	<RegressionModel functionName="classification" algorithmName="sklearn.linear_model._logistic.LogisticRegression" normalizationMethod="softmax">
 		<MiningSchema>
 			<MiningField name="Species" usageType="target"/>
 			<MiningField name="Sepal.Length" missingValueTreatment="asIs"/>

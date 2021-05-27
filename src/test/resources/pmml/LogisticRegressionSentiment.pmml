@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.13"/>
-		<Timestamp>2021-03-10T07:38:14Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.18"/>
+		<Timestamp>2021-05-27T20:19:30Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Score" optype="categorical" dataType="integer">
@@ -33,7 +33,7 @@
 			</Apply>
 		</DefineFunction>
 	</TransformationDictionary>
-	<RegressionModel functionName="classification" normalizationMethod="logit">
+	<RegressionModel functionName="classification" algorithmName="sklearn.linear_model._logistic.LogisticRegression" normalizationMethod="logit">
 		<MiningSchema>
 			<MiningField name="Score" usageType="target"/>
 			<MiningField name="Sentence"/>
@@ -3549,507 +3549,507 @@
 				</Apply>
 			</DerivedField>
 		</LocalTransformations>
-		<RegressionTable intercept="-0.3968954525289089" targetCategory="1">
-			<NumericPredictor name="tf-idf(lowercase(Sentence), 2 days)" coefficient="-0.38498809660966654"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), 2 years)" coefficient="0.131118211475519"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), 2 years ago)" coefficient="0.09561931228909507"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), 3)" coefficient="-0.4057918314506839"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), 4)" coefficient="0.5861240997131076"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), 5)" coefficient="-0.15411724368014704"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), 6)" coefficient="-0.2517240396353441"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), ability)" coefficient="-0.2518211042679404"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), accept)" coefficient="-0.05947952641284376"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), adorable)" coefficient="0.4867238033933844"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), advise)" coefficient="-0.3815018673944239"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), amazed)" coefficient="0.1392442148799629"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), appears)" coefficient="0.24837341417573108"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), area)" coefficient="-0.09528007521051113"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), arrived quickly)" coefficient="0.25958998281823975"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), ask)" coefficient="0.5804673387233081"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), att)" coefficient="-0.42169619990476215"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), audio quality poor)" coefficient="-0.06546801078651575"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), awesome)" coefficient="0.6089928152024107"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), bad)" coefficient="-0.8211363954040424"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), basically)" coefficient="-0.36304694521587755"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), batteries)" coefficient="0.15270741267343763"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), battery works)" coefficient="0.003585500409007695"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), battery works great)" coefficient="0.003585500409007695"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), beautiful)" coefficient="0.5484331098788551"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), best)" coefficient="0.6693647432965325"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), best bluetooth)" coefficient="0.039391066701891485"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), best headset)" coefficient="0.3068608639429836"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), best phone)" coefficient="0.20484853730203995"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), beware)" coefficient="-0.3813921432168883"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), bit)" coefficient="-0.18303241047454374"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), blackberry)" coefficient="0.7987197325898598"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), bluetooth)" coefficient="0.23804745737839275"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), bother)" coefficient="-0.36804730231680616"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), break)" coefficient="-0.29302952842292374"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), breaking)" coefficient="-0.3646680925953004"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), breaks)" coefficient="-0.6891078651782919"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), broke)" coefficient="-0.4610335631311102"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), broken)" coefficient="-0.15039213619449185"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), button)" coefficient="-0.03530749423150479"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), buttons)" coefficient="-0.3301320249888955"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), buy)" coefficient="-0.13718140492591221"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), buy product)" coefficient="-0.012861794576165469"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), buyer)" coefficient="-0.246985613784128"/>
+		<RegressionTable intercept="-0.39689545252891095" targetCategory="1">
+			<NumericPredictor name="tf-idf(lowercase(Sentence), 2 days)" coefficient="-0.38498809660966504"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), 2 years)" coefficient="0.13111821147552077"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), 2 years ago)" coefficient="0.0956193122890955"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), 3)" coefficient="-0.4057918314506832"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), 4)" coefficient="0.5861240997131124"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), 5)" coefficient="-0.15411724368014804"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), 6)" coefficient="-0.2517240396353403"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), ability)" coefficient="-0.25182110426794563"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), accept)" coefficient="-0.05947952641284889"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), adorable)" coefficient="0.4867238033933792"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), advise)" coefficient="-0.381501867394423"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), amazed)" coefficient="0.13924421487996458"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), appears)" coefficient="0.2483734141757314"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), area)" coefficient="-0.09528007521050524"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), arrived quickly)" coefficient="0.2595899828182423"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), ask)" coefficient="0.5804673387233071"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), att)" coefficient="-0.4216961999047539"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), audio quality poor)" coefficient="-0.06546801078650878"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), awesome)" coefficient="0.6089928152024062"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), bad)" coefficient="-0.8211363954040413"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), basically)" coefficient="-0.36304694521586983"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), batteries)" coefficient="0.1527074126734373"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), battery works)" coefficient="0.003585500408999354"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), battery works great)" coefficient="0.003585500408999354"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), beautiful)" coefficient="0.5484331098788549"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), best)" coefficient="0.6693647432965307"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), best bluetooth)" coefficient="0.03939106670189237"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), best headset)" coefficient="0.30686086394298173"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), best phone)" coefficient="0.20484853730204147"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), beware)" coefficient="-0.3813921432168858"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), bit)" coefficient="-0.183032410474544"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), blackberry)" coefficient="0.7987197325898588"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), bluetooth)" coefficient="0.23804745737838956"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), bother)" coefficient="-0.3680473023168023"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), break)" coefficient="-0.2930295284229205"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), breaking)" coefficient="-0.3646680925952984"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), breaks)" coefficient="-0.6891078651782908"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), broke)" coefficient="-0.4610335631311101"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), broken)" coefficient="-0.15039213619448993"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), button)" coefficient="-0.03530749423150357"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), buttons)" coefficient="-0.3301320249888946"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), buy)" coefficient="-0.13718140492591172"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), buy product)" coefficient="-0.012861794576159378"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), buyer)" coefficient="-0.24698561378412714"/>
 			<NumericPredictor name="tf-idf(lowercase(Sentence), buying)" coefficient="-0.6798579491973893"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), buzzing)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), buzzing override)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), buzzing override conversations)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), calls)" coefficient="-0.4498213553803396"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), calls experienced)" coefficient="-0.04384838339204268"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), camera)" coefficient="-0.016982157787628644"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), camera nice)" coefficient="0.00809930996076054"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), care)" coefficient="-0.15116447385354434"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), careful)" coefficient="-0.21586944999401037"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cases)" coefficient="0.546712845236661"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), caused)" coefficient="-0.2305698528257971"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cell)" coefficient="0.11010596485297845"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cellphone)" coefficient="0.45803904515154836"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), certainly)" coefficient="0.3062167234657236"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), charge)" coefficient="0.04553176070383139"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), charging current)" coefficient="-0.2918846076063406"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), charm)" coefficient="0.2247601232035597"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cheap plastic)" coefficient="-0.36852668522080895"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cheaper)" coefficient="0.053333632571418044"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), chinese)" coefficient="-0.42219359851641053"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cingular)" coefficient="-0.33549357551847364"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), clear)" coefficient="0.11869816280643761"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), clear great)" coefficient="9.222542562641461E-4"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), clearly)" coefficient="-0.04605700431965292"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), come)" coefficient="-0.4019296225937586"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), comfort)" coefficient="0.11877695429945517"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), comfortable)" coefficient="0.22032915323458585"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), comfortable ear)" coefficient="0.40559227193656083"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), comfortable fit)" coefficient="0.07538644624321125"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), comfortably)" coefficient="0.3710933784753771"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), company)" coefficient="-0.36026070335531496"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), complaint)" coefficient="-0.3706694092687788"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), completely)" coefficient="-0.4372529867006386"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), completely useless)" coefficient="-0.00980397520520824"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), consumer)" coefficient="-0.17041017012444074"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), conversations)" coefficient="-0.20486418015706112"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), conversations phone)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cool)" coefficient="0.5647048396125779"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), couldn t happier)" coefficient="0.22033472628678988"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cover)" coefficient="-0.365617027331081"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), crap)" coefficient="-0.4190439454181676"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), crisp)" coefficient="0.4212312049959513"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cumbersome)" coefficient="-0.16383754170627568"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), current)" coefficient="-0.2918846076063406"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), customer)" coefficient="-0.05462525894907206"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), customer service)" coefficient="-0.05462525894907206"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), cut)" coefficient="0.44812825666711276"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), dead)" coefficient="-0.3981891989838044"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), defective)" coefficient="-0.19478546991009846"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), definitely)" coefficient="0.516190003543963"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), described)" coefficient="0.18431874534026688"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), design)" coefficient="-0.489449061708502"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), design flaw)" coefficient="-0.09208293169991293"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), device)" coefficient="-0.10766465443805982"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), dialing)" coefficient="0.4049725869785588"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), did work)" coefficient="-0.3255011536804589"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), didn)" coefficient="-0.20379401084422888"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), didn t)" coefficient="-0.20379401084422888"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), didn t work)" coefficient="-0.024056968644707778"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), died)" coefficient="-0.36705706611557987"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), difficult)" coefficient="-0.5250885624418067"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), disappointed)" coefficient="-0.670728000503821"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), disappointing)" coefficient="-0.6058038574508252"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), disappointment)" coefficient="-0.5194447525583024"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), display)" coefficient="0.1804027076768333"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), docking)" coefficient="0.1577566364767697"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), docking station)" coefficient="0.1577566364767697"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), does)" coefficient="0.26908928221206013"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), does fit)" coefficient="-0.5971222101587462"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), does work)" coefficient="-0.5608229953870139"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), does work phone)" coefficient="-0.06473495573061723"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), doesn)" coefficient="-0.3153636345044008"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), doesn t)" coefficient="-0.3153636345044008"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), doesn t work)" coefficient="-0.10095955751129038"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), don)" coefficient="0.1210030476162527"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), don t)" coefficient="0.1210030476162527"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), don t buy)" coefficient="-0.4585222498858114"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), don t make)" coefficient="-0.0049861633982274806"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), don t think)" coefficient="-0.22323196299467993"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), don t waste)" coefficient="-0.0897958435489523"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), dont)" coefficient="-0.3053145512306754"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), dont waste)" coefficient="-0.014396266940533751"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), dont waste money)" coefficient="-0.014396266940533751"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), download)" coefficient="0.1484421130943533"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), drain)" coefficient="-0.4105173482770202"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), driving)" coefficient="0.13032250092644562"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), drop)" coefficient="-0.23750117693781955"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), dropped calls)" coefficient="-0.1983484745776878"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), dropped phone)" coefficient="0.06947696985816164"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), dropping)" coefficient="-0.37811583293456275"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), dying)" coefficient="-0.374422772172026"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), ear piece)" coefficient="0.3800139658543884"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), eargels)" coefficient="0.3551505619257483"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), easily)" coefficient="-0.5614794323882939"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), easy)" coefficient="0.5853020586877808"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), easy use)" coefficient="0.2853576158478754"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), echo)" coefficient="-0.277527096802948"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), essentially)" coefficient="-0.49839401959454205"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), exactly)" coefficient="0.48604777754811973"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent)" coefficient="0.6327792660967025"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent camera)" coefficient="0.059968715666044926"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent product)" coefficient="0.22092677670592545"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent product price)" coefficient="0.057909210206763824"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent sound)" coefficient="0.1164760374871405"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), excited)" coefficient="0.5653490334314792"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), expected better)" coefficient="-0.3777840749148365"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), expensive)" coefficient="0.28486983954999295"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), experience)" coefficient="-0.2607606833294116"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), experienced)" coefficient="-0.04384838339204268"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), extended)" coefficient="0.2700045732791842"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), failed)" coefficient="-0.45152456579776495"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), fails)" coefficient="-0.20270609817130758"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), family)" coefficient="0.584888864945857"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), fantastic)" coefficient="0.5883540612182477"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), far)" coefficient="0.19992001432804754"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), far good)" coefficient="0.2680222421344406"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), fast)" coefficient="0.5037125663416288"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), feature really)" coefficient="-0.36660775062760487"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), features)" coefficient="0.7528383432139105"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), feels good)" coefficient="0.17390700172487744"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), felt)" coefficient="-0.18187757548328304"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), fine)" coefficient="0.24074953296837057"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), fits)" coefficient="0.05096134391742525"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), fits comfortably)" coefficient="0.36245599135799456"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), fits fine)" coefficient="0.2913675626967343"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), flaw)" coefficient="-0.09208293169991293"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), flawlessly)" coefficient="0.33780967523429556"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), flimsy)" coefficient="-0.368100029863182"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), forced)" coefficient="-0.2976677111693861"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), forget)" coefficient="-0.36393536061190246"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), free)" coefficient="0.20177903549782328"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), functionality)" coefficient="0.14789526546455808"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), games)" coefficient="-0.7358549713886895"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), gets job)" coefficient="0.45343287659449094"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), glad)" coefficient="0.5720360549211607"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), glasses)" coefficient="0.08268387503410923"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), goes)" coefficient="-0.10746629901270224"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), good)" coefficient="0.39719593201774384"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), good battery)" coefficient="0.07151255382065269"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), good case)" coefficient="0.302130524405765"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), good phone)" coefficient="0.3683901499151335"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), good problems)" coefficient="0.006155753148136748"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), good product)" coefficient="0.3854629462585479"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), buzzing)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), buzzing override)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), buzzing override conversations)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), calls)" coefficient="-0.4498213553803374"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), calls experienced)" coefficient="-0.04384838339204249"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), camera)" coefficient="-0.01698215778762823"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), camera nice)" coefficient="0.008099309960748886"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), care)" coefficient="-0.15116447385353943"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), careful)" coefficient="-0.21586944999401045"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cases)" coefficient="0.5467128452366592"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), caused)" coefficient="-0.2305698528257948"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cell)" coefficient="0.11010596485297763"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cellphone)" coefficient="0.45803904515154703"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), certainly)" coefficient="0.30621672346572704"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), charge)" coefficient="0.045531760703831164"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), charging current)" coefficient="-0.29188460760633983"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), charm)" coefficient="0.22476012320355968"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cheap plastic)" coefficient="-0.3685266852208071"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cheaper)" coefficient="0.05333363257142416"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), chinese)" coefficient="-0.42219359851640814"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cingular)" coefficient="-0.3354935755184746"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), clear)" coefficient="0.1186981628064398"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), clear great)" coefficient="9.222542562510214E-4"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), clearly)" coefficient="-0.04605700431965213"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), come)" coefficient="-0.4019296225937545"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), comfort)" coefficient="0.11877695429945816"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), comfortable)" coefficient="0.22032915323458424"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), comfortable ear)" coefficient="0.40559227193655856"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), comfortable fit)" coefficient="0.07538644624321626"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), comfortably)" coefficient="0.3710933784753735"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), company)" coefficient="-0.3602607033553253"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), complaint)" coefficient="-0.37066940926877634"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), completely)" coefficient="-0.43725298670063845"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), completely useless)" coefficient="-0.009803975205191414"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), consumer)" coefficient="-0.17041017012444332"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), conversations)" coefficient="-0.20486418015705696"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), conversations phone)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cool)" coefficient="0.5647048396125819"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), couldn t happier)" coefficient="0.2203347262867918"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cover)" coefficient="-0.36561702733107965"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), crap)" coefficient="-0.4190439454181693"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), crisp)" coefficient="0.4212312049959552"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cumbersome)" coefficient="-0.16383754170627515"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), current)" coefficient="-0.29188460760633983"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), customer)" coefficient="-0.05462525894907172"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), customer service)" coefficient="-0.05462525894907172"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), cut)" coefficient="0.44812825666711453"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), dead)" coefficient="-0.3981891989838025"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), defective)" coefficient="-0.19478546991009724"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), definitely)" coefficient="0.5161900035439624"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), described)" coefficient="0.1843187453402651"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), design)" coefficient="-0.48944906170850383"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), design flaw)" coefficient="-0.0920829316999111"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), device)" coefficient="-0.10766465443805856"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), dialing)" coefficient="0.40497258697855776"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), did work)" coefficient="-0.32550115368045957"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), didn)" coefficient="-0.2037940108442315"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), didn t)" coefficient="-0.2037940108442315"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), didn t work)" coefficient="-0.024056968644709256"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), died)" coefficient="-0.36705706611557803"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), difficult)" coefficient="-0.5250885624418066"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), disappointed)" coefficient="-0.6707280005038179"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), disappointing)" coefficient="-0.6058038574508231"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), disappointment)" coefficient="-0.5194447525583006"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), display)" coefficient="0.1804027076768263"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), docking)" coefficient="0.1577566364767695"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), docking station)" coefficient="0.1577566364767695"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), does)" coefficient="0.2690892822120534"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), does fit)" coefficient="-0.597122210158745"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), does work)" coefficient="-0.5608229953870124"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), does work phone)" coefficient="-0.06473495573061601"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), doesn)" coefficient="-0.31536363450440336"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), doesn t)" coefficient="-0.31536363450440336"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), doesn t work)" coefficient="-0.10095955751129906"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), don)" coefficient="0.12100304761624739"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), don t)" coefficient="0.12100304761624739"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), don t buy)" coefficient="-0.4585222498858135"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), don t make)" coefficient="-0.004986163398223663"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), don t think)" coefficient="-0.22323196299468548"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), don t waste)" coefficient="-0.08979584354895116"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), dont)" coefficient="-0.30531455123067386"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), dont waste)" coefficient="-0.014396266940532226"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), dont waste money)" coefficient="-0.014396266940532226"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), download)" coefficient="0.14844211309435562"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), drain)" coefficient="-0.41051734827702036"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), driving)" coefficient="0.13032250092644962"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), drop)" coefficient="-0.237501176937821"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), dropped calls)" coefficient="-0.1983484745776865"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), dropped phone)" coefficient="0.06947696985816089"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), dropping)" coefficient="-0.37811583293456086"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), dying)" coefficient="-0.3744227721720233"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), ear piece)" coefficient="0.3800139658543883"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), eargels)" coefficient="0.35515056192574884"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), easily)" coefficient="-0.5614794323882909"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), easy)" coefficient="0.5853020586877832"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), easy use)" coefficient="0.28535761584787206"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), echo)" coefficient="-0.2775270968029452"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), essentially)" coefficient="-0.49839401959454055"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), exactly)" coefficient="0.4860477775481197"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent)" coefficient="0.6327792660967001"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent camera)" coefficient="0.05996871566604621"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent product)" coefficient="0.22092677670592525"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent product price)" coefficient="0.057909210206765094"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), excellent sound)" coefficient="0.11647603748714214"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), excited)" coefficient="0.5653490334314811"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), expected better)" coefficient="-0.3777840749148402"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), expensive)" coefficient="0.28486983954998935"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), experience)" coefficient="-0.26076068332940905"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), experienced)" coefficient="-0.04384838339204249"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), extended)" coefficient="0.27000457327918487"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), failed)" coefficient="-0.4515245657977639"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), fails)" coefficient="-0.20270609817130092"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), family)" coefficient="0.5848888649458555"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), fantastic)" coefficient="0.5883540612182458"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), far)" coefficient="0.1999200143280389"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), far good)" coefficient="0.2680222421344449"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), fast)" coefficient="0.5037125663416281"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), feature really)" coefficient="-0.36660775062760304"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), features)" coefficient="0.7528383432139053"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), feels good)" coefficient="0.1739070017248751"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), felt)" coefficient="-0.18187757548328873"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), fine)" coefficient="0.24074953296836785"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), fits)" coefficient="0.05096134391741867"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), fits comfortably)" coefficient="0.36245599135799283"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), fits fine)" coefficient="0.2913675626967384"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), flaw)" coefficient="-0.0920829316999111"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), flawlessly)" coefficient="0.3378096752342954"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), flimsy)" coefficient="-0.36810002986318063"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), forced)" coefficient="-0.297667711169386"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), forget)" coefficient="-0.36393536061190057"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), free)" coefficient="0.20177903549782394"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), functionality)" coefficient="0.14789526546454948"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), games)" coefficient="-0.7358549713886902"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), gets job)" coefficient="0.4534328765944907"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), glad)" coefficient="0.572036054921161"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), glasses)" coefficient="0.08268387503410828"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), goes)" coefficient="-0.10746629901270326"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), good)" coefficient="0.39719593201775266"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), good battery)" coefficient="0.07151255382065348"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), good case)" coefficient="0.30213052440576366"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), good phone)" coefficient="0.3683901499151329"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), good problems)" coefficient="0.006155753148125238"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), good product)" coefficient="0.3854629462585486"/>
 			<NumericPredictor name="tf-idf(lowercase(Sentence), good protection)" coefficient="0.3269631902859164"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), good quality)" coefficient="-0.0885640631409734"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), got)" coefficient="-0.02465981072947403"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), graphics)" coefficient="0.26041219904840146"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), great)" coefficient="0.9967543754969093"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), great deal)" coefficient="0.21072138361472212"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), great phone)" coefficient="0.3461573139059484"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), great price)" coefficient="0.12227000665497048"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), great product)" coefficient="0.2753177465940452"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), great product price)" coefficient="0.03370784276554901"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), great reception)" coefficient="0.14661325451957768"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), great sound)" coefficient="0.02314861416356392"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), hand)" coefficient="0.9666284829964141"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), hands)" coefficient="0.021183893183577926"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), hands free)" coefficient="0.1411417588694833"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), handsfree)" coefficient="0.16972629405604864"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), handy)" coefficient="0.11454225351885088"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), happier)" coefficient="0.42099511043913734"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), happy)" coefficient="0.16573073452526066"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), happy product)" coefficient="0.46403583343158583"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), happy purchase)" coefficient="0.49694448770844596"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), hate)" coefficient="-0.5377892753451012"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), headset)" coefficient="-0.2590053842584982"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), headset works)" coefficient="0.16207217836240123"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), hear)" coefficient="-0.3534868595221769"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), hear talk)" coefficient="-0.005069913464792485"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), highly)" coefficient="0.15753563481830768"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), highly recommend)" coefficient="0.5138311439275627"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), good quality)" coefficient="-0.08856406314096787"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), got)" coefficient="-0.02465981072947314"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), graphics)" coefficient="0.26041219904840285"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), great)" coefficient="0.9967543754969076"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), great deal)" coefficient="0.21072138361472464"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), great phone)" coefficient="0.34615731390594806"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), great price)" coefficient="0.12227000665497077"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), great product)" coefficient="0.27531774659404906"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), great product price)" coefficient="0.03370784276555099"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), great reception)" coefficient="0.14661325451957735"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), great sound)" coefficient="0.023148614163559355"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), hand)" coefficient="0.966628482996413"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), hands)" coefficient="0.021183893183576042"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), hands free)" coefficient="0.14114175886948346"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), handsfree)" coefficient="0.16972629405605136"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), handy)" coefficient="0.11454225351884934"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), happier)" coefficient="0.4209951104391368"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), happy)" coefficient="0.1657307345252605"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), happy product)" coefficient="0.46403583343158733"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), happy purchase)" coefficient="0.4969444877084498"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), hate)" coefficient="-0.537789275345103"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), headset)" coefficient="-0.25900538425850367"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), headset works)" coefficient="0.16207217836240895"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), hear)" coefficient="-0.3534868595221794"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), hear talk)" coefficient="-0.005069913464787449"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), highly)" coefficient="0.15753563481830166"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), highly recommend)" coefficient="0.513831143927568"/>
 			<NumericPredictor name="tf-idf(lowercase(Sentence), holding)" coefficient="0.4519648234948142"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), hoping)" coefficient="-0.6818090510357514"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), horrible)" coefficient="-0.5430678311941469"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), hour)" coefficient="0.46839842268430787"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), huge)" coefficient="-0.019377999600858644"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), igo)" coefficient="0.10778269955286615"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), im)" coefficient="0.1515025607447569"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), incredible)" coefficient="0.4489523141659001"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), hoping)" coefficient="-0.6818090510357535"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), horrible)" coefficient="-0.5430678311941457"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), hour)" coefficient="0.46839842268430726"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), huge)" coefficient="-0.019377999600848402"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), igo)" coefficient="0.10778269955286508"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), im)" coefficient="0.1515025607447592"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), incredible)" coefficient="0.44895231416590153"/>
 			<NumericPredictor name="tf-idf(lowercase(Sentence), inside)" coefficient="0.4519648234948142"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), instead)" coefficient="0.4682698690482185"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), instructions)" coefficient="-0.417637880022571"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), ipod)" coefficient="0.04956130396713813"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), item worked)" coefficient="-0.2727952849359108"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), jabra)" coefficient="0.2673221959400653"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), jawbone)" coefficient="0.4647983154997913"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), joke)" coefficient="-0.376981869331754"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), junk)" coefficient="-0.5598883981164533"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), just fine)" coefficient="0.11002403569939417"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), keyboard)" coefficient="0.16243858692364338"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), lasting)" coefficient="-0.2904143225842976"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), later)" coefficient="-0.42165621408684195"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), leather)" coefficient="0.16540500255818563"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), leather nice)" coefficient="0.009668967231515443"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), like charm)" coefficient="0.14656118535095553"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), like loud)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), like loud buzzing)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), listening)" coefficient="-0.23604373322809"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), literally)" coefficient="-0.14640083054159872"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), lock)" coefficient="-0.12714344267125668"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), long battery)" coefficient="0.16405689630545384"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), long battery life)" coefficient="0.16405689630545384"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), long time)" coefficient="0.11729308912077799"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), longer)" coefficient="-0.39090631796187847"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), looks nice)" coefficient="0.10791144796139061"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), lose)" coefficient="-0.21440147626313807"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), lost)" coefficient="-0.3756520336123229"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), lot)" coefficient="0.09118903536308381"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), lot easier)" coefficient="0.4542763767731483"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), loud buzzing)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), loud buzzing override)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), love)" coefficient="1.1070752551519825"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), love phone)" coefficient="0.05982441444222138"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), loves)" coefficient="0.44909247354707726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), low price)" coefficient="0.21358683584859764"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), low quality)" coefficient="-0.6857114641273396"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), m glad)" coefficient="0.20138938608552107"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), m happy)" coefficient="0.06725652517179352"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), m happy purchase)" coefficient="0.06725652517179352"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), maintain)" coefficient="-0.4984512267339661"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), make mistake)" coefficient="-0.03291589083001092"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), make mistake did)" coefficient="-0.0049861633982274806"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), market)" coefficient="0.18065261438612626"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), match)" coefficient="-0.4553019892776422"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), mess)" coefficient="0.20788713328778574"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), mistake)" coefficient="-0.7658036157542929"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), mistake did)" coefficient="-0.0049861633982274806"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), mobile phone)" coefficient="0.45030513844363246"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), model)" coefficient="-0.3821902403216693"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), money)" coefficient="-0.021300566540065912"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), money time)" coefficient="-0.04369379871242786"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), months use)" coefficient="-0.1776235251558323"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), music)" coefficient="-0.36393633766063077"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), new battery)" coefficient="0.13933088398902307"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), nice)" coefficient="0.7960659372687114"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), nice clear)" coefficient="9.222542562641461E-4"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), nice clear great)" coefficient="9.222542562641461E-4"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), noise)" coefficient="0.5420602307068567"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), noticed)" coefficient="-0.1334071019929824"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), old)" coefficient="-0.5185149245444186"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), order)" coefficient="0.7257284773197129"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), original battery)" coefficient="0.33837243061888833"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), overall)" coefficient="0.38019094134445286"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), override)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), override conversations)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), override conversations phone)" coefficient="-0.05131686702933726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), owned)" coefficient="0.01609774838462544"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), instead)" coefficient="0.4682698690482194"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), instructions)" coefficient="-0.4176378800225701"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), ipod)" coefficient="0.04956130396714848"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), item worked)" coefficient="-0.2727952849359072"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), jabra)" coefficient="0.267322195940061"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), jawbone)" coefficient="0.46479831549979167"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), joke)" coefficient="-0.37698186933175204"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), junk)" coefficient="-0.5598883981164536"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), just fine)" coefficient="0.11002403569939224"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), keyboard)" coefficient="0.16243858692363922"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), lasting)" coefficient="-0.29041432258429495"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), later)" coefficient="-0.4216562140868408"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), leather)" coefficient="0.16540500255818097"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), leather nice)" coefficient="0.009668967231506467"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), like charm)" coefficient="0.14656118535095405"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), like loud)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), like loud buzzing)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), listening)" coefficient="-0.23604373322808853"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), literally)" coefficient="-0.14640083054160188"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), lock)" coefficient="-0.12714344267125657"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), long battery)" coefficient="0.16405689630545536"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), long battery life)" coefficient="0.16405689630545536"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), long time)" coefficient="0.11729308912078014"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), longer)" coefficient="-0.3909063179618764"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), looks nice)" coefficient="0.1079114479613922"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), lose)" coefficient="-0.21440147626314"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), lost)" coefficient="-0.3756520336123217"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), lot)" coefficient="0.09118903536308315"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), lot easier)" coefficient="0.4542763767731452"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), loud buzzing)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), loud buzzing override)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), love)" coefficient="1.1070752551519818"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), love phone)" coefficient="0.05982441444222717"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), loves)" coefficient="0.4490924735470787"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), low price)" coefficient="0.21358683584860055"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), low quality)" coefficient="-0.6857114641273406"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), m glad)" coefficient="0.20138938608552054"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), m happy)" coefficient="0.06725652517179462"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), m happy purchase)" coefficient="0.06725652517179462"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), maintain)" coefficient="-0.49845122673396425"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), make mistake)" coefficient="-0.03291589083001282"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), make mistake did)" coefficient="-0.004986163398223663"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), market)" coefficient="0.18065261438612648"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), match)" coefficient="-0.4553019892776405"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), mess)" coefficient="0.2078871332877884"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), mistake)" coefficient="-0.7658036157542909"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), mistake did)" coefficient="-0.004986163398223663"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), mobile phone)" coefficient="0.45030513844363396"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), model)" coefficient="-0.3821902403216677"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), money)" coefficient="-0.02130056654007031"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), money time)" coefficient="-0.04369379871242732"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), months use)" coefficient="-0.17762352515583404"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), music)" coefficient="-0.36393633766062866"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), new battery)" coefficient="0.1393308839890254"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), nice)" coefficient="0.7960659372687079"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), nice clear)" coefficient="9.222542562510214E-4"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), nice clear great)" coefficient="9.222542562510214E-4"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), noise)" coefficient="0.5420602307068562"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), noticed)" coefficient="-0.1334071019929781"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), old)" coefficient="-0.518514924544419"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), order)" coefficient="0.725728477319717"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), original battery)" coefficient="0.338372430618886"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), overall)" coefficient="0.38019094134445214"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), override)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), override conversations)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), override conversations phone)" coefficient="-0.051316867029337104"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), owned)" coefficient="0.016097748384624026"/>
 			<NumericPredictor name="tf-idf(lowercase(Sentence), packaged)" coefficient="0.09167565150430655"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), paired)" coefficient="0.2182213496794908"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), particular)" coefficient="-0.1007869679338785"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), party)" coefficient="-0.26517277754416474"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), pay)" coefficient="-0.3839301006238111"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), pc)" coefficient="0.20323648711645073"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), pda)" coefficient="0.2040174332800551"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), people hear)" coefficient="-0.09696482780016097"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), people hear talk)" coefficient="-0.005069913464792485"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), perfectly)" coefficient="0.8218440795475975"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), person)" coefficient="-0.09771953460973394"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), phone comes)" coefficient="-0.005777195193447841"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), phone great)" coefficient="0.1464164686545337"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), phone handy)" coefficient="0.11454225351885088"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), phone problem)" coefficient="-0.24155062564267296"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), phone sturdy)" coefficient="0.19750157241433253"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), phone use)" coefficient="-0.3715760025913798"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), phone work)" coefficient="0.3876602900330089"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), picture)" coefficient="-0.6136110499517816"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), piece)" coefficient="-0.4398056960518977"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), piece crap)" coefficient="-0.031516629799434315"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), piece junk)" coefficient="-0.10902634515172174"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), player)" coefficient="-0.221502904311172"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), pleased)" coefficient="0.6884233283944899"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), plug)" coefficient="-0.47855751049287654"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), plugged)" coefficient="-0.531328928159047"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), paired)" coefficient="0.21822134967948914"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), particular)" coefficient="-0.10078696793388052"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), party)" coefficient="-0.26517277754416163"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), pay)" coefficient="-0.3839301006238094"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), pc)" coefficient="0.20323648711644904"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), pda)" coefficient="0.20401743328005345"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), people hear)" coefficient="-0.09696482780016216"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), people hear talk)" coefficient="-0.005069913464787449"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), perfectly)" coefficient="0.8218440795476013"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), person)" coefficient="-0.09771953460974069"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), phone comes)" coefficient="-0.005777195193428514"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), phone great)" coefficient="0.14641646865453348"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), phone handy)" coefficient="0.11454225351884934"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), phone problem)" coefficient="-0.24155062564267024"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), phone sturdy)" coefficient="0.1975015724143317"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), phone use)" coefficient="-0.3715760025913779"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), phone work)" coefficient="0.3876602900330074"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), picture)" coefficient="-0.6136110499517787"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), piece)" coefficient="-0.4398056960518931"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), piece crap)" coefficient="-0.031516629799433586"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), piece junk)" coefficient="-0.10902634515172294"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), player)" coefficient="-0.22150290431116781"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), pleased)" coefficient="0.6884233283944897"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), plug)" coefficient="-0.47855751049287987"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), plugged)" coefficient="-0.5313289281590485"/>
 			<NumericPredictor name="tf-idf(lowercase(Sentence), poor)" coefficient="-0.9907976562393936"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), poor quality)" coefficient="-0.28326909146071055"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), poorly)" coefficient="-0.3999510906701183"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), pretty)" coefficient="0.4347431978761098"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), pretty good)" coefficient="0.023488117387355636"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), pretty happy)" coefficient="0.18059814596484264"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), price)" coefficient="0.20703467427565675"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), price good)" coefficient="0.21969325156786226"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), priced)" coefficient="0.14610724379271292"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), priced right)" coefficient="0.135102195804978"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), problem)" coefficient="-0.37426780656596886"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), product)" coefficient="-0.06951227295913541"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), product price)" coefficient="0.08474490040040147"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), pull)" coefficient="-0.24391783179864046"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), push)" coefficient="-0.13430692906187228"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), quality)" coefficient="0.5993590234080712"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), quality end)" coefficient="0.06366560718099157"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), quality excellent)" coefficient="0.0442161649690967"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), quality poor)" coefficient="-0.15955755289883145"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), quick)" coefficient="0.4515702938621585"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), quickly works)" coefficient="0.0036433307239531793"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), quickly works great)" coefficient="0.0036433307239531793"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), quiet)" coefficient="-0.08223998793232407"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), range)" coefficient="0.3119342708360512"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), range good)" coefficient="0.07550675672176738"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), real good)" coefficient="0.3730297777307302"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), really bad)" coefficient="-0.028670700823279608"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), really good)" coefficient="0.14618208168964086"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), really like)" coefficient="0.4736124813028904"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), really recommend)" coefficient="0.0823473627957848"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), reason)" coefficient="-0.21273232147597876"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), reasonably)" coefficient="0.47511894511972996"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), receiving)" coefficient="-0.06399894586882393"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), recharge)" coefficient="-0.22284349768513728"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), recognition)" coefficient="0.20799642101955373"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), recommend)" coefficient="0.2034890866626825"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), recommend case)" coefficient="0.06434770173174036"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), refund)" coefficient="-0.39243677565870405"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), resolution)" coefficient="-0.2375052668733437"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), return)" coefficient="-0.48150841582299003"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), returned)" coefficient="-0.15173362284914924"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), returning)" coefficient="-0.44068654467290896"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), review)" coefficient="-0.3466419767670569"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), poor quality)" coefficient="-0.2832690914607124"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), poorly)" coefficient="-0.3999510906701179"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), pretty)" coefficient="0.4347431978761133"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), pretty good)" coefficient="0.02348811738735229"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), pretty happy)" coefficient="0.18059814596484272"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), price)" coefficient="0.20703467427565891"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), price good)" coefficient="0.21969325156786518"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), priced)" coefficient="0.14610724379271386"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), priced right)" coefficient="0.13510219580498023"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), problem)" coefficient="-0.3742678065659715"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), product)" coefficient="-0.06951227295913646"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), product price)" coefficient="0.08474490040040442"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), pull)" coefficient="-0.24391783179864193"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), push)" coefficient="-0.1343069290618713"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), quality)" coefficient="0.5993590234080729"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), quality end)" coefficient="0.06366560718098796"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), quality excellent)" coefficient="0.044216164969097194"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), quality poor)" coefficient="-0.1595575528988226"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), quick)" coefficient="0.4515702938621602"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), quickly works)" coefficient="0.003643330723944636"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), quickly works great)" coefficient="0.003643330723944636"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), quiet)" coefficient="-0.08223998793232012"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), range)" coefficient="0.3119342708360515"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), range good)" coefficient="0.0755067567217671"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), real good)" coefficient="0.37302977773072954"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), really bad)" coefficient="-0.028670700823278748"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), really good)" coefficient="0.14618208168963973"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), really like)" coefficient="0.4736124813028879"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), really recommend)" coefficient="0.082347362795785"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), reason)" coefficient="-0.21273232147598026"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), reasonably)" coefficient="0.47511894511972713"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), receiving)" coefficient="-0.06399894586882023"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), recharge)" coefficient="-0.22284349768513673"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), recognition)" coefficient="0.2079964210195535"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), recommend)" coefficient="0.20348908666268573"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), recommend case)" coefficient="0.06434770173174423"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), refund)" coefficient="-0.39243677565870216"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), resolution)" coefficient="-0.23750526687334217"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), return)" coefficient="-0.4815084158229891"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), returned)" coefficient="-0.15173362284915123"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), returning)" coefficient="-0.4406865446729082"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), review)" coefficient="-0.3466419767670538"/>
 			<NumericPredictor name="tf-idf(lowercase(Sentence), reviews)" coefficient="0.4543529327996131"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), ringing)" coefficient="-0.08502002630641743"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), rocks)" coefficient="0.41787544302836577"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), run)" coefficient="0.48721940179171247"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), s great)" coefficient="0.19580852341815816"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), ringing)" coefficient="-0.08502002630641882"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), rocks)" coefficient="0.4178754430283671"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), run)" coefficient="0.48721940179171136"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), s great)" coefficient="0.19580852341816038"/>
 			<NumericPredictor name="tf-idf(lowercase(Sentence), s reviews)" coefficient="0.4543529327996131"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), satisfied)" coefficient="0.49999652794525445"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), satisfied purchase)" coefficient="0.15279879223601464"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), save)" coefficient="-0.44963555475268274"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), say wow)" coefficient="0.3061061430438258"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), saying)" coefficient="-0.20280920067181676"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), says)" coefficient="-0.36567876444498726"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), secure)" coefficient="0.42232798135692506"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), seller)" coefficient="0.4873790338371114"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), service)" coefficient="0.37614312580918546"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), satisfied)" coefficient="0.4999965279452511"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), satisfied purchase)" coefficient="0.15279879223601744"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), save)" coefficient="-0.44963555475268097"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), say wow)" coefficient="0.3061061430438265"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), saying)" coefficient="-0.20280920067181593"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), says)" coefficient="-0.36567876444498554"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), secure)" coefficient="0.42232798135692845"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), seller)" coefficient="0.4873790338371078"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), service)" coefficient="0.37614312580918363"/>
 			<NumericPredictor name="tf-idf(lowercase(Sentence), setup)" coefficient="0.676189507566248"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sharp)" coefficient="0.28342052478152985"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), shipped)" coefficient="0.2909339047736341"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), signal)" coefficient="-0.33713696202294796"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), simple use)" coefficient="0.45343287659449094"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), skype)" coefficient="0.2530773471355735"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sleek)" coefficient="0.13801321637499728"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), slim)" coefficient="0.16105885769066627"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), slow)" coefficient="-0.42143716378954976"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), smell)" coefficient="-0.12451924124338307"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sound)" coefficient="0.19973605531536265"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sound clear)" coefficient="0.1304969405107952"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sound quality)" coefficient="0.025147660006982837"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sound quality end)" coefficient="0.06366560718099157"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sounds)" coefficient="0.06363241139380624"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), spring)" coefficient="-0.09058801698243055"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sprint)" coefficient="-0.5747239628896268"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), started)" coefficient="-0.2728795070614931"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), starts)" coefficient="-0.13218948802343364"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), stated)" coefficient="-0.44068654467290896"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), station)" coefficient="0.1577566364767697"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), stay)" coefficient="-0.46648528321802685"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), stay away)" coefficient="-0.14320262051174806"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), stupid)" coefficient="-0.3653336523978907"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sturdy)" coefficient="0.5346896504099908"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sucks)" coefficient="-0.5266888026747718"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), sunglasses)" coefficient="-0.51909870703815"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), superb)" coefficient="0.4496376530353161"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), support)" coefficient="-0.2641786421929266"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), switch)" coefficient="-0.19799444309662126"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t)" coefficient="-0.32990550621864606"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t buy)" coefficient="-0.4585222498858114"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t buy product)" coefficient="-0.012861794576165469"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t happier)" coefficient="0.22033472628678988"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t make)" coefficient="-0.2519708082105055"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t make mistake)" coefficient="-0.0049861633982274806"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t mess)" coefficient="0.20788713328778574"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t think)" coefficient="-0.2161547984854278"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t use)" coefficient="-0.2608789010647213"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t waste)" coefficient="-0.0897958435489523"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t waste money)" coefficient="-0.037247191814486366"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), t work)" coefficient="-0.08606210986614134"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), takes)" coefficient="-0.14966481763500927"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), takes forever)" coefficient="-0.14966481763500927"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), talk)" coefficient="-0.2283885522187703"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), tech)" coefficient="-0.1351691934349983"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), tech support)" coefficient="-0.1351691934349983"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), tell)" coefficient="-0.7385270113708369"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), terrible)" coefficient="-0.744475303918826"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), terrible customer)" coefficient="-0.019533368136203582"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), terrible customer service)" coefficient="-0.019533368136203582"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), thing)" coefficient="-0.5815658917253596"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), tinny)" coefficient="-0.32849619942074226"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), tips)" coefficient="0.11310141596152792"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), told)" coefficient="-0.2629989894972171"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), tones)" coefficient="-0.39250648907659663"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), tremendous)" coefficient="0.17587119087989664"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), turn)" coefficient="-0.20519180999339184"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), turned)" coefficient="-0.2800228324103575"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), unacceptable)" coefficient="-0.47060493695784367"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), uncomfortable)" coefficient="-0.2409019246151393"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), understand)" coefficient="-0.5991270188302606"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), unfortunately)" coefficient="-0.3720895542964312"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), unhappy)" coefficient="-0.34586312207132186"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), unit)" coefficient="-0.3133360154084229"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), unless)" coefficient="-0.16093300766066881"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), unreliable)" coefficient="-0.5257086796221565"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), unreliable service)" coefficient="-0.24245032553003384"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), unusable)" coefficient="-0.44068654467290896"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), use clear)" coefficient="0.09360980060919073"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), useless)" coefficient="-0.7281865325999208"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), usually)" coefficient="0.27651898665431784"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), usually don)" coefficient="0.27651898665431784"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), usually don t)" coefficient="0.27651898665431784"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), value)" coefficient="0.20630551711680517"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), ve)" coefficient="0.05640323281689818"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), ve owned)" coefficient="0.01609774838462544"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), ve tried)" coefficient="0.1316204335121105"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), video)" coefficient="0.08444960374924598"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), voice dialing)" coefficient="0.4049725869785588"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), voice recognition)" coefficient="0.20799642101955373"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), want)" coefficient="-0.41528179067085313"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), warning)" coefficient="-0.30138629862752925"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), warranty)" coefficient="-0.0637200772118472"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), waste)" coefficient="-0.6079234246846501"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), waste money)" coefficient="-0.1783445530009271"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), waste money time)" coefficient="-0.04369379871242786"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), waste time)" coefficient="-0.14395096873630964"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), wasted)" coefficient="-0.42929732413864347"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), weak)" coefficient="-0.288566576274859"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), wear)" coefficient="0.47091171348040006"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), wear glasses)" coefficient="0.08268387503410923"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), website)" coefficient="-0.3123441164951525"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), week)" coefficient="-0.14654009880123828"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), went)" coefficient="-0.14817237128070337"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), went black)" coefficient="-0.10011639781812438"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), whatsoever)" coefficient="-0.13946346453388425"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), wired)" coefficient="-0.3848152673962148"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), won)" coefficient="0.46552990165033714"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), won t)" coefficient="0.46552990165033714"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), work)" coefficient="-0.2415048528620593"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), work great)" coefficient="0.1421955667590039"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), work phone)" coefficient="-0.14322502139351315"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), worked like)" coefficient="0.1232920345521614"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), worked like charm)" coefficient="0.1232920345521614"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), working)" coefficient="0.4891877202611236"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), working great)" coefficient="0.03950663632645033"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), works)" coefficient="1.002484453353255"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), works fine)" coefficient="0.04506080066445956"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), works good)" coefficient="0.03306145030171683"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), works great)" coefficient="0.12001325799448137"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), works like)" coefficient="0.03515412348851581"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), works like charm)" coefficient="0.03515412348851581"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), worst)" coefficient="-0.7595981571326765"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), worst customer)" coefficient="-0.11350476889897226"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), worst customer service)" coefficient="-0.11350476889897226"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), worst phone)" coefficient="-0.09712105236219411"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), worthless)" coefficient="-0.3465256584438868"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), worthwhile)" coefficient="0.44970670945034985"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), wow)" coefficient="0.3061061430438258"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), wrong)" coefficient="-0.3548065225909605"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), year old)" coefficient="-0.09077969368041831"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), years)" coefficient="0.1901042520361258"/>
-			<NumericPredictor name="tf-idf(lowercase(Sentence), years ago)" coefficient="0.09561931228909507"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sharp)" coefficient="0.2834205247815273"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), shipped)" coefficient="0.2909339047736344"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), signal)" coefficient="-0.33713696202295035"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), simple use)" coefficient="0.4534328765944907"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), skype)" coefficient="0.2530773471355746"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sleek)" coefficient="0.13801321637499495"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), slim)" coefficient="0.1610588576906656"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), slow)" coefficient="-0.4214371637895485"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), smell)" coefficient="-0.12451924124337674"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sound)" coefficient="0.19973605531536134"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sound clear)" coefficient="0.13049694051079366"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sound quality)" coefficient="0.025147660006983773"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sound quality end)" coefficient="0.06366560718098796"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sounds)" coefficient="0.06363241139380828"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), spring)" coefficient="-0.09058801698243155"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sprint)" coefficient="-0.574723962889629"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), started)" coefficient="-0.27287950706149444"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), starts)" coefficient="-0.13218948802343428"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), stated)" coefficient="-0.4406865446729082"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), station)" coefficient="0.1577566364767695"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), stay)" coefficient="-0.46648528321802574"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), stay away)" coefficient="-0.14320262051174956"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), stupid)" coefficient="-0.3653336523978891"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sturdy)" coefficient="0.5346896504099882"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sucks)" coefficient="-0.5266888026747709"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), sunglasses)" coefficient="-0.5190987070381502"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), superb)" coefficient="0.4496376530353173"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), support)" coefficient="-0.2641786421929265"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), switch)" coefficient="-0.19799444309661707"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t)" coefficient="-0.329905506218652"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t buy)" coefficient="-0.4585222498858135"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t buy product)" coefficient="-0.012861794576159378"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t happier)" coefficient="0.2203347262867918"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t make)" coefficient="-0.25197080821050755"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t make mistake)" coefficient="-0.004986163398223663"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t mess)" coefficient="0.2078871332877884"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t think)" coefficient="-0.2161547984854232"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t use)" coefficient="-0.2608789010647182"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t waste)" coefficient="-0.08979584354895116"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t waste money)" coefficient="-0.03724719181448421"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), t work)" coefficient="-0.08606210986614236"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), takes)" coefficient="-0.1496648176350059"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), takes forever)" coefficient="-0.1496648176350059"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), talk)" coefficient="-0.22838855221877477"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), tech)" coefficient="-0.1351691934349985"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), tech support)" coefficient="-0.1351691934349985"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), tell)" coefficient="-0.7385270113708348"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), terrible)" coefficient="-0.7444753039188273"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), terrible customer)" coefficient="-0.019533368136203946"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), terrible customer service)" coefficient="-0.019533368136203946"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), thing)" coefficient="-0.581565891725355"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), tinny)" coefficient="-0.3284961994207397"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), tips)" coefficient="0.11310141596152465"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), told)" coefficient="-0.2629989894972191"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), tones)" coefficient="-0.39250648907659613"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), tremendous)" coefficient="0.17587119087989445"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), turn)" coefficient="-0.20519180999339742"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), turned)" coefficient="-0.28002283241036113"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), unacceptable)" coefficient="-0.47060493695784195"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), uncomfortable)" coefficient="-0.24090192461514132"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), understand)" coefficient="-0.5991270188302601"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), unfortunately)" coefficient="-0.3720895542964329"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), unhappy)" coefficient="-0.3458631220713204"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), unit)" coefficient="-0.3133360154084273"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), unless)" coefficient="-0.1609330076606636"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), unreliable)" coefficient="-0.5257086796221591"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), unreliable service)" coefficient="-0.24245032553003273"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), unusable)" coefficient="-0.4406865446729082"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), use clear)" coefficient="0.0936098006091938"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), useless)" coefficient="-0.7281865325999205"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), usually)" coefficient="0.2765189866543189"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), usually don)" coefficient="0.2765189866543189"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), usually don t)" coefficient="0.2765189866543189"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), value)" coefficient="0.20630551711680375"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), ve)" coefficient="0.0564032328168945"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), ve owned)" coefficient="0.016097748384624026"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), ve tried)" coefficient="0.13162043351210956"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), video)" coefficient="0.08444960374924713"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), voice dialing)" coefficient="0.40497258697855776"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), voice recognition)" coefficient="0.2079964210195535"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), want)" coefficient="-0.4152817906708493"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), warning)" coefficient="-0.30138629862752786"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), warranty)" coefficient="-0.06372007721184912"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), waste)" coefficient="-0.6079234246846449"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), waste money)" coefficient="-0.17834455300092958"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), waste money time)" coefficient="-0.04369379871242732"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), waste time)" coefficient="-0.14395096873631336"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), wasted)" coefficient="-0.42929732413864086"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), weak)" coefficient="-0.28856657627485993"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), wear)" coefficient="0.47091171348039673"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), wear glasses)" coefficient="0.08268387503410828"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), website)" coefficient="-0.31234411649514976"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), week)" coefficient="-0.14654009880124236"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), went)" coefficient="-0.14817237128070257"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), went black)" coefficient="-0.10011639781812261"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), whatsoever)" coefficient="-0.13946346453388514"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), wired)" coefficient="-0.38481526739621347"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), won)" coefficient="0.46552990165033437"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), won t)" coefficient="0.46552990165033437"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), work)" coefficient="-0.24150485286206042"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), work great)" coefficient="0.14219556675900355"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), work phone)" coefficient="-0.14322502139351181"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), worked like)" coefficient="0.1232920345521587"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), worked like charm)" coefficient="0.1232920345521587"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), working)" coefficient="0.48918772026112256"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), working great)" coefficient="0.039506636326450635"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), works)" coefficient="1.0024844533532522"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), works fine)" coefficient="0.045060800664460644"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), works good)" coefficient="0.033061450301714874"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), works great)" coefficient="0.12001325799449031"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), works like)" coefficient="0.03515412348851686"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), works like charm)" coefficient="0.03515412348851686"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), worst)" coefficient="-0.7595981571326736"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), worst customer)" coefficient="-0.11350476889897607"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), worst customer service)" coefficient="-0.11350476889897607"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), worst phone)" coefficient="-0.097121052362193"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), worthless)" coefficient="-0.3465256584438854"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), worthwhile)" coefficient="0.44970670945035035"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), wow)" coefficient="0.3061061430438265"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), wrong)" coefficient="-0.3548065225909579"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), year old)" coefficient="-0.09077969368041977"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), years)" coefficient="0.190104252036129"/>
+			<NumericPredictor name="tf-idf(lowercase(Sentence), years ago)" coefficient="0.0956193122890955"/>
 		</RegressionTable>
 		<RegressionTable intercept="0.0" targetCategory="0"/>
 	</RegressionModel>

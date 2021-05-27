@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.13"/>
-		<Timestamp>2021-03-10T07:37:52Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.18"/>
+		<Timestamp>2021-05-27T20:19:13Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -74,7 +74,7 @@
 			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="99.0"/>
 		</DataField>
 	</DataDictionary>
-	<RegressionModel functionName="classification" normalizationMethod="logit">
+	<RegressionModel functionName="classification" algorithmName="sklearn.linear_model._logistic.LogisticRegression" normalizationMethod="logit">
 		<MiningSchema>
 			<MiningField name="Adjusted" usageType="target"/>
 			<MiningField name="Employment" missingValueTreatment="asIs"/>

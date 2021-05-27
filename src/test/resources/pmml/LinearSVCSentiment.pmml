@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.13"/>
-		<Timestamp>2021-03-10T07:38:11Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.18"/>
+		<Timestamp>2021-05-27T20:19:28Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Score" optype="categorical" dataType="integer">
@@ -20,7 +20,7 @@
 			</TextIndex>
 		</DefineFunction>
 	</TransformationDictionary>
-	<RegressionModel functionName="classification" normalizationMethod="logit">
+	<RegressionModel functionName="classification" algorithmName="sklearn.svm._classes.LinearSVC" normalizationMethod="logit">
 		<MiningSchema>
 			<MiningField name="Score" usageType="target"/>
 			<MiningField name="Sentence"/>
@@ -317,12 +317,6 @@
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">camera</Constant>
-				</Apply>
-			</DerivedField>
-			<DerivedField name="tf(lowercase(Sentence), care)" optype="continuous" dataType="double">
-				<Apply function="tf(lowercase(Sentence))">
-					<FieldRef field="lowercase(Sentence)"/>
-					<Constant dataType="string">care</Constant>
 				</Apply>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), cases)" optype="continuous" dataType="double">
@@ -779,6 +773,12 @@
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">great phone</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="tf(lowercase(Sentence), great price)" optype="continuous" dataType="double">
+				<Apply function="tf(lowercase(Sentence))">
+					<FieldRef field="lowercase(Sentence)"/>
+					<Constant dataType="string">great price</Constant>
 				</Apply>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), great product)" optype="continuous" dataType="double">
@@ -1981,12 +1981,6 @@
 					<Constant dataType="string">to my</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="tf(lowercase(Sentence), to pull)" optype="continuous" dataType="double">
-				<Apply function="tf(lowercase(Sentence))">
-					<FieldRef field="lowercase(Sentence)"/>
-					<Constant dataType="string">to pull</Constant>
-				</Apply>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), to return)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
@@ -2021,12 +2015,6 @@
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">tremendous</Constant>
-				</Apply>
-			</DerivedField>
-			<DerivedField name="tf(lowercase(Sentence), try to)" optype="continuous" dataType="double">
-				<Apply function="tf(lowercase(Sentence))">
-					<FieldRef field="lowercase(Sentence)"/>
-					<Constant dataType="string">try to</Constant>
 				</Apply>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), trying to)" optype="continuous" dataType="double">
@@ -2485,12 +2473,6 @@
 					<Constant dataType="string">with this</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="tf(lowercase(Sentence), with your)" optype="continuous" dataType="double">
-				<Apply function="tf(lowercase(Sentence))">
-					<FieldRef field="lowercase(Sentence)"/>
-					<Constant dataType="string">with your</Constant>
-				</Apply>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), within)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
@@ -2702,452 +2684,449 @@
 				</Apply>
 			</DerivedField>
 		</LocalTransformations>
-		<RegressionTable intercept="-0.06335981628189948" targetCategory="1">
-			<NumericPredictor name="tf(lowercase(Sentence), 2 days)" coefficient="-0.011288869215118551"/>
-			<NumericPredictor name="tf(lowercase(Sentence), 2 years)" coefficient="0.30526049870432825"/>
-			<NumericPredictor name="tf(lowercase(Sentence), a charm)" coefficient="0.4587116982613559"/>
-			<NumericPredictor name="tf(lowercase(Sentence), a great)" coefficient="0.8862912179653355"/>
-			<NumericPredictor name="tf(lowercase(Sentence), a lot)" coefficient="0.21092392970921545"/>
-			<NumericPredictor name="tf(lowercase(Sentence), a waste)" coefficient="-0.18924589201774292"/>
+		<RegressionTable intercept="-0.0633598162818991" targetCategory="1">
+			<NumericPredictor name="tf(lowercase(Sentence), 2 days)" coefficient="-0.011288869215118721"/>
+			<NumericPredictor name="tf(lowercase(Sentence), 2 years)" coefficient="0.3052604987043284"/>
+			<NumericPredictor name="tf(lowercase(Sentence), a charm)" coefficient="0.458711698261356"/>
+			<NumericPredictor name="tf(lowercase(Sentence), a great)" coefficient="0.886291217965335"/>
+			<NumericPredictor name="tf(lowercase(Sentence), a lot)" coefficient="0.21092392970921536"/>
+			<NumericPredictor name="tf(lowercase(Sentence), a waste)" coefficient="-0.18924589201774347"/>
 			<NumericPredictor name="tf(lowercase(Sentence), a week)" coefficient="-0.09353507307375519"/>
-			<NumericPredictor name="tf(lowercase(Sentence), able to)" coefficient="0.13715163371612632"/>
-			<NumericPredictor name="tf(lowercase(Sentence), after)" coefficient="-0.12793789145997683"/>
-			<NumericPredictor name="tf(lowercase(Sentence), all the)" coefficient="0.9417457695302225"/>
-			<NumericPredictor name="tf(lowercase(Sentence), am very)" coefficient="0.40662041063586063"/>
-			<NumericPredictor name="tf(lowercase(Sentence), an excellent)" coefficient="0.06272633966020785"/>
-			<NumericPredictor name="tf(lowercase(Sentence), and)" coefficient="0.12091432901821007"/>
-			<NumericPredictor name="tf(lowercase(Sentence), and all)" coefficient="0.21944876438441996"/>
-			<NumericPredictor name="tf(lowercase(Sentence), and clear)" coefficient="0.3171709525820087"/>
-			<NumericPredictor name="tf(lowercase(Sentence), and is)" coefficient="0.30020636066844675"/>
-			<NumericPredictor name="tf(lowercase(Sentence), and the)" coefficient="0.9623254273906535"/>
-			<NumericPredictor name="tf(lowercase(Sentence), and then)" coefficient="-0.370400955213301"/>
-			<NumericPredictor name="tf(lowercase(Sentence), and time)" coefficient="6.938893903907228E-18"/>
-			<NumericPredictor name="tf(lowercase(Sentence), any)" coefficient="0.5809193228868538"/>
-			<NumericPredictor name="tf(lowercase(Sentence), anyone)" coefficient="-0.3401034482811686"/>
-			<NumericPredictor name="tf(lowercase(Sentence), anything)" coefficient="-0.6133730366192166"/>
+			<NumericPredictor name="tf(lowercase(Sentence), able to)" coefficient="0.13715163371612585"/>
+			<NumericPredictor name="tf(lowercase(Sentence), after)" coefficient="-0.12793789145997703"/>
+			<NumericPredictor name="tf(lowercase(Sentence), all the)" coefficient="0.941745769530222"/>
+			<NumericPredictor name="tf(lowercase(Sentence), am very)" coefficient="0.4066204106358606"/>
+			<NumericPredictor name="tf(lowercase(Sentence), an excellent)" coefficient="0.06272633966020784"/>
+			<NumericPredictor name="tf(lowercase(Sentence), and)" coefficient="0.12091432901821031"/>
+			<NumericPredictor name="tf(lowercase(Sentence), and all)" coefficient="0.21944876438442015"/>
+			<NumericPredictor name="tf(lowercase(Sentence), and clear)" coefficient="0.3171709525820089"/>
+			<NumericPredictor name="tf(lowercase(Sentence), and is)" coefficient="0.3002063606684471"/>
+			<NumericPredictor name="tf(lowercase(Sentence), and the)" coefficient="0.9623254273906532"/>
+			<NumericPredictor name="tf(lowercase(Sentence), and then)" coefficient="-0.37040095521330074"/>
+			<NumericPredictor name="tf(lowercase(Sentence), and time)" coefficient="3.469446951953614E-18"/>
+			<NumericPredictor name="tf(lowercase(Sentence), any)" coefficient="0.5809193228868541"/>
+			<NumericPredictor name="tf(lowercase(Sentence), anyone)" coefficient="-0.3401034482811684"/>
+			<NumericPredictor name="tf(lowercase(Sentence), anything)" coefficient="-0.6133730366192165"/>
 			<NumericPredictor name="tf(lowercase(Sentence), are not)" coefficient="-0.5528932085587179"/>
-			<NumericPredictor name="tf(lowercase(Sentence), area)" coefficient="-0.2820702120250124"/>
-			<NumericPredictor name="tf(lowercase(Sentence), as well)" coefficient="0.17177210645535854"/>
-			<NumericPredictor name="tf(lowercase(Sentence), at)" coefficient="-0.10333198700042855"/>
-			<NumericPredictor name="tf(lowercase(Sentence), awesome)" coefficient="0.7660355253942916"/>
-			<NumericPredictor name="tf(lowercase(Sentence), back)" coefficient="-0.42284293116618266"/>
-			<NumericPredictor name="tf(lowercase(Sentence), bad)" coefficient="-0.8727664133722015"/>
-			<NumericPredictor name="tf(lowercase(Sentence), beautiful)" coefficient="0.8701575313059552"/>
-			<NumericPredictor name="tf(lowercase(Sentence), been)" coefficient="0.43622942195627584"/>
-			<NumericPredictor name="tf(lowercase(Sentence), best)" coefficient="0.7993099381876048"/>
-			<NumericPredictor name="tf(lowercase(Sentence), best headset)" coefficient="0.6135354502722954"/>
-			<NumericPredictor name="tf(lowercase(Sentence), best phone)" coefficient="0.12459109746593282"/>
-			<NumericPredictor name="tf(lowercase(Sentence), better than)" coefficient="0.30002815910937897"/>
-			<NumericPredictor name="tf(lowercase(Sentence), bluetooth)" coefficient="0.5699960436186018"/>
-			<NumericPredictor name="tf(lowercase(Sentence), both)" coefficient="1.1844339293820743"/>
-			<NumericPredictor name="tf(lowercase(Sentence), break)" coefficient="-0.13155440914579702"/>
-			<NumericPredictor name="tf(lowercase(Sentence), broke)" coefficient="-0.8585721136127122"/>
-			<NumericPredictor name="tf(lowercase(Sentence), buttons)" coefficient="-0.23606600522022847"/>
-			<NumericPredictor name="tf(lowercase(Sentence), buy)" coefficient="-0.07658467461409965"/>
-			<NumericPredictor name="tf(lowercase(Sentence), buy it)" coefficient="-0.39957547535219207"/>
-			<NumericPredictor name="tf(lowercase(Sentence), buy this)" coefficient="-0.45251206298808644"/>
-			<NumericPredictor name="tf(lowercase(Sentence), buying)" coefficient="-0.8919974571144164"/>
-			<NumericPredictor name="tf(lowercase(Sentence), by)" coefficient="-3.469446951953614E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), calls)" coefficient="-0.6500417949081404"/>
-			<NumericPredictor name="tf(lowercase(Sentence), came with)" coefficient="0.36580126605544805"/>
-			<NumericPredictor name="tf(lowercase(Sentence), camera)" coefficient="-0.5675181592211949"/>
-			<NumericPredictor name="tf(lowercase(Sentence), care)" coefficient="-1.734723475976807E-18"/>
-			<NumericPredictor name="tf(lowercase(Sentence), cases)" coefficient="0.4568886367569319"/>
-			<NumericPredictor name="tf(lowercase(Sentence), cell)" coefficient="0.35763962467379296"/>
-			<NumericPredictor name="tf(lowercase(Sentence), charge)" coefficient="-0.617381834131187"/>
-			<NumericPredictor name="tf(lowercase(Sentence), charm)" coefficient="0.7332488566819172"/>
-			<NumericPredictor name="tf(lowercase(Sentence), cingular)" coefficient="-1.3877787807814457E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), clear)" coefficient="0.46668843870306087"/>
-			<NumericPredictor name="tf(lowercase(Sentence), comfort)" coefficient="0.03149641906312984"/>
-			<NumericPredictor name="tf(lowercase(Sentence), comfortable)" coefficient="1.2525048747711338"/>
-			<NumericPredictor name="tf(lowercase(Sentence), comfortably)" coefficient="0.33983383217750396"/>
-			<NumericPredictor name="tf(lowercase(Sentence), company)" coefficient="-0.5858644839957946"/>
-			<NumericPredictor name="tf(lowercase(Sentence), completely)" coefficient="-0.2831019598559714"/>
-			<NumericPredictor name="tf(lowercase(Sentence), conversations)" coefficient="-0.9621510730836007"/>
-			<NumericPredictor name="tf(lowercase(Sentence), cool)" coefficient="0.6484812157059509"/>
-			<NumericPredictor name="tf(lowercase(Sentence), could)" coefficient="-0.35616173749414437"/>
-			<NumericPredictor name="tf(lowercase(Sentence), could not)" coefficient="-0.019688532216457992"/>
-			<NumericPredictor name="tf(lowercase(Sentence), crap)" coefficient="-0.7654479826760581"/>
-			<NumericPredictor name="tf(lowercase(Sentence), customer)" coefficient="-0.0372816573561801"/>
-			<NumericPredictor name="tf(lowercase(Sentence), customer service)" coefficient="-0.0372816573561801"/>
-			<NumericPredictor name="tf(lowercase(Sentence), dead)" coefficient="-0.09353507307375519"/>
+			<NumericPredictor name="tf(lowercase(Sentence), area)" coefficient="-0.28207021202501265"/>
+			<NumericPredictor name="tf(lowercase(Sentence), as well)" coefficient="0.17177210645535881"/>
+			<NumericPredictor name="tf(lowercase(Sentence), at)" coefficient="-0.10333198700042835"/>
+			<NumericPredictor name="tf(lowercase(Sentence), awesome)" coefficient="0.7660355253942919"/>
+			<NumericPredictor name="tf(lowercase(Sentence), back)" coefficient="-0.4228429311661827"/>
+			<NumericPredictor name="tf(lowercase(Sentence), bad)" coefficient="-0.8727664133722012"/>
+			<NumericPredictor name="tf(lowercase(Sentence), beautiful)" coefficient="0.8701575313059557"/>
+			<NumericPredictor name="tf(lowercase(Sentence), been)" coefficient="0.43622942195627606"/>
+			<NumericPredictor name="tf(lowercase(Sentence), best)" coefficient="0.7993099381876028"/>
+			<NumericPredictor name="tf(lowercase(Sentence), best headset)" coefficient="0.6135354502722961"/>
+			<NumericPredictor name="tf(lowercase(Sentence), best phone)" coefficient="0.12459109746593268"/>
+			<NumericPredictor name="tf(lowercase(Sentence), better than)" coefficient="0.3000281591093784"/>
+			<NumericPredictor name="tf(lowercase(Sentence), bluetooth)" coefficient="0.5699960436186022"/>
+			<NumericPredictor name="tf(lowercase(Sentence), both)" coefficient="1.1844339293820747"/>
+			<NumericPredictor name="tf(lowercase(Sentence), break)" coefficient="-0.13155440914579664"/>
+			<NumericPredictor name="tf(lowercase(Sentence), broke)" coefficient="-0.8585721136127125"/>
+			<NumericPredictor name="tf(lowercase(Sentence), buttons)" coefficient="-0.23606600522022886"/>
+			<NumericPredictor name="tf(lowercase(Sentence), buy)" coefficient="-0.07658467461409973"/>
+			<NumericPredictor name="tf(lowercase(Sentence), buy it)" coefficient="-0.3995754753521922"/>
+			<NumericPredictor name="tf(lowercase(Sentence), buy this)" coefficient="-0.45251206298808627"/>
+			<NumericPredictor name="tf(lowercase(Sentence), buying)" coefficient="-0.8919974571144158"/>
+			<NumericPredictor name="tf(lowercase(Sentence), by)" coefficient="-2.7755575615628914E-17"/>
+			<NumericPredictor name="tf(lowercase(Sentence), calls)" coefficient="-0.6500417949081401"/>
+			<NumericPredictor name="tf(lowercase(Sentence), came with)" coefficient="0.3658012660554483"/>
+			<NumericPredictor name="tf(lowercase(Sentence), camera)" coefficient="-0.5675181592211946"/>
+			<NumericPredictor name="tf(lowercase(Sentence), cases)" coefficient="0.456888636756932"/>
+			<NumericPredictor name="tf(lowercase(Sentence), cell)" coefficient="0.3576396246737928"/>
+			<NumericPredictor name="tf(lowercase(Sentence), charge)" coefficient="-0.6173818341311874"/>
+			<NumericPredictor name="tf(lowercase(Sentence), charm)" coefficient="0.7332488566819169"/>
+			<NumericPredictor name="tf(lowercase(Sentence), cingular)" coefficient="-6.938893903907228E-18"/>
+			<NumericPredictor name="tf(lowercase(Sentence), clear)" coefficient="0.4666884387030606"/>
+			<NumericPredictor name="tf(lowercase(Sentence), comfort)" coefficient="0.03149641906312963"/>
+			<NumericPredictor name="tf(lowercase(Sentence), comfortable)" coefficient="1.2525048747711334"/>
+			<NumericPredictor name="tf(lowercase(Sentence), comfortably)" coefficient="0.33983383217750335"/>
+			<NumericPredictor name="tf(lowercase(Sentence), company)" coefficient="-0.5858644839957939"/>
+			<NumericPredictor name="tf(lowercase(Sentence), completely)" coefficient="-0.28310195985597186"/>
+			<NumericPredictor name="tf(lowercase(Sentence), conversations)" coefficient="-0.9621510730836008"/>
+			<NumericPredictor name="tf(lowercase(Sentence), cool)" coefficient="0.6484812157059511"/>
+			<NumericPredictor name="tf(lowercase(Sentence), could)" coefficient="-0.35616173749414426"/>
+			<NumericPredictor name="tf(lowercase(Sentence), could not)" coefficient="-0.019688532216457916"/>
+			<NumericPredictor name="tf(lowercase(Sentence), crap)" coefficient="-0.7654479826760578"/>
+			<NumericPredictor name="tf(lowercase(Sentence), customer)" coefficient="-0.03728165735618007"/>
+			<NumericPredictor name="tf(lowercase(Sentence), customer service)" coefficient="-0.03728165735618007"/>
+			<NumericPredictor name="tf(lowercase(Sentence), dead)" coefficient="-0.09353507307375522"/>
 			<NumericPredictor name="tf(lowercase(Sentence), definitely)" coefficient="1.0604960813666413"/>
-			<NumericPredictor name="tf(lowercase(Sentence), design)" coefficient="-0.3162768693357775"/>
-			<NumericPredictor name="tf(lowercase(Sentence), device)" coefficient="0.30819128430636555"/>
-			<NumericPredictor name="tf(lowercase(Sentence), did not)" coefficient="-0.20853562446095164"/>
-			<NumericPredictor name="tf(lowercase(Sentence), didn't)" coefficient="-0.5463208531994672"/>
-			<NumericPredictor name="tf(lowercase(Sentence), difficult)" coefficient="-0.7257769711611595"/>
-			<NumericPredictor name="tf(lowercase(Sentence), difficult to)" coefficient="-0.39213326763013995"/>
-			<NumericPredictor name="tf(lowercase(Sentence), disappointed)" coefficient="-0.8447893540862481"/>
-			<NumericPredictor name="tf(lowercase(Sentence), disappointed with)" coefficient="-0.22231500545476496"/>
-			<NumericPredictor name="tf(lowercase(Sentence), disappointing)" coefficient="-1.2613589614991427"/>
+			<NumericPredictor name="tf(lowercase(Sentence), design)" coefficient="-0.3162768693357772"/>
+			<NumericPredictor name="tf(lowercase(Sentence), device)" coefficient="0.30819128430636544"/>
+			<NumericPredictor name="tf(lowercase(Sentence), did not)" coefficient="-0.20853562446095217"/>
+			<NumericPredictor name="tf(lowercase(Sentence), didn't)" coefficient="-0.5463208531994669"/>
+			<NumericPredictor name="tf(lowercase(Sentence), difficult)" coefficient="-0.7257769711611591"/>
+			<NumericPredictor name="tf(lowercase(Sentence), difficult to)" coefficient="-0.39213326763013984"/>
+			<NumericPredictor name="tf(lowercase(Sentence), disappointed)" coefficient="-0.844789354086248"/>
+			<NumericPredictor name="tf(lowercase(Sentence), disappointed with)" coefficient="-0.22231500545476493"/>
+			<NumericPredictor name="tf(lowercase(Sentence), disappointing)" coefficient="-1.261358961499143"/>
 			<NumericPredictor name="tf(lowercase(Sentence), disappointment)" coefficient="-0.8548473631506233"/>
-			<NumericPredictor name="tf(lowercase(Sentence), display)" coefficient="0.01566163006627042"/>
-			<NumericPredictor name="tf(lowercase(Sentence), do)" coefficient="-0.46808664050433174"/>
-			<NumericPredictor name="tf(lowercase(Sentence), do not)" coefficient="0.17141856525775068"/>
-			<NumericPredictor name="tf(lowercase(Sentence), does)" coefficient="0.23042689479694273"/>
-			<NumericPredictor name="tf(lowercase(Sentence), does not)" coefficient="-0.01225691318795697"/>
-			<NumericPredictor name="tf(lowercase(Sentence), doesn't)" coefficient="-0.6088596432276168"/>
-			<NumericPredictor name="tf(lowercase(Sentence), doesn't work)" coefficient="-0.07234070370569655"/>
-			<NumericPredictor name="tf(lowercase(Sentence), don't)" coefficient="-0.4516691016482368"/>
-			<NumericPredictor name="tf(lowercase(Sentence), don't buy)" coefficient="-0.18032138340006323"/>
-			<NumericPredictor name="tf(lowercase(Sentence), dont)" coefficient="-0.21925409195212908"/>
-			<NumericPredictor name="tf(lowercase(Sentence), drain)" coefficient="-0.4876287732119943"/>
-			<NumericPredictor name="tf(lowercase(Sentence), easily)" coefficient="-0.770516650448309"/>
-			<NumericPredictor name="tf(lowercase(Sentence), easy)" coefficient="0.7996993757860434"/>
-			<NumericPredictor name="tf(lowercase(Sentence), easy to)" coefficient="0.2747949063163996"/>
-			<NumericPredictor name="tf(lowercase(Sentence), enough)" coefficient="-0.09282857493900079"/>
-			<NumericPredictor name="tf(lowercase(Sentence), ever)" coefficient="0.03942546830815981"/>
-			<NumericPredictor name="tf(lowercase(Sentence), everything)" coefficient="0.4279209880948284"/>
+			<NumericPredictor name="tf(lowercase(Sentence), display)" coefficient="0.015661630066270676"/>
+			<NumericPredictor name="tf(lowercase(Sentence), do)" coefficient="-0.4680866405043315"/>
+			<NumericPredictor name="tf(lowercase(Sentence), do not)" coefficient="0.17141856525775062"/>
+			<NumericPredictor name="tf(lowercase(Sentence), does)" coefficient="0.23042689479694278"/>
+			<NumericPredictor name="tf(lowercase(Sentence), does not)" coefficient="-0.012256913187957172"/>
+			<NumericPredictor name="tf(lowercase(Sentence), doesn't)" coefficient="-0.6088596432276167"/>
+			<NumericPredictor name="tf(lowercase(Sentence), doesn't work)" coefficient="-0.07234070370569647"/>
+			<NumericPredictor name="tf(lowercase(Sentence), don't)" coefficient="-0.45166910164823687"/>
+			<NumericPredictor name="tf(lowercase(Sentence), don't buy)" coefficient="-0.18032138340006312"/>
+			<NumericPredictor name="tf(lowercase(Sentence), dont)" coefficient="-0.2192540919521292"/>
+			<NumericPredictor name="tf(lowercase(Sentence), drain)" coefficient="-0.48762877321199444"/>
+			<NumericPredictor name="tf(lowercase(Sentence), easily)" coefficient="-0.7705166504483092"/>
+			<NumericPredictor name="tf(lowercase(Sentence), easy)" coefficient="0.799699375786043"/>
+			<NumericPredictor name="tf(lowercase(Sentence), easy to)" coefficient="0.2747949063164"/>
+			<NumericPredictor name="tf(lowercase(Sentence), enough)" coefficient="-0.09282857493900096"/>
+			<NumericPredictor name="tf(lowercase(Sentence), ever)" coefficient="0.03942546830816019"/>
+			<NumericPredictor name="tf(lowercase(Sentence), everything)" coefficient="0.4279209880948289"/>
 			<NumericPredictor name="tf(lowercase(Sentence), excellent)" coefficient="0.9290283371769397"/>
-			<NumericPredictor name="tf(lowercase(Sentence), excellent product)" coefficient="0.15349614499807804"/>
-			<NumericPredictor name="tf(lowercase(Sentence), expensive)" coefficient="0.6713207008073765"/>
+			<NumericPredictor name="tf(lowercase(Sentence), excellent product)" coefficient="0.15349614499807782"/>
+			<NumericPredictor name="tf(lowercase(Sentence), expensive)" coefficient="0.6713207008073766"/>
 			<NumericPredictor name="tf(lowercase(Sentence), experience)" coefficient="-0.6526942649678751"/>
-			<NumericPredictor name="tf(lowercase(Sentence), failed)" coefficient="-0.6522443192013111"/>
-			<NumericPredictor name="tf(lowercase(Sentence), family)" coefficient="0.803006187086382"/>
-			<NumericPredictor name="tf(lowercase(Sentence), fantastic)" coefficient="1.0227904281081326"/>
-			<NumericPredictor name="tf(lowercase(Sentence), far)" coefficient="-0.28373877953154997"/>
+			<NumericPredictor name="tf(lowercase(Sentence), failed)" coefficient="-0.6522443192013115"/>
+			<NumericPredictor name="tf(lowercase(Sentence), family)" coefficient="0.8030061870863818"/>
+			<NumericPredictor name="tf(lowercase(Sentence), fantastic)" coefficient="1.0227904281081321"/>
+			<NumericPredictor name="tf(lowercase(Sentence), far)" coefficient="-0.2837387795315495"/>
 			<NumericPredictor name="tf(lowercase(Sentence), fast)" coefficient="0.5607180260418737"/>
-			<NumericPredictor name="tf(lowercase(Sentence), features)" coefficient="0.23499434351575044"/>
-			<NumericPredictor name="tf(lowercase(Sentence), fine)" coefficient="0.29621293384875164"/>
-			<NumericPredictor name="tf(lowercase(Sentence), first)" coefficient="-0.6459982567695609"/>
-			<NumericPredictor name="tf(lowercase(Sentence), fits)" coefficient="0.3901924556733578"/>
-			<NumericPredictor name="tf(lowercase(Sentence), fits comfortably)" coefficient="0.13535117995194"/>
-			<NumericPredictor name="tf(lowercase(Sentence), fits my)" coefficient="0.2044826522255634"/>
-			<NumericPredictor name="tf(lowercase(Sentence), found)" coefficient="-0.07952951970615918"/>
-			<NumericPredictor name="tf(lowercase(Sentence), free)" coefficient="0.08955386890812873"/>
-			<NumericPredictor name="tf(lowercase(Sentence), from them)" coefficient="0.41974574029083705"/>
-			<NumericPredictor name="tf(lowercase(Sentence), get it)" coefficient="-0.047853013290162595"/>
+			<NumericPredictor name="tf(lowercase(Sentence), features)" coefficient="0.2349943435157506"/>
+			<NumericPredictor name="tf(lowercase(Sentence), fine)" coefficient="0.2962129338487513"/>
+			<NumericPredictor name="tf(lowercase(Sentence), first)" coefficient="-0.6459982567695604"/>
+			<NumericPredictor name="tf(lowercase(Sentence), fits)" coefficient="0.3901924556733576"/>
+			<NumericPredictor name="tf(lowercase(Sentence), fits comfortably)" coefficient="0.13535117995194035"/>
+			<NumericPredictor name="tf(lowercase(Sentence), fits my)" coefficient="0.20448265222556344"/>
+			<NumericPredictor name="tf(lowercase(Sentence), found)" coefficient="-0.07952951970615908"/>
+			<NumericPredictor name="tf(lowercase(Sentence), free)" coefficient="0.08955386890812864"/>
+			<NumericPredictor name="tf(lowercase(Sentence), from them)" coefficient="0.419745740290837"/>
+			<NumericPredictor name="tf(lowercase(Sentence), get it)" coefficient="-0.047853013290162554"/>
 			<NumericPredictor name="tf(lowercase(Sentence), glad)" coefficient="0.5005849401991544"/>
 			<NumericPredictor name="tf(lowercase(Sentence), glad i)" coefficient="0.5005849401991544"/>
-			<NumericPredictor name="tf(lowercase(Sentence), goes)" coefficient="-0.09353507307375519"/>
-			<NumericPredictor name="tf(lowercase(Sentence), good)" coefficient="0.9553979307497491"/>
-			<NumericPredictor name="tf(lowercase(Sentence), good phone)" coefficient="0.030510370628985387"/>
-			<NumericPredictor name="tf(lowercase(Sentence), good product)" coefficient="0.13591733137092257"/>
-			<NumericPredictor name="tf(lowercase(Sentence), good quality)" coefficient="0.4260259280236896"/>
+			<NumericPredictor name="tf(lowercase(Sentence), goes)" coefficient="-0.09353507307375516"/>
+			<NumericPredictor name="tf(lowercase(Sentence), good)" coefficient="0.9553979307497494"/>
+			<NumericPredictor name="tf(lowercase(Sentence), good phone)" coefficient="0.030510370628985376"/>
+			<NumericPredictor name="tf(lowercase(Sentence), good product)" coefficient="0.13591733137092238"/>
+			<NumericPredictor name="tf(lowercase(Sentence), good quality)" coefficient="0.42602592802368927"/>
 			<NumericPredictor name="tf(lowercase(Sentence), great)" coefficient="0.9841832164212909"/>
-			<NumericPredictor name="tf(lowercase(Sentence), great for)" coefficient="0.05278416178169291"/>
-			<NumericPredictor name="tf(lowercase(Sentence), great phone)" coefficient="0.07308596868169483"/>
-			<NumericPredictor name="tf(lowercase(Sentence), great product)" coefficient="0.1400724249110749"/>
+			<NumericPredictor name="tf(lowercase(Sentence), great for)" coefficient="0.05278416178169285"/>
+			<NumericPredictor name="tf(lowercase(Sentence), great phone)" coefficient="0.0730859686816949"/>
+			<NumericPredictor name="tf(lowercase(Sentence), great price)" coefficient="-3.469446951953614E-18"/>
+			<NumericPredictor name="tf(lowercase(Sentence), great product)" coefficient="0.14007242491107486"/>
 			<NumericPredictor name="tf(lowercase(Sentence), had a)" coefficient="-0.536693755668414"/>
 			<NumericPredictor name="tf(lowercase(Sentence), had problems)" coefficient="-0.547410869444549"/>
 			<NumericPredictor name="tf(lowercase(Sentence), had to)" coefficient="-0.6068936897509913"/>
-			<NumericPredictor name="tf(lowercase(Sentence), happier)" coefficient="1.3681402456389287"/>
-			<NumericPredictor name="tf(lowercase(Sentence), happy)" coefficient="0.2828865438492376"/>
-			<NumericPredictor name="tf(lowercase(Sentence), happy with)" coefficient="0.15803785884114388"/>
-			<NumericPredictor name="tf(lowercase(Sentence), has)" coefficient="-0.06219483770333792"/>
-			<NumericPredictor name="tf(lowercase(Sentence), hate)" coefficient="-0.32608126410124005"/>
-			<NumericPredictor name="tf(lowercase(Sentence), have been)" coefficient="-1.0408340855860843E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), have to)" coefficient="-0.28331499661408255"/>
-			<NumericPredictor name="tf(lowercase(Sentence), have used)" coefficient="0.12187255869084421"/>
+			<NumericPredictor name="tf(lowercase(Sentence), happier)" coefficient="1.3681402456389284"/>
+			<NumericPredictor name="tf(lowercase(Sentence), happy)" coefficient="0.28288654384923806"/>
+			<NumericPredictor name="tf(lowercase(Sentence), happy with)" coefficient="0.15803785884114346"/>
+			<NumericPredictor name="tf(lowercase(Sentence), has)" coefficient="-0.062194837703337905"/>
+			<NumericPredictor name="tf(lowercase(Sentence), hate)" coefficient="-0.3260812641012399"/>
+			<NumericPredictor name="tf(lowercase(Sentence), have been)" coefficient="2.7755575615628914E-17"/>
+			<NumericPredictor name="tf(lowercase(Sentence), have to)" coefficient="-0.28331499661408244"/>
+			<NumericPredictor name="tf(lowercase(Sentence), have used)" coefficient="0.12187255869084382"/>
 			<NumericPredictor name="tf(lowercase(Sentence), headset)" coefficient="-0.634744892600827"/>
 			<NumericPredictor name="tf(lowercase(Sentence), headset is)" coefficient="0.7252450607513602"/>
-			<NumericPredictor name="tf(lowercase(Sentence), hear)" coefficient="-0.6680502749871396"/>
-			<NumericPredictor name="tf(lowercase(Sentence), highly)" coefficient="0.19376771919063762"/>
-			<NumericPredictor name="tf(lowercase(Sentence), highly recommend)" coefficient="0.19376771919063768"/>
-			<NumericPredictor name="tf(lowercase(Sentence), horrible)" coefficient="-0.7076873950464191"/>
-			<NumericPredictor name="tf(lowercase(Sentence), how)" coefficient="-0.2675031486141261"/>
-			<NumericPredictor name="tf(lowercase(Sentence), however)" coefficient="-0.09396537731267635"/>
-			<NumericPredictor name="tf(lowercase(Sentence), i am)" coefficient="-0.056502676033447954"/>
-			<NumericPredictor name="tf(lowercase(Sentence), i hate)" coefficient="-0.32608126410124005"/>
+			<NumericPredictor name="tf(lowercase(Sentence), hear)" coefficient="-0.6680502749871395"/>
+			<NumericPredictor name="tf(lowercase(Sentence), highly)" coefficient="0.193767719190638"/>
+			<NumericPredictor name="tf(lowercase(Sentence), highly recommend)" coefficient="0.1937677191906379"/>
+			<NumericPredictor name="tf(lowercase(Sentence), horrible)" coefficient="-0.7076873950464192"/>
+			<NumericPredictor name="tf(lowercase(Sentence), how)" coefficient="-0.2675031486141259"/>
+			<NumericPredictor name="tf(lowercase(Sentence), however)" coefficient="-0.09396537731267669"/>
+			<NumericPredictor name="tf(lowercase(Sentence), i am)" coefficient="-0.05650267603344786"/>
+			<NumericPredictor name="tf(lowercase(Sentence), i hate)" coefficient="-0.32608126410124"/>
 			<NumericPredictor name="tf(lowercase(Sentence), i highly)" coefficient="0.06912985325465432"/>
-			<NumericPredictor name="tf(lowercase(Sentence), i just)" coefficient="0.21944876438442004"/>
-			<NumericPredictor name="tf(lowercase(Sentence), i love)" coefficient="0.152802860386812"/>
-			<NumericPredictor name="tf(lowercase(Sentence), i wear)" coefficient="0.05647382186037705"/>
-			<NumericPredictor name="tf(lowercase(Sentence), i'm not)" coefficient="-0.18554884669252522"/>
-			<NumericPredictor name="tf(lowercase(Sentence), i've)" coefficient="0.035670551530316355"/>
-			<NumericPredictor name="tf(lowercase(Sentence), i've tried)" coefficient="0.20448265222556328"/>
-			<NumericPredictor name="tf(lowercase(Sentence), if)" coefficient="-0.3118846712508868"/>
-			<NumericPredictor name="tf(lowercase(Sentence), if i)" coefficient="-0.4538855065104127"/>
-			<NumericPredictor name="tf(lowercase(Sentence), if you)" coefficient="-0.8409390950601311"/>
-			<NumericPredictor name="tf(lowercase(Sentence), in)" coefficient="-0.22153063584798166"/>
-			<NumericPredictor name="tf(lowercase(Sentence), in a)" coefficient="-0.7714363888889982"/>
-			<NumericPredictor name="tf(lowercase(Sentence), in my)" coefficient="-0.467090752785258"/>
-			<NumericPredictor name="tf(lowercase(Sentence), instead)" coefficient="1.105946277728139"/>
-			<NumericPredictor name="tf(lowercase(Sentence), instructions)" coefficient="-0.6519239099332925"/>
-			<NumericPredictor name="tf(lowercase(Sentence), is)" coefficient="0.0402406150508338"/>
-			<NumericPredictor name="tf(lowercase(Sentence), is awesome)" coefficient="0.17138853499748888"/>
-			<NumericPredictor name="tf(lowercase(Sentence), is excellent)" coefficient="0.1995252644876295"/>
-			<NumericPredictor name="tf(lowercase(Sentence), is great)" coefficient="-0.4582982351175863"/>
-			<NumericPredictor name="tf(lowercase(Sentence), is sturdy)" coefficient="0.2648702380649629"/>
-			<NumericPredictor name="tf(lowercase(Sentence), is terrible)" coefficient="-0.25172555032370164"/>
-			<NumericPredictor name="tf(lowercase(Sentence), is very)" coefficient="-0.08572315542877419"/>
-			<NumericPredictor name="tf(lowercase(Sentence), it)" coefficient="-0.13159873843131015"/>
+			<NumericPredictor name="tf(lowercase(Sentence), i just)" coefficient="0.2194487643844201"/>
+			<NumericPredictor name="tf(lowercase(Sentence), i love)" coefficient="0.1528028603868124"/>
+			<NumericPredictor name="tf(lowercase(Sentence), i wear)" coefficient="0.05647382186037708"/>
+			<NumericPredictor name="tf(lowercase(Sentence), i'm not)" coefficient="-0.18554884669252517"/>
+			<NumericPredictor name="tf(lowercase(Sentence), i've)" coefficient="0.03567055153031639"/>
+			<NumericPredictor name="tf(lowercase(Sentence), i've tried)" coefficient="0.20448265222556347"/>
+			<NumericPredictor name="tf(lowercase(Sentence), if)" coefficient="-0.3118846712508863"/>
+			<NumericPredictor name="tf(lowercase(Sentence), if i)" coefficient="-0.45388550651041276"/>
+			<NumericPredictor name="tf(lowercase(Sentence), if you)" coefficient="-0.8409390950601314"/>
+			<NumericPredictor name="tf(lowercase(Sentence), in)" coefficient="-0.22153063584798183"/>
+			<NumericPredictor name="tf(lowercase(Sentence), in a)" coefficient="-0.7714363888889978"/>
+			<NumericPredictor name="tf(lowercase(Sentence), in my)" coefficient="-0.46709075278525775"/>
+			<NumericPredictor name="tf(lowercase(Sentence), instead)" coefficient="1.1059462777281392"/>
+			<NumericPredictor name="tf(lowercase(Sentence), instructions)" coefficient="-0.6519239099332919"/>
+			<NumericPredictor name="tf(lowercase(Sentence), is)" coefficient="0.04024061505083379"/>
+			<NumericPredictor name="tf(lowercase(Sentence), is awesome)" coefficient="0.1713885349974887"/>
+			<NumericPredictor name="tf(lowercase(Sentence), is excellent)" coefficient="0.19952526448762958"/>
+			<NumericPredictor name="tf(lowercase(Sentence), is great)" coefficient="-0.45829823511758605"/>
+			<NumericPredictor name="tf(lowercase(Sentence), is sturdy)" coefficient="0.26487023806496285"/>
+			<NumericPredictor name="tf(lowercase(Sentence), is terrible)" coefficient="-0.2517255503237017"/>
+			<NumericPredictor name="tf(lowercase(Sentence), is very)" coefficient="-0.08572315542877422"/>
+			<NumericPredictor name="tf(lowercase(Sentence), it)" coefficient="-0.13159873843131026"/>
 			<NumericPredictor name="tf(lowercase(Sentence), it broke)" coefficient="-0.6445303327614577"/>
-			<NumericPredictor name="tf(lowercase(Sentence), it doesn't)" coefficient="-0.7919493891020363"/>
-			<NumericPredictor name="tf(lowercase(Sentence), it fits)" coefficient="0.0039256059527282144"/>
-			<NumericPredictor name="tf(lowercase(Sentence), it has)" coefficient="0.06258046522842761"/>
-			<NumericPredictor name="tf(lowercase(Sentence), it in)" coefficient="-0.5188357483815886"/>
-			<NumericPredictor name="tf(lowercase(Sentence), it is)" coefficient="0.41789539680489607"/>
-			<NumericPredictor name="tf(lowercase(Sentence), it only)" coefficient="-0.37049272729039656"/>
+			<NumericPredictor name="tf(lowercase(Sentence), it doesn't)" coefficient="-0.7919493891020362"/>
+			<NumericPredictor name="tf(lowercase(Sentence), it fits)" coefficient="0.003925605952729026"/>
+			<NumericPredictor name="tf(lowercase(Sentence), it has)" coefficient="0.06258046522842764"/>
+			<NumericPredictor name="tf(lowercase(Sentence), it in)" coefficient="-0.5188357483815884"/>
+			<NumericPredictor name="tf(lowercase(Sentence), it is)" coefficient="0.41789539680489646"/>
+			<NumericPredictor name="tf(lowercase(Sentence), it only)" coefficient="-0.3704927272903966"/>
 			<NumericPredictor name="tf(lowercase(Sentence), it to)" coefficient="-0.8748358706168593"/>
-			<NumericPredictor name="tf(lowercase(Sentence), it works)" coefficient="0.02805931361653125"/>
+			<NumericPredictor name="tf(lowercase(Sentence), it works)" coefficient="0.028059313616531117"/>
 			<NumericPredictor name="tf(lowercase(Sentence), its not)" coefficient="-0.5808293563812144"/>
-			<NumericPredictor name="tf(lowercase(Sentence), jabra)" coefficient="0.1326301443325372"/>
+			<NumericPredictor name="tf(lowercase(Sentence), jabra)" coefficient="0.13263014433253714"/>
 			<NumericPredictor name="tf(lowercase(Sentence), jawbone)" coefficient="0.2768253620426015"/>
-			<NumericPredictor name="tf(lowercase(Sentence), junk)" coefficient="-0.759287409225667"/>
-			<NumericPredictor name="tf(lowercase(Sentence), last)" coefficient="-0.3803446468697988"/>
-			<NumericPredictor name="tf(lowercase(Sentence), later)" coefficient="-0.7273485989685907"/>
+			<NumericPredictor name="tf(lowercase(Sentence), junk)" coefficient="-0.7592874092256674"/>
+			<NumericPredictor name="tf(lowercase(Sentence), last)" coefficient="-0.38034464686979896"/>
+			<NumericPredictor name="tf(lowercase(Sentence), later)" coefficient="-0.7273485989685905"/>
 			<NumericPredictor name="tf(lowercase(Sentence), leather)" coefficient="0.14225812204577823"/>
-			<NumericPredictor name="tf(lowercase(Sentence), longer)" coefficient="-0.1048239422888738"/>
-			<NumericPredictor name="tf(lowercase(Sentence), lost)" coefficient="-4.163336342344337E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), lot)" coefficient="0.3925358909428248"/>
-			<NumericPredictor name="tf(lowercase(Sentence), love)" coefficient="0.8917401562650594"/>
-			<NumericPredictor name="tf(lowercase(Sentence), love the)" coefficient="0.2512121933584003"/>
-			<NumericPredictor name="tf(lowercase(Sentence), love this)" coefficient="0.35634640643455284"/>
-			<NumericPredictor name="tf(lowercase(Sentence), low quality)" coefficient="-0.9159260755267242"/>
-			<NumericPredictor name="tf(lowercase(Sentence), market)" coefficient="0.10341558375720786"/>
-			<NumericPredictor name="tf(lowercase(Sentence), may)" coefficient="-0.23524894656580878"/>
-			<NumericPredictor name="tf(lowercase(Sentence), me)" coefficient="-0.10287956492038125"/>
-			<NumericPredictor name="tf(lowercase(Sentence), me to)" coefficient="-1.581341622906823"/>
-			<NumericPredictor name="tf(lowercase(Sentence), might)" coefficient="-0.3295404004203719"/>
-			<NumericPredictor name="tf(lowercase(Sentence), mistake)" coefficient="-0.6237567076827282"/>
-			<NumericPredictor name="tf(lowercase(Sentence), money)" coefficient="-0.31902105621139193"/>
-			<NumericPredictor name="tf(lowercase(Sentence), must have)" coefficient="1.2486140891198767"/>
-			<NumericPredictor name="tf(lowercase(Sentence), my ear)" coefficient="-0.21221933443863064"/>
-			<NumericPredictor name="tf(lowercase(Sentence), my money)" coefficient="-0.6405876329988525"/>
-			<NumericPredictor name="tf(lowercase(Sentence), my purchase)" coefficient="0.7263684150677009"/>
-			<NumericPredictor name="tf(lowercase(Sentence), never)" coefficient="-0.6118721933298368"/>
-			<NumericPredictor name="tf(lowercase(Sentence), nice)" coefficient="1.069251505994596"/>
-			<NumericPredictor name="tf(lowercase(Sentence), noise)" coefficient="0.9881713563911574"/>
-			<NumericPredictor name="tf(lowercase(Sentence), none)" coefficient="-0.4322361355330965"/>
-			<NumericPredictor name="tf(lowercase(Sentence), none of)" coefficient="-0.4322361355330965"/>
+			<NumericPredictor name="tf(lowercase(Sentence), longer)" coefficient="-0.10482394228887389"/>
+			<NumericPredictor name="tf(lowercase(Sentence), lost)" coefficient="-1.3877787807814457E-17"/>
+			<NumericPredictor name="tf(lowercase(Sentence), lot)" coefficient="0.3925358909428239"/>
+			<NumericPredictor name="tf(lowercase(Sentence), love)" coefficient="0.8917401562650591"/>
+			<NumericPredictor name="tf(lowercase(Sentence), love the)" coefficient="0.2512121933584007"/>
+			<NumericPredictor name="tf(lowercase(Sentence), love this)" coefficient="0.356346406434553"/>
+			<NumericPredictor name="tf(lowercase(Sentence), low quality)" coefficient="-0.9159260755267228"/>
+			<NumericPredictor name="tf(lowercase(Sentence), market)" coefficient="0.10341558375720805"/>
+			<NumericPredictor name="tf(lowercase(Sentence), may)" coefficient="-0.2352489465658086"/>
+			<NumericPredictor name="tf(lowercase(Sentence), me)" coefficient="-0.1028795649203811"/>
+			<NumericPredictor name="tf(lowercase(Sentence), me to)" coefficient="-1.581341622906824"/>
+			<NumericPredictor name="tf(lowercase(Sentence), might)" coefficient="-0.32954040042037186"/>
+			<NumericPredictor name="tf(lowercase(Sentence), mistake)" coefficient="-0.6237567076827281"/>
+			<NumericPredictor name="tf(lowercase(Sentence), money)" coefficient="-0.31902105621139204"/>
+			<NumericPredictor name="tf(lowercase(Sentence), must have)" coefficient="1.248614089119877"/>
+			<NumericPredictor name="tf(lowercase(Sentence), my ear)" coefficient="-0.21221933443863106"/>
+			<NumericPredictor name="tf(lowercase(Sentence), my money)" coefficient="-0.6405876329988521"/>
+			<NumericPredictor name="tf(lowercase(Sentence), my purchase)" coefficient="0.726368415067701"/>
+			<NumericPredictor name="tf(lowercase(Sentence), never)" coefficient="-0.6118721933298366"/>
+			<NumericPredictor name="tf(lowercase(Sentence), nice)" coefficient="1.0692515059945962"/>
+			<NumericPredictor name="tf(lowercase(Sentence), noise)" coefficient="0.9881713563911576"/>
+			<NumericPredictor name="tf(lowercase(Sentence), none)" coefficient="-0.4322361355330966"/>
+			<NumericPredictor name="tf(lowercase(Sentence), none of)" coefficient="-0.4322361355330966"/>
 			<NumericPredictor name="tf(lowercase(Sentence), not)" coefficient="-0.9382491291836376"/>
-			<NumericPredictor name="tf(lowercase(Sentence), not a)" coefficient="-0.6358603801829591"/>
-			<NumericPredictor name="tf(lowercase(Sentence), not fit)" coefficient="-0.173250108407915"/>
+			<NumericPredictor name="tf(lowercase(Sentence), not a)" coefficient="-0.6358603801829597"/>
+			<NumericPredictor name="tf(lowercase(Sentence), not fit)" coefficient="-0.17325010840791516"/>
 			<NumericPredictor name="tf(lowercase(Sentence), not good)" coefficient="-0.9219590030474495"/>
-			<NumericPredictor name="tf(lowercase(Sentence), not impressed)" coefficient="1.214306433183765E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), not recommend)" coefficient="-0.10240859767073668"/>
-			<NumericPredictor name="tf(lowercase(Sentence), not work)" coefficient="-0.418348228965412"/>
-			<NumericPredictor name="tf(lowercase(Sentence), nothing)" coefficient="-0.5176924321000979"/>
-			<NumericPredictor name="tf(lowercase(Sentence), of)" coefficient="0.1640808683121538"/>
-			<NumericPredictor name="tf(lowercase(Sentence), of junk)" coefficient="-0.04987442479023014"/>
-			<NumericPredictor name="tf(lowercase(Sentence), off)" coefficient="0.16590817884180853"/>
-			<NumericPredictor name="tf(lowercase(Sentence), old)" coefficient="-1.2032908393273976"/>
-			<NumericPredictor name="tf(lowercase(Sentence), on my)" coefficient="-0.37302466688283453"/>
-			<NumericPredictor name="tf(lowercase(Sentence), on this)" coefficient="-0.9613958662061086"/>
-			<NumericPredictor name="tf(lowercase(Sentence), one is)" coefficient="0.3562425717845954"/>
-			<NumericPredictor name="tf(lowercase(Sentence), only)" coefficient="-0.2863181658100096"/>
-			<NumericPredictor name="tf(lowercase(Sentence), order)" coefficient="0.6317780197742842"/>
-			<NumericPredictor name="tf(lowercase(Sentence), out)" coefficient="0.03846501765078124"/>
-			<NumericPredictor name="tf(lowercase(Sentence), out of)" coefficient="0.30495447542551823"/>
-			<NumericPredictor name="tf(lowercase(Sentence), overall)" coefficient="0.07952744879656158"/>
-			<NumericPredictor name="tf(lowercase(Sentence), overall i)" coefficient="0.07952744879656158"/>
-			<NumericPredictor name="tf(lowercase(Sentence), pay)" coefficient="-0.5342058781695391"/>
-			<NumericPredictor name="tf(lowercase(Sentence), pc)" coefficient="0.09379706633649958"/>
-			<NumericPredictor name="tf(lowercase(Sentence), perfectly)" coefficient="1.1764453910512624"/>
-			<NumericPredictor name="tf(lowercase(Sentence), phone in)" coefficient="0.10341558375720793"/>
-			<NumericPredictor name="tf(lowercase(Sentence), phone on)" coefficient="1.1544715526723053"/>
-			<NumericPredictor name="tf(lowercase(Sentence), picture)" coefficient="-0.5548082154831061"/>
+			<NumericPredictor name="tf(lowercase(Sentence), not impressed)" coefficient="1.0408340855860843E-17"/>
+			<NumericPredictor name="tf(lowercase(Sentence), not recommend)" coefficient="-0.1024085976707366"/>
+			<NumericPredictor name="tf(lowercase(Sentence), not work)" coefficient="-0.4183482289654123"/>
+			<NumericPredictor name="tf(lowercase(Sentence), nothing)" coefficient="-0.5176924321000977"/>
+			<NumericPredictor name="tf(lowercase(Sentence), of)" coefficient="0.16408086831215365"/>
+			<NumericPredictor name="tf(lowercase(Sentence), of junk)" coefficient="-0.049874424790230014"/>
+			<NumericPredictor name="tf(lowercase(Sentence), off)" coefficient="0.16590817884180847"/>
+			<NumericPredictor name="tf(lowercase(Sentence), old)" coefficient="-1.2032908393273953"/>
+			<NumericPredictor name="tf(lowercase(Sentence), on my)" coefficient="-0.3730246668828346"/>
+			<NumericPredictor name="tf(lowercase(Sentence), on this)" coefficient="-0.9613958662061082"/>
+			<NumericPredictor name="tf(lowercase(Sentence), one is)" coefficient="0.3562425717845961"/>
+			<NumericPredictor name="tf(lowercase(Sentence), only)" coefficient="-0.2863181658100098"/>
+			<NumericPredictor name="tf(lowercase(Sentence), order)" coefficient="0.6317780197742839"/>
+			<NumericPredictor name="tf(lowercase(Sentence), out)" coefficient="0.038465017650781246"/>
+			<NumericPredictor name="tf(lowercase(Sentence), out of)" coefficient="0.30495447542551846"/>
+			<NumericPredictor name="tf(lowercase(Sentence), overall)" coefficient="0.07952744879656168"/>
+			<NumericPredictor name="tf(lowercase(Sentence), overall i)" coefficient="0.07952744879656168"/>
+			<NumericPredictor name="tf(lowercase(Sentence), pay)" coefficient="-0.534205878169539"/>
+			<NumericPredictor name="tf(lowercase(Sentence), pc)" coefficient="0.09379706633649976"/>
+			<NumericPredictor name="tf(lowercase(Sentence), perfectly)" coefficient="1.1764453910512638"/>
+			<NumericPredictor name="tf(lowercase(Sentence), phone in)" coefficient="0.10341558375720798"/>
+			<NumericPredictor name="tf(lowercase(Sentence), phone on)" coefficient="1.1544715526723044"/>
+			<NumericPredictor name="tf(lowercase(Sentence), picture)" coefficient="-0.5548082154831068"/>
 			<NumericPredictor name="tf(lowercase(Sentence), piece)" coefficient="-0.21055213048017546"/>
-			<NumericPredictor name="tf(lowercase(Sentence), piece of)" coefficient="-0.6100707144030596"/>
-			<NumericPredictor name="tf(lowercase(Sentence), player)" coefficient="-0.1349803410996294"/>
+			<NumericPredictor name="tf(lowercase(Sentence), piece of)" coefficient="-0.6100707144030597"/>
+			<NumericPredictor name="tf(lowercase(Sentence), player)" coefficient="-0.13498034109962923"/>
 			<NumericPredictor name="tf(lowercase(Sentence), pleased)" coefficient="0.7089062959564165"/>
-			<NumericPredictor name="tf(lowercase(Sentence), plug)" coefficient="-0.2005217174896844"/>
-			<NumericPredictor name="tf(lowercase(Sentence), plugged)" coefficient="-0.591769196797227"/>
+			<NumericPredictor name="tf(lowercase(Sentence), plug)" coefficient="-0.20052171748968442"/>
+			<NumericPredictor name="tf(lowercase(Sentence), plugged)" coefficient="-0.5917691967972276"/>
 			<NumericPredictor name="tf(lowercase(Sentence), poor)" coefficient="-1.0419900718448847"/>
-			<NumericPredictor name="tf(lowercase(Sentence), poorly)" coefficient="-0.8073044885261188"/>
-			<NumericPredictor name="tf(lowercase(Sentence), pretty)" coefficient="0.5540011047168643"/>
-			<NumericPredictor name="tf(lowercase(Sentence), price)" coefficient="0.2216897609836223"/>
-			<NumericPredictor name="tf(lowercase(Sentence), priced)" coefficient="0.41923493228162906"/>
-			<NumericPredictor name="tf(lowercase(Sentence), product)" coefficient="-0.09591339225690533"/>
-			<NumericPredictor name="tf(lowercase(Sentence), put)" coefficient="1.2368782610032436E-4"/>
-			<NumericPredictor name="tf(lowercase(Sentence), quality)" coefficient="0.15004679239276614"/>
+			<NumericPredictor name="tf(lowercase(Sentence), poorly)" coefficient="-0.8073044885261196"/>
+			<NumericPredictor name="tf(lowercase(Sentence), pretty)" coefficient="0.5540011047168645"/>
+			<NumericPredictor name="tf(lowercase(Sentence), price)" coefficient="0.22168976098362186"/>
+			<NumericPredictor name="tf(lowercase(Sentence), priced)" coefficient="0.419234932281629"/>
+			<NumericPredictor name="tf(lowercase(Sentence), product)" coefficient="-0.09591339225690483"/>
+			<NumericPredictor name="tf(lowercase(Sentence), put)" coefficient="1.2368782610031048E-4"/>
+			<NumericPredictor name="tf(lowercase(Sentence), quality)" coefficient="0.15004679239276603"/>
 			<NumericPredictor name="tf(lowercase(Sentence), quality of)" coefficient="0.30428257161244654"/>
 			<NumericPredictor name="tf(lowercase(Sentence), range)" coefficient="0.8311420207210325"/>
-			<NumericPredictor name="tf(lowercase(Sentence), reasonably)" coefficient="1.0878349998189847"/>
-			<NumericPredictor name="tf(lowercase(Sentence), reception and)" coefficient="4.163336342344337E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), recommend)" coefficient="0.48970922422280266"/>
-			<NumericPredictor name="tf(lowercase(Sentence), recommend this)" coefficient="0.09507176310865945"/>
-			<NumericPredictor name="tf(lowercase(Sentence), refund)" coefficient="-0.613373036921926"/>
-			<NumericPredictor name="tf(lowercase(Sentence), return)" coefficient="-0.22527409757310254"/>
-			<NumericPredictor name="tf(lowercase(Sentence), return it)" coefficient="-0.22527409757310254"/>
-			<NumericPredictor name="tf(lowercase(Sentence), rocks)" coefficient="0.7563259124501627"/>
-			<NumericPredictor name="tf(lowercase(Sentence), same)" coefficient="-0.45273028284871364"/>
-			<NumericPredictor name="tf(lowercase(Sentence), same problem)" coefficient="-0.32260737969237246"/>
-			<NumericPredictor name="tf(lowercase(Sentence), satisfied)" coefficient="0.36939670382877415"/>
-			<NumericPredictor name="tf(lowercase(Sentence), satisfied with)" coefficient="0.14825566559824555"/>
-			<NumericPredictor name="tf(lowercase(Sentence), seems)" coefficient="0.576129976804803"/>
-			<NumericPredictor name="tf(lowercase(Sentence), seller)" coefficient="0.719960947987502"/>
-			<NumericPredictor name="tf(lowercase(Sentence), service)" coefficient="0.22228129190840273"/>
-			<NumericPredictor name="tf(lowercase(Sentence), setup)" coefficient="0.8744053515259604"/>
-			<NumericPredictor name="tf(lowercase(Sentence), signal)" coefficient="-0.23643832968464967"/>
+			<NumericPredictor name="tf(lowercase(Sentence), reasonably)" coefficient="1.0878349998189845"/>
+			<NumericPredictor name="tf(lowercase(Sentence), reception and)" coefficient="-2.7755575615628914E-17"/>
+			<NumericPredictor name="tf(lowercase(Sentence), recommend)" coefficient="0.4897092242228021"/>
+			<NumericPredictor name="tf(lowercase(Sentence), recommend this)" coefficient="0.09507176310865936"/>
+			<NumericPredictor name="tf(lowercase(Sentence), refund)" coefficient="-0.6133730369219259"/>
+			<NumericPredictor name="tf(lowercase(Sentence), return)" coefficient="-0.2252740975731026"/>
+			<NumericPredictor name="tf(lowercase(Sentence), return it)" coefficient="-0.2252740975731026"/>
+			<NumericPredictor name="tf(lowercase(Sentence), rocks)" coefficient="0.7563259124501628"/>
+			<NumericPredictor name="tf(lowercase(Sentence), same)" coefficient="-0.45273028284871375"/>
+			<NumericPredictor name="tf(lowercase(Sentence), same problem)" coefficient="-0.3226073796923723"/>
+			<NumericPredictor name="tf(lowercase(Sentence), satisfied)" coefficient="0.369396703828775"/>
+			<NumericPredictor name="tf(lowercase(Sentence), satisfied with)" coefficient="0.14825566559824552"/>
+			<NumericPredictor name="tf(lowercase(Sentence), seems)" coefficient="0.5761299768048032"/>
+			<NumericPredictor name="tf(lowercase(Sentence), seller)" coefficient="0.7199609479875021"/>
+			<NumericPredictor name="tf(lowercase(Sentence), service)" coefficient="0.22228129190840282"/>
+			<NumericPredictor name="tf(lowercase(Sentence), setup)" coefficient="0.8744053515259607"/>
+			<NumericPredictor name="tf(lowercase(Sentence), signal)" coefficient="-0.2364383296846499"/>
 			<NumericPredictor name="tf(lowercase(Sentence), slow)" coefficient="-0.6512540940187543"/>
-			<NumericPredictor name="tf(lowercase(Sentence), so)" coefficient="0.20769229392283992"/>
-			<NumericPredictor name="tf(lowercase(Sentence), so far)" coefficient="0.9504826271092145"/>
-			<NumericPredictor name="tf(lowercase(Sentence), sound)" coefficient="-0.028678237169023752"/>
-			<NumericPredictor name="tf(lowercase(Sentence), sound is)" coefficient="-0.029241794263391442"/>
+			<NumericPredictor name="tf(lowercase(Sentence), so)" coefficient="0.20769229392283967"/>
+			<NumericPredictor name="tf(lowercase(Sentence), so far)" coefficient="0.9504826271092144"/>
+			<NumericPredictor name="tf(lowercase(Sentence), sound)" coefficient="-0.028678237169023887"/>
+			<NumericPredictor name="tf(lowercase(Sentence), sound is)" coefficient="-0.029241794263391865"/>
 			<NumericPredictor name="tf(lowercase(Sentence), sprint)" coefficient="-0.7726150249251298"/>
-			<NumericPredictor name="tf(lowercase(Sentence), stay)" coefficient="-0.39437478311722335"/>
+			<NumericPredictor name="tf(lowercase(Sentence), stay)" coefficient="-0.39437478311722346"/>
 			<NumericPredictor name="tf(lowercase(Sentence), stay away)" coefficient="-0.39437478311722335"/>
-			<NumericPredictor name="tf(lowercase(Sentence), still)" coefficient="-0.3485320511263802"/>
+			<NumericPredictor name="tf(lowercase(Sentence), still)" coefficient="-0.3485320511263803"/>
 			<NumericPredictor name="tf(lowercase(Sentence), still not)" coefficient="-0.33197518217585775"/>
-			<NumericPredictor name="tf(lowercase(Sentence), sturdy)" coefficient="0.7760722166993607"/>
-			<NumericPredictor name="tf(lowercase(Sentence), sucks)" coefficient="-0.749313002629008"/>
-			<NumericPredictor name="tf(lowercase(Sentence), support)" coefficient="-0.8532683243203963"/>
-			<NumericPredictor name="tf(lowercase(Sentence), talk)" coefficient="-0.7005624950707692"/>
+			<NumericPredictor name="tf(lowercase(Sentence), sturdy)" coefficient="0.7760722166993608"/>
+			<NumericPredictor name="tf(lowercase(Sentence), sucks)" coefficient="-0.7493130026290082"/>
+			<NumericPredictor name="tf(lowercase(Sentence), support)" coefficient="-0.853268324320396"/>
+			<NumericPredictor name="tf(lowercase(Sentence), talk)" coefficient="-0.700562495070768"/>
 			<NumericPredictor name="tf(lowercase(Sentence), terrible)" coefficient="-0.8842896822647248"/>
-			<NumericPredictor name="tf(lowercase(Sentence), than)" coefficient="0.5231669676646273"/>
+			<NumericPredictor name="tf(lowercase(Sentence), than)" coefficient="0.5231669676646278"/>
 			<NumericPredictor name="tf(lowercase(Sentence), than the)" coefficient="0.2768253620426016"/>
-			<NumericPredictor name="tf(lowercase(Sentence), that)" coefficient="-0.06067885958377266"/>
-			<NumericPredictor name="tf(lowercase(Sentence), that i)" coefficient="0.36959462163915363"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the)" coefficient="-0.20519910070397096"/>
+			<NumericPredictor name="tf(lowercase(Sentence), that)" coefficient="-0.0606788595837724"/>
+			<NumericPredictor name="tf(lowercase(Sentence), that i)" coefficient="0.3695946216391536"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the)" coefficient="-0.205199100703971"/>
 			<NumericPredictor name="tf(lowercase(Sentence), the battery)" coefficient="-1.1439183592163333"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the best)" coefficient="0.30764704660615283"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the buttons)" coefficient="-0.1349803410996294"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the car)" coefficient="0.8641975382843301"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the charger)" coefficient="0.3620881959535484"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the first)" coefficient="-0.05325733342323449"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the jabra)" coefficient="0.11707692846696881"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the best)" coefficient="0.30764704660615466"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the buttons)" coefficient="-0.13498034109962923"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the car)" coefficient="0.8641975382843308"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the charger)" coefficient="0.3620881959535487"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the first)" coefficient="-0.053257333423234826"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the jabra)" coefficient="0.1170769284669691"/>
 			<NumericPredictor name="tf(lowercase(Sentence), the original)" coefficient="0.5976498760789514"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the phone)" coefficient="-0.06597685504280633"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the price)" coefficient="0.5054861149324631"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the same)" coefficient="-0.1301229031563419"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the service)" coefficient="-0.06167685607734168"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the sound)" coefficient="0.9192481775319191"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the unit)" coefficient="-0.40686531687206656"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the voice)" coefficient="0.5627552051915823"/>
-			<NumericPredictor name="tf(lowercase(Sentence), the worst)" coefficient="-0.38773281093521367"/>
-			<NumericPredictor name="tf(lowercase(Sentence), them again)" coefficient="0.41974574029083705"/>
-			<NumericPredictor name="tf(lowercase(Sentence), then)" coefficient="-0.5019553643590979"/>
-			<NumericPredictor name="tf(lowercase(Sentence), there is)" coefficient="-0.8406400970647433"/>
-			<NumericPredictor name="tf(lowercase(Sentence), there was)" coefficient="-0.6237567076827282"/>
-			<NumericPredictor name="tf(lowercase(Sentence), they are)" coefficient="0.13812406994111434"/>
-			<NumericPredictor name="tf(lowercase(Sentence), thing)" coefficient="-0.12509216176595916"/>
-			<NumericPredictor name="tf(lowercase(Sentence), thing that)" coefficient="-0.1312797686063846"/>
-			<NumericPredictor name="tf(lowercase(Sentence), this company)" coefficient="-0.0056442797581068155"/>
-			<NumericPredictor name="tf(lowercase(Sentence), this device)" coefficient="0.2737161570978113"/>
-			<NumericPredictor name="tf(lowercase(Sentence), this headset)" coefficient="0.3187435884601069"/>
-			<NumericPredictor name="tf(lowercase(Sentence), this is)" coefficient="-0.08891688640840312"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the phone)" coefficient="-0.0659768550428062"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the price)" coefficient="0.505486114932464"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the same)" coefficient="-0.13012290315634178"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the service)" coefficient="-0.06167685607734172"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the sound)" coefficient="0.9192481775319199"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the unit)" coefficient="-0.4068653168720667"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the voice)" coefficient="0.5627552051915821"/>
+			<NumericPredictor name="tf(lowercase(Sentence), the worst)" coefficient="-0.3877328109352134"/>
+			<NumericPredictor name="tf(lowercase(Sentence), them again)" coefficient="0.419745740290837"/>
+			<NumericPredictor name="tf(lowercase(Sentence), then)" coefficient="-0.5019553643590982"/>
+			<NumericPredictor name="tf(lowercase(Sentence), there is)" coefficient="-0.8406400970647423"/>
+			<NumericPredictor name="tf(lowercase(Sentence), there was)" coefficient="-0.6237567076827281"/>
+			<NumericPredictor name="tf(lowercase(Sentence), they are)" coefficient="0.13812406994111415"/>
+			<NumericPredictor name="tf(lowercase(Sentence), thing)" coefficient="-0.1250921617659598"/>
+			<NumericPredictor name="tf(lowercase(Sentence), thing that)" coefficient="-0.13127976860638454"/>
+			<NumericPredictor name="tf(lowercase(Sentence), this company)" coefficient="-0.00564427975810697"/>
+			<NumericPredictor name="tf(lowercase(Sentence), this device)" coefficient="0.2737161570978112"/>
+			<NumericPredictor name="tf(lowercase(Sentence), this headset)" coefficient="0.3187435884601073"/>
+			<NumericPredictor name="tf(lowercase(Sentence), this is)" coefficient="-0.08891688640840323"/>
 			<NumericPredictor name="tf(lowercase(Sentence), this nokia)" coefficient="-0.8423109743362684"/>
-			<NumericPredictor name="tf(lowercase(Sentence), thought it)" coefficient="0.6144452424491895"/>
-			<NumericPredictor name="tf(lowercase(Sentence), tinny)" coefficient="-0.6868664545994876"/>
-			<NumericPredictor name="tf(lowercase(Sentence), tips)" coefficient="0.10897304337546955"/>
-			<NumericPredictor name="tf(lowercase(Sentence), to)" coefficient="-0.016582765517957"/>
-			<NumericPredictor name="tf(lowercase(Sentence), to charge)" coefficient="-0.009946950433486345"/>
+			<NumericPredictor name="tf(lowercase(Sentence), thought it)" coefficient="0.6144452424491894"/>
+			<NumericPredictor name="tf(lowercase(Sentence), tinny)" coefficient="-0.6868664545994875"/>
+			<NumericPredictor name="tf(lowercase(Sentence), tips)" coefficient="0.10897304337546969"/>
+			<NumericPredictor name="tf(lowercase(Sentence), to)" coefficient="-0.016582765517957086"/>
+			<NumericPredictor name="tf(lowercase(Sentence), to charge)" coefficient="-0.009946950433485955"/>
 			<NumericPredictor name="tf(lowercase(Sentence), to hear)" coefficient="-0.4478138637575241"/>
 			<NumericPredictor name="tf(lowercase(Sentence), to keep)" coefficient="-0.18554884669252517"/>
-			<NumericPredictor name="tf(lowercase(Sentence), to my)" coefficient="0.48165122416302253"/>
-			<NumericPredictor name="tf(lowercase(Sentence), to pull)" coefficient="6.938893903907228E-18"/>
-			<NumericPredictor name="tf(lowercase(Sentence), to return)" coefficient="-0.22527409757310254"/>
-			<NumericPredictor name="tf(lowercase(Sentence), told)" coefficient="-0.05319538518882083"/>
-			<NumericPredictor name="tf(lowercase(Sentence), tones)" coefficient="-0.13672986123186864"/>
-			<NumericPredictor name="tf(lowercase(Sentence), too big)" coefficient="-0.49641049912008955"/>
-			<NumericPredictor name="tf(lowercase(Sentence), too small)" coefficient="-0.4670497018551398"/>
-			<NumericPredictor name="tf(lowercase(Sentence), tremendous)" coefficient="0.4092476501800453"/>
-			<NumericPredictor name="tf(lowercase(Sentence), try to)" coefficient="4.3368086899420177E-19"/>
-			<NumericPredictor name="tf(lowercase(Sentence), trying to)" coefficient="-0.4925135451983776"/>
-			<NumericPredictor name="tf(lowercase(Sentence), turned)" coefficient="-0.41108859723464625"/>
-			<NumericPredictor name="tf(lowercase(Sentence), turned off)" coefficient="-0.41108859723464614"/>
+			<NumericPredictor name="tf(lowercase(Sentence), to my)" coefficient="0.4816512241630224"/>
+			<NumericPredictor name="tf(lowercase(Sentence), to return)" coefficient="-0.2252740975731026"/>
+			<NumericPredictor name="tf(lowercase(Sentence), told)" coefficient="-0.053195385188821734"/>
+			<NumericPredictor name="tf(lowercase(Sentence), tones)" coefficient="-0.13672986123186867"/>
+			<NumericPredictor name="tf(lowercase(Sentence), too big)" coefficient="-0.49641049912008933"/>
+			<NumericPredictor name="tf(lowercase(Sentence), too small)" coefficient="-0.4670497018551395"/>
+			<NumericPredictor name="tf(lowercase(Sentence), tremendous)" coefficient="0.40924765018004533"/>
+			<NumericPredictor name="tf(lowercase(Sentence), trying to)" coefficient="-0.4925135451983773"/>
+			<NumericPredictor name="tf(lowercase(Sentence), turned)" coefficient="-0.411088597234646"/>
+			<NumericPredictor name="tf(lowercase(Sentence), turned off)" coefficient="-0.41108859723464597"/>
 			<NumericPredictor name="tf(lowercase(Sentence), two days)" coefficient="-0.4478138637575241"/>
-			<NumericPredictor name="tf(lowercase(Sentence), uncomfortable)" coefficient="-0.1955666173058271"/>
-			<NumericPredictor name="tf(lowercase(Sentence), uncomfortable and)" coefficient="-0.02694132068092924"/>
-			<NumericPredictor name="tf(lowercase(Sentence), understand)" coefficient="-0.5538992590954643"/>
-			<NumericPredictor name="tf(lowercase(Sentence), unfortunately)" coefficient="-0.6619655542100846"/>
-			<NumericPredictor name="tf(lowercase(Sentence), unhappy)" coefficient="-0.23524894656580878"/>
-			<NumericPredictor name="tf(lowercase(Sentence), unhappy with)" coefficient="-0.23524894656580878"/>
-			<NumericPredictor name="tf(lowercase(Sentence), unit)" coefficient="-0.40686531687206656"/>
-			<NumericPredictor name="tf(lowercase(Sentence), unreliable)" coefficient="-0.9052063892977656"/>
-			<NumericPredictor name="tf(lowercase(Sentence), unusable)" coefficient="-0.11125407301872839"/>
-			<NumericPredictor name="tf(lowercase(Sentence), up very)" coefficient="0.1561740872396895"/>
-			<NumericPredictor name="tf(lowercase(Sentence), use the)" coefficient="0.295521578011249"/>
-			<NumericPredictor name="tf(lowercase(Sentence), useless)" coefficient="-0.8746072029030294"/>
-			<NumericPredictor name="tf(lowercase(Sentence), usually)" coefficient="0.8527807512316568"/>
-			<NumericPredictor name="tf(lowercase(Sentence), usually don't)" coefficient="0.8527807512316568"/>
-			<NumericPredictor name="tf(lowercase(Sentence), value)" coefficient="0.22799812917539156"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very)" coefficient="0.031683236763106505"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very cheap)" coefficient="-0.025771476997612276"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very disappointed)" coefficient="-0.10569480254002381"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very excited)" coefficient="0.6144452424491896"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very good)" coefficient="0.030510370628985373"/>
+			<NumericPredictor name="tf(lowercase(Sentence), uncomfortable)" coefficient="-0.1955666173058266"/>
+			<NumericPredictor name="tf(lowercase(Sentence), uncomfortable and)" coefficient="-0.02694132068092918"/>
+			<NumericPredictor name="tf(lowercase(Sentence), understand)" coefficient="-0.5538992590954646"/>
+			<NumericPredictor name="tf(lowercase(Sentence), unfortunately)" coefficient="-0.661965554210084"/>
+			<NumericPredictor name="tf(lowercase(Sentence), unhappy)" coefficient="-0.23524894656580866"/>
+			<NumericPredictor name="tf(lowercase(Sentence), unhappy with)" coefficient="-0.23524894656580866"/>
+			<NumericPredictor name="tf(lowercase(Sentence), unit)" coefficient="-0.4068653168720667"/>
+			<NumericPredictor name="tf(lowercase(Sentence), unreliable)" coefficient="-0.9052063892977659"/>
+			<NumericPredictor name="tf(lowercase(Sentence), unusable)" coefficient="-0.11125407301872886"/>
+			<NumericPredictor name="tf(lowercase(Sentence), up very)" coefficient="0.15617408723968962"/>
+			<NumericPredictor name="tf(lowercase(Sentence), use the)" coefficient="0.2955215780112494"/>
+			<NumericPredictor name="tf(lowercase(Sentence), useless)" coefficient="-0.8746072029030295"/>
+			<NumericPredictor name="tf(lowercase(Sentence), usually)" coefficient="0.8527807512316564"/>
+			<NumericPredictor name="tf(lowercase(Sentence), usually don't)" coefficient="0.8527807512316564"/>
+			<NumericPredictor name="tf(lowercase(Sentence), value)" coefficient="0.2279981291753915"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very)" coefficient="0.031683236763106346"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very cheap)" coefficient="-0.0257714769976128"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very disappointed)" coefficient="-0.10569480254002367"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very excited)" coefficient="0.6144452424491894"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very good)" coefficient="0.03051037062898537"/>
 			<NumericPredictor name="tf(lowercase(Sentence), very happy)" coefficient="0.3362480006337609"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very helpful)" coefficient="0.2695408997314932"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very impressed)" coefficient="0.6260301571064482"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very helpful)" coefficient="0.26954089973149337"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very impressed)" coefficient="0.6260301571064489"/>
 			<NumericPredictor name="tf(lowercase(Sentence), very nice)" coefficient="0.06268166187781228"/>
 			<NumericPredictor name="tf(lowercase(Sentence), very pleased)" coefficient="-1.3877787807814457E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very poor)" coefficient="-0.14476549218483784"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very very)" coefficient="-6.245004513516506E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), very well)" coefficient="0.3452352583200803"/>
-			<NumericPredictor name="tf(lowercase(Sentence), video)" coefficient="0.1529573539592253"/>
-			<NumericPredictor name="tf(lowercase(Sentence), voice dialing)" coefficient="0.3956242672952611"/>
-			<NumericPredictor name="tf(lowercase(Sentence), voice recognition)" coefficient="0.4092476501800452"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very poor)" coefficient="-0.14476549218483745"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very very)" coefficient="-2.7755575615628914E-17"/>
+			<NumericPredictor name="tf(lowercase(Sentence), very well)" coefficient="0.3452352583200808"/>
+			<NumericPredictor name="tf(lowercase(Sentence), video)" coefficient="0.1529573539592251"/>
+			<NumericPredictor name="tf(lowercase(Sentence), voice dialing)" coefficient="0.3956242672952612"/>
+			<NumericPredictor name="tf(lowercase(Sentence), voice recognition)" coefficient="0.4092476501800453"/>
 			<NumericPredictor name="tf(lowercase(Sentence), volume is)" coefficient="-0.5662157769339292"/>
-			<NumericPredictor name="tf(lowercase(Sentence), want)" coefficient="0.10553294396080787"/>
-			<NumericPredictor name="tf(lowercase(Sentence), warning)" coefficient="-0.09859393357836281"/>
+			<NumericPredictor name="tf(lowercase(Sentence), want)" coefficient="0.10553294396080808"/>
+			<NumericPredictor name="tf(lowercase(Sentence), warning)" coefficient="-0.09859393357836292"/>
 			<NumericPredictor name="tf(lowercase(Sentence), was)" coefficient="-0.0201291988328134"/>
-			<NumericPredictor name="tf(lowercase(Sentence), was new)" coefficient="1.2165939311726388"/>
-			<NumericPredictor name="tf(lowercase(Sentence), was no)" coefficient="-0.011288869215118558"/>
+			<NumericPredictor name="tf(lowercase(Sentence), was new)" coefficient="1.2165939311726393"/>
+			<NumericPredictor name="tf(lowercase(Sentence), was no)" coefficient="-0.011288869215118728"/>
 			<NumericPredictor name="tf(lowercase(Sentence), was not)" coefficient="-0.38994214242320485"/>
-			<NumericPredictor name="tf(lowercase(Sentence), was still)" coefficient="-0.05319538518882083"/>
-			<NumericPredictor name="tf(lowercase(Sentence), was terrible)" coefficient="-0.5278627663519421"/>
-			<NumericPredictor name="tf(lowercase(Sentence), was the)" coefficient="-0.6237567076827283"/>
-			<NumericPredictor name="tf(lowercase(Sentence), waste)" coefficient="-0.5776526606560117"/>
-			<NumericPredictor name="tf(lowercase(Sentence), waste of)" coefficient="-0.38840676863826773"/>
-			<NumericPredictor name="tf(lowercase(Sentence), wasted)" coefficient="-0.5242914582615852"/>
-			<NumericPredictor name="tf(lowercase(Sentence), wasted my)" coefficient="-0.5242914582615852"/>
-			<NumericPredictor name="tf(lowercase(Sentence), weak)" coefficient="-0.5791126870275339"/>
-			<NumericPredictor name="tf(lowercase(Sentence), wear)" coefficient="0.02089358329465283"/>
-			<NumericPredictor name="tf(lowercase(Sentence), wear glasses)" coefficient="0.05647382186037705"/>
-			<NumericPredictor name="tf(lowercase(Sentence), wear it)" coefficient="0.5532859779395619"/>
-			<NumericPredictor name="tf(lowercase(Sentence), wearing)" coefficient="-0.18554884669252514"/>
-			<NumericPredictor name="tf(lowercase(Sentence), week)" coefficient="-0.09353507307375518"/>
+			<NumericPredictor name="tf(lowercase(Sentence), was still)" coefficient="-0.053195385188821734"/>
+			<NumericPredictor name="tf(lowercase(Sentence), was terrible)" coefficient="-0.5278627663519417"/>
+			<NumericPredictor name="tf(lowercase(Sentence), was the)" coefficient="-0.6237567076827282"/>
+			<NumericPredictor name="tf(lowercase(Sentence), waste)" coefficient="-0.5776526606560106"/>
+			<NumericPredictor name="tf(lowercase(Sentence), waste of)" coefficient="-0.3884067686382684"/>
+			<NumericPredictor name="tf(lowercase(Sentence), wasted)" coefficient="-0.5242914582615851"/>
+			<NumericPredictor name="tf(lowercase(Sentence), wasted my)" coefficient="-0.5242914582615851"/>
+			<NumericPredictor name="tf(lowercase(Sentence), weak)" coefficient="-0.579112687027534"/>
+			<NumericPredictor name="tf(lowercase(Sentence), wear)" coefficient="0.020893583294652705"/>
+			<NumericPredictor name="tf(lowercase(Sentence), wear glasses)" coefficient="0.056473821860377096"/>
+			<NumericPredictor name="tf(lowercase(Sentence), wear it)" coefficient="0.553285977939562"/>
+			<NumericPredictor name="tf(lowercase(Sentence), wearing)" coefficient="-0.18554884669252525"/>
+			<NumericPredictor name="tf(lowercase(Sentence), week)" coefficient="-0.09353507307375519"/>
 			<NumericPredictor name="tf(lowercase(Sentence), weeks but)" coefficient="0.5837406003616572"/>
-			<NumericPredictor name="tf(lowercase(Sentence), well)" coefficient="0.5833939062644203"/>
-			<NumericPredictor name="tf(lowercase(Sentence), went)" coefficient="-0.09108728457843807"/>
-			<NumericPredictor name="tf(lowercase(Sentence), went black)" coefficient="-0.587798560795987"/>
-			<NumericPredictor name="tf(lowercase(Sentence), went to)" coefficient="-1.734723475976807E-18"/>
-			<NumericPredictor name="tf(lowercase(Sentence), what)" coefficient="0.24655600249336132"/>
-			<NumericPredictor name="tf(lowercase(Sentence), what a)" coefficient="-0.32167595597963616"/>
-			<NumericPredictor name="tf(lowercase(Sentence), what you)" coefficient="-0.5342058781695392"/>
-			<NumericPredictor name="tf(lowercase(Sentence), whatsoever)" coefficient="-0.27042052886888696"/>
-			<NumericPredictor name="tf(lowercase(Sentence), when)" coefficient="0.13917761093468486"/>
-			<NumericPredictor name="tf(lowercase(Sentence), when i)" coefficient="-0.12239468871264814"/>
-			<NumericPredictor name="tf(lowercase(Sentence), where i)" coefficient="-0.026941320680929276"/>
-			<NumericPredictor name="tf(lowercase(Sentence), whole)" coefficient="0.21310838029673862"/>
-			<NumericPredictor name="tf(lowercase(Sentence), will)" coefficient="-0.514829880478416"/>
+			<NumericPredictor name="tf(lowercase(Sentence), well)" coefficient="0.5833939062644197"/>
+			<NumericPredictor name="tf(lowercase(Sentence), went)" coefficient="-0.09108728457843811"/>
+			<NumericPredictor name="tf(lowercase(Sentence), went black)" coefficient="-0.5877985607959869"/>
+			<NumericPredictor name="tf(lowercase(Sentence), went to)" coefficient="1.734723475976807E-18"/>
+			<NumericPredictor name="tf(lowercase(Sentence), what)" coefficient="0.24655600249336124"/>
+			<NumericPredictor name="tf(lowercase(Sentence), what a)" coefficient="-0.3216759559796365"/>
+			<NumericPredictor name="tf(lowercase(Sentence), what you)" coefficient="-0.534205878169539"/>
+			<NumericPredictor name="tf(lowercase(Sentence), whatsoever)" coefficient="-0.2704205288688875"/>
+			<NumericPredictor name="tf(lowercase(Sentence), when)" coefficient="0.1391776109346847"/>
+			<NumericPredictor name="tf(lowercase(Sentence), when i)" coefficient="-0.1223946887126483"/>
+			<NumericPredictor name="tf(lowercase(Sentence), where i)" coefficient="-0.026941320680929186"/>
+			<NumericPredictor name="tf(lowercase(Sentence), whole)" coefficient="0.21310838029673895"/>
+			<NumericPredictor name="tf(lowercase(Sentence), will)" coefficient="-0.5148298804784163"/>
 			<NumericPredictor name="tf(lowercase(Sentence), will not)" coefficient="-2.168404344971009E-18"/>
-			<NumericPredictor name="tf(lowercase(Sentence), wired)" coefficient="-1.137432297179242"/>
-			<NumericPredictor name="tf(lowercase(Sentence), with)" coefficient="0.2216371451539842"/>
-			<NumericPredictor name="tf(lowercase(Sentence), with a)" coefficient="0.693250988645828"/>
-			<NumericPredictor name="tf(lowercase(Sentence), with no)" coefficient="0.30769715260825325"/>
-			<NumericPredictor name="tf(lowercase(Sentence), with that)" coefficient="0.5804786043849764"/>
+			<NumericPredictor name="tf(lowercase(Sentence), wired)" coefficient="-1.1374322971792419"/>
+			<NumericPredictor name="tf(lowercase(Sentence), with)" coefficient="0.221637145153984"/>
+			<NumericPredictor name="tf(lowercase(Sentence), with a)" coefficient="0.6932509886458283"/>
+			<NumericPredictor name="tf(lowercase(Sentence), with no)" coefficient="0.3076971526082535"/>
+			<NumericPredictor name="tf(lowercase(Sentence), with that)" coefficient="0.5804786043849766"/>
 			<NumericPredictor name="tf(lowercase(Sentence), with this)" coefficient="0.4714729209239781"/>
-			<NumericPredictor name="tf(lowercase(Sentence), with your)" coefficient="-6.938893903907228E-18"/>
-			<NumericPredictor name="tf(lowercase(Sentence), within)" coefficient="-0.7143249724446216"/>
-			<NumericPredictor name="tf(lowercase(Sentence), within 2)" coefficient="-0.5873754312001699"/>
-			<NumericPredictor name="tf(lowercase(Sentence), without)" coefficient="0.8396684052944062"/>
-			<NumericPredictor name="tf(lowercase(Sentence), won't)" coefficient="0.8049269142132519"/>
-			<NumericPredictor name="tf(lowercase(Sentence), work)" coefficient="-0.23735526984885003"/>
-			<NumericPredictor name="tf(lowercase(Sentence), work great)" coefficient="0.2963124022894626"/>
-			<NumericPredictor name="tf(lowercase(Sentence), work with)" coefficient="-0.4660954166051974"/>
+			<NumericPredictor name="tf(lowercase(Sentence), within)" coefficient="-0.7143249724446223"/>
+			<NumericPredictor name="tf(lowercase(Sentence), within 2)" coefficient="-0.5873754312001693"/>
+			<NumericPredictor name="tf(lowercase(Sentence), without)" coefficient="0.8396684052944061"/>
+			<NumericPredictor name="tf(lowercase(Sentence), won't)" coefficient="0.8049269142132526"/>
+			<NumericPredictor name="tf(lowercase(Sentence), work)" coefficient="-0.23735526984885025"/>
+			<NumericPredictor name="tf(lowercase(Sentence), work great)" coefficient="0.2963124022894629"/>
+			<NumericPredictor name="tf(lowercase(Sentence), work with)" coefficient="-0.4660954166051971"/>
 			<NumericPredictor name="tf(lowercase(Sentence), worked like)" coefficient="0.4014212112220316"/>
-			<NumericPredictor name="tf(lowercase(Sentence), working)" coefficient="0.5289213355688782"/>
-			<NumericPredictor name="tf(lowercase(Sentence), working great)" coefficient="0.019440016309871223"/>
+			<NumericPredictor name="tf(lowercase(Sentence), working)" coefficient="0.5289213355688788"/>
+			<NumericPredictor name="tf(lowercase(Sentence), working great)" coefficient="0.01944001630987114"/>
 			<NumericPredictor name="tf(lowercase(Sentence), works)" coefficient="1.197198769925985"/>
-			<NumericPredictor name="tf(lowercase(Sentence), works fine)" coefficient="2.0816681711721685E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), works great)" coefficient="0.17607355382647497"/>
-			<NumericPredictor name="tf(lowercase(Sentence), works like)" coefficient="0.057290487039323795"/>
-			<NumericPredictor name="tf(lowercase(Sentence), works well)" coefficient="0.08045651260429365"/>
-			<NumericPredictor name="tf(lowercase(Sentence), worst)" coefficient="-0.8672768718372555"/>
-			<NumericPredictor name="tf(lowercase(Sentence), worst customer)" coefficient="-0.18943585334141536"/>
-			<NumericPredictor name="tf(lowercase(Sentence), worst phone)" coefficient="-0.0725269510790491"/>
+			<NumericPredictor name="tf(lowercase(Sentence), works fine)" coefficient="6.938893903907228E-18"/>
+			<NumericPredictor name="tf(lowercase(Sentence), works great)" coefficient="0.17607355382647485"/>
+			<NumericPredictor name="tf(lowercase(Sentence), works like)" coefficient="0.057290487039324066"/>
+			<NumericPredictor name="tf(lowercase(Sentence), works well)" coefficient="0.0804565126042939"/>
+			<NumericPredictor name="tf(lowercase(Sentence), worst)" coefficient="-0.8672768718372558"/>
+			<NumericPredictor name="tf(lowercase(Sentence), worst customer)" coefficient="-0.1894358533414153"/>
+			<NumericPredictor name="tf(lowercase(Sentence), worst phone)" coefficient="-0.07252695107904916"/>
 			<NumericPredictor name="tf(lowercase(Sentence), worthless)" coefficient="-0.5604846907010824"/>
-			<NumericPredictor name="tf(lowercase(Sentence), worthwhile)" coefficient="0.7089059724862468"/>
-			<NumericPredictor name="tf(lowercase(Sentence), would highly)" coefficient="0.12463786593598415"/>
-			<NumericPredictor name="tf(lowercase(Sentence), would not)" coefficient="-0.08272006545427857"/>
-			<NumericPredictor name="tf(lowercase(Sentence), would order)" coefficient="0.4179386755466146"/>
-			<NumericPredictor name="tf(lowercase(Sentence), would recommend)" coefficient="0.5200585060872034"/>
-			<NumericPredictor name="tf(lowercase(Sentence), wow)" coefficient="0.6900134569617842"/>
-			<NumericPredictor name="tf(lowercase(Sentence), wrong)" coefficient="-0.017301496109981766"/>
-			<NumericPredictor name="tf(lowercase(Sentence), year the)" coefficient="1.3877787807814457E-17"/>
-			<NumericPredictor name="tf(lowercase(Sentence), years)" coefficient="-0.020820765396911405"/>
-			<NumericPredictor name="tf(lowercase(Sentence), years ago)" coefficient="0.30526049870432825"/>
-			<NumericPredictor name="tf(lowercase(Sentence), you)" coefficient="0.3432622760904634"/>
-			<NumericPredictor name="tf(lowercase(Sentence), you could)" coefficient="-0.31460264271745797"/>
-			<NumericPredictor name="tf(lowercase(Sentence), you pay)" coefficient="-0.5342058781695392"/>
-			<NumericPredictor name="tf(lowercase(Sentence), you plan)" coefficient="-0.4151459814251546"/>
-			<NumericPredictor name="tf(lowercase(Sentence), your money)" coefficient="-0.43552686329883855"/>
-			<NumericPredictor name="tf(lowercase(Sentence), your phone)" coefficient="-0.47003125431065645"/>
+			<NumericPredictor name="tf(lowercase(Sentence), worthwhile)" coefficient="0.7089059724862469"/>
+			<NumericPredictor name="tf(lowercase(Sentence), would highly)" coefficient="0.12463786593598403"/>
+			<NumericPredictor name="tf(lowercase(Sentence), would not)" coefficient="-0.08272006545427861"/>
+			<NumericPredictor name="tf(lowercase(Sentence), would order)" coefficient="0.4179386755466144"/>
+			<NumericPredictor name="tf(lowercase(Sentence), would recommend)" coefficient="0.520058506087204"/>
+			<NumericPredictor name="tf(lowercase(Sentence), wow)" coefficient="0.690013456961784"/>
+			<NumericPredictor name="tf(lowercase(Sentence), wrong)" coefficient="-0.017301496109981242"/>
+			<NumericPredictor name="tf(lowercase(Sentence), year the)" coefficient="2.7755575615628914E-17"/>
+			<NumericPredictor name="tf(lowercase(Sentence), years)" coefficient="-0.02082076539691169"/>
+			<NumericPredictor name="tf(lowercase(Sentence), years ago)" coefficient="0.3052604987043284"/>
+			<NumericPredictor name="tf(lowercase(Sentence), you)" coefficient="0.343262276090463"/>
+			<NumericPredictor name="tf(lowercase(Sentence), you could)" coefficient="-0.3146026427174573"/>
+			<NumericPredictor name="tf(lowercase(Sentence), you pay)" coefficient="-0.534205878169539"/>
+			<NumericPredictor name="tf(lowercase(Sentence), you plan)" coefficient="-0.41514598142515446"/>
+			<NumericPredictor name="tf(lowercase(Sentence), your money)" coefficient="-0.43552686329883833"/>
+			<NumericPredictor name="tf(lowercase(Sentence), your phone)" coefficient="-0.47003125431065657"/>
 		</RegressionTable>
 		<RegressionTable intercept="0.0" targetCategory="0"/>
 	</RegressionModel>

@@ -70,11 +70,11 @@ public class RegressionTest extends TranspilerTest {
 
 	@Test
 	public void evaluateXGBoostAuto() throws Exception {
-		evaluate("XGBoost", "Auto", new FloatEquivalence(1));
+		evaluate("XGBoost", "Auto", new FloatEquivalence(8));
 	}
 
 	@Test
 	public void evaluateXGBoostAutoNA() throws Exception {
-		evaluate("XGBoost", "AutoNA", new FloatEquivalence(1));
+		evaluate("XGBoost", "AutoNA", new FloatEquivalence(4));
 	}
 }

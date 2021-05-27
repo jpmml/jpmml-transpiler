@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.13"/>
-		<Timestamp>2021-03-10T07:38:30Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.18"/>
+		<Timestamp>2021-05-27T20:19:50Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -47,7 +47,7 @@
 		</DataField>
 	</DataDictionary>
 	<TransformationDictionary/>
-	<MiningModel functionName="regression">
+	<MiningModel functionName="regression" algorithmName="sklearn.ensemble._weight_boosting.AdaBoostRegressor">
 		<MiningSchema>
 			<MiningField name="mpg" usageType="target"/>
 			<MiningField name="cylinders" missingValueTreatment="asIs"/>
@@ -126,7 +126,7 @@
 		<Segmentation multipleModelMethod="weightedMedian">
 			<Segment id="1" weight="1.7040734250798888">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -161,7 +161,7 @@
 			</Segment>
 			<Segment id="2" weight="1.0616550248646106">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -196,7 +196,7 @@
 			</Segment>
 			<Segment id="3" weight="0.8038130801415728">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -231,7 +231,7 @@
 			</Segment>
 			<Segment id="4" weight="0.818235248441466">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -266,7 +266,7 @@
 			</Segment>
 			<Segment id="5" weight="0.9220723138615685">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -301,7 +301,7 @@
 			</Segment>
 			<Segment id="6" weight="1.2011084310947788">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="double(float(horsepower))"/>
 						<MiningField name="double(float(weight))"/>
@@ -336,7 +336,7 @@
 			</Segment>
 			<Segment id="7" weight="1.097186975340247">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -371,7 +371,7 @@
 			</Segment>
 			<Segment id="8" weight="1.2528199386585281">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -407,7 +407,7 @@
 			</Segment>
 			<Segment id="9" weight="0.8882157506646752">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -441,7 +441,7 @@
 			</Segment>
 			<Segment id="10" weight="0.9395398566547204">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -477,7 +477,7 @@
 			</Segment>
 			<Segment id="11" weight="0.6491347515674502">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -513,7 +513,7 @@
 			</Segment>
 			<Segment id="12" weight="1.2823959205686706">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -549,7 +549,7 @@
 			</Segment>
 			<Segment id="13" weight="1.1785331616072388">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -584,7 +584,7 @@
 			</Segment>
 			<Segment id="14" weight="1.1619460275500153">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(weight))"/>
@@ -619,7 +619,7 @@
 			</Segment>
 			<Segment id="15" weight="1.1026450706525694">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -654,7 +654,7 @@
 			</Segment>
 			<Segment id="16" weight="1.2525785769796993">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="origin"/>
@@ -689,7 +689,7 @@
 			</Segment>
 			<Segment id="17" weight="0.9340994780728151">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="origin"/>
@@ -725,7 +725,7 @@
 			</Segment>
 			<Segment id="18" weight="0.6396706933649277">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -761,7 +761,7 @@
 			</Segment>
 			<Segment id="19" weight="0.8489915169368497">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -797,7 +797,7 @@
 			</Segment>
 			<Segment id="20" weight="0.9088125452140773">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -832,7 +832,7 @@
 			</Segment>
 			<Segment id="21" weight="0.9993152094685686">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -868,7 +868,7 @@
 			</Segment>
 			<Segment id="22" weight="1.0503059848757401">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -903,7 +903,7 @@
 			</Segment>
 			<Segment id="23" weight="0.37349860509748395">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -938,7 +938,7 @@
 			</Segment>
 			<Segment id="24" weight="0.3102547411340216">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -972,7 +972,7 @@
 			</Segment>
 			<Segment id="25" weight="0.5965033908913763">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>
@@ -1007,7 +1007,7 @@
 			</Segment>
 			<Segment id="26" weight="0.8365148013099966">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="origin"/>
@@ -1043,7 +1043,7 @@
 			</Segment>
 			<Segment id="27" weight="0.6074098454044817">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -1078,7 +1078,7 @@
 			</Segment>
 			<Segment id="28" weight="0.8171444610319549">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -1114,7 +1114,7 @@
 			</Segment>
 			<Segment id="29" weight="0.6134145578403478">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -1149,7 +1149,7 @@
 			</Segment>
 			<Segment id="30" weight="0.9300038743485736">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="cylinders"/>
 						<MiningField name="model_year"/>
@@ -1185,7 +1185,7 @@
 			</Segment>
 			<Segment id="31" weight="0.7281426133040566">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="model_year"/>
 						<MiningField name="double(float(horsepower))"/>

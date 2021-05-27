@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.13"/>
-		<Timestamp>2021-03-10T07:38:45Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.18"/>
+		<Timestamp>2021-05-27T20:20:05Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -47,7 +47,7 @@
 		</DataField>
 	</DataDictionary>
 	<TransformationDictionary/>
-	<MiningModel functionName="regression">
+	<MiningModel functionName="regression" algorithmName="sklearn.ensemble._voting.VotingRegressor">
 		<MiningSchema>
 			<MiningField name="mpg" usageType="target"/>
 			<MiningField name="cylinders" missingValueTreatment="asIs"/>
@@ -126,7 +126,7 @@
 		<Segmentation multipleModelMethod="weightedAverage">
 			<Segment id="1" weight="0.7">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="mpg" usageType="target"/>
 						<MiningField name="cylinders"/>
@@ -522,7 +522,7 @@
 			</Segment>
 			<Segment id="2" weight="0.3">
 				<True/>
-				<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+				<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.ExtraTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 					<MiningSchema>
 						<MiningField name="mpg" usageType="target"/>
 						<MiningField name="cylinders"/>

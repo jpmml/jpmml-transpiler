@@ -116,6 +116,6 @@ public class ClassificationTest extends TranspilerTest {
 
 	@Test
 	public void evaluateXGBoostIris() throws Exception {
-		evaluate("XGBoost", "Iris", new FloatEquivalence(8));
+		evaluate("XGBoost", "Iris", new FloatEquivalence(12));
 	}
 }
