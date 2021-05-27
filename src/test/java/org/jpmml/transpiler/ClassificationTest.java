@@ -18,12 +18,11 @@
  */
 package org.jpmml.transpiler;
 
-import org.dmg.pmml.FieldName;
 import org.jpmml.evaluator.testing.FloatEquivalence;
 import org.jpmml.evaluator.testing.PMMLEquivalence;
 import org.junit.Test;
 
-public class ClassificationTest extends TranspilerTest {
+public class ClassificationTest extends TranspilerTest implements Algorithms, Datasets {
 
 	public ClassificationTest(){
 		super(new PMMLEquivalence(1e-13, 1e-13));
@@ -31,91 +30,91 @@ public class ClassificationTest extends TranspilerTest {
 
 	@Test
 	public void evaluateDecisionTreeAudit() throws Exception {
-		evaluate("DecisionTree", "Audit");
+		evaluate(DECISION_TREE, AUDIT);
 	}
 
 	@Test
 	public void evaluateGradientBoostingAudit() throws Exception {
-		evaluate("GradientBoosting", "Audit");
+		evaluate(GRADIENT_BOOSTING, AUDIT);
 	}
 
 	@Test
 	public void evaluateLightGBMAudit() throws Exception {
-		evaluate("LightGBM", "Audit");
+		evaluate(LIGHT_GBM, AUDIT);
 	}
 
 	@Test
 	public void evaluateLightGBMAuditNA() throws Exception {
-		evaluate("LightGBM", "AuditNA");
+		evaluate(LIGHT_GBM, AUDIT_NA);
 	}
 
 	@Test
 	public void evaluateLogisticRegressionAudit() throws Exception {
-		evaluate("LogisticRegression", "Audit");
+		evaluate(LOGISTIC_REGRESSION, AUDIT);
 	}
 
 	@Test
 	public void evaluateRandomForestAudit() throws Exception {
-		evaluate("RandomForest", "Audit");
+		evaluate(RANDOM_FOREST, AUDIT);
 	}
 
 	@Test
 	public void evaluateXGBoostAudit() throws Exception {
-		evaluate("XGBoost", "Audit", excludeFields(FieldName.create("probability(0)")), new FloatEquivalence(12));
+		evaluate(XGBOOST, AUDIT, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(12));
 	}
 
 	@Test
 	public void evaluateXGBoostAuditNA() throws Exception {
-		evaluate("XGBoost", "AuditNA", excludeFields(FieldName.create("probability(0)")), new FloatEquivalence(8));
+		evaluate(XGBOOST, AUDIT_NA, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(8));
 	}
 
 	@Test
 	public void evaluateLinearSVCSentiment() throws Exception {
-		evaluate("LinearSVC", "Sentiment");
+		evaluate(LINEAR_SVC, SENTIMENT);
 	}
 
 	@Test
 	public void evaluateLogisticRegressionSentiment() throws Exception {
-		evaluate("LogisticRegression", "Sentiment");
+		evaluate(LOGISTIC_REGRESSION, SENTIMENT);
 	}
 
 	@Test
 	public void evaluateRandomForestSentiment() throws Exception {
-		evaluate("RandomForest", "Sentiment");
+		evaluate(RANDOM_FOREST, SENTIMENT);
 	}
 
 	@Test
 	public void evaluateXGBoostSentiment() throws Exception {
-		evaluate("XGBoost", "Sentiment", excludeFields(FieldName.create("probability(0)")), new FloatEquivalence(8));
+		evaluate(XGBOOST, SENTIMENT, excludeFields(SENTIMENT_PROBABILITY_FALSE), new FloatEquivalence(8));
 	}
 
 	@Test
 	public void evaluateDecisionTreeIris() throws Exception {
-		evaluate("DecisionTree", "Iris");
+		evaluate(DECISION_TREE, IRIS);
 	}
 
 	@Test
 	public void evaluateGradientBoostingIris() throws Exception {
-		evaluate("GradientBoosting", "Iris");
+		evaluate(GRADIENT_BOOSTING, IRIS);
 	}
 
 	@Test
 	public void evaluateLightGBMIris() throws Exception {
-		evaluate("LightGBM", "Iris");
+		evaluate(LIGHT_GBM, IRIS);
 	}
 
 	@Test
 	public void evaluateLogisticRegressionIris() throws Exception {
-		evaluate("LogisticRegression", "Iris");
+		evaluate(LOGISTIC_REGRESSION, IRIS);
 	}
 
 	@Test
 	public void evaluateRandomForestIris() throws Exception {
-		evaluate("RandomForest", "Iris");
+		evaluate(RANDOM_FOREST, IRIS);
 	}
 
 	@Test
 	public void evaluateXGBoostIris() throws Exception {
-		evaluate("XGBoost", "Iris", new FloatEquivalence(12));
+		evaluate(XGBOOST, IRIS, new FloatEquivalence(12));
 	}
 }

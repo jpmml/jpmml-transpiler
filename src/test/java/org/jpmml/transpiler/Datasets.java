@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Villu Ruusmann
+ * Copyright (c) 2021 Villu Ruusmann
  *
  * This file is part of JPMML-Transpiler
  *
@@ -18,17 +18,21 @@
  */
 package org.jpmml.transpiler;
 
-import org.jpmml.evaluator.testing.PMMLEquivalence;
-import org.junit.Test;
+import org.dmg.pmml.FieldName;
 
-public class AnomalyDetectionTest extends TranspilerTest implements Algorithms, Datasets {
+public interface Datasets {
 
-	public AnomalyDetectionTest(){
-		super(new PMMLEquivalence(1e-13, 1e-13));
-	}
+	String AUDIT = "Audit";
+	String AUDIT_NA = AUDIT + "NA";
+	String AUTO = "Auto";
+	String AUTO_NA = AUTO + "NA";
+	String IRIS = "Iris";
+	String SENTIMENT = "Sentiment";
 
-	@Test
-	public void evaluateIsolationForestAuto() throws Exception {
-		evaluate(ISOLATION_FOREST, AUTO);
-	}
+	FieldName AUDIT_ADJUSTED = FieldName.create("Adjusted");
+	FieldName AUDIT_PROBABILITY_TRUE = FieldName.create("probability(1)");
+	FieldName AUDIT_PROBABILITY_FALSE = FieldName.create("probability(0)");
+
+	FieldName SENTIMENT_PROBABILITY_TRUE = FieldName.create("probability(1)");
+	FieldName SENTIMENT_PROBABILITY_FALSE = FieldName.create("probability(0)");
 }

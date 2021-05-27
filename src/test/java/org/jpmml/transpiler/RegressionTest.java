@@ -22,7 +22,7 @@ import org.jpmml.evaluator.testing.FloatEquivalence;
 import org.jpmml.evaluator.testing.PMMLEquivalence;
 import org.junit.Test;
 
-public class RegressionTest extends TranspilerTest {
+public class RegressionTest extends TranspilerTest implements Algorithms, Datasets {
 
 	public RegressionTest(){
 		super(new PMMLEquivalence(1e-13, 1e-13));
@@ -30,51 +30,51 @@ public class RegressionTest extends TranspilerTest {
 
 	@Test
 	public void evaluateAdaBoostAuto() throws Exception {
-		evaluate("AdaBoost", "Auto");
+		evaluate(ADA_BOOST, AUTO);
 	}
 
 	@Test
 	public void evaluateDecisionTreeAuto() throws Exception {
-		evaluate("DecisionTree", "Auto");
+		evaluate(DECISION_TREE, AUTO);
 	}
 
 	@Test
 	public void evaluateGradientBoostingAuto() throws Exception {
-		evaluate("GradientBoosting", "Auto");
+		evaluate(GRADIENT_BOOSTING, AUTO);
 	}
 
 	@Test
 	public void evaluateLightGBMAuto() throws Exception {
-		evaluate("LightGBM", "Auto");
+		evaluate(LIGHT_GBM, AUTO);
 	}
 
 	@Test
 	public void evaluateLightGBMAutoNA() throws Exception {
-		evaluate("LightGBM", "AutoNA");
+		evaluate(LIGHT_GBM, AUTO_NA);
 	}
 
 	@Test
 	public void evaluateLinearRegressionAuto() throws Exception {
-		evaluate("LinearRegression", "Auto");
+		evaluate(LINEAR_REGRESSION, AUTO);
 	}
 
 	@Test
 	public void evaluateRandomForestAuto() throws Exception {
-		evaluate("RandomForest", "Auto");
+		evaluate(RANDOM_FOREST, AUTO);
 	}
 
 	@Test
 	public void evaluateVotingEnsembleAuto() throws Exception {
-		evaluate("VotingEnsemble", "Auto");
+		evaluate(VOTING_ENSEMBLE, AUTO);
 	}
 
 	@Test
 	public void evaluateXGBoostAuto() throws Exception {
-		evaluate("XGBoost", "Auto", new FloatEquivalence(8));
+		evaluate(XGBOOST, AUTO, new FloatEquivalence(8));
 	}
 
 	@Test
 	public void evaluateXGBoostAutoNA() throws Exception {
-		evaluate("XGBoost", "AutoNA", new FloatEquivalence(4));
+		evaluate(XGBOOST, AUTO_NA, new FloatEquivalence(4));
 	}
 }

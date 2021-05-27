@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Villu Ruusmann
+ * Copyright (c) 2021 Villu Ruusmann
  *
  * This file is part of JPMML-Transpiler
  *
@@ -18,17 +18,17 @@
  */
 package org.jpmml.transpiler;
 
-import org.jpmml.evaluator.testing.PMMLEquivalence;
-import org.junit.Test;
+public interface Algorithms {
 
-public class AnomalyDetectionTest extends TranspilerTest implements Algorithms, Datasets {
-
-	public AnomalyDetectionTest(){
-		super(new PMMLEquivalence(1e-13, 1e-13));
-	}
-
-	@Test
-	public void evaluateIsolationForestAuto() throws Exception {
-		evaluate(ISOLATION_FOREST, AUTO);
-	}
+	String ADA_BOOST = "AdaBoost";
+	String DECISION_TREE = "DecisionTree";
+	String GRADIENT_BOOSTING = "GradientBoosting";
+	String ISOLATION_FOREST = "IsolationForest";
+	String LIGHT_GBM = "LightGBM";
+	String LINEAR_REGRESSION = "LinearRegression";
+	String LINEAR_SVC = "LinearSVC";
+	String LOGISTIC_REGRESSION = "LogisticRegression";
+	String RANDOM_FOREST = "RandomForest";
+	String VOTING_ENSEMBLE = "VotingEnsemble";
+	String XGBOOST = "XGBoost";
 }
