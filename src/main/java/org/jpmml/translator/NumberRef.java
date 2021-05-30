@@ -18,8 +18,11 @@
  */
 package org.jpmml.translator;
 
+import com.google.common.math.DoubleMath;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JVar;
+import org.dmg.pmml.DataType;
+import org.jpmml.evaluator.TypeUtil;
 
 public class NumberRef extends ObjectRef {
 
@@ -67,5 +70,26 @@ public class NumberRef extends ObjectRef {
 		JVar variable = getVariable();
 
 		return variable.gt(literal(value, context));
+	}
+
+	@Override
+	public JExpression literal(Object value, TranslationContext context){
+		JVar variable = getVariable();
+
+		if(value instanceof String){
+			String string = (String)value;
+
+			try {
+				value = TypeUtil.parseOrCast(DataType.DOUBLE, string);
+
+				if(DoubleMath.isMathematicalInteger((Double)value)){
+					value = TypeUtil.parseOrCast(DataType.INTEGER, value);
+				}
+			} catch(IllegalArgumentException iae){
+				// Ignored
+			}
+		}
+
+		return super.literal(value, context);
 	}
 }

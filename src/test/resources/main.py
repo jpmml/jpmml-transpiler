@@ -81,11 +81,13 @@ audit_X, audit_y = load_audit("Audit")
 
 def build_audit(classifier, name, **pmml_options):
 	if isinstance(classifier, LGBMClassifier):
-		cat_columns = ["Age", "Employment", "Education", "Marital", "Occupation", "Gender"]
+		cat_columns = ["Age", "Employment", "Education", "Marital", "Occupation", "Gender", "Deductions"]
 		cont_columns = ["Income", "Hours"]
 	else:
-		cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender"]
+		cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender", "Deductions"]
 		cont_columns = ["Age", "Income", "Hours"]
+	if name in ["LightGBMAuditNA", "XGBoostAuditNA"]:
+		cat_columns.remove("Deductions")
 	if isinstance(classifier, LGBMClassifier):
 		cat_mappings = [([cat_column], [cat_domain(name), label_encoder(name)]) for cat_column in cat_columns]
 	else:

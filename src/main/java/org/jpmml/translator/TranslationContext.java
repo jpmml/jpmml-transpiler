@@ -31,10 +31,12 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
@@ -399,18 +401,32 @@ public class TranslationContext {
 		try {
 			JBlock block = scope.getBlock();
 
-			JSwitch switchBlock = block._switch(valueExpr);
+			if(resultMap.size() == 1){
+				Map.Entry<?, V> entry = Iterables.getOnlyElement(resultMap.entrySet());
 
-			Collection<? extends Map.Entry<?, V>> entries = resultMap.entrySet();
-			for(Map.Entry<?, V> entry : entries){
-				JBlock caseBlock = switchBlock._case(PMMLObjectUtil.createExpression(entry.getKey(), this)).body();
+				JExpression condExpr = staticInvoke(Objects.class, "equals", valueExpr, PMMLObjectUtil.createExpression(entry.getKey(), this));
 
-				caseBlock._return(PMMLObjectUtil.createExpression(entry.getValue(), this));
+				block._return(JOp.cond(condExpr, PMMLObjectUtil.createExpression(entry.getValue(), this), PMMLObjectUtil.createExpression(defaultResult, this)));
+			} else
+
+			if(resultMap.size() > 1){
+				JSwitch switchBlock = block._switch(valueExpr);
+
+				Collection<? extends Map.Entry<?, V>> entries = resultMap.entrySet();
+				for(Map.Entry<?, V> entry : entries){
+					JBlock caseBlock = switchBlock._case(PMMLObjectUtil.createExpression(entry.getKey(), this)).body();
+
+					caseBlock._return(PMMLObjectUtil.createExpression(entry.getValue(), this));
+				}
+
+				JBlock defaultBlock = switchBlock._default().body();
+
+				defaultBlock._return(PMMLObjectUtil.createExpression(defaultResult, this));
+				} else
+
+			{
+				throw new IllegalArgumentException();
 			}
-
-			JBlock defaultBlock = switchBlock._default().body();
-
-			defaultBlock._return(PMMLObjectUtil.createExpression(defaultResult, this));
 		} finally {
 			scope.close();
 		}
