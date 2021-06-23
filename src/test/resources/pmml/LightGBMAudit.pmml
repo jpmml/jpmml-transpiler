@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.18"/>
-		<Timestamp>2021-05-27T20:49:10Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.20"/>
+		<Timestamp>2021-06-23T20:08:53Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -142,9 +142,48 @@
 			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="99.0"/>
 		</DataField>
 	</DataDictionary>
-	<TransformationDictionary/>
 	<MiningModel functionName="classification" algorithmName="LightGBM">
 		<MiningSchema>
+			<Extension name="X-FeatureImportances">
+				<InlineTable>
+					<row>
+						<data:name>Age</data:name>
+						<data:importance>160.0</data:importance>
+					</row>
+					<row>
+						<data:name>Employment</data:name>
+						<data:importance>17.0</data:importance>
+					</row>
+					<row>
+						<data:name>Education</data:name>
+						<data:importance>77.0</data:importance>
+					</row>
+					<row>
+						<data:name>Marital</data:name>
+						<data:importance>43.0</data:importance>
+					</row>
+					<row>
+						<data:name>Occupation</data:name>
+						<data:importance>80.0</data:importance>
+					</row>
+					<row>
+						<data:name>Gender</data:name>
+						<data:importance>74.0</data:importance>
+					</row>
+					<row>
+						<data:name>Deductions</data:name>
+						<data:importance>39.0</data:importance>
+					</row>
+					<row>
+						<data:name>Income</data:name>
+						<data:importance>1223.0</data:importance>
+					</row>
+					<row>
+						<data:name>Hours</data:name>
+						<data:importance>417.0</data:importance>
+					</row>
+				</InlineTable>
+			</Extension>
 			<MiningField name="Adjusted" usageType="target"/>
 			<MiningField name="Age" importance="160.0" missingValueTreatment="asIs"/>
 			<MiningField name="Employment" importance="17.0" missingValueTreatment="asIs"/>
@@ -297,7 +336,7 @@
 										<Node score="-1.002376216531672">
 											<SimplePredicate field="Hours" operator="greaterThan" value="30.500000000000004"/>
 											<Node score="-0.8107840231328716">
-												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 											</Node>
 											<Node score="-0.8591382433716164">
 												<SimplePredicate field="Income" operator="greaterThan" value="61032.00000000001"/>
@@ -415,7 +454,7 @@
 										<Node score="0.15615502424958352">
 											<SimplePredicate field="Hours" operator="greaterThan" value="37.50000000000001"/>
 											<Node score="0.2888580237977347">
-												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 											</Node>
 											<Node score="0.23276726621664606">
 												<SimplePredicate field="Income" operator="greaterThan" value="59732.77500000001"/>
@@ -520,7 +559,7 @@
 										<Node score="0.07858765007948004">
 											<SimplePredicate field="Hours" operator="greaterThan" value="37.50000000000001"/>
 											<Node score="0.23561437039173164">
-												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 											</Node>
 											<Node score="0.17084471961015613">
 												<SimplePredicate field="Income" operator="greaterThan" value="59732.77500000001"/>
@@ -762,7 +801,7 @@
 											</Node>
 										</Node>
 										<Node score="0.19661715403521723">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.13118663574016232">
 											<SimplePredicate field="Hours" operator="greaterThan" value="37.50000000000001"/>
@@ -838,7 +877,7 @@
 											<Node score="0.06658992233672947">
 												<SimplePredicate field="Hours" operator="greaterThan" value="26.500000000000004"/>
 												<Node score="0.16075802769456063">
-													<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+													<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 												</Node>
 												<Node score="0.14904790575881832">
 													<SimplePredicate field="Income" operator="greaterThan" value="35933.03500000001"/>
@@ -1085,7 +1124,7 @@
 											</Node>
 										</Node>
 										<Node score="0.10213323913721742">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.10916193374689731">
 											<SimpleSetPredicate field="Education" booleanOperator="isIn">
@@ -1289,7 +1328,7 @@
 												<Array type="string">Clerical Executive Professional Protective Support</Array>
 											</SimpleSetPredicate>
 											<Node score="0.13818109595643602">
-												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 											</Node>
 											<Node score="0.043136497781344214">
 												<SimplePredicate field="Hours" operator="greaterThan" value="26.500000000000004"/>
@@ -1992,7 +2031,7 @@
 											</Node>
 										</Node>
 										<Node score="0.14779831157642023">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="-0.043514207641227626">
 											<SimplePredicate field="Hours" operator="greaterThan" value="35.50000000000001"/>
@@ -2027,7 +2066,7 @@
 											<Array type="string">Married Unmarried</Array>
 										</SimpleSetPredicate>
 										<Node score="0.09275485374106457">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.017671765152949707">
 											<SimplePredicate field="Hours" operator="greaterThan" value="41.50000000000001"/>
@@ -2103,7 +2142,7 @@
 											</Node>
 										</Node>
 										<Node score="0.12706888255915705">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="-0.0352639332236754">
 											<SimplePredicate field="Income" operator="greaterThan" value="13304.090000000002"/>
@@ -2120,7 +2159,7 @@
 											<Array type="string">Married Unmarried</Array>
 										</SimpleSetPredicate>
 										<Node score="0.08969197449728047">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.027572394980214666">
 											<SimpleSetPredicate field="Education" booleanOperator="isIn">
@@ -2248,7 +2287,7 @@
 											</Node>
 										</Node>
 										<Node score="0.1709285556784384">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.13897699726767118">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
@@ -2327,7 +2366,7 @@
 												<Array type="string">Clerical Executive Professional Protective Support</Array>
 											</SimpleSetPredicate>
 											<Node score="0.09178341053863104">
-												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 											</Node>
 											<Node score="0.027454164145980793">
 												<SimplePredicate field="Hours" operator="greaterThan" value="24.500000000000004"/>
@@ -2468,7 +2507,7 @@
 											<Array type="int">29 30 36 39 40 41 42 44 46 47 48 49 52 53 54 58 59 60 64 65</Array>
 										</SimpleSetPredicate>
 										<Node score="0.14761463501805713">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.011691291015626938">
 											<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -2739,7 +2778,7 @@
 										</Node>
 									</Node>
 									<Node score="0.07032375527735635">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 									<Node score="-0.04574287918718556">
 										<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -3022,7 +3061,7 @@
 												<Array type="string">Executive Professional Protective Repair Support Transport</Array>
 											</SimpleSetPredicate>
 											<Node score="0.12512499204473732">
-												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 											</Node>
 											<Node score="0.05512691256097329">
 												<SimpleSetPredicate field="Age" booleanOperator="isIn">
@@ -3096,7 +3135,7 @@
 										</Node>
 									</Node>
 									<Node score="0.03540992932317502">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 									<Node score="-0.10022527809265787">
 										<SimplePredicate field="Income" operator="greaterThan" value="26766.650000000005"/>
@@ -3205,7 +3244,7 @@
 										</Node>
 									</Node>
 									<Node score="0.07474890363814252">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 									<Node score="0.08777437059496307">
 										<SimpleSetPredicate field="Age" booleanOperator="isIn">
@@ -3719,7 +3758,7 @@
 												<SimplePredicate field="Income" operator="greaterThan" value="199879.12000000002"/>
 											</Node>
 											<Node score="0.032331881965739384">
-												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+												<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 											</Node>
 											<Node score="-0.07031525923048147">
 												<SimplePredicate field="Hours" operator="greaterThan" value="55.50000000000001"/>
@@ -3754,7 +3793,7 @@
 											</Node>
 										</Node>
 										<Node score="0.12147700647894284">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.12854965971486562">
 											<SimplePredicate field="Income" operator="greaterThan" value="17560.06"/>
@@ -3965,7 +4004,7 @@
 											<Array type="int">30 31 32 37 38 39 42 43 44 46 47 48 50 52 53 55 58 59 60 62 63</Array>
 										</SimpleSetPredicate>
 										<Node score="0.09739995913996943">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.13973535373520535">
 											<SimpleSetPredicate field="Education" booleanOperator="isIn">
@@ -4182,7 +4221,7 @@
 									<Node score="-0.013004099276785997">
 										<SimplePredicate field="Marital" operator="equal" value="Married"/>
 										<Node score="0.06137513513092096">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.0032559407169985817">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
@@ -4480,7 +4519,7 @@
 											<SimplePredicate field="Hours" operator="greaterThan" value="55.50000000000001"/>
 										</Node>
 										<Node score="0.06996081627965628">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="-0.04158065721459947">
 											<SimplePredicate field="Hours" operator="greaterThan" value="41.50000000000001"/>
@@ -4566,13 +4605,13 @@
 												<Node score="-0.08077673410227709">
 													<SimplePredicate field="Income" operator="greaterThan" value="64708.420000000006"/>
 													<Node score="0.11538922582574669">
-														<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+														<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 													</Node>
 												</Node>
 											</Node>
 										</Node>
 										<Node score="0.08178132530262028">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="-0.00858361860021703">
 											<SimplePredicate field="Hours" operator="greaterThan" value="37.50000000000001"/>
@@ -4737,7 +4776,7 @@
 										</Node>
 									</Node>
 									<Node score="0.016595479252913537">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 									<Node score="-0.09386661226281937">
 										<SimplePredicate field="Gender" operator="equal" value="Female"/>
@@ -4766,7 +4805,7 @@
 									<Node score="0.05882023164489214">
 										<SimplePredicate field="Marital" operator="equal" value="Married"/>
 										<Node score="0.05401615374633278">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.032736931525024736">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
@@ -5402,7 +5441,7 @@
 										</Node>
 									</Node>
 									<Node score="0.06930957272773139">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 									<Node score="0.03232990419255649">
 										<SimpleSetPredicate field="Occupation" booleanOperator="isIn">
@@ -5464,7 +5503,7 @@
 									<Node score="0.030259277938628017">
 										<SimplePredicate field="Marital" operator="equal" value="Married"/>
 										<Node score="0.0501958106831604">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="-0.0024131627577219216">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">
@@ -5833,7 +5872,7 @@
 											<Array type="int">26 30 31 32 35 37 38 44 46 47 48 52 53 54 55 58 59 60 62 63 66</Array>
 										</SimpleSetPredicate>
 										<Node score="0.08542103637050152">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="-0.05392887257916673">
 											<SimplePredicate field="Income" operator="greaterThan" value="213624.91000000003"/>
@@ -6145,7 +6184,7 @@
 										</Node>
 									</Node>
 									<Node score="0.049781867303180995">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -6190,7 +6229,7 @@
 									<Node score="-0.07375350814101057">
 										<SimplePredicate field="Marital" operator="equal" value="Married"/>
 										<Node score="0.04506327069796413">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="-0.048085227699005924">
 											<SimplePredicate field="Hours" operator="greaterThan" value="24.500000000000004"/>
@@ -6501,7 +6540,7 @@
 										</Node>
 									</Node>
 									<Node score="0.006031391497213553">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -6552,7 +6591,7 @@
 											</Node>
 										</Node>
 										<Node score="0.09563930952198686">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 											<Node score="-0.008354397499923111">
 												<SimplePredicate field="Income" operator="greaterThan" value="49195.090000000004"/>
 											</Node>
@@ -6782,7 +6821,7 @@
 											</Node>
 										</Node>
 										<Node score="0.08815439344495372">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.1478624618976971">
 											<SimplePredicate field="Income" operator="greaterThan" value="42737.520000000004"/>
@@ -7065,7 +7104,7 @@
 										</Node>
 									</Node>
 									<Node score="0.03813601154424771">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 									<Node score="0.0224661798031946">
 										<SimplePredicate field="Income" operator="greaterThan" value="24904.665000000005"/>
@@ -8014,7 +8053,7 @@
 										</Node>
 									</Node>
 									<Node score="0.10287829357692846">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -8244,7 +8283,7 @@
 										</Node>
 									</Node>
 									<Node score="0.0904827084068952">
-										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+										<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -8267,7 +8306,7 @@
 									<Node score="-0.06839523952944505">
 										<SimplePredicate field="Marital" operator="equal" value="Married"/>
 										<Node score="0.03637094293592471">
-											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="1.0000000180025095E-35"/>
+											<SimplePredicate field="continuous(encoder(Deductions=true))" operator="greaterThan" value="0"/>
 										</Node>
 										<Node score="0.05423893957595684">
 											<SimpleSetPredicate field="Age" booleanOperator="isIn">

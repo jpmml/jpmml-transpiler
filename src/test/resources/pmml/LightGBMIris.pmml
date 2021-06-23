@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.18"/>
-		<Timestamp>2021-05-27T20:19:42Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.20"/>
+		<Timestamp>2021-06-23T20:09:26Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -25,6 +25,26 @@
 	</DataDictionary>
 	<MiningModel functionName="classification" algorithmName="LightGBM">
 		<MiningSchema>
+			<Extension name="X-FeatureImportances">
+				<InlineTable>
+					<row>
+						<data:name>Sepal.Length</data:name>
+						<data:importance>10.0</data:importance>
+					</row>
+					<row>
+						<data:name>Sepal.Width</data:name>
+						<data:importance>16.0</data:importance>
+					</row>
+					<row>
+						<data:name>Petal.Length</data:name>
+						<data:importance>88.0</data:importance>
+					</row>
+					<row>
+						<data:name>Petal.Width</data:name>
+						<data:importance>38.0</data:importance>
+					</row>
+				</InlineTable>
+			</Extension>
 			<MiningField name="Species" usageType="target"/>
 			<MiningField name="Sepal.Length" importance="10.0" missingValueTreatment="asIs"/>
 			<MiningField name="Sepal.Width" importance="16.0" missingValueTreatment="asIs"/>

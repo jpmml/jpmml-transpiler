@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.18"/>
-		<Timestamp>2021-05-27T20:20:09Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.20"/>
+		<Timestamp>2021-06-23T20:09:53Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -40,6 +40,38 @@
 	</DataDictionary>
 	<MiningModel functionName="regression" algorithmName="LightGBM">
 		<MiningSchema>
+			<Extension name="X-FeatureImportances">
+				<InlineTable>
+					<row>
+						<data:name>cylinders</data:name>
+						<data:importance>7.0</data:importance>
+					</row>
+					<row>
+						<data:name>model_year</data:name>
+						<data:importance>21.0</data:importance>
+					</row>
+					<row>
+						<data:name>origin</data:name>
+						<data:importance>28.0</data:importance>
+					</row>
+					<row>
+						<data:name>displacement</data:name>
+						<data:importance>105.0</data:importance>
+					</row>
+					<row>
+						<data:name>horsepower</data:name>
+						<data:importance>100.0</data:importance>
+					</row>
+					<row>
+						<data:name>weight</data:name>
+						<data:importance>97.0</data:importance>
+					</row>
+					<row>
+						<data:name>acceleration</data:name>
+						<data:importance>77.0</data:importance>
+					</row>
+				</InlineTable>
+			</Extension>
 			<MiningField name="mpg" usageType="target"/>
 			<MiningField name="cylinders" importance="7.0" missingValueTreatment="asIs" invalidValueTreatment="asMissing"/>
 			<MiningField name="model_year" importance="21.0" missingValueTreatment="asIs" invalidValueTreatment="asMissing"/>

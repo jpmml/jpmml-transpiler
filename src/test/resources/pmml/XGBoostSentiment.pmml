@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.18"/>
-		<Timestamp>2021-05-27T20:19:36Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.20"/>
+		<Timestamp>2021-06-23T20:09:20Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Score" optype="categorical" dataType="integer">
@@ -1098,12 +1098,12 @@
 										<Node score="0.3">
 											<SimplePredicate field="float(tf(lowercase(Sentence), so))" operator="greaterOrEqual" value="0.5"/>
 										</Node>
-										<Node score="-0.0">
+										<Node score="0.0">
 											<SimplePredicate field="float(tf(lowercase(Sentence), at))" operator="greaterOrEqual" value="0.5"/>
 										</Node>
 										<Node score="-0.27272728">
 											<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="greaterOrEqual" value="0.5"/>
-											<Node score="-0.0">
+											<Node score="0.0">
 												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="greaterOrEqual" value="0.5"/>
 											</Node>
 										</Node>

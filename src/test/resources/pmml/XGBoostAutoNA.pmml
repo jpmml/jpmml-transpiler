@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.18"/>
-		<Timestamp>2021-05-27T20:20:11Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.20"/>
+		<Timestamp>2021-06-23T20:09:55Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -38,7 +38,6 @@
 		<DataField name="weight" optype="continuous" dataType="double"/>
 		<DataField name="acceleration" optype="continuous" dataType="double"/>
 	</DataDictionary>
-	<TransformationDictionary/>
 	<MiningModel functionName="regression" algorithmName="XGBoost (GBTree)" x-mathContext="float">
 		<MiningSchema>
 			<MiningField name="mpg" usageType="target"/>

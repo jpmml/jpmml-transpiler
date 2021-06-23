@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.18"/>
-		<Timestamp>2021-05-27T20:49:16Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.20"/>
+		<Timestamp>2021-06-23T20:08:59Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -78,7 +78,6 @@
 			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="99.0"/>
 		</DataField>
 	</DataDictionary>
-	<TransformationDictionary/>
 	<MiningModel functionName="classification" algorithmName="sklearn.ensemble._forest.RandomForestClassifier">
 		<MiningSchema>
 			<MiningField name="Adjusted" usageType="target"/>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.18"/>
-		<Timestamp>2021-05-30T05:42:21Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.20"/>
+		<Timestamp>2021-06-23T20:09:08Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -68,7 +68,6 @@
 		<DataField name="Income" optype="continuous" dataType="double"/>
 		<DataField name="Hours" optype="continuous" dataType="double"/>
 	</DataDictionary>
-	<TransformationDictionary/>
 	<MiningModel functionName="classification" algorithmName="XGBoost (GBTree)" x-mathContext="float">
 		<MiningSchema>
 			<MiningField name="Adjusted" usageType="target"/>
@@ -134,11 +133,11 @@
 												<Node score="-0.15">
 													<SimplePredicate field="float(Hours)" operator="lessThan" value="39.0"/>
 												</Node>
-												<Node score="-0.0">
+												<Node score="0.0">
 													<SimplePredicate field="Employment" operator="equal" value="Private"/>
 												</Node>
 											</Node>
-											<Node score="-0.0">
+											<Node score="0.0">
 												<SimplePredicate field="Employment" operator="equal" value="Private"/>
 												<Node score="-0.45306125">
 													<SimplePredicate field="float(Hours)" operator="lessThan" value="49.5"/>
@@ -199,7 +198,7 @@
 									</Node>
 									<Node score="-0.050000004">
 										<SimplePredicate field="float(Income)" operator="lessThan" value="50462.727"/>
-										<Node score="-0.0">
+										<Node score="0.0">
 											<SimplePredicate field="float(Age)" operator="lessThan" value="38.5"/>
 											<Node score="-0.48433736">
 												<SimplePredicate field="float(Income)" operator="lessThan" value="49006.44"/>
@@ -209,7 +208,7 @@
 											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 											<Node score="0.42857146">
 												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
-												<Node score="-0.0">
+												<Node score="0.0">
 													<SimplePredicate field="float(Hours)" operator="lessThan" value="41.5"/>
 												</Node>
 											</Node>

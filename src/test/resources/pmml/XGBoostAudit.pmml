@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.18"/>
-		<Timestamp>2021-05-27T20:49:19Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.20"/>
+		<Timestamp>2021-06-23T20:09:03Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -78,7 +78,6 @@
 			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="99.0"/>
 		</DataField>
 	</DataDictionary>
-	<TransformationDictionary/>
 	<MiningModel functionName="classification" algorithmName="XGBoost (GBTree)" x-mathContext="float">
 		<MiningSchema>
 			<MiningField name="Adjusted" usageType="target"/>
@@ -280,7 +279,7 @@
 									</Node>
 									<Node score="-0.41052634">
 										<SimplePredicate field="Education" operator="equal" value="Master"/>
-										<Node score="-0.0">
+										<Node score="0.0">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="189377.84"/>
 										</Node>
 									</Node>

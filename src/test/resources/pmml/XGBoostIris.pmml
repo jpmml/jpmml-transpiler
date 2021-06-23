@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.18"/>
-		<Timestamp>2021-05-27T20:19:48Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.20"/>
+		<Timestamp>2021-06-23T20:09:31Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -23,7 +23,6 @@
 			<Interval closure="closedClosed" leftMargin="0.1" rightMargin="2.5"/>
 		</DataField>
 	</DataDictionary>
-	<TransformationDictionary/>
 	<MiningModel functionName="classification" algorithmName="XGBoost (GBTree)" x-mathContext="float">
 		<MiningSchema>
 			<MiningField name="Species" usageType="target"/>
