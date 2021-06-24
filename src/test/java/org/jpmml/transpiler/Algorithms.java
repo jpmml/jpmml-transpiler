@@ -25,6 +25,7 @@ public interface Algorithms {
 	String GRADIENT_BOOSTING = "GradientBoosting";
 	String ISOLATION_FOREST = "IsolationForest";
 	String LIGHT_GBM = "LightGBM";
+	String LINEAR_DISCRIMINANT_ANALYSIS = "LinearDiscriminantAnalysis";
 	String LINEAR_REGRESSION = "LinearRegression";
 	String LINEAR_SVC = "LinearSVC";
 	String LOGISTIC_REGRESSION = "LogisticRegression";

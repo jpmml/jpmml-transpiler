@@ -69,6 +69,11 @@ public class ClassificationTest extends TranspilerTest implements Algorithms, Da
 	}
 
 	@Test
+	public void evaluateLinearDiscriminantAnalysisSentiment() throws Exception {
+		evaluate(LINEAR_DISCRIMINANT_ANALYSIS, SENTIMENT);
+	}
+
+	@Test
 	public void evaluateLinearSVCSentiment() throws Exception {
 		evaluate(LINEAR_SVC, SENTIMENT);
 	}

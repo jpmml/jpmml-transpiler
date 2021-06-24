@@ -18,6 +18,7 @@
  */
 package org.jpmml.translator.regression;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -462,15 +463,31 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 				JVar coefficientVar = context.declare(context.ref(Number.class), "coefficient", coefficientsVar.invoke("get").arg(indexVar));
 
+				List<JVar> factorVars = new ArrayList<>();
+				factorVars.add(coefficientVar);
+
 				if(weightsVar != null){
 					JVar weightVar = context.declare(context.ref(Number.class), "weight", weightsVar.invoke("get").arg(indexVar));
 
-					valueBuilder.update("add", coefficientVar, weightVar, frequencyVar);
-				} else
-
-				{
-					valueBuilder.update("add", coefficientVar, frequencyVar);
+					factorVars.add(weightVar);
 				}
+
+				TextIndex.LocalTermWeights localTermWeights = textIndex.getLocalTermWeights();
+				switch(localTermWeights){
+					case BINARY:
+						break;
+					case TERM_FREQUENCY:
+						factorVars.add(frequencyVar);
+						break;
+					case LOGARITHMIC:
+						JVar logFrequencyVar = context.declare(context.ref(Double.class), "logFrequency", context.staticInvoke(Math.class, "log10", JExpr.lit(1).plus(frequencyVar)));
+						factorVars.add(logFrequencyVar);
+						break;
+					default:
+						throw new UnsupportedAttributeException(localTextIndex, localTermWeights);
+				}
+
+				valueBuilder.update("add", factorVars.toArray(new JVar[factorVars.size()]));
 			} finally {
 				context.popScope();
 			}
