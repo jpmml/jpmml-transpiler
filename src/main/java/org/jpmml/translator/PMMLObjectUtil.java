@@ -368,7 +368,7 @@ public class PMMLObjectUtil {
 
 						suppressedPmmlValues = new ArrayList<>(pmmlValues);
 
-						pmmlValues.clear();
+						ensureEditableValues((org.dmg.pmml.Field & HasDiscreteDomain)field).clear();
 					}
 				}
 
@@ -378,9 +378,7 @@ public class PMMLObjectUtil {
 					HasDiscreteDomain<?> hasDiscreteDomain = (HasDiscreteDomain<?>)field;
 
 					if(suppressedPmmlValues != null){
-						List<Value> pmmlValues = hasDiscreteDomain.getValues();
-
-						pmmlValues.addAll(suppressedPmmlValues);
+						ensureEditableValues((org.dmg.pmml.Field & HasDiscreteDomain)field).addAll(suppressedPmmlValues);
 					}
 
 					JBlock body = builderMethod.body();
@@ -594,6 +592,21 @@ public class PMMLObjectUtil {
 		String name = field.getName();
 
 		return prefix + (name.substring(0, 1)).toUpperCase() + name.substring(1);
+	}
+
+	static
+	private <F extends org.dmg.pmml.Field<F> & HasDiscreteDomain<F>> List<Value> ensureEditableValues(F field){
+		Field valuesField = ReflectionUtil.getField(field.getClass(), "values");
+
+		List<Value> values = ReflectionUtil.getFieldValue(valuesField, field);
+
+		if(!(values instanceof ArrayList)){
+			values = new ArrayList<>(values);
+
+			ReflectionUtil.setFieldValue(valuesField, field, values);
+		}
+
+		return values;
 	}
 
 	private static final int CHUNK_SIZE = 256;
