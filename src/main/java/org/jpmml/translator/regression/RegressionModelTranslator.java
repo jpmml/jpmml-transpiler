@@ -193,11 +193,36 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 		Output output = regressionModel.getOutput();
 
 		if(regressionTables.size() == 2){
-			valueMapBuilder.staticUpdate(RegressionModelUtil.class, "computeBinomialProbabilities", normalizationMethod);
+
+			switch(normalizationMethod){
+				case NONE:
+				case LOGIT:
+				case PROBIT:
+				case CLOGLOG:
+				case LOGLOG:
+				case CAUCHIT:
+					valueMapBuilder.staticUpdate(RegressionModelUtil.class, "computeBinomialProbabilities", normalizationMethod);
+					break;
+				case SIMPLEMAX:
+				case SOFTMAX:
+					valueMapBuilder.staticUpdate(RegressionModelUtil.class, "computeMultinomialProbabilities", normalizationMethod);
+					break;
+				default:
+					throw new InvalidElementException(regressionModel);
+			}
 		} else
 
-		if(regressionTables.size() >= 2){
-			valueMapBuilder.staticUpdate(RegressionModelUtil.class, "computeMultinomialProbabilities", normalizationMethod);
+		if(regressionTables.size() > 2){
+
+			switch(normalizationMethod){
+				case NONE:
+				case SIMPLEMAX:
+				case SOFTMAX:
+					valueMapBuilder.staticUpdate(RegressionModelUtil.class, "computeMultinomialProbabilities", normalizationMethod);
+					break;
+				default:
+					throw new InvalidElementException(regressionModel);
+			}
 		} else
 
 		{
