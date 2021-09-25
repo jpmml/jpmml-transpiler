@@ -85,18 +85,18 @@
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>2.3.3</version>
+			<version>2.3.5</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator</artifactId>
-			<version>1.5.15</version>
+			<version>1.5.16</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-extension</artifactId>
-			<version>1.5.15</version>
+			<version>1.5.16</version>
 		</dependency>
 
 		<dependency>
@@ -108,7 +108,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>jpmml-converter</artifactId>
-			<version>1.4.7</version>
+			<version>1.4.9</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jpmml</groupId>
@@ -125,7 +125,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>[2.9.4, 2.12.1]</version>
+			<version>[2.9.4, 2.12.5]</version>
 			<!--
 			<scope>provided</scope>
 			-->
@@ -141,7 +141,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-testing</artifactId>
-			<version>1.5.15</version>
+			<version>1.5.16</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -162,7 +162,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-model</artifactId>
-			<version>1.5.15</version>
+			<version>1.5.16</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
