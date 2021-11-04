@@ -82,7 +82,6 @@ import org.jpmml.transpiler.TranspilerTransformer
 File pmmlFile = ...;
 
 LoadingModelEvaluatorBuilder evaluatorBuilder = new LoadingModelEvaluatorBuilder()
-	.setVisitors(visitorBattery)
 	.load(pmmlFile);
 
 try {
@@ -115,19 +114,21 @@ try(InputStream is = ...){
 	xmlPmml = PMMLUtil.unmarshal(is);
 }
 
+// Generate Java source
 // Set the fully-qualified name of the generated PMML subclass to `com.mycompany.MyModel`
-JCodeModel codeModel = TranspilerUtil.transpile(xmlPmml, "com.mycompany.MyModel");
+JCodeModel codeModel = TranspilerUtil.translate(xmlPmml, "com.mycompany.MyModel");
+
+// Compile Java source to Java bytecode
+TranspilerUtil.compile(codeModel);
 ```
 
 Storing the `JCodeModel` object to a PMML service provider Java archive:
 
 ```java
-import org.jpmml.codemodel.ArchiverUtil;
-
 File jarFile = new File(...);
 
 try(OutputStream os = new FileOutputStream(jarFile)){
-	ArchiverUtil.archive(codeModel, os);
+	TranspilerUtil.archive(codeModel, os);
 }
 ```
 
