@@ -32,7 +32,6 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;

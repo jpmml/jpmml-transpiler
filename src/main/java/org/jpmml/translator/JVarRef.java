@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Villu Ruusmann
+ * Copyright (c) 2021 Villu Ruusmann
  *
  * This file is part of JPMML-Transpiler
  *
@@ -18,56 +18,16 @@
  */
 package org.jpmml.translator;
 
-import java.util.Objects;
-
-import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JInvocation;
-import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
-public class JVarRef {
-
-	private JVar variable = null;
-
+public class JVarRef extends JExpressionRef {
 
 	public JVarRef(JVar variable){
-		setVariable(variable);
+		super(variable);
 	}
 
-	public JType type(){
-		JVar variable = getVariable();
-
-		return variable.type();
-	}
-
-	public String name(){
-		JVar variable = getVariable();
-
-		return variable.name();
-	}
-
-	public JInvocation invoke(JMethod method, JExpression... argExprs){
-		return invoke(method.name(), argExprs);
-	}
-
-	public JInvocation invoke(String method, JExpression... argExprs){
-		JVar variable = getVariable();
-
-		JInvocation result = variable.invoke(method);
-
-		for(JExpression argExpr : argExprs){
-			result = result.arg(argExpr);
-		}
-
-		return result;
-	}
-
-	public JVar getVariable(){
-		return this.variable;
-	}
-
-	private void setVariable(JVar variable){
-		this.variable = Objects.requireNonNull(variable);
+	@Override
+	public JVar getExpression(){
+		return (JVar)super.getExpression();
 	}
 }

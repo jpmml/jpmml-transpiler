@@ -394,7 +394,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			throw new UnsupportedElementException(predicate);
 		}
 
-		JVar variable = operableRef.getVariable();
+		JVar variable = (JVar)operableRef.getExpression();
 
 		TreeModel.MissingValueStrategy missingValueStrategy = treeModel.getMissingValueStrategy();
 		switch(missingValueStrategy){

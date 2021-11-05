@@ -319,7 +319,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			context.pushScope(new Scope(forBlock));
 
-			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("apply").arg((context.getArgumentsVariable()).getVariable()));
+			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("apply").arg((context.getArgumentsVariable()).getExpression()));
 
 			context._returnIf(indexExpr.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
 
@@ -492,7 +492,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			context.pushScope(new Scope(forBlock));
 
-			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("apply").arg((context.getArgumentsVariable()).getVariable()));
+			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("apply").arg((context.getArgumentsVariable()).getExpression()));
 
 			context._returnIf(indexExpr.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
 

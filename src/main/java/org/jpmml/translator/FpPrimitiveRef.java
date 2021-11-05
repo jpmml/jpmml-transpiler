@@ -27,31 +27,35 @@ import com.sun.codemodel.JVar;
 
 public class FpPrimitiveRef extends PrimitiveRef {
 
-	public FpPrimitiveRef(JVar variable){
-		super(variable);
+	public FpPrimitiveRef(JExpression expression){
+		super(expression);
 
-		JType type = variable.type();
-		switch(type.name()){
-			case "float":
-			case "double":
-				break;
-			default:
-				throw new IllegalArgumentException(type.fullName());
+		if(expression instanceof JVar){
+			JVar variable = (JVar)expression;
+
+			JType type = variable.type();
+			switch(type.name()){
+				case "float":
+				case "double":
+					break;
+				default:
+					throw new IllegalArgumentException(type.fullName());
+			}
 		}
 	}
 
 	@Override
 	public JExpression isMissing(){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return (variable).ne(variable);
+		return (expression).ne(expression);
 	}
 
 	@Override
 	public JExpression isNotMissing(){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return (variable).eq(variable);
+		return (expression).eq(expression);
 	}
 
 	@Override

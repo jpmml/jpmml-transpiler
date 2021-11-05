@@ -18,38 +18,68 @@
  */
 package org.jpmml.translator;
 
-import com.sun.codemodel.JExpr;
+import java.util.Objects;
+
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JInvocation;
+import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
-abstract
-public class ObjectRef extends OperableRef {
+public class JExpressionRef {
 
-	public ObjectRef(JExpression expression){
-		super(expression);
+	private JExpression expression = null;
+
+
+	public JExpressionRef(JExpression expression){
+		setExpression(expression);
+	}
+
+	public JType type(){
+		JExpression expression = getExpression();
 
 		if(expression instanceof JVar){
 			JVar variable = (JVar)expression;
 
-			JType type = variable.type();
-			if(!type.isReference()){
-				throw new IllegalArgumentException(type.fullName());
-			}
+			return variable.type();
 		}
+
+		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public JExpression isMissing(){
+	public String name(){
 		JExpression expression = getExpression();
 
-		return expression.eq(JExpr._null());
+		if(expression instanceof JVar){
+			JVar variable = (JVar)expression;
+
+			return variable.name();
+		}
+
+		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public JExpression isNotMissing(){
+	public JInvocation invoke(JMethod method, JExpression... argExprs){
+		return invoke(method.name(), argExprs);
+	}
+
+	public JInvocation invoke(String method, JExpression... argExprs){
 		JExpression expression = getExpression();
 
-		return expression.ne(JExpr._null());
+		JInvocation result = expression.invoke(method);
+
+		for(JExpression argExpr : argExprs){
+			result = result.arg(argExpr);
+		}
+
+		return result;
+	}
+
+	public JExpression getExpression(){
+		return this.expression;
+	}
+
+	private void setExpression(JExpression expression){
+		this.expression = Objects.requireNonNull(expression);
 	}
 }

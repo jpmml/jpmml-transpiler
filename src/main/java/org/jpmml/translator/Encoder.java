@@ -20,7 +20,6 @@ package org.jpmml.translator;
 
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JVar;
 
 public interface Encoder {
 
@@ -33,7 +32,7 @@ public interface Encoder {
 
 	Object encode(Object value);
 
-	OperableRef ref(JVar variable);
+	OperableRef ref(JExpression expression);
 
 	default
 	FieldInfo follow(FieldInfo fieldInfo){

@@ -19,19 +19,18 @@
 package org.jpmml.translator;
 
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JVar;
 
 public class StringRef extends ObjectRef {
 
-	public StringRef(JVar variable){
-		super(variable);
+	public StringRef(JExpression expression){
+		super(expression);
 	}
 
 	@Override
 	public JExpression equalTo(Object value, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return context.invoke(variable, "equals", value);
+		return context.invoke(expression, "equals", value);
 	}
 
 	@Override

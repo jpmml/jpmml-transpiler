@@ -244,10 +244,10 @@ public class PMMLObjectUtil {
 	static
 	public JExpression createExpression(Object value, TranslationContext context){
 
-		if(value instanceof JVarRef){
-			JVarRef variableRef = (JVarRef)value;
+		if(value instanceof JExpressionRef){
+			JExpressionRef variableRef = (JExpressionRef)value;
 
-			return variableRef.getVariable();
+			return variableRef.getExpression();
 		} else
 
 		if(value instanceof JVarBuilder){

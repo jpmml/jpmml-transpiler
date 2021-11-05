@@ -67,8 +67,8 @@ public class OrdinalEncoder implements Encoder {
 	}
 
 	@Override
-	public OrdinalRef ref(JVar variable){
-		return new OrdinalRef(variable, this);
+	public OrdinalRef ref(JExpression expression){
+		return new OrdinalRef(expression, this);
 	}
 
 	@Override

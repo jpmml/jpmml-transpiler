@@ -398,16 +398,16 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			switch(name){
 				case Scope.VAR_ARGUMENTS:
 					try {
-						arg = (context.getArgumentsVariable()).getVariable();
+						arg = (context.getArgumentsVariable()).getExpression();
 					} catch(IllegalArgumentException iae){
-						arg = JExpr._new(ensureArgumentsType(context)).arg((context.getContextVariable()).getVariable());
+						arg = JExpr._new(ensureArgumentsType(context)).arg((context.getContextVariable()).getExpression());
 					}
 					break;
 				case Scope.VAR_CONTEXT:
-					arg = (context.getContextVariable()).getVariable();
+					arg = (context.getContextVariable()).getExpression();
 					break;
 				case Scope.VAR_VALUEFACTORY:
-					arg = (context.getValueFactoryVariable()).getVariable();
+					arg = (context.getValueFactoryVariable()).getExpression();
 					break;
 				default:
 					throw new IllegalArgumentException(name);

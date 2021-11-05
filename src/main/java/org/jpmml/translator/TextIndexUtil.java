@@ -71,7 +71,7 @@ public class TextIndexUtil {
 
 		StringRef textRef = (StringRef)context.ensureOperableVariable(textFieldInfo);
 
-		JVar textVar = textRef.getVariable();
+		JVar textVar = (JVar)textRef.getExpression();
 
 		if(textIndex.hasTextIndexNormalizations()){
 			JInvocation textNormalizationInvocation = context.staticInvoke(TextUtil.class, "normalize", textIndexExpr, textVar);

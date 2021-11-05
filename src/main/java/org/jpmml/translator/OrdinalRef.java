@@ -25,56 +25,55 @@ import java.util.List;
 
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JVar;
 
 public class OrdinalRef extends OperableRef {
 
 	private OrdinalEncoder encoder = null;
 
 
-	public OrdinalRef(JVar variable, OrdinalEncoder encoder){
-		super(variable);
+	public OrdinalRef(JExpression expression, OrdinalEncoder encoder){
+		super(expression);
 
 		setEncoder(encoder);
 	}
 
 	@Override
 	public JExpression isMissing(){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return variable.eq(OrdinalEncoder.MISSING_VALUE);
+		return expression.eq(OrdinalEncoder.MISSING_VALUE);
 	}
 
 	@Override
 	public JExpression isNotMissing(){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return variable.ne(OrdinalEncoder.MISSING_VALUE);
+		return expression.ne(OrdinalEncoder.MISSING_VALUE);
 	}
 
 	@Override
 	public JExpression equalTo(Object value, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 		OrdinalEncoder encoder = getEncoder();
 
 		value = encoder.encode(value);
 
-		return variable.eq(literal(value, context));
+		return expression.eq(literal(value, context));
 	}
 
 	@Override
 	public JExpression notEqualTo(Object value, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 		OrdinalEncoder encoder = getEncoder();
 
 		value = encoder.encode(value);
 
-		return (variable.ne(OrdinalEncoder.MISSING_VALUE)).cand(variable.ne(literal(value, context)));
+		return (expression.ne(OrdinalEncoder.MISSING_VALUE)).cand(expression.ne(literal(value, context)));
 	}
 
 	@Override
 	public JExpression isIn(Collection<?> values, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 		OrdinalEncoder encoder = getEncoder();
 
 		List<Chunk> chunks = chunk(encoder, values);
@@ -83,10 +82,10 @@ public class OrdinalRef extends OperableRef {
 
 		Iterator<Chunk> it = chunks.iterator();
 
-		JExpression result = (it.next()).isIn(variable);
+		JExpression result = (it.next()).isIn(expression);
 
 		while(it.hasNext()){
-			result = result.cor((it.next()).isIn(variable));
+			result = result.cor((it.next()).isIn(expression));
 		}
 
 		return result;
@@ -94,7 +93,7 @@ public class OrdinalRef extends OperableRef {
 
 	@Override
 	public JExpression isNotIn(Collection<?> values, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 		OrdinalEncoder encoder = getEncoder();
 
 		List<Chunk> chunks = chunk(encoder, values);
@@ -103,10 +102,10 @@ public class OrdinalRef extends OperableRef {
 
 		Iterator<Chunk> it = chunks.iterator();
 
-		JExpression result = (variable.ne(OrdinalEncoder.MISSING_VALUE)).cand((it.next()).isNotIn(variable));
+		JExpression result = (expression.ne(OrdinalEncoder.MISSING_VALUE)).cand((it.next()).isNotIn(expression));
 
 		while(it.hasNext()){
-			result = result.cand((it.next()).isNotIn(variable));
+			result = result.cand((it.next()).isNotIn(expression));
 		}
 
 		return result;
@@ -196,47 +195,47 @@ public class OrdinalRef extends OperableRef {
 			throw new IllegalStateException();
 		}
 
-		public JExpression isIn(JVar variable){
+		public JExpression isIn(JExpression expression){
 			int size = size();
 
 			if(size == 1){
-				return variable.eq(literal(0));
+				return expression.eq(literal(0));
 			} else
 
 			if(size == 2){
-				return (variable.eq(literal(0)).cor(variable.eq(literal(1))));
+				return (expression.eq(literal(0)).cor(expression.eq(literal(1))));
 			} // End if
 
 			if(isDense()){
-				return (variable.gte(literal(0))).cand(variable.lte(literal(size - 1)));
+				return (expression.gte(literal(0))).cand(expression.lte(literal(size - 1)));
 			} else
 
 			{
-				return isSet(variable);
+				return isSet(expression);
 			}
 		}
 
-		public JExpression isNotIn(JVar variable){
+		public JExpression isNotIn(JExpression expression){
 			int size = size();
 
 			if(size == 1){
-				return variable.ne(literal(0));
+				return expression.ne(literal(0));
 			} else
 
 			if(size == 2){
-				return (variable.ne(literal(0))).cand(variable.ne(literal(1)));
+				return (expression.ne(literal(0))).cand(expression.ne(literal(1)));
 			} // End if
 
 			if(isDense()){
-				return (variable.lt(literal(0))).cor(variable.gt(literal(size - 1)));
+				return (expression.lt(literal(0))).cor(expression.gt(literal(size - 1)));
 			} else
 
 			{
-				return (isSet(variable)).not();
+				return (isSet(expression)).not();
 			}
 		}
 
-		public JExpression isSet(JVar variable){
+		public JExpression isSet(JExpression expression){
 			int size = size();
 
 			int firstValue = get(0);
@@ -262,11 +261,11 @@ public class OrdinalRef extends OperableRef {
 			JExpression indexExpr;
 
 			if(firstValue >= 1 && lastValue <= 32){
-				indexExpr = variable.minus(JExpr.lit(1));
+				indexExpr = expression.minus(JExpr.lit(1));
 			} else
 
 			{
-				indexExpr = variable.minus(JExpr.lit(firstValue));
+				indexExpr = expression.minus(JExpr.lit(firstValue));
 			}
 
 			return JExpr.invoke("isSet").arg(bitSetExpr).arg(indexExpr);

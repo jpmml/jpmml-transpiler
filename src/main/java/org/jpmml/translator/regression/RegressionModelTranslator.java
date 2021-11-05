@@ -295,16 +295,16 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
 
 				if(exponent != null && exponent.intValue() != 1){
-					valueBuilder.update("add", coefficient, operableRef.getVariable(), exponent);
+					valueBuilder.update("add", coefficient, operableRef.getExpression(), exponent);
 				} else
 
 				{
 					if(coefficient.doubleValue() != 1d){
-						valueBuilder.update("add", coefficient, operableRef.getVariable());
+						valueBuilder.update("add", coefficient, operableRef.getExpression());
 					} else
 
 					{
-						valueBuilder.update("add", operableRef.getVariable());
+						valueBuilder.update("add", operableRef.getExpression());
 					}
 				}
 			}
@@ -332,7 +332,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					Map<Object, Number> categoryValues = (entry.getValue()).stream()
 						.collect(Collectors.toMap(CategoricalPredictor::getValue, CategoricalPredictor::getCoefficient));
 
-					context._return(operableRef.getVariable(), categoryValues, null);
+					context._return(operableRef.getExpression(), categoryValues, null);
 				} finally {
 					context.popScope();
 				}

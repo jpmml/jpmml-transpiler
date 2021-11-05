@@ -25,12 +25,16 @@ import com.sun.codemodel.JVar;
 
 public class PrimitiveRef extends OperableRef {
 
-	public PrimitiveRef(JVar variable){
-		super(variable);
+	public PrimitiveRef(JExpression expression){
+		super(expression);
 
-		JType type = variable.type();
-		if(!type.isPrimitive()){
-			throw new IllegalArgumentException(type.fullName());
+		if(expression instanceof JVar){
+			JVar variable = (JVar)expression;
+
+			JType type = variable.type();
+			if(!type.isPrimitive()){
+				throw new IllegalArgumentException(type.fullName());
+			}
 		}
 	}
 
@@ -46,43 +50,43 @@ public class PrimitiveRef extends OperableRef {
 
 	@Override
 	public JExpression equalTo(Object value, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return variable.eq(literal(value, context));
+		return expression.eq(literal(value, context));
 	}
 
 	@Override
 	public JExpression notEqualTo(Object value, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return variable.ne(literal(value, context));
+		return expression.ne(literal(value, context));
 	}
 
 	@Override
 	public JExpression lessThan(Object value, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return variable.lt(literal(value, context));
+		return expression.lt(literal(value, context));
 	}
 
 	@Override
 	public JExpression lessOrEqual(Object value, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return variable.lte(literal(value, context));
+		return expression.lte(literal(value, context));
 	}
 
 	@Override
 	public JExpression greaterOrEqual(Object value, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return variable.gte(literal(value, context));
+		return expression.gte(literal(value, context));
 	}
 
 	@Override
 	public JExpression greaterThan(Object value, TranslationContext context){
-		JVar variable = getVariable();
+		JExpression expression = getExpression();
 
-		return variable.gt(literal(value, context));
+		return expression.gt(literal(value, context));
 	}
 }

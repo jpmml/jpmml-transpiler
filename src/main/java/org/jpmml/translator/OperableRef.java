@@ -22,13 +22,12 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JVar;
 
 abstract
-public class OperableRef extends JVarRef {
+public class OperableRef extends JExpressionRef {
 
-	public OperableRef(JVar variable){
-		super(variable);
+	public OperableRef(JExpression expression){
+		super(expression);
 	}
 
 	public JExpression isMissing(){

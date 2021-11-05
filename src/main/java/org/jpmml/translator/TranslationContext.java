@@ -266,10 +266,16 @@ public class TranslationContext {
 			variableName = fieldInfo.getVariableName();
 		}
 
-		JVar variable;
+		JExpression expression;
+
+		JType type;
 
 		try {
-			variable = getVariable(variableName);
+			JVar variable = getVariable(variableName);
+
+			expression = variable;
+
+			type = variable.type();
 		} catch(IllegalArgumentException iae){
 			JExpression[] initArgExprs = new JExpression[0];
 
@@ -285,28 +291,28 @@ public class TranslationContext {
 
 			JMethod method = argumentsRef.getMethod(fieldInfo, this);
 
-			variable = declare(method.type(), variableName, argumentsRef.invoke(method, initArgExprs));
+			expression = declare(method.type(), variableName, argumentsRef.invoke(method, initArgExprs));
+
+			type = method.type();
 		}
 
 		if(encoder != null){
-			return encoder.ref(variable);
+			return encoder.ref(expression);
 		}
 
 		switch(dataType){
 			case STRING:
-				return new StringRef(variable);
+				return new StringRef(expression);
 			case INTEGER:
 			case FLOAT:
 			case DOUBLE:
 			case BOOLEAN:
 				{
-					JType type = variable.type();
-
 					if(type.isPrimitive()){
-						return new PrimitiveRef(variable);
+						return new PrimitiveRef(expression);
 					}
 
-					return new NumberRef(variable);
+					return new NumberRef(expression);
 				}
 			default:
 				throw new UnsupportedAttributeException(field, dataType);

@@ -30,7 +30,6 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPrimitiveType;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -63,8 +62,8 @@ public class FpPrimitiveEncoder implements Encoder {
 	}
 
 	@Override
-	public OperableRef ref(JVar variable){
-		return new FpPrimitiveRef(variable);
+	public OperableRef ref(JExpression expression){
+		return new FpPrimitiveRef(expression);
 	}
 
 	@Override
