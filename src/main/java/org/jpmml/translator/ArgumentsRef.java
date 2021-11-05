@@ -47,7 +47,9 @@ public class ArgumentsRef extends JVarRef {
 	public JMethod getMethod(FieldInfo fieldInfo, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
-		JDefinedClass argumentsClazz = (JDefinedClass)type();
+		JVar variable = getExpression();
+
+		JDefinedClass argumentsClazz = (JDefinedClass)variable.type();
 
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();

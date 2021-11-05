@@ -403,7 +403,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					boolean isNonMissing = context.isNonMissing(variable);
 
 					if(!isNonMissing){
-						JType type = operableRef.type();
+						JType type = variable.type();
 
 						if(type.isReference()){
 							valueExpr = (operableRef.isNotMissing()).cand(valueExpr);

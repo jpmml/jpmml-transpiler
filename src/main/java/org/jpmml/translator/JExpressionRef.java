@@ -23,7 +23,6 @@ import java.util.Objects;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
 public class JExpressionRef {
@@ -33,18 +32,6 @@ public class JExpressionRef {
 
 	public JExpressionRef(JExpression expression){
 		setExpression(expression);
-	}
-
-	public JType type(){
-		JExpression expression = getExpression();
-
-		if(expression instanceof JVar){
-			JVar variable = (JVar)expression;
-
-			return variable.type();
-		}
-
-		throw new UnsupportedOperationException();
 	}
 
 	public String name(){
