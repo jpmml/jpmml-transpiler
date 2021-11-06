@@ -69,7 +69,7 @@ public class TextIndexUtil {
 		// XXX
 		FieldInfo textFieldInfo = new FieldInfo(new DerivedField(textIndex.getTextField(), OpType.CATEGORICAL, DataType.STRING, null));
 
-		StringRef textRef = (StringRef)context.ensureOperableVariable(textFieldInfo);
+		StringRef textRef = (StringRef)context.ensureOperable(textFieldInfo, (method) -> true);
 
 		JVar textVar = (JVar)textRef.getExpression();
 

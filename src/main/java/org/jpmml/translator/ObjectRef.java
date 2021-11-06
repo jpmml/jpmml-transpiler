@@ -40,6 +40,11 @@ public class ObjectRef extends OperableRef {
 	}
 
 	@Override
+	public boolean requiresNotMissingCheck(){
+		return true;
+	}
+
+	@Override
 	public JExpression isMissing(){
 		JExpression expression = getExpression();
 

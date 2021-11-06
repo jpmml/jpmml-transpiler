@@ -47,9 +47,7 @@ public class ArgumentsRef extends JVarRef {
 	public JMethod getMethod(FieldInfo fieldInfo, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
-		JVar variable = getExpression();
-
-		JDefinedClass argumentsClazz = (JDefinedClass)variable.type();
+		JDefinedClass argumentsClazz = type();
 
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();
@@ -177,6 +175,12 @@ public class ArgumentsRef extends JVarRef {
 		}
 
 		return method;
+	}
+
+	private JDefinedClass type(){
+		JVar variable = getExpression();
+
+		return(JDefinedClass) variable.type();
 	}
 
 	static

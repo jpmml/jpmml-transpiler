@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.xml.namespace.QName;
 
@@ -230,11 +231,11 @@ public class TranslationContext {
 		return new ValueFactoryRef(variable);
 	}
 
-	public boolean isNonMissing(JVar variable){
+	public boolean isNonMissing(OperableRef operableRef){
 
 		for(Scope scope : this.scopes){
 
-			if(scope.isNonMissing(variable)){
+			if(scope.isNonMissing(operableRef)){
 				return true;
 			}
 		}
@@ -242,13 +243,13 @@ public class TranslationContext {
 		return false;
 	}
 
-	public void markNonMissing(JVar variable){
+	public void markNonMissing(OperableRef operableRef){
 		Scope scope = ensureOpenScope();
 
-		scope.markNonMissing(variable);
+		scope.markNonMissing(operableRef);
 	}
 
-	public OperableRef ensureOperableVariable(FieldInfo fieldInfo){
+	public OperableRef ensureOperable(FieldInfo fieldInfo, Function<JMethod, Boolean> declareAsVariableFunction){
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();
 
@@ -291,7 +292,12 @@ public class TranslationContext {
 
 			JMethod method = argumentsRef.getMethod(fieldInfo, this);
 
-			expression = declare(method.type(), variableName, argumentsRef.invoke(method, initArgExprs));
+			expression = argumentsRef.invoke(method, initArgExprs);
+
+			boolean declareAsVariable = declareAsVariableFunction.apply(method);
+			if(declareAsVariable){
+				expression = declare(method.type(), variableName, expression);
+			}
 
 			type = method.type();
 		}

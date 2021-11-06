@@ -30,6 +30,9 @@ public class OperableRef extends JExpressionRef {
 		super(expression);
 	}
 
+	abstract
+	public boolean requiresNotMissingCheck();
+
 	public JExpression isMissing(){
 		throw new UnsupportedOperationException();
 	}

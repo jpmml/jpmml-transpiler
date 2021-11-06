@@ -22,10 +22,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Streams;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -39,6 +43,7 @@ import org.dmg.pmml.DataType;
 import org.dmg.pmml.False;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
+import org.dmg.pmml.HasFieldReference;
 import org.dmg.pmml.OpType;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
@@ -235,15 +240,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			throw new UnsupportedElementException(predicate);
 		}
 
-		translateNode(treeModel, null, root, scoreManager, fieldInfos, context);
+		translateNode(treeModel, root, collectDependentNodes(root, Collections.emptyList()), scoreManager, fieldInfos, context);
 	}
 
 	static
-	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node parentNode,  Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		S score = scoreManager.apply(node);
-		Predicate predicate = node.getPredicate();
 
-		Scope nodeScope = translatePredicate(treeModel, predicate, fieldInfos, context);
+		Scope nodeScope = translatePredicate(treeModel, node, dependentNodes, fieldInfos, context);
 
 		JExpression scoreExpr;
 
@@ -254,14 +258,16 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				List<Node> children = node.getNodes();
 
 				children:
-				for(Node child : children){
+				for(int i = 0; i < children.size(); i++){
+					Node child = children.get(i);
+
 					Predicate childPredicate = child.getPredicate();
 
 					if(childPredicate instanceof False){
 						continue children;
 					}
 
-					translateNode(treeModel, node, child, scoreManager, fieldInfos, context);
+					translateNode(treeModel, child, collectDependentNodes(child, children.subList(i + 1, children.size())), scoreManager, fieldInfos, context);
 
 					if(childPredicate instanceof True){
 						return;
@@ -308,8 +314,10 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public Scope translatePredicate(TreeModel treeModel, Predicate predicate, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public Scope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		JBlock block = context.block();
+
+		Predicate predicate = node.getPredicate();
 
 		OperableRef operableRef;
 
@@ -318,9 +326,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		if(predicate instanceof SimplePredicate){
 			SimplePredicate simplePredicate = (SimplePredicate)predicate;
 
-			FieldInfo fieldInfo = getFieldInfo(simplePredicate, fieldInfos);
-
-			operableRef = context.ensureOperableVariable(fieldInfo);
+			operableRef = ensureOperable(simplePredicate, dependentNodes, fieldInfos, context);
 
 			SimplePredicate.Operator operator = simplePredicate.getOperator();
 			switch(operator){
@@ -361,9 +367,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		if(predicate instanceof SimpleSetPredicate){
 			SimpleSetPredicate simpleSetPredicate = (SimpleSetPredicate)predicate;
 
-			FieldInfo fieldInfo = getFieldInfo(simpleSetPredicate, fieldInfos);
-
-			operableRef = context.ensureOperableVariable(fieldInfo);
+			operableRef = ensureOperable(simpleSetPredicate, dependentNodes, fieldInfos, context);
 
 			ComplexArray complexArray = (ComplexArray)simpleSetPredicate.getArray();
 
@@ -394,18 +398,15 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			throw new UnsupportedElementException(predicate);
 		}
 
-		JVar variable = (JVar)operableRef.getExpression();
+		boolean isNonMissing = context.isNonMissing(operableRef);
 
 		TreeModel.MissingValueStrategy missingValueStrategy = treeModel.getMissingValueStrategy();
 		switch(missingValueStrategy){
 			case NONE:
 				{
-					boolean isNonMissing = context.isNonMissing(variable);
-
 					if(!isNonMissing){
-						JType type = variable.type();
 
-						if(type.isReference()){
+						if(operableRef.requiresNotMissingCheck()){
 							valueExpr = (operableRef.isNotMissing()).cand(valueExpr);
 						}
 					}
@@ -414,18 +415,18 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 					if(!isNonMissing){
 						// The mark applies to children only
-						result.markNonMissing(variable);
+						result.markNonMissing(operableRef);
 					}
 
 					return result;
 				}
 			case NULL_PREDICTION:
 				{
-					if(!context.isNonMissing(variable)){
+					if(!isNonMissing){
 						context._returnIf(operableRef.isMissing(), TreeModelTranslator.NULL_RESULT);
 
 						// The mark applies to (subsequent-) siblings and children alike
-						context.markNonMissing(variable);
+						context.markNonMissing(operableRef);
 					}
 
 					return createBranch(block, valueExpr);
@@ -565,6 +566,57 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
+	private OperableRef ensureOperable(HasFieldReference<?> hasFieldReference, List<Node> dependentNodes, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+		FieldInfo fieldInfo = getFieldInfo(hasFieldReference, fieldInfos);
+
+		Function<JMethod, Boolean> function = new Function<JMethod, Boolean>(){
+
+			@Override
+			public Boolean apply(JMethod method){
+				JType type = method.type();
+
+				if(type.isReference()){
+					return true;
+				}
+
+				return usesField(dependentNodes, hasFieldReference.getField());
+			}
+
+			private boolean usesField(Collection<Node> nodes, FieldName name){
+
+				for(Node node : nodes){
+
+					if(usesField(node, name)){
+						return true;
+					}
+				}
+
+				return false;
+			}
+
+			private boolean usesField(Node node, FieldName name){
+				Predicate predicate = node.getPredicate();
+
+				if(predicate instanceof HasFieldReference){
+					HasFieldReference<?> hasFieldReference = (HasFieldReference<?>)predicate;
+
+					if(Objects.equals(hasFieldReference.getField(), name)){
+						return true;
+					}
+				} // End if
+
+				if(node.hasNodes()){
+					return usesField(node.getNodes(), name);
+				}
+
+				return false;
+			}
+		};
+
+		return context.ensureOperable(fieldInfo, function);
+	}
+
+	static
 	private ValueMapBuilder createScoreDistribution(Object[] categories, JVar scoreVar, TranslationContext context){
 		ValueMapBuilder valueMapBuilder = new ValueMapBuilder(context)
 			.construct("values");
@@ -585,6 +637,23 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		JBlock thenBlock = block._if(testExpr)._then();
 
 		return new Scope(thenBlock);
+	}
+
+	static
+	private List<Node> collectDependentNodes(Node node, List<Node> siblings){
+
+		if(node.hasNodes()){
+			List<Node> children = node.getNodes();
+
+			if(!siblings.isEmpty()){
+				return Streams.concat(children.stream(), siblings.stream())
+					.collect(Collectors.toList());
+			}
+
+			return children;
+		}
+
+		return siblings;
 	}
 
 	public static final JExpression NULL_RESULT = JExpr.lit(-1);

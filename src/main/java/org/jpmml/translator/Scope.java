@@ -44,8 +44,30 @@ public class Scope {
 		setBlock(block);
 	}
 
+	public boolean isNonMissing(OperableRef operableRef){
+		JExpression expression = operableRef.getExpression();
+
+		if(expression instanceof JVar){
+			JVar variable = (JVar)expression;
+
+			return isNonMissing(variable);
+		}
+
+		return false;
+	}
+
 	public boolean isNonMissing(JVar variable){
 		return (this.nonMissingVariables != null && this.nonMissingVariables.contains(variable.name()));
+	}
+
+	public void markNonMissing(OperableRef operableRef){
+		JExpression expression = operableRef.getExpression();
+
+		if(expression instanceof JVar){
+			JVar variable = (JVar)expression;
+
+			markNonMissing(variable);
+		}
 	}
 
 	public void markNonMissing(JVar variable){

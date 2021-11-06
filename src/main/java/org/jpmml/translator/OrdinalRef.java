@@ -38,6 +38,11 @@ public class OrdinalRef extends OperableRef {
 	}
 
 	@Override
+	public boolean requiresNotMissingCheck(){
+		return false;
+	}
+
+	@Override
 	public JExpression isMissing(){
 		JExpression expression = getExpression();
 

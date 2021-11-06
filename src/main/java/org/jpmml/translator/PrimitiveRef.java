@@ -39,6 +39,11 @@ public class PrimitiveRef extends OperableRef {
 	}
 
 	@Override
+	public boolean requiresNotMissingCheck(){
+		return false;
+	}
+
+	@Override
 	public JExpression isMissing(){
 		return JExpr.FALSE;
 	}

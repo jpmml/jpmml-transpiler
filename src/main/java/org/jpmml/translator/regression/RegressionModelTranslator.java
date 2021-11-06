@@ -292,7 +292,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				Number coefficient = numericPredictor.getCoefficient();
 				Integer exponent = numericPredictor.getExponent();
 
-				OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
+				OperableRef operableRef = context.ensureOperable(fieldInfo, (method) -> true);
 
 				if(exponent != null && exponent.intValue() != 1){
 					valueBuilder.update("add", coefficient, operableRef.getExpression(), exponent);
@@ -327,7 +327,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				try {
 					context.pushScope(new MethodScope(evaluateCategoryMethod));
 
-					OperableRef operableRef = context.ensureOperableVariable(fieldInfo);
+					OperableRef operableRef = context.ensureOperable(fieldInfo, (method) -> true);
 
 					Map<Object, Number> categoryValues = (entry.getValue()).stream()
 						.collect(Collectors.toMap(CategoricalPredictor::getValue, CategoricalPredictor::getCoefficient));
