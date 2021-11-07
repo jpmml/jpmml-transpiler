@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.20"/>
-		<Timestamp>2021-06-23T20:09:53Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.33"/>
+		<Timestamp>2021-11-07T10:01:27Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -42,9 +42,14 @@
 		<MiningSchema>
 			<Extension name="X-FeatureImportances">
 				<InlineTable>
+					<Extension name="numberOfImportances" value="7"/>
+					<Extension name="numberOfNonZeroImportances" value="7"/>
+					<Extension name="sumOfImportances" value="435.0"/>
+					<Extension name="minImportance" value="7.0"/>
+					<Extension name="maxImportance" value="105.0"/>
 					<row>
-						<data:name>cylinders</data:name>
-						<data:importance>7.0</data:importance>
+						<data:name>displacement</data:name>
+						<data:importance>105.0</data:importance>
 					</row>
 					<row>
 						<data:name>model_year</data:name>
@@ -55,8 +60,8 @@
 						<data:importance>28.0</data:importance>
 					</row>
 					<row>
-						<data:name>displacement</data:name>
-						<data:importance>105.0</data:importance>
+						<data:name>cylinders</data:name>
+						<data:importance>7.0</data:importance>
 					</row>
 					<row>
 						<data:name>horsepower</data:name>

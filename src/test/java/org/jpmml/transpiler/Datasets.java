@@ -35,4 +35,6 @@ public interface Datasets {
 
 	FieldName SENTIMENT_PROBABILITY_TRUE = FieldName.create("probability(1)");
 	FieldName SENTIMENT_PROBABILITY_FALSE = FieldName.create("probability(0)");
+
+	FieldName SKLEARN_PREDICT_OUTLIER = FieldName.create("predict(outlier)");
 }

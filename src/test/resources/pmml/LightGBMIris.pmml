@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.20"/>
-		<Timestamp>2021-06-23T20:09:26Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.33"/>
+		<Timestamp>2021-11-07T10:01:00Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -27,21 +27,26 @@
 		<MiningSchema>
 			<Extension name="X-FeatureImportances">
 				<InlineTable>
-					<row>
-						<data:name>Sepal.Length</data:name>
-						<data:importance>10.0</data:importance>
-					</row>
+					<Extension name="numberOfImportances" value="4"/>
+					<Extension name="numberOfNonZeroImportances" value="4"/>
+					<Extension name="sumOfImportances" value="152.0"/>
+					<Extension name="minImportance" value="10.0"/>
+					<Extension name="maxImportance" value="88.0"/>
 					<row>
 						<data:name>Sepal.Width</data:name>
 						<data:importance>16.0</data:importance>
 					</row>
 					<row>
-						<data:name>Petal.Length</data:name>
-						<data:importance>88.0</data:importance>
+						<data:name>Sepal.Length</data:name>
+						<data:importance>10.0</data:importance>
 					</row>
 					<row>
 						<data:name>Petal.Width</data:name>
 						<data:importance>38.0</data:importance>
+					</row>
+					<row>
+						<data:name>Petal.Length</data:name>
+						<data:importance>88.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>

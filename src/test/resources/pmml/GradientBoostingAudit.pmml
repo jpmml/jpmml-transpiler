@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.20"/>
-		<Timestamp>2021-06-23T20:08:51Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.33"/>
+		<Timestamp>2021-11-07T10:00:21Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -164,7 +164,7 @@
 					</MiningSchema>
 					<Output>
 						<OutputField name="decisionFunction(1)" optype="continuous" dataType="double" isFinalResult="false"/>
-						<OutputField name="transformedDecisionFunction(1)" optype="continuous" dataType="double" feature="transformedValue" isFinalResult="false">
+						<OutputField name="sigmoid(decisionFunction(1))" optype="continuous" dataType="double" feature="transformedValue" isFinalResult="false">
 							<Apply function="/">
 								<Constant dataType="double">1.0</Constant>
 								<Apply function="+">
@@ -2724,14 +2724,14 @@
 				<RegressionModel functionName="classification">
 					<MiningSchema>
 						<MiningField name="Adjusted" usageType="target"/>
-						<MiningField name="transformedDecisionFunction(1)"/>
+						<MiningField name="sigmoid(decisionFunction(1))"/>
 					</MiningSchema>
 					<Output>
 						<OutputField name="probability(0)" optype="continuous" dataType="double" feature="probability" value="0"/>
 						<OutputField name="probability(1)" optype="continuous" dataType="double" feature="probability" value="1"/>
 					</Output>
 					<RegressionTable intercept="0.0" targetCategory="1">
-						<NumericPredictor name="transformedDecisionFunction(1)" coefficient="1.0"/>
+						<NumericPredictor name="sigmoid(decisionFunction(1))" coefficient="1.0"/>
 					</RegressionTable>
 					<RegressionTable intercept="0.0" targetCategory="0"/>
 				</RegressionModel>

@@ -29,6 +29,6 @@ public class AnomalyDetectionTest extends TranspilerTest implements Algorithms, 
 
 	@Test
 	public void evaluateIsolationForestAuto() throws Exception {
-		evaluate(ISOLATION_FOREST, AUTO);
+		evaluate(ISOLATION_FOREST, AUTO, excludeFields(SKLEARN_PREDICT_OUTLIER));
 	}
 }

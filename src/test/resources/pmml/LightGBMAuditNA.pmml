@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.20"/>
-		<Timestamp>2021-06-23T20:09:05Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.33"/>
+		<Timestamp>2021-11-07T10:00:36Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -136,6 +136,11 @@
 		<MiningSchema>
 			<Extension name="X-FeatureImportances">
 				<InlineTable>
+					<Extension name="numberOfImportances" value="8"/>
+					<Extension name="numberOfNonZeroImportances" value="8"/>
+					<Extension name="sumOfImportances" value="2130.0"/>
+					<Extension name="minImportance" value="29.0"/>
+					<Extension name="maxImportance" value="1081.0"/>
 					<row>
 						<data:name>Age</data:name>
 						<data:importance>122.0</data:importance>
@@ -145,28 +150,28 @@
 						<data:importance>29.0</data:importance>
 					</row>
 					<row>
-						<data:name>Education</data:name>
-						<data:importance>97.0</data:importance>
-					</row>
-					<row>
-						<data:name>Marital</data:name>
-						<data:importance>47.0</data:importance>
-					</row>
-					<row>
-						<data:name>Occupation</data:name>
-						<data:importance>87.0</data:importance>
-					</row>
-					<row>
-						<data:name>Gender</data:name>
-						<data:importance>162.0</data:importance>
-					</row>
-					<row>
 						<data:name>Income</data:name>
 						<data:importance>1081.0</data:importance>
 					</row>
 					<row>
 						<data:name>Hours</data:name>
 						<data:importance>505.0</data:importance>
+					</row>
+					<row>
+						<data:name>Education</data:name>
+						<data:importance>97.0</data:importance>
+					</row>
+					<row>
+						<data:name>Occupation</data:name>
+						<data:importance>87.0</data:importance>
+					</row>
+					<row>
+						<data:name>Marital</data:name>
+						<data:importance>47.0</data:importance>
+					</row>
+					<row>
+						<data:name>Gender</data:name>
+						<data:importance>162.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>

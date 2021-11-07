@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.20"/>
-		<Timestamp>2021-06-23T20:09:40Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.33"/>
+		<Timestamp>2021-11-07T10:01:14Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="cylinders" optype="categorical" dataType="integer">
@@ -75,11 +75,24 @@
 					</Apply>
 				</Apply>
 			</OutputField>
-			<OutputField name="outlier" optype="categorical" dataType="boolean" feature="transformedValue">
+			<OutputField name="outlier" optype="categorical" dataType="boolean" feature="decision">
+				<Decisions businessProblem="Is this sample an outlier?">
+					<Decision value="true" description="Outlier"/>
+					<Decision value="false" description="Not outlier"/>
+				</Decisions>
 				<Apply function="lessOrEqual">
 					<FieldRef field="decisionFunction"/>
 					<Constant dataType="double">0.0</Constant>
 				</Apply>
+			</OutputField>
+			<OutputField name="predict(outlier)" optype="categorical" dataType="integer" feature="transformedValue">
+				<Apply function="if">
+					<FieldRef field="outlier"/>
+					<Constant dataType="integer">-1</Constant>
+					<Constant dataType="integer">1</Constant>
+				</Apply>
+				<Value value="-1"/>
+				<Value value="1"/>
 			</OutputField>
 		</Output>
 		<ModelStats>
