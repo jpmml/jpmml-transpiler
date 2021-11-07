@@ -95,6 +95,14 @@ public class Scope {
 		return this;
 	}
 
+	public JVar declare(JType type, String name, JExpression initializer){
+		JBlock block = getBlock();
+
+		JVar variable = block.decl(type, name, initializer);
+
+		return putVariable(variable);
+	}
+
 	public JVar getVariable(String name){
 
 		if(this.variables == null){
@@ -104,15 +112,7 @@ public class Scope {
 		return this.variables.get(name);
 	}
 
-	public JVar declare(JType type, String name, JExpression initializer){
-		JBlock block = getBlock();
-
-		JVar variable = block.decl(type, name, initializer);
-
-		return declare(variable);
-	}
-
-	public JVar declare(JVar variable){
+	public JVar putVariable(JVar variable){
 
 		if(this.variables == null){
 			this.variables = new LinkedHashMap<>();

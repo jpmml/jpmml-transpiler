@@ -40,19 +40,19 @@ public class MethodScope extends Scope {
 
 		List<JVar> params = method.params();
 		for(JVar param : params){
-			declare(param);
+			putVariable(param);
 		}
 
 		boolean hasVarArgs = method.hasVarArgs();
 		if(hasVarArgs){
 			JVar varParam = method.listVarParam();
 
-			declare(varParam);
+			putVariable(varParam);
 		}
 
 		JTypeVar[] typeParams = method.typeParams();
 		for(JTypeVar typeParam : typeParams){
-			declare(typeParam);
+			putTypeVariable(typeParam);
 		}
 	}
 
@@ -65,7 +65,7 @@ public class MethodScope extends Scope {
 		return this.typeVariables.get(name);
 	}
 
-	public void declare(JTypeVar typeParam){
+	public void putTypeVariable(JTypeVar typeParam){
 
 		if(this.typeVariables == null){
 			this.typeVariables = new LinkedHashMap<>();
