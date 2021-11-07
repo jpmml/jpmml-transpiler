@@ -78,7 +78,6 @@ import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.OperableRef;
 import org.jpmml.translator.OrdinalEncoder;
 import org.jpmml.translator.PMMLObjectUtil;
-import org.jpmml.translator.Scope;
 import org.jpmml.translator.TermFrequencyEncoder;
 import org.jpmml.translator.TextIndexUtil;
 import org.jpmml.translator.TranslationContext;
@@ -258,9 +257,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		S score = scoreManager.apply(node);
 
-		Scope scope = translatePredicate(treeModel, node, dependentNodes, fieldInfos, context);
+		NodeScope nodeScope = translatePredicate(treeModel, node, dependentNodes, fieldInfos, context);
 
-		context.pushScope(scope);
+		context.pushScope(nodeScope);
 
 		try {
 			if(node.hasNodes()){
@@ -282,6 +281,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 						return;
 					}
 				}
+
+				nodeScope.chainContent();
 
 				JExpression scoreExpr;
 
