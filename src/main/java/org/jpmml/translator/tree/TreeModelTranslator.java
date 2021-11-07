@@ -31,6 +31,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Streams;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -240,21 +241,29 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			throw new UnsupportedElementException(predicate);
 		}
 
-		translateNode(treeModel, root, collectDependentNodes(root, Collections.emptyList()), scoreManager, fieldInfos, context);
+		JBlock block = context.block();
+
+		JConditional conditional = block._if(JExpr.TRUE);
+
+		context.pushScope(new NodeScope(conditional));
+
+		try {
+			translateNode(treeModel, root, collectDependentNodes(root, Collections.emptyList()), scoreManager, fieldInfos, context);
+		} finally {
+			context.popScope();
+		}
 	}
 
 	static
 	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		S score = scoreManager.apply(node);
 
-		Scope nodeScope = translatePredicate(treeModel, node, dependentNodes, fieldInfos, context);
+		Scope scope = translatePredicate(treeModel, node, dependentNodes, fieldInfos, context);
 
-		JExpression scoreExpr;
+		context.pushScope(scope);
 
-		if(node.hasNodes()){
-			context.pushScope(nodeScope);
-
-			try {
+		try {
+			if(node.hasNodes()){
 				List<Node> children = node.getNodes();
 
 				children:
@@ -273,50 +282,48 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 						return;
 					}
 				}
-			} finally {
-				context.popScope();
-			}
 
-			TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
-			switch(noTrueChildStrategy){
-				case RETURN_NULL_PREDICTION:
-					scoreExpr = TreeModelTranslator.NULL_RESULT;
-					break;
-				case RETURN_LAST_PREDICTION:
-					if(score == null){
+				JExpression scoreExpr;
+
+				TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
+				switch(noTrueChildStrategy){
+					case RETURN_NULL_PREDICTION:
 						scoreExpr = TreeModelTranslator.NULL_RESULT;
-					} else
+						break;
+					case RETURN_LAST_PREDICTION:
+						if(score == null){
+							scoreExpr = TreeModelTranslator.NULL_RESULT;
+						} else
 
-					{
-						int scoreIndex = scoreManager.getOrInsert(score);
+						{
+							int scoreIndex = scoreManager.getOrInsert(score);
 
-						scoreExpr = JExpr.lit(scoreIndex);
-					}
-					break;
-				default:
-					throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
+							scoreExpr = JExpr.lit(scoreIndex);
+						}
+						break;
+					default:
+						throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
+				}
+
+				context._return(scoreExpr);
+			} else
+
+			{
+				if(score == null){
+					throw new MissingAttributeException(node, PMMLAttributes.COMPLEXNODE_SCORE);
+				}
+
+				int scoreIndex = scoreManager.getOrInsert(score);
+
+				context._return(JExpr.lit(scoreIndex));
 			}
-		} else
-
-		{
-			if(score == null){
-				throw new MissingAttributeException(node, PMMLAttributes.COMPLEXNODE_SCORE);
-			}
-
-			int scoreIndex = scoreManager.getOrInsert(score);
-
-			scoreExpr = JExpr.lit(scoreIndex);
+		} finally {
+			context.popScope();
 		}
-
-		JBlock nodeBlock = nodeScope.getBlock();
-
-		nodeBlock._return(scoreExpr);
 	}
 
 	static
-	public Scope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
-		JBlock block = context.block();
-
+	public NodeScope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		Predicate predicate = node.getPredicate();
 
 		OperableRef operableRef;
@@ -331,9 +338,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			SimplePredicate.Operator operator = simplePredicate.getOperator();
 			switch(operator){
 				case IS_MISSING:
-					return createBranch(block, operableRef.isMissing());
+					return createBranch(operableRef.isMissing(), context);
 				case IS_NOT_MISSING:
-					return createBranch(block, operableRef.isNotMissing());
+					return createBranch(operableRef.isNotMissing(), context);
 				default:
 					break;
 			}
@@ -387,11 +394,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		} else
 
 		if(predicate instanceof True){
-			return createBranch(block, JExpr.TRUE);
+			return createBranch(JExpr.TRUE, context);
 		} else
 
 		if(predicate instanceof False){
-			return createBranch(block, JExpr.FALSE);
+			return createBranch(JExpr.FALSE, context);
 		} else
 
 		{
@@ -411,7 +418,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 						}
 					}
 
-					Scope result = createBranch(block, valueExpr);
+					NodeScope result = createBranch(valueExpr, context);
 
 					if(!isNonMissing){
 						// The mark applies to children only
@@ -429,7 +436,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 						context.markNonMissing(operableRef);
 					}
 
-					return createBranch(block, valueExpr);
+					return createBranch(valueExpr, context);
 				}
 			default:
 				throw new UnsupportedAttributeException(treeModel, missingValueStrategy);
@@ -509,7 +516,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				case CATEGORICAL:
 					{
 						Set<?> values = discreteFieldValues.get(name);
-						if(values != null && values.size() > 0){
+						if(values != null && !values.isEmpty()){
 							Encoder encoder = OrdinalEncoder.create(fieldInfo, values);
 
 							fieldInfo.setEncoder(encoder);
@@ -633,10 +640,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private Scope createBranch(JBlock block, JExpression testExpr){
-		JBlock thenBlock = block._if(testExpr)._then();
+	private NodeScope createBranch(JExpression testExpr, TranslationContext context){
+		NodeScope scope = (NodeScope)context.ensureOpenScope();
 
-		return new Scope(thenBlock);
+		JBlock block = scope.getBlock();
+
+		JConditional conditional = block._if(testExpr);
+
+		return new NodeScope(conditional);
 	}
 
 	static

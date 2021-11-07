@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JInvocation;
-
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
@@ -77,7 +76,7 @@ public class Template {
 			.filter(constructor -> constructor.getAnnotation(ValueConstructor.class) != null)
 			.collect(Collectors.toList());
 
-		if(valueConstructors.size() > 0){
+		if(!valueConstructors.isEmpty()){
 			this.valueConstructorFields = new ArrayList<>();
 
 			Constructor<?> valueConstructor = Iterables.getOnlyElement(valueConstructors);
