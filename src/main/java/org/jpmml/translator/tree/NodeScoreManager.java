@@ -25,18 +25,29 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JType;
 import org.dmg.pmml.tree.Node;
 import org.jpmml.translator.ArrayManager;
+import org.jpmml.translator.TranslationContext;
 
-public class NodeScoreManager extends ArrayManager<Number> implements ScoreFunction<Number> {
+public class NodeScoreManager extends ArrayManager<Number> implements Scorer<Number> {
 
 	public NodeScoreManager(JType componentType, String name){
 		super(componentType, name);
 	}
 
 	@Override
-	public Number apply(Node node){
+	public Number prepare(Node node){
 		Object score = node.getScore();
 
 		return (Number)score;
+	}
+
+	@Override
+	public void yield(Number score, TranslationContext context){
+		context._return(createIndexExpression(score));
+	}
+
+	@Override
+	public void yieldIf(JExpression expression, Number score, TranslationContext context){
+		context._returnIf(expression, createIndexExpression(score));
 	}
 
 	@Override
@@ -53,6 +64,15 @@ public class NodeScoreManager extends ArrayManager<Number> implements ScoreFunct
 		throw new IllegalArgumentException();
 	}
 
+	public JExpression createIndexExpression(Number score){
+
+		if(score == null){
+			return NodeScoreManager.RESULT_MISSING;
+		}
+
+		return JExpr.lit(getOrInsert(score));
+	}
+
 	public Number[] getValues(){
 		Collection<Number> elements = getElements();
 
@@ -61,4 +81,6 @@ public class NodeScoreManager extends ArrayManager<Number> implements ScoreFunct
 
 		return result;
 	}
+
+	public static final JExpression RESULT_MISSING = JExpr.lit(-1);
 }

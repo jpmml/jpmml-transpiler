@@ -31,7 +31,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Streams;
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -65,7 +64,6 @@ import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.java.JavaModel;
-import org.jpmml.translator.ArrayManager;
 import org.jpmml.translator.Encoder;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FpPrimitiveEncoder;
@@ -154,7 +152,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			JVar indexVar = context.declare(int.class, "index", createEvaluatorMethodInvocation(evaluateNodeMethod, context));
 
-			context._returnIf(indexVar.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
+			context._returnIf(indexVar.eq(NodeScoreManager.RESULT_MISSING), JExpr._null());
 
 			context._return(scoreManager.getComponent(indexVar));
 		} finally {
@@ -209,7 +207,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			JVar indexVar = context.declare(int.class, "index", createEvaluatorMethodInvocation(evaluateNodeMethod, context));
 
-			context._returnIf(indexVar.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
+			context._returnIf(indexVar.eq(NodeScoreDistributionManager.RESULT_MISSING), JExpr._null());
 
 			JVar scoreVar = context.declare(Number[].class, "score", scoreManager.getComponent(indexVar));
 
@@ -233,8 +231,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node root, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
-		S score = scoreManager.apply(root);
+	public <S> void translateNode(TreeModel treeModel, Node root, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		Predicate predicate = root.getPredicate();
 
 		if(!(predicate instanceof True)){
@@ -250,17 +247,17 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		context.pushScope(new NodeScope(ifStatement));
 
 		try {
-			translateNode(treeModel, root, collectDependentNodes(root, Collections.emptyList()), scoreManager, fieldInfos, context);
+			translateNode(treeModel, root, collectDependentNodes(root, Collections.emptyList()), scorer, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}
 	}
 
 	static
-	public <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
-		S score = scoreManager.apply(node);
+	public <S> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+		S score = scorer.prepare(node);
 
-		NodeScope nodeScope = translatePredicate(treeModel, node, dependentNodes, fieldInfos, context);
+		NodeScope nodeScope = translatePredicate(treeModel, node, dependentNodes, scorer, fieldInfos, context);
 
 		context.pushScope(nodeScope);
 
@@ -268,66 +265,42 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			if(node.hasNodes()){
 				List<Node> children = node.getNodes();
 
-				children:
 				for(int i = 0; i < children.size(); i++){
 					Node child = children.get(i);
 
-					Predicate childPredicate = child.getPredicate();
-
-					if(childPredicate instanceof False){
-						continue children;
-					}
-
-					translateNode(treeModel, child, collectDependentNodes(child, children.subList(i + 1, children.size())), scoreManager, fieldInfos, context);
-
-					if(childPredicate instanceof True){
-						return;
-					}
+					translateNode(treeModel, child, collectDependentNodes(child, children.subList(i + 1, children.size())), scorer, fieldInfos, context);
 				}
 
 				nodeScope.chainContent();
 
-				JExpression scoreExpr;
-
 				TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
 				switch(noTrueChildStrategy){
 					case RETURN_NULL_PREDICTION:
-						scoreExpr = TreeModelTranslator.NULL_RESULT;
+						if(score != null){
+							score = null;
+						}
 						break;
 					case RETURN_LAST_PREDICTION:
-						if(score == null){
-							scoreExpr = TreeModelTranslator.NULL_RESULT;
-						} else
-
-						{
-							int scoreIndex = scoreManager.getOrInsert(score);
-
-							scoreExpr = JExpr.lit(scoreIndex);
-						}
 						break;
 					default:
 						throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
 				}
-
-				context._return(scoreExpr);
 			} else
 
 			{
 				if(score == null){
 					throw new MissingAttributeException(node, PMMLAttributes.COMPLEXNODE_SCORE);
 				}
-
-				int scoreIndex = scoreManager.getOrInsert(score);
-
-				context._return(JExpr.lit(scoreIndex));
 			}
+
+			scorer.yield(score, context);
 		} finally {
 			context.popScope();
 		}
 	}
 
 	static
-	public NodeScope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public <S> NodeScope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		Predicate predicate = node.getPredicate();
 
 		OperableRef operableRef;
@@ -434,7 +407,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			case NULL_PREDICTION:
 				{
 					if(!isNonMissing){
-						context._returnIf(operableRef.isMissing(), TreeModelTranslator.NULL_RESULT);
+						scorer.yieldIf(operableRef.isMissing(), null, context);
 
 						// The mark applies to (subsequent-) siblings and children alike
 						context.markNonMissing(operableRef);
@@ -672,6 +645,4 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		return siblings;
 	}
-
-	public static final JExpression NULL_RESULT = JExpr.lit(-1);
 }

@@ -36,9 +36,10 @@ import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.ValueMap;
 import org.jpmml.evaluator.ValueUtil;
 import org.jpmml.translator.ArrayManager;
+import org.jpmml.translator.TranslationContext;
 
 abstract
-public class NodeScoreDistributionManager<V extends Number> extends ArrayManager<List<Number>> implements ScoreFunction<List<Number>> {
+public class NodeScoreDistributionManager<V extends Number> extends ArrayManager<List<Number>> implements Scorer<List<Number>> {
 
 	private Object[] categories = null;
 
@@ -53,7 +54,7 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 	public ValueFactory<V> getValueFactory();
 
 	@Override
-	public List<Number> apply(Node node){
+	public List<Number> prepare(Node node){
 		ValueFactory<V> valueFactory = getValueFactory();
 
 		if(!node.hasScoreDistributions()){
@@ -94,6 +95,16 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 	}
 
 	@Override
+	public void yield(List<Number> probabilities, TranslationContext context){
+		context._return(createIndexExpression(probabilities));
+	}
+
+	@Override
+	public void yieldIf(JExpression expression, List<Number> probabilities, TranslationContext context){
+		context._returnIf(expression, createIndexExpression(probabilities));
+	}
+
+	@Override
 	public JExpression createExpression(List<Number> probabilities){
 		JType componentType = getComponentType();
 
@@ -120,6 +131,15 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 		return array;
 	}
 
+	public JExpression createIndexExpression(List<Number> probabilities){
+
+		if(probabilities == null){
+			return NodeScoreDistributionManager.RESULT_MISSING;
+		}
+
+		return JExpr.lit(getOrInsert(probabilities));
+	}
+
 	public Number[][] getValues(){
 		Collection<List<Number>> elements = getElements();
 
@@ -137,4 +157,6 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 	private void setCategories(Object[] categories){
 		this.categories = Objects.requireNonNull(categories);
 	}
+
+	public static final JExpression RESULT_MISSING = JExpr.lit(-1);
 }

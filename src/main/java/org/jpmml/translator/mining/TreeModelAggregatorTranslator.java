@@ -64,7 +64,6 @@ import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueAggregator;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.translator.AggregatorBuilder;
-import org.jpmml.translator.ArrayManager;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
@@ -79,7 +78,7 @@ import org.jpmml.translator.ValueBuilder;
 import org.jpmml.translator.ValueFactoryRef;
 import org.jpmml.translator.tree.NodeScoreDistributionManager;
 import org.jpmml.translator.tree.NodeScoreManager;
-import org.jpmml.translator.tree.ScoreFunction;
+import org.jpmml.translator.tree.Scorer;
 import org.jpmml.translator.tree.TreeModelTranslator;
 
 public class TreeModelAggregatorTranslator extends MiningModelTranslator {
@@ -321,7 +320,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("apply").arg((context.getArgumentsVariable()).getExpression()));
 
-			context._returnIf(indexExpr.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
+			context._returnIf(indexExpr.eq(NodeScoreManager.RESULT_MISSING), JExpr._null());
 
 			JExpression scoreExpr = (scoresVar.invoke("get").arg(loopVar)).component(indexExpr);
 
@@ -494,7 +493,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			JVar indexExpr = context.declare(int.class, "index", (methodsVar.invoke("get").arg(loopVar)).invoke("apply").arg((context.getArgumentsVariable()).getExpression()));
 
-			context._returnIf(indexExpr.eq(TreeModelTranslator.NULL_RESULT), JExpr._null());
+			context._returnIf(indexExpr.eq(NodeScoreDistributionManager.RESULT_MISSING), JExpr._null());
 
 			JExpression scoreExpr = (scoresVar.invoke("get").arg(loopVar)).component(indexExpr);
 
@@ -564,7 +563,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		return definedClazz;
 	}
 
-	private <S, ScoreManager extends ArrayManager<S> & ScoreFunction<S>> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, ScoreManager scoreManager, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	private <S> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		JDefinedClass treeModelClazz = PMMLObjectUtil.createMemberClass(ModelTranslator.MEMBER_PRIVATE, IdentifierUtil.create(TreeModel.class.getSimpleName(), treeModel), context);
 
 		try {
@@ -575,7 +574,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			try {
 				context.pushScope(new MethodScope(method));
 
-				TreeModelTranslator.translateNode(treeModel, node, scoreManager, fieldInfos, context);
+				TreeModelTranslator.translateNode(treeModel, node, scorer, fieldInfos, context);
 
 				return method;
 			} finally {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Villu Ruusmann
+ * Copyright (c) 2021 Villu Ruusmann
  *
  * This file is part of JPMML-Transpiler
  *
@@ -18,9 +18,15 @@
  */
 package org.jpmml.translator.tree;
 
-import java.util.function.Function;
-
+import com.sun.codemodel.JExpression;
 import org.dmg.pmml.tree.Node;
+import org.jpmml.translator.TranslationContext;
 
-public interface ScoreFunction<S> extends Function<Node, S> {
+public interface Scorer<S> {
+
+	S prepare(Node node);
+
+	void yield(S score, TranslationContext context);
+
+	void yieldIf(JExpression expression, S score, TranslationContext context);
 }
