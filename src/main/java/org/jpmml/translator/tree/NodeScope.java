@@ -19,7 +19,6 @@
 package org.jpmml.translator.tree;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +26,7 @@ import java.util.List;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JVar;
+import org.jpmml.translator.JBlockUtil;
 import org.jpmml.translator.Scope;
 
 public class NodeScope extends Scope {
@@ -40,7 +40,7 @@ public class NodeScope extends Scope {
 
 		List<Object> objects = new ArrayList<>(block.getContents());
 
-		clear(block);
+		JBlockUtil.clear(block);
 
 		JConditional prevConditional = null;
 
@@ -60,7 +60,7 @@ public class NodeScope extends Scope {
 			if(object instanceof JVar){
 				JVar variable = (JVar)object;
 
-				insert(block, variable);
+				JBlockUtil.insert(block, variable);
 			} else
 
 			{
@@ -96,47 +96,12 @@ public class NodeScope extends Scope {
 			if(object instanceof JVar){
 				JVar variable = (JVar)object;
 
-				insert(elseBlock, variable);
+				JBlockUtil.insert(elseBlock, variable);
 			} else
 
 			{
 				throw new IllegalStateException();
 			}
-		}
-	}
-
-	static
-	private void clear(JBlock block){
-		List<?> content;
-
-		try {
-			Field contentField = JBlock.class.getDeclaredField("content");
-			if(!contentField.isAccessible()){
-				contentField.setAccessible(true);
-			}
-
-			content = (List<?>)contentField.get(block);
-		} catch(ReflectiveOperationException roe){
-			throw new RuntimeException(roe);
-		}
-
-		content.clear();
-
-		block.pos(content.size());
-	}
-
-	static
-	private void insert(JBlock block, Object object){
-
-		try {
-			Method insertMethod = JBlock.class.getDeclaredMethod("insert", Object.class);
-			if(!insertMethod.isAccessible()){
-				insertMethod.setAccessible(true);
-			}
-
-			insertMethod.invoke(block, object);
-		} catch(ReflectiveOperationException roe){
-			throw new RuntimeException(roe);
 		}
 	}
 
