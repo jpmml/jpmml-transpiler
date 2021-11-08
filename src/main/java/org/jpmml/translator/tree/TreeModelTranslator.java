@@ -77,6 +77,7 @@ import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.OperableRef;
 import org.jpmml.translator.OrdinalEncoder;
 import org.jpmml.translator.PMMLObjectUtil;
+import org.jpmml.translator.Scope;
 import org.jpmml.translator.TermFrequencyEncoder;
 import org.jpmml.translator.TextIndexUtil;
 import org.jpmml.translator.TranslationContext;
@@ -271,7 +272,10 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					translateNode(treeModel, child, collectDependentNodes(child, children.subList(i + 1, children.size())), scorer, fieldInfos, context);
 				}
 
-				nodeScope.chainContent();
+				JIfStatement ifStatement = (JIfStatement)nodeScope.chainContent();
+				if(ifStatement.hasElse()){
+					throw new IllegalStateException();
+				}
 
 				TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
 				switch(noTrueChildStrategy){
@@ -285,15 +289,23 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					default:
 						throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
 				}
+
+				context.pushScope(new Scope(ifStatement._else()));
+
+				try {
+					scorer.yield(score, context);
+				} finally {
+					context.popScope();
+				}
 			} else
 
 			{
 				if(score == null){
 					throw new MissingAttributeException(node, PMMLAttributes.COMPLEXNODE_SCORE);
 				}
-			}
 
-			scorer.yield(score, context);
+				scorer.yield(score, context);
+			}
 		} finally {
 			context.popScope();
 		}

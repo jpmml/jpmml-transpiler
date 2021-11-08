@@ -33,17 +33,31 @@ public class NodeScope extends Scope {
 		super(ifStatement._then());
 	}
 
-	void chainContent(){
+	Object chainContent(){
 		JBlock block = getBlock();
 
 		List<?> objects = block.getContents();
-		if(objects.size() <= 1){
-			return;
+		if(objects.size() == 0){
+			throw new IllegalStateException();
+		} else
+
+		if(objects.size() == 1){
+			return objects.get(0);
 		}
 
-		objects = new ArrayList<>(objects);
+		Object result = objects.get(objects.size() - 1);
+
+		List<?> chainedObjects = chainContent(objects);
 
 		JBlockUtil.clear(block);
+		JBlockUtil.insertAll(block, chainedObjects);
+
+		return result;
+	}
+
+	static
+	List<Object> chainContent(List<?> objects){
+		List<Object> result = new ArrayList<>();
 
 		JIfStatement prevIfStatement = null;
 
@@ -55,15 +69,15 @@ public class NodeScope extends Scope {
 			if(object instanceof JIfStatement){
 				JIfStatement ifStatement = (JIfStatement)object;
 
-				block.add(ifStatement);
+				result.add(ifStatement);
 
 				prevIfStatement = ifStatement;
 			} else
 
 			{
-				JBlockUtil.insert(block, object);
+				result.add(object);
 			}
-		}
+		} // End while
 
 		while(objectIt.hasNext()){
 			Object object = objectIt.next();
@@ -90,5 +104,7 @@ public class NodeScope extends Scope {
 				JBlockUtil.insert(elseBlock, object);
 			}
 		}
+
+		return result;
 	}
 }

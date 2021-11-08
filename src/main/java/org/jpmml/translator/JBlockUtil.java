@@ -24,6 +24,7 @@ import java.util.List;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JFormatter;
+import com.sun.codemodel.JStatement;
 
 public class JBlockUtil {
 
@@ -65,6 +66,24 @@ public class JBlockUtil {
 		}
 
 		return object;
+	}
+
+	static
+	public void insertAll(JBlock block, List<?> objects){
+
+		for(Object object : objects){
+
+			if(object instanceof JStatement){
+				JStatement statement = (JStatement)object;
+
+				block.add(statement);
+			} else
+
+			{
+				JBlockUtil.insert(block, object);
+			}
+		}
+
 	}
 
 	static
