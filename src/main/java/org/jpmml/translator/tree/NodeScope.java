@@ -18,116 +18,77 @@
  */
 package org.jpmml.translator.tree;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JConditional;
-import com.sun.codemodel.JVar;
 import org.jpmml.translator.JBlockUtil;
+import org.jpmml.translator.JIfStatement;
 import org.jpmml.translator.Scope;
 
 public class NodeScope extends Scope {
 
-	public NodeScope(JConditional conditional){
-		super(conditional._then());
+	public NodeScope(JIfStatement ifStatement){
+		super(ifStatement._then());
 	}
 
 	void chainContent(){
 		JBlock block = getBlock();
 
-		List<Object> objects = new ArrayList<>(block.getContents());
+		List<?> objects = block.getContents();
+		if(objects.size() <= 1){
+			return;
+		}
+
+		objects = new ArrayList<>(objects);
 
 		JBlockUtil.clear(block);
 
-		JConditional prevConditional = null;
+		JIfStatement prevIfStatement = null;
 
-		Iterator<Object> objectIt = objects.iterator();
+		Iterator<?> objectIt = objects.iterator();
 
-		if(objectIt.hasNext()){
+		while((prevIfStatement == null) && objectIt.hasNext()){
 			Object object = objectIt.next();
 
-			if(object instanceof JConditional){
-				JConditional conditional = (JConditional)object;
+			if(object instanceof JIfStatement){
+				JIfStatement ifStatement = (JIfStatement)object;
 
-				block.add(conditional);
+				block.add(ifStatement);
 
-				prevConditional = conditional;
-			} else
-
-			if(object instanceof JVar){
-				JVar variable = (JVar)object;
-
-				JBlockUtil.insert(block, variable);
+				prevIfStatement = ifStatement;
 			} else
 
 			{
-				throw new IllegalStateException();
+				JBlockUtil.insert(block, object);
 			}
-		} // End if
-
-		if((prevConditional == null) && objectIt.hasNext()){
-			JConditional conditional = (JConditional)objectIt.next();
-
-			block.add(conditional);
-
-			prevConditional = conditional;
 		}
 
 		while(objectIt.hasNext()){
 			Object object = objectIt.next();
 
-			JBlock elseBlock = prevConditional._else();
+			if(object instanceof JIfStatement){
+				JIfStatement ifStatement = (JIfStatement)object;
 
-			if(object instanceof JConditional){
-				JConditional conditional = (JConditional)object;
+				if(prevIfStatement.hasElse()){
+					JBlock elseBlock = prevIfStatement._else();
 
-				if(elseBlock.isEmpty()){
-					flatten(elseBlock);
+					elseBlock.add(ifStatement);
+
+					prevIfStatement = ifStatement;
+				} else
+
+				{
+					prevIfStatement = prevIfStatement._elseif(ifStatement);
 				}
-
-				elseBlock.add(conditional);
-
-				prevConditional = conditional;
-			} else
-
-			if(object instanceof JVar){
-				JVar variable = (JVar)object;
-
-				JBlockUtil.insert(elseBlock, variable);
 			} else
 
 			{
-				throw new IllegalStateException();
+				JBlock elseBlock = prevIfStatement._else();
+
+				JBlockUtil.insert(elseBlock, object);
 			}
-		}
-	}
-
-	static
-	private void flatten(JBlock block){
-
-		try {
-			Field bracesRequiredField = JBlock.class.getDeclaredField("bracesRequired");
-			if(!bracesRequiredField.isAccessible()){
-				bracesRequiredField.setAccessible(true);
-			}
-
-			bracesRequiredField.set(block, false);
-		} catch(ReflectiveOperationException roe){
-			throw new RuntimeException(roe);
-		} // End try
-
-		try {
-			Field indentRequiredField = JBlock.class.getDeclaredField("indentRequired");
-			if(!indentRequiredField.isAccessible()){
-				indentRequiredField.setAccessible(true);
-			}
-
-			indentRequiredField.set(block, false);
-		} catch(ReflectiveOperationException roe){
-			throw new RuntimeException(roe);
 		}
 	}
 }

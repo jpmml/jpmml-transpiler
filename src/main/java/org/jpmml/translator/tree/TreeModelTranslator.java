@@ -72,6 +72,7 @@ import org.jpmml.translator.FpPrimitiveEncoder;
 import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
+import org.jpmml.translator.JIfStatement;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
@@ -242,9 +243,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		JBlock block = context.block();
 
-		JConditional conditional = block._if(JExpr.TRUE);
+		JIfStatement ifStatement = new JIfStatement(JExpr.TRUE);
 
-		context.pushScope(new NodeScope(conditional));
+		block.add(ifStatement);
+
+		context.pushScope(new NodeScope(ifStatement));
 
 		try {
 			translateNode(treeModel, root, collectDependentNodes(root, Collections.emptyList()), scoreManager, fieldInfos, context);
@@ -646,9 +649,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		JBlock block = scope.getBlock();
 
-		JConditional conditional = block._if(testExpr);
+		JIfStatement ifStatement = new JIfStatement(testExpr);
 
-		return new NodeScope(conditional);
+		block.add(ifStatement);
+
+		return new NodeScope(ifStatement);
 	}
 
 	static

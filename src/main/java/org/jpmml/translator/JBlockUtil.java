@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JFormatter;
 
 public class JBlockUtil {
 
@@ -64,5 +65,20 @@ public class JBlockUtil {
 		}
 
 		return object;
+	}
+
+	static
+	public void generateBody(JBlock block, JFormatter formatter){
+
+		try {
+			Method generateBodyMethod = JBlock.class.getDeclaredMethod("generateBody", JFormatter.class);
+			if(!generateBodyMethod.isAccessible()){
+				generateBodyMethod.setAccessible(true);
+			}
+
+			generateBodyMethod.invoke(block, formatter);
+		} catch(ReflectiveOperationException roe){
+			throw new RuntimeException(roe);
+		}
 	}
 }
