@@ -404,7 +404,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		Object[] categories = getTargetCategories();
 
-		List<NodeScoreDistributionManager<?>> scoreManagers = new ArrayList<>();
+		List<NodeScoreDistributionManager<?>> scoreDistributionManagers = new ArrayList<>();
 
 		List<Number> weights = null;
 
@@ -416,7 +416,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 			Node node = treeModel.getNode();
 
-			NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
+			NodeScoreDistributionManager<?> scoreDistributionManager = new NodeScoreDistributionManager<Number>(context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
 
 				private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
 
@@ -427,7 +427,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				}
 			};
 
-			scoreManagers.add(scoreManager);
+			scoreDistributionManagers.add(scoreDistributionManager);
 
 			switch(multipleModelMethod){
 				case AVERAGE:
@@ -445,7 +445,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 					throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 			}
 
-			JMethod method = createEvaluatorMethod(treeModel, node, scoreManager, fieldInfos, context);
+			JMethod method = createEvaluatorMethod(treeModel, node, scoreDistributionManager, fieldInfos, context);
 
 			methods.add(method);
 
@@ -456,8 +456,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
-		List<Number[][]> scoreValues = scoreManagers.stream()
-			.map(scoreManager -> scoreManager.getValues())
+		List<Number[][]> scoreValues = scoreDistributionManagers.stream()
+			.map(scoreDistributionManager -> scoreDistributionManager.getValues())
 			.collect(Collectors.toList());
 
 		JFieldVar scoresVar = resourceInitializer.initNumberArraysList(IdentifierUtil.create("scores", segmentation), mathContext, scoreValues, categories.length);

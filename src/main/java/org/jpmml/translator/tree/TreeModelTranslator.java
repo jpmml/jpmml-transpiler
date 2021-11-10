@@ -173,7 +173,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		JDefinedClass owner = context.getOwner();
 
-		NodeScoreDistributionManager<?> scoreManager = new NodeScoreDistributionManager<Number>(context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
+		NodeScoreDistributionManager<?> scoreDistributionManager = new NodeScoreDistributionManager<Number>(context.ref(Number[].class), IdentifierUtil.create("scores", node), categories){
 
 			private ValueFactory<Number> valueFactory = ModelTranslator.getValueFactory(treeModel);
 
@@ -196,7 +196,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new MethodScope(evaluateNodeMethod));
 
-			translateNode(treeModel, node, scoreManager, fieldInfos, context);
+			translateNode(treeModel, node, scoreDistributionManager, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}
@@ -210,7 +210,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			context._returnIf(indexVar.eq(NodeScoreDistributionManager.RESULT_MISSING), JExpr._null());
 
-			JVar scoreVar = context.declare(Number[].class, "score", scoreManager.getComponent(indexVar));
+			JVar scoreVar = context.declare(Number[].class, "score", scoreDistributionManager.getComponent(indexVar));
 
 			JVarBuilder valueMapBuilder = createScoreDistribution(categories, scoreVar, context);
 
