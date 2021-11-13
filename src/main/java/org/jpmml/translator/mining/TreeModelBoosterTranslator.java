@@ -26,6 +26,7 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DerivedField;
 import org.dmg.pmml.FieldName;
@@ -53,9 +54,9 @@ import org.jpmml.evaluator.Value;
 import org.jpmml.model.visitors.AbstractVisitor;
 import org.jpmml.model.visitors.NodeFilterer;
 import org.jpmml.translator.FieldInfo;
+import org.jpmml.translator.JCompoundAssignment;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
-import org.jpmml.translator.PMMLObjectUtil;
 import org.jpmml.translator.TranslationContext;
 import org.jpmml.translator.tree.Scorer;
 import org.jpmml.translator.tree.TreeModelTranslator;
@@ -173,7 +174,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 					JBlock block = context.block();
 
 					if(score != null && score.doubleValue() != 0d){
-						block.assignPlus(resultVar, formatScore(score));
+						block.add(createCompoundAssignment(resultVar, score));
 					}
 				}
 
@@ -181,15 +182,31 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 				public void yieldIf(JExpression expression, Number score, TranslationContext context){
 					JBlock block = context.block();
 
-					JBlock thenBlock = block._if(expression)._then();
-
 					if(score != null && score.doubleValue() != 0d){
-						thenBlock.assignPlus(resultVar, formatScore(score));
+						JBlock thenBlock = block._if(expression)._then();
+
+						thenBlock.add(createCompoundAssignment(resultVar, score));
 					}
 				}
 
-				private JExpression formatScore(Number score){
-					return PMMLObjectUtil.createExpression(score, context);
+				private JStatement createCompoundAssignment(JVar resultVar, Number value){
+
+					switch(mathContext){
+						case FLOAT:
+							{
+								float floatValue = value.floatValue();
+
+								return new JCompoundAssignment(resultVar, JExpr.lit(Math.abs(floatValue)), floatValue >= 0f ? "+=" : "-=");
+							}
+						case DOUBLE:
+							{
+								double doubleValue = value.doubleValue();
+
+								return new JCompoundAssignment(resultVar, JExpr.lit(Math.abs(doubleValue)), doubleValue >= 0d ? "+=" : "-=");
+							}
+						default:
+							throw new UnsupportedAttributeException(miningModel, mathContext);
+					}
 				}
 			};
 
