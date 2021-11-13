@@ -97,7 +97,7 @@ public class JIfStatement implements JStatement {
 
 		formatter.g(this._then);
 
-		if(this._else != null){
+		if(this._else != null && !this._else.isEmpty()){
 			formatter.p("else");
 			formatter.g(this._else);
 

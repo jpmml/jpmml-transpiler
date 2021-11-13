@@ -44,6 +44,17 @@ public class Scope {
 		setBlock(block);
 	}
 
+	public void cleanVariableInfo(){
+
+		if(this.variables != null){
+			this.variables.clear();
+		} // End if
+
+		if(this.nonMissingVariables != null){
+			this.nonMissingVariables.clear();
+		}
+	}
+
 	public boolean isNonMissing(OperableRef operableRef){
 		JExpression expression = operableRef.getExpression();
 

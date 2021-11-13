@@ -40,6 +40,7 @@ import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.ComplexArray;
 import org.dmg.pmml.DataType;
+import org.dmg.pmml.Extension;
 import org.dmg.pmml.False;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -245,9 +246,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		block.add(ifStatement);
 
-		context.pushScope(new NodeScope(ifStatement));
-
 		try {
+			context.pushScope(new NodeScope(ifStatement));
+
 			translateNode(treeModel, root, collectDependentNodes(root, Collections.emptyList()), scorer, fieldInfos, context);
 		} finally {
 			context.popScope();
@@ -260,21 +261,41 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		NodeScope nodeScope = translatePredicate(treeModel, node, dependentNodes, scorer, fieldInfos, context);
 
-		context.pushScope(nodeScope);
-
 		try {
+			context.pushScope(nodeScope);
+
 			if(node.hasNodes()){
 				List<Node> children = node.getNodes();
+
+				JIfStatement firstIfStatement = null;
+
+				int offset = 0;
+
+				String prevParentId = null;
 
 				for(int i = 0; i < children.size(); i++){
 					Node child = children.get(i);
 
+					String parentId = getExtension(child, TreeModelTranslator.EXTENSION_PARENT);
+					if(i > 0 && !Objects.equals(prevParentId, parentId)){
+						JIfStatement ifStatement = (JIfStatement)nodeScope.chainContent(offset);
+
+						if(firstIfStatement == null){
+							firstIfStatement = ifStatement;
+						}
+
+						offset = nodeScope.reInit();
+					}
+
 					translateNode(treeModel, child, collectDependentNodes(child, children.subList(i + 1, children.size())), scorer, fieldInfos, context);
+
+					prevParentId = parentId;
 				}
 
-				JIfStatement ifStatement = (JIfStatement)nodeScope.chainContent();
-				if(ifStatement.hasElse()){
-					throw new IllegalStateException();
+				JIfStatement ifStatement = (JIfStatement)nodeScope.chainContent(offset);
+
+				if(firstIfStatement == null){
+					firstIfStatement = ifStatement;
 				}
 
 				TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
@@ -290,7 +311,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 						throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
 				}
 
-				context.pushScope(new Scope(ifStatement._else()));
+				if(firstIfStatement.hasElse()){
+					throw new IllegalStateException();
+				}
+
+				context.pushScope(new Scope(firstIfStatement._else()));
 
 				try {
 					scorer.yield(score, context);
@@ -657,4 +682,37 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		return siblings;
 	}
+
+	static
+	public void addParentExtension(Node node, int parentId){
+		addExtension(node, TreeModelTranslator.EXTENSION_PARENT, String.valueOf(parentId));
+	}
+
+	static
+	public String getExtension(Node node, String name){
+
+		if(node.hasExtensions()){
+			List<Extension> extensions = node.getExtensions();
+
+			for(Extension extension : extensions){
+
+				if((name).equals(extension.getName())){
+					return extension.getValue();
+				}
+			}
+		}
+
+		return null;
+	}
+
+	static
+	public void addExtension(Node node, String name, String value){
+		Extension extension = new Extension()
+			.setName(name)
+			.setValue(value);
+
+		node.addExtensions(extension);
+	}
+
+	public static final String EXTENSION_PARENT = "parent";
 }

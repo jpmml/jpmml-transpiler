@@ -19,10 +19,12 @@
 package org.jpmml.translator.tree;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JVar;
 import org.jpmml.translator.JBlockUtil;
 import org.jpmml.translator.JIfStatement;
 import org.jpmml.translator.Scope;
@@ -33,24 +35,58 @@ public class NodeScope extends Scope {
 		super(ifStatement._then());
 	}
 
-	Object chainContent(){
+	public int reInit(){
 		JBlock block = getBlock();
 
 		List<?> objects = block.getContents();
-		if(objects.size() == 0){
+
+		cleanVariableInfo();
+
+		for(Object object : objects){
+
+			if(object instanceof JVar){
+				JVar variable = (JVar)object;
+
+				putVariable(variable);
+			}
+		}
+
+		return objects.size();
+	}
+
+	Object chainContent(){
+		return chainContent(0);
+	}
+
+	Object chainContent(int offset){
+		JBlock block = getBlock();
+
+		List<?> objects = block.getContents();
+
+		List<?> passiveObjects = Collections.emptyList();
+		List<?> activeObjects = objects;
+
+		if(offset > 0){
+			passiveObjects = new ArrayList<>(objects.subList(0, offset));
+			activeObjects = new ArrayList<>(objects.subList(offset, activeObjects.size()));
+		} // End if
+
+		if(activeObjects.size() == 0){
 			throw new IllegalStateException();
 		} else
 
-		if(objects.size() == 1){
-			return objects.get(0);
+		if(activeObjects.size() == 1){
+			return activeObjects.get(0);
 		}
 
-		Object result = objects.get(objects.size() - 1);
+		Object result = activeObjects.get(activeObjects.size() - 1);
 
-		List<?> chainedObjects = chainContent(objects);
+		List<?> chainedActiveObjects = chainContent(activeObjects);
 
 		JBlockUtil.clear(block);
-		JBlockUtil.insertAll(block, chainedObjects);
+
+		JBlockUtil.insertAll(block, passiveObjects);
+		JBlockUtil.insertAll(block, chainedActiveObjects);
 
 		return result;
 	}
