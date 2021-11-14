@@ -56,7 +56,7 @@ public class ArrayManager<E> {
 		JType componentType = getComponentType();
 		String name = getName();
 
-		this.arrayVar = owner.field(ModelTranslator.MEMBER_PRIVATE, componentType.array(), name);
+		this.arrayVar = owner.field(Modifiers.MEMBER_PRIVATE, componentType.array(), name);
 	}
 
 	public void initArray(){

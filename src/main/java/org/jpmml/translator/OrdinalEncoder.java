@@ -122,7 +122,7 @@ public class OrdinalEncoder implements Encoder {
 			return isSetMethod;
 		}
 
-		isSetMethod = owner.method(ModelTranslator.MEMBER_PRIVATE, boolean.class, "isSet");
+		isSetMethod = owner.method(Modifiers.MEMBER_PRIVATE, boolean.class, "isSet");
 
 		JVar bitSetParam = isSetMethod.param(intType, "bitSet");
 		JVar indexParam = isSetMethod.param(intType, "index");

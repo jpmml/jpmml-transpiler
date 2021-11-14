@@ -73,6 +73,7 @@ import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
+import org.jpmml.translator.Modifiers;
 import org.jpmml.translator.OperableRef;
 import org.jpmml.translator.PMMLObjectUtil;
 import org.jpmml.translator.Scope;
@@ -428,7 +429,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(textIndex, name);
 
-			JFieldVar textIndexVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(TextIndex.class), IdentifierUtil.create("textIndex", regressionTable, name), PMMLObjectUtil.createObject(localTextIndex, context));
+			JFieldVar textIndexVar = owner.field(Modifiers.MEMBER_PRIVATE, context.ref(TextIndex.class), IdentifierUtil.create("textIndex", regressionTable, name), PMMLObjectUtil.createObject(localTextIndex, context));
 
 			List<String>[] terms = predictors.stream()
 				.map(termFunction)
@@ -436,7 +437,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JFieldVar termsVar = resourceInitializer.initStringLists(IdentifierUtil.create("terms", regressionTable, name), terms);
 
-			JFieldVar termIndicesVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable, name), JExpr._new(context.ref(LinkedHashMap.class).narrow(Collections.emptyList())));
+			JFieldVar termIndicesVar = owner.field(Modifiers.MEMBER_PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable, name), JExpr._new(context.ref(LinkedHashMap.class).narrow(Collections.emptyList())));
 
 			JForLoop termIndicesForLoop = new JForLoop();
 

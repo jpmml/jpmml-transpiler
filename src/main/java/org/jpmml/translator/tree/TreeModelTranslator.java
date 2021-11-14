@@ -75,6 +75,7 @@ import org.jpmml.translator.JIfStatement;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
+import org.jpmml.translator.Modifiers;
 import org.jpmml.translator.OperableRef;
 import org.jpmml.translator.OrdinalEncoder;
 import org.jpmml.translator.PMMLObjectUtil;
@@ -577,7 +578,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(textIndex, name);
 
-			textIndexVar = owner.field(ModelTranslator.MEMBER_PRIVATE, context.ref(TextIndex.class), textIndexName, PMMLObjectUtil.createObject(localTextIndex, context));
+			textIndexVar = owner.field(Modifiers.MEMBER_PRIVATE, context.ref(TextIndex.class), textIndexName, PMMLObjectUtil.createObject(localTextIndex, context));
 
 			List<String>[] terms = (encoder.getVocabulary()).stream()
 				.toArray(List[]::new);

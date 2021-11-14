@@ -91,7 +91,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	public JExpression translate(TranslationContext context){
 		M model = getModel();
 
-		JDefinedClass javaModelClazz = PMMLObjectUtil.createMemberClass(ModelTranslator.MEMBER_PUBLIC, IdentifierUtil.create(JavaModel.class.getSimpleName(), model), context);
+		JDefinedClass javaModelClazz = PMMLObjectUtil.createMemberClass(Modifiers.MEMBER_PUBLIC, IdentifierUtil.create(JavaModel.class.getSimpleName(), model), context);
 
 		javaModelClazz._extends(JavaModel.class);
 
@@ -363,7 +363,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	private JMethod createEvaluatorMethod(Class<?> type, String name, boolean withValueFactory, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(ModelTranslator.MEMBER_PRIVATE, type, name);
+		JMethod method = owner.method(Modifiers.MEMBER_PRIVATE, type, name);
 
 		if(withValueFactory){
 			JTypeVar numberTypeVar = method.generify(MethodScope.TYPEVAR_NUMBER, Number.class);
@@ -431,7 +431,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			}
 		}
 
-		JDefinedClass argumentsClazz = PMMLObjectUtil.createMemberClass(ModelTranslator.MEMBER_PUBLIC, "Arguments", context);
+		JDefinedClass argumentsClazz = PMMLObjectUtil.createMemberClass(Modifiers.MEMBER_PUBLIC, "Arguments", context);
 
 		JFieldVar contextVar = argumentsClazz.field(JMod.PRIVATE, EvaluationContext.class, "context");
 
@@ -506,7 +506,4 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 		miningSchema.addMiningFields(miningField);
 	}
-
-	public static final int MEMBER_PUBLIC = (JMod.PUBLIC | JMod.FINAL | JMod.STATIC);
-	public static final int MEMBER_PRIVATE = (JMod.PRIVATE | JMod.FINAL | JMod.STATIC);
 }

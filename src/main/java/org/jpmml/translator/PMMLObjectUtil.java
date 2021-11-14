@@ -95,7 +95,7 @@ public class PMMLObjectUtil {
 
 		definedClazz._extends(clazz);
 
-		JMethod loaderMethod = definedClazz.method(ModelTranslator.MEMBER_PRIVATE, void.class, "ensureLoaded");
+		JMethod loaderMethod = definedClazz.method(Modifiers.MEMBER_PRIVATE, void.class, "ensureLoaded");
 
 		JBlock init = definedClazz.init();
 
@@ -117,7 +117,7 @@ public class PMMLObjectUtil {
 			throw new IllegalArgumentException(jcaee);
 		}
 
-		JMethod loaderMethod = definedClazz.method(ModelTranslator.MEMBER_PRIVATE, void.class, "ensureLoaded");
+		JMethod loaderMethod = definedClazz.method(Modifiers.MEMBER_PRIVATE, void.class, "ensureLoaded");
 
 		JMethod ownerLoaderMethod = owner.getMethod("ensureLoaded", new JType[0]);
 
