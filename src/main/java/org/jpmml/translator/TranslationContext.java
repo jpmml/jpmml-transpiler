@@ -434,7 +434,7 @@ public class TranslationContext {
 				JBlock defaultBlock = switchBlock._default().body();
 
 				defaultBlock._return(PMMLObjectUtil.createExpression(defaultResult, this));
-				} else
+			} else
 
 			{
 				throw new IllegalArgumentException();

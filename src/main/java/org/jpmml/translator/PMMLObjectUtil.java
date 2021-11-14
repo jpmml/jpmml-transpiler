@@ -51,6 +51,7 @@ import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.DefineFunction;
+import org.dmg.pmml.Expression;
 import org.dmg.pmml.False;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.HasDiscreteDomain;
@@ -455,6 +456,22 @@ public class PMMLObjectUtil {
 				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
 
 				return JExpr.invoke(builderMethod);
+			} else
+
+			if(pmmlObject instanceof Expression){
+				Expression expression = (Expression)pmmlObject;
+
+				ExpressionTranslatorFactory expressionTranslatorFactory = ExpressionTranslatorFactory.getInstance();
+
+				try {
+					ExpressionTranslator<?> expressionTranslator = expressionTranslatorFactory.newExpressionTranslator(expression);
+
+					return expressionTranslator.translate(context);
+				} catch(PMMLException pe){
+					context.addIssue(pe);
+				}
+
+				return createObject(pmmlObject, context);
 			}
 
 			return createObject(pmmlObject, context);
