@@ -21,6 +21,7 @@ package org.jpmml.translator.mining;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
@@ -124,6 +125,23 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 				default:
 					throw new UnsupportedAttributeException(treeModel, missingValueStrategy);
 			}
+		}
+
+		AtomicInteger nodeCount = new AtomicInteger(0);
+
+		Visitor nodeCounter = new AbstractVisitor(){
+
+			@Override
+			public VisitorAction visit(Node node){
+				nodeCount.incrementAndGet();
+
+				return super.visit(node);
+			}
+		};
+		nodeCounter.applyTo(segmentation);
+
+		if(nodeCount.get() > TreeModelBoosterTranslator.NODE_COUNT_LIMIT){
+			throw new UnsupportedElementException(segmentation);
 		}
 	}
 
@@ -387,4 +405,6 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		return treeModel;
 	}
+
+	public static final int NODE_COUNT_LIMIT = Integer.getInteger(TreeModelBoosterTranslator.class.getName() + "#" + "NODE_COUNT_LIMIT", 1000);
 }
