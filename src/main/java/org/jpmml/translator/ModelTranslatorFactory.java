@@ -40,7 +40,9 @@ public class ModelTranslatorFactory extends ModelManagerFactory<ModelTranslator<
 	}
 
 	static
-	public ModelTranslatorFactory newInstance(){
-		return new ModelTranslatorFactory();
+	public ModelTranslatorFactory getInstance(){
+		return ModelTranslatorFactory.INSTANCE;
 	}
+
+	private static final ModelTranslatorFactory INSTANCE = new ModelTranslatorFactory();
 }

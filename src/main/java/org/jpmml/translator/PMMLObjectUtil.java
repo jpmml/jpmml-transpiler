@@ -442,7 +442,7 @@ public class PMMLObjectUtil {
 				PMML pmml = context.getPMML();
 				Model model = (Model)pmmlObject;
 
-				ModelTranslatorFactory modelTranslatorFactory = ModelTranslatorFactory.newInstance();
+				ModelTranslatorFactory modelTranslatorFactory = ModelTranslatorFactory.getInstance();
 
 				try {
 					ModelTranslator<?> modelTranslator = modelTranslatorFactory.newModelTranslator(pmml, model);

@@ -42,9 +42,6 @@ import org.jpmml.translator.ModelTranslatorFactory;
 abstract
 public class MiningModelTranslator extends ModelTranslator<MiningModel> {
 
-	private ModelTranslatorFactory modelTranslatorFactory = null;
-
-
 	public MiningModelTranslator(PMML pmml, MiningModel miningModel){
 		super(pmml, miningModel);
 
@@ -66,20 +63,9 @@ public class MiningModelTranslator extends ModelTranslator<MiningModel> {
 	public ModelTranslator<?> newModelTranslator(Model model){
 		PMML pmml = getPMML();
 
-		ModelTranslatorFactory modelTranslatorFactory = getModelTranslatorFactory();
-		if(modelTranslatorFactory == null){
-			modelTranslatorFactory = ModelTranslatorFactory.newInstance();
-		}
+		ModelTranslatorFactory modelTranslatorFactory = ModelTranslatorFactory.getInstance();
 
 		return modelTranslatorFactory.newModelTranslator(pmml, model);
-	}
-
-	public ModelTranslatorFactory getModelTranslatorFactory(){
-		return this.modelTranslatorFactory;
-	}
-
-	public void setModelTranslatorFactory(ModelTranslatorFactory modelTranslatorFactory){
-		this.modelTranslatorFactory = modelTranslatorFactory;
 	}
 
 	static
