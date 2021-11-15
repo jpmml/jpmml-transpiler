@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -39,6 +40,7 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JCase;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
@@ -422,18 +424,55 @@ public class TranslationContext {
 			} else
 
 			if(resultMap.size() > 1){
-				JSwitch switchBlock = block._switch(valueExpr);
+				JSwitch switchStatement = block._switch(valueExpr);
+
+				JCase identityCase = null;
+
+				Map<V, JCase> valueCases = new HashMap<>();
 
 				Collection<? extends Map.Entry<?, V>> entries = resultMap.entrySet();
 				for(Map.Entry<?, V> entry : entries){
-					JBlock caseBlock = switchBlock._case(PMMLObjectUtil.createExpression(entry.getKey(), this)).body();
+					JCase valueCase = switchStatement._case(PMMLObjectUtil.createExpression(entry.getKey(), this));
 
-					caseBlock._return(PMMLObjectUtil.createExpression(entry.getValue(), this));
+					if(Objects.equals(entry.getKey(), entry.getValue())){
+
+						if(identityCase != null){
+							JSwitchUtil.chainCases(switchStatement, identityCase, valueCase);
+						} else
+
+						{
+							JBlock caseBlock = valueCase.body();
+
+							caseBlock._return(valueExpr);
+						}
+
+						identityCase = valueCase;
+					} else
+
+					{
+						JCase prevValueCase = valueCases.get(entry.getValue());
+
+						if(prevValueCase != null){
+							JSwitchUtil.chainCases(switchStatement, prevValueCase, valueCase);
+						} else
+
+						{
+							JBlock caseBlock = valueCase.body();
+
+							caseBlock._return(PMMLObjectUtil.createExpression(entry.getValue(), this));
+						}
+
+						valueCases.put(entry.getValue(), valueCase);
+					}
 				}
 
-				JBlock defaultBlock = switchBlock._default().body();
+				{
+					JCase defaultCase = switchStatement._default();
 
-				defaultBlock._return(PMMLObjectUtil.createExpression(defaultResult, this));
+					JBlock defaultBlock = defaultCase.body();
+
+					defaultBlock._return(PMMLObjectUtil.createExpression(defaultResult, this));
+				}
 			} else
 
 			{
