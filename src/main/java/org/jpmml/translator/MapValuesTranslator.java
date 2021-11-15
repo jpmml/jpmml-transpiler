@@ -80,7 +80,7 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 
 		JVar valueVar = context.declare(FieldValue.class, "value", (context.getContextVariable()).evaluate(PMMLObjectUtil.createExpression(fieldColumnPair.getField(), context)));
 
-		JMethod mapValueMethod = owner.method(JMod.PUBLIC, toJavaType(outputDataType), "mapValues");
+		JMethod mapValueMethod = owner.method(JMod.PUBLIC, Object.class, "mapValues");
 
 		JVar valueParam = mapValueMethod.param(context.ref(FieldValue.class), "value");
 
@@ -110,7 +110,7 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 					break;
 				default:
 					{
-						JVar javaValueVar = context.declare(toJavaType(inputDataType), "javaValue", fieldValueRef.asJavaValue());
+						JVar javaValueVar = context.declare(fieldValueRef.getJavaType(), "javaValue", fieldValueRef.asJavaValue());
 
 						context._return(javaValueVar, mapping, defaultValue);
 					}

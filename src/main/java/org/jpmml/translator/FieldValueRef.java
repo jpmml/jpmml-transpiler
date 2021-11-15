@@ -39,6 +39,25 @@ public class FieldValueRef extends JVarRef {
 		setDataType(dataType);
 	}
 
+	public Class<?> getJavaType(){
+		DataType dataType = getDataType();
+
+		switch(dataType){
+			case STRING:
+				return String.class;
+			case INTEGER:
+				return Integer.class;
+			case FLOAT:
+				return Float.class;
+			case DOUBLE:
+				return Double.class;
+			case BOOLEAN:
+				return Boolean.class;
+			default:
+				throw new IllegalArgumentException(dataType.toString());
+		}
+	}
+
 	public JInvocation asJavaValue(){
 		DataType dataType = getDataType();
 

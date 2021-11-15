@@ -25,7 +25,6 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
-import org.dmg.pmml.DataType;
 import org.dmg.pmml.Expression;
 import org.jpmml.evaluator.EvaluationContext;
 import org.jpmml.evaluator.FieldValue;
@@ -87,24 +86,5 @@ public class ExpressionTranslator<E extends Expression> {
 
 	private void setExpression(E expression){
 		this.expression = expression;
-	}
-
-	static
-	protected Class<?> toJavaType(DataType dataType){
-
-		switch(dataType){
-			case STRING:
-				return String.class;
-			case INTEGER:
-				return Integer.class;
-			case FLOAT:
-				return Float.class;
-			case DOUBLE:
-				return Double.class;
-			case BOOLEAN:
-				return Boolean.class;
-			default:
-				throw new IllegalArgumentException();
-		}
 	}
 }

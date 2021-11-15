@@ -90,7 +90,9 @@ public class OrdinalEncoder implements Encoder {
 
 			context._returnIf(valueVar.eq(JExpr._null()), OrdinalEncoder.MISSING_VALUE);
 
-			context._return(fieldValueRef.asJavaValue(), this.indexMap, 0);
+			JVar javaValueVar = context.declare(fieldValueRef.getJavaType(), "javaValue", fieldValueRef.asJavaValue());
+
+			context._return(javaValueVar, this.indexMap, 0);
 		} finally {
 			context.popScope();
 		}
