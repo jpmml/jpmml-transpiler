@@ -375,6 +375,14 @@ public class TranslationContext {
 		block.add(statement);
 	}
 
+	public void _comment(String string){
+		Scope scope = ensureOpenScope();
+
+		JBlock block = scope.getBlock();
+
+		block.directStatement("// " + string);
+	}
+
 	public void _returnIf(JExpression testExpr, JExpression resultExpr){
 		Scope scope = ensureOpenScope();
 

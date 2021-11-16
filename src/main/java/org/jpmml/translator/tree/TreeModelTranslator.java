@@ -285,6 +285,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 							firstIfStatement = ifStatement;
 						}
 
+						context._comment("break");
+
 						offset = nodeScope.reInit();
 					}
 
