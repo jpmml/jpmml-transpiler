@@ -20,6 +20,7 @@ package org.jpmml.translator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
@@ -30,6 +31,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPrimitiveType;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+import org.dmg.pmml.DataField;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -203,13 +205,21 @@ public class FpPrimitiveEncoder implements Encoder {
 	}
 
 	static
-	public FpPrimitiveEncoder create(FieldInfo fieldInfo){
+	public FpPrimitiveEncoder create(FieldInfo fieldInfo, Map<Field<?>, ArrayInfo> fieldArrayInfos){
 
 		while(fieldInfo != null){
 			Field<?> field = fieldInfo.getField();
 
 			if(!isCastable(field)){
 				break;
+			}
+
+			ArrayInfo arrayInfo = fieldArrayInfos.get(field);
+			if(arrayInfo != null){
+				Integer index = arrayInfo.getIndex((DataField)field);
+
+				return new ArrayFpPrimitiveEncoder(arrayInfo)
+					.setIndex(index);
 			}
 
 			FunctionInvocation functionInvocation = fieldInfo.getFunctionInvocation();

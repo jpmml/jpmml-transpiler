@@ -30,7 +30,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JDefinedClass;
@@ -43,6 +46,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
+import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.DataField;
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.DerivedField;
@@ -51,17 +55,19 @@ import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.HasFieldReference;
 import org.dmg.pmml.MathContext;
-import org.dmg.pmml.MiningField;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.MiningSchema;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.Output;
 import org.dmg.pmml.PMML;
+import org.dmg.pmml.PMMLAttributes;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Target;
 import org.dmg.pmml.Visitor;
 import org.dmg.pmml.VisitorAction;
 import org.jpmml.evaluator.EvaluationContext;
+import org.jpmml.evaluator.IndexableUtil;
+import org.jpmml.evaluator.InputField;
 import org.jpmml.evaluator.ModelManager;
 import org.jpmml.evaluator.TargetField;
 import org.jpmml.evaluator.UnsupportedAttributeException;
@@ -247,9 +253,9 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		};
 		fieldResolver.applyTo(pmml);
 
-		Set<FieldName> names = ActiveFieldFinder.getFieldNames(bodyObjects.toArray(new PMMLObject[bodyObjects.size()]));
-
 		Map<FieldName, FieldInfo> result = new LinkedHashMap<>();
+
+		Set<FieldName> names = ActiveFieldFinder.getFieldNames(bodyObjects.toArray(new PMMLObject[bodyObjects.size()]));
 		for(FieldName name : names){
 			Field<?> field = bodyFields.get(name);
 
@@ -274,12 +280,84 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		return result;
 	}
 
+	public Map<String, ArrayInfo> getArrayInfos(){
+		Map<String, ArrayInfo> result = new LinkedHashMap<>();
+
+		// XXX
+		Pattern pattern = Pattern.compile("^(.+)\\_(\\d+)");
+
+		Matcher matcher = null;
+
+		List<InputField> inputFields = getInputFields();
+		for(InputField inputField : inputFields){
+			FieldName name = inputField.getFieldName();
+
+			if(matcher == null){
+				matcher = pattern.matcher(name.getValue());
+			} else
+
+			{
+				matcher.reset(name.getValue());
+			} // End if
+
+			if(matcher.matches()){
+				String arrayName = matcher.group(1);
+				Integer arrayIndex = Integer.parseInt(matcher.group(2));
+
+				DataField dataField = getDataField(name);
+
+				ArrayInfo arrayInfo = result.get(arrayName);
+				if(arrayInfo == null){
+					arrayInfo = new ArrayInfo(arrayName);
+
+					result.put(arrayName, arrayInfo);
+				}
+
+				arrayInfo.setElement(arrayIndex, dataField);
+			}
+		}
+
+		return result;
+	}
+
 	public Object[] getTargetCategories(){
 		TargetField targetField = getTargetField();
 
 		List<?> categories = targetField.getCategories();
 
 		return categories.toArray(new Object[categories.size()]);
+	}
+
+	protected void declareArrayFields(Collection<ArrayInfo> arrayInfos){
+		PMML pmml = getPMML();
+
+		if(arrayInfos.isEmpty()){
+			return;
+		}
+
+		DataDictionary dataDictionary = pmml.getDataDictionary();
+		if(dataDictionary == null){
+			dataDictionary = new DataDictionary();
+
+			pmml.setDataDictionary(dataDictionary);
+		}
+
+		for(ArrayInfo arrayInfo : arrayInfos){
+			DataField dataField = new DataField(FieldName.create(arrayInfo.getName()), arrayInfo.getOpType(), arrayInfo.getDataType());
+
+			dataDictionary.addDataFields(dataField);
+		}
+
+		try {
+			java.lang.reflect.Field dataFieldsField = ModelManager.class.getDeclaredField("dataFields");
+			if(!dataFieldsField.isAccessible()){
+				dataFieldsField.setAccessible(true);
+			}
+
+			dataFieldsField.set(this, ImmutableMap.copyOf(IndexableUtil.buildMap(dataDictionary.getDataFields(), PMMLAttributes.DATAFIELD_NAME)));
+		} catch(ReflectiveOperationException roe){
+			throw new RuntimeException(roe);
+		}
 	}
 
 	static
@@ -470,11 +548,6 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 					fieldInfos.put(name, refFieldInfo);
 
-					// XXX
-					if(refField instanceof DataField){
-						ensureActive(refField, miningSchema);
-					}
-
 					enhanceFieldInfo(refFieldInfo, miningSchema, bodyFields, fieldInfos, context);
 				}
 
@@ -485,25 +558,5 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 			fieldInfo.setFunctionInvocation(functionInvocation);
 		}
-	}
-
-	static
-	private void ensureActive(Field<?> field, MiningSchema miningSchema){
-		FieldName name = field.getName();
-
-		if(miningSchema.hasMiningFields()){
-			List<MiningField> miningFields = miningSchema.getMiningFields();
-
-			for(MiningField miningField : miningFields){
-
-				if((miningField.getName()).equals(name)){
-					return;
-				}
-			}
-		}
-
-		MiningField miningField = new MiningField(name);
-
-		miningSchema.addMiningFields(miningField);
 	}
 }

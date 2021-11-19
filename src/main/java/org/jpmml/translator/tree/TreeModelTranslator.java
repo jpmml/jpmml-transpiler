@@ -18,8 +18,10 @@
  */
 package org.jpmml.translator.tree;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -39,6 +41,7 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.ComplexArray;
+import org.dmg.pmml.DataField;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Extension;
 import org.dmg.pmml.False;
@@ -65,6 +68,8 @@ import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.java.JavaModel;
+import org.jpmml.translator.ArrayFpPrimitiveEncoder;
+import org.jpmml.translator.ArrayInfo;
 import org.jpmml.translator.Encoder;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FpPrimitiveEncoder;
@@ -227,8 +232,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	@Override
 	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
 		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(bodyObjects);
+		Map<String, ArrayInfo> arrayInfos = getArrayInfos();
 
-		fieldInfos = TreeModelTranslator.enhanceFieldInfos(bodyObjects, fieldInfos);
+		declareArrayFields(arrayInfos.values());
+
+		fieldInfos = TreeModelTranslator.enhanceFieldInfos(bodyObjects, fieldInfos, arrayInfos);
 
 		return fieldInfos;
 	}
@@ -461,7 +469,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public Map<FieldName, FieldInfo> enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, Map<FieldName, FieldInfo> fieldInfos){
+	public Map<FieldName, FieldInfo> enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, Map<FieldName, FieldInfo> fieldInfos, Map<String, ArrayInfo> arrayInfos){
 		CountingActiveFieldFinder countingActiveFieldFinder = new CountingActiveFieldFinder();
 		DiscreteValueFinder discreteValueFinder = new DiscreteValueFinder();
 
@@ -473,6 +481,29 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		}
 
 		Map<FieldName, Set<Object>> discreteFieldValues = discreteValueFinder.getFieldValues();
+
+		Map<ArrayInfo, List<DataField>> arrayInfoElements = new HashMap<>();
+
+		Map<Field<?>, ArrayInfo> fieldArrayInfos = new HashMap<>();
+
+		(arrayInfos.values()).stream()
+			.forEach((arrayInfo) -> {
+				List<Integer> indices = arrayInfo.getIndices();
+				Map<Integer, DataField> dataFields = arrayInfo.getDataFields();
+
+				int min = Collections.min(indices);
+				int max = Collections.max(indices);
+
+				List<DataField> elements = new ArrayList<>(max + 1);
+				for(int i = 0; i <= max; i++){
+					elements.add(dataFields.get(i));
+				}
+
+				arrayInfoElements.put(arrayInfo, elements);
+
+				(dataFields.values()).stream()
+					.forEach((dataField) -> fieldArrayInfos.put(dataField, arrayInfo));
+			});
 
 		ListMultimap<FieldName, List<String>> tfTokens = ArrayListMultimap.create();
 
@@ -497,7 +528,18 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 								// Falls through
 							case FLOAT:
 							case DOUBLE:
-								Encoder encoder = FpPrimitiveEncoder.create(fieldInfo);
+								Encoder encoder = FpPrimitiveEncoder.create(fieldInfo, fieldArrayInfos);
+
+								if(encoder instanceof ArrayFpPrimitiveEncoder){
+									ArrayFpPrimitiveEncoder arrayFpPrimitiveEncoder = (ArrayFpPrimitiveEncoder)encoder;
+
+									ArrayInfo arrayInfo = arrayFpPrimitiveEncoder.getArrayInfo();
+
+									List<DataField> elements = arrayInfoElements.get(arrayInfo);
+
+									arrayFpPrimitiveEncoder
+										.setElements(elements);
+								} else
 
 								if(encoder instanceof TermFrequencyEncoder){
 									TermFrequencyEncoder termFrequencyEncoder = (TermFrequencyEncoder)encoder;
@@ -513,7 +555,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 										tokens.add(tf.getTermTokens());
 									}
 
-									termFrequencyEncoder.setIndex(index);
+									termFrequencyEncoder
+										.setIndex(index)
+										.setVocabulary(tokens);
 								} else
 
 								{
@@ -542,21 +586,6 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					break;
 				default:
 					break;
-			}
-		}
-
-		for(Map.Entry<FieldName, FieldInfo> entry : entries){
-			FieldName name = entry.getKey();
-			FieldInfo fieldInfo = entry.getValue();
-
-			Encoder encoder = fieldInfo.getEncoder();
-
-			if(encoder instanceof TermFrequencyEncoder){
-				TermFrequencyEncoder termFrequencyEncoder = (TermFrequencyEncoder)encoder;
-
-				FunctionInvocation.Tf tf = termFrequencyEncoder.getTf(fieldInfo);
-
-				termFrequencyEncoder.setVocabulary(tfTokens.get(tf.getTextField()));
 			}
 		}
 

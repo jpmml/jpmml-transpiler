@@ -158,8 +158,10 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 		return this.index;
 	}
 
-	public void setIndex(int index){
+	public TermFrequencyEncoder setIndex(int index){
 		this.index = index;
+
+		return this;
 	}
 
 	@Override
@@ -176,8 +178,10 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 		return this.vocabulary;
 	}
 
-	public void setVocabulary(List<List<String>> vocabulary){
+	public TermFrequencyEncoder setVocabulary(List<List<String>> vocabulary){
 		this.vocabulary = vocabulary;
+
+		return this;
 	}
 
 	public FunctionInvocation.Tf getTf(FieldInfo fieldInfo){

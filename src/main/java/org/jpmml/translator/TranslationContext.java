@@ -286,8 +286,12 @@ public class TranslationContext {
 				TermFrequencyEncoder termFrequencyEncoder = (TermFrequencyEncoder)encoder;
 
 				TreeModelTranslator.ensureTextIndexFields(fieldInfo, termFrequencyEncoder, this);
+			} // End if
 
-				initArgExprs = new JExpression[]{JExpr.lit(termFrequencyEncoder.getIndex())};
+			if(encoder instanceof ArrayEncoder){
+				ArrayEncoder arrayEncoder = (ArrayEncoder)encoder;
+
+				initArgExprs = new JExpression[]{JExpr.lit(arrayEncoder.getIndex())};
 			}
 
 			ArgumentsRef argumentsRef = getArgumentsVariable();

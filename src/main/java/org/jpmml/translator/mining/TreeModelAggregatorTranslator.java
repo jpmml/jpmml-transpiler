@@ -64,6 +64,7 @@ import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueAggregator;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.translator.AggregatorBuilder;
+import org.jpmml.translator.ArrayInfo;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
@@ -202,8 +203,11 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		}
 
 		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(nodes);
+		Map<String, ArrayInfo> arrayInfos = getArrayInfos();
 
-		fieldInfos = TreeModelTranslator.enhanceFieldInfos(nodes, fieldInfos);
+		declareArrayFields(arrayInfos.values());
+
+		fieldInfos = TreeModelTranslator.enhanceFieldInfos(nodes, fieldInfos, arrayInfos);
 
 		return fieldInfos;
 	}

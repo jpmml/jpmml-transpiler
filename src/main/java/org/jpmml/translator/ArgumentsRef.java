@@ -66,7 +66,7 @@ public class ArgumentsRef extends JVarRef {
 
 			memberName = finalFieldInfo.getMemberName();
 
-			if(encoder instanceof TermFrequencyEncoder){
+			if(encoder instanceof ArrayEncoder){
 				argTypes = new JType[]{codeModel.INT};
 			}
 		} else
@@ -109,7 +109,7 @@ public class ArgumentsRef extends JVarRef {
 
 		JVar indexParam = null;
 
-		if(encoder instanceof TermFrequencyEncoder){
+		if(encoder instanceof ArrayEncoder){
 			indexParam = method.param(codeModel.INT, "index");
 		}
 
@@ -117,7 +117,7 @@ public class ArgumentsRef extends JVarRef {
 
 		JExpression valueExpr;
 
-		if(encoder instanceof TermFrequencyEncoder){
+		if(encoder instanceof ArrayEncoder){
 			valueExpr = JExpr.invoke(encoderMethod).arg(indexParam);
 		} else
 
