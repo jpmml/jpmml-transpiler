@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.MoreCollectors;
-
 import org.dmg.pmml.LocalTransformations;
 import org.dmg.pmml.Model;
 import org.jpmml.model.ReflectionUtil;

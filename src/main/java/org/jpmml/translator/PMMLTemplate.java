@@ -21,12 +21,12 @@ package org.jpmml.translator;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
 import com.sun.codemodel.JInvocation;
-
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLElements;
@@ -45,7 +45,7 @@ import org.jpmml.model.visitors.VisitorBattery;
 public class PMMLTemplate extends Template {
 
 	PMMLTemplate(Class<? extends PMML> clazz){
-		super(clazz, getFields(clazz));
+		super(clazz, getFields(clazz), Collections.singleton(PMMLElements.PMML_DATADICTIONARY));
 	}
 
 	@Override
@@ -128,7 +128,9 @@ public class PMMLTemplate extends Template {
 	private List<Field> getFields(Class<? extends PMML> clazz){
 		List<Field> fields = new ArrayList<>(ReflectionUtil.getFields(clazz));
 
+		fields.remove(PMMLElements.PMML_DATADICTIONARY);
 		fields.remove(PMMLElements.PMML_TRANSFORMATIONDICTIONARY);
+		fields.add(fields.size(), PMMLElements.PMML_DATADICTIONARY);
 		fields.add(fields.size(), PMMLElements.PMML_TRANSFORMATIONDICTIONARY);
 
 		return fields;

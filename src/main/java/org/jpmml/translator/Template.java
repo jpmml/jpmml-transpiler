@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -44,6 +46,8 @@ import org.jpmml.model.annotations.ValueConstructor;
 
 public class Template {
 
+	private Set<Field> suppressedValueConstructorFields = null;
+
 	private List<Field> instanceFields = Collections.emptyList();
 
 	private List<Field> valueConstructorFields = Collections.emptyList();
@@ -56,6 +60,12 @@ public class Template {
 	}
 
 	Template(Class<? extends PMMLObject> clazz, List<Field> instanceFields){
+		this(clazz, instanceFields, Collections.emptySet());
+	}
+
+	Template(Class<? extends PMMLObject> clazz, List<Field> instanceFields, Set<Field> suppressedValueConstructorFields){
+		this.suppressedValueConstructorFields = Objects.requireNonNull(suppressedValueConstructorFields);
+
 		Map<String, Field> fields = new LinkedHashMap<>();
 
 		for(Field instanceField : instanceFields){
@@ -85,7 +95,10 @@ public class Template {
 			for(int i = 0; i < parameterAnnotations.length; i++){
 				Property property = (Property)parameterAnnotations[i][0];
 
-				Field valueConstructorField = fields.remove(property.value());
+				Field valueConstructorField = fields.get(property.value());
+				if(!this.suppressedValueConstructorFields.contains(valueConstructorField)){
+					fields.remove(property.value());
+				}
 
 				this.valueConstructorFields.add(valueConstructorField);
 			}
@@ -98,7 +111,15 @@ public class Template {
 		List<Field> valueConstructorFields = getValueConstructorFields();
 
 		for(Field valueConstructorField : valueConstructorFields){
-			Object value = ReflectionUtil.getFieldValue(valueConstructorField, object);
+			Object value;
+
+			if(!this.suppressedValueConstructorFields.contains(valueConstructorField)){
+				value = ReflectionUtil.getFieldValue(valueConstructorField, object);
+			} else
+
+			{
+				value = null;
+			}
 
 			PMMLObjectUtil.addValueConstructorParam(valueConstructorField, value, invocation, context);
 		}
