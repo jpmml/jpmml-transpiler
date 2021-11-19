@@ -20,11 +20,14 @@ package org.jpmml.translator;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.collect.MoreCollectors;
 import org.dmg.pmml.LocalTransformations;
 import org.dmg.pmml.Model;
+import org.dmg.pmml.Output;
+import org.dmg.pmml.PMMLObject;
 import org.jpmml.model.ReflectionUtil;
 
 public class ModelTemplate extends Template {
@@ -37,13 +40,22 @@ public class ModelTemplate extends Template {
 	private List<Field> getFields(Class<? extends Model> clazz){
 		List<Field> fields = new ArrayList<>(ReflectionUtil.getFields(clazz));
 
-		Field localTransformationsField = fields.stream()
-			.filter(field -> (LocalTransformations.class).isAssignableFrom(field.getType()))
-			.collect(MoreCollectors.onlyElement());
+		Field localTransformationsField = getField(fields, LocalTransformations.class);
+		Field outputField = getField(fields, Output.class);
 
 		fields.remove(localTransformationsField);
+		fields.remove(outputField);
+
 		fields.add(fields.size(), localTransformationsField);
+		fields.add(fields.size(), outputField);
 
 		return fields;
+	}
+
+	static
+	private Field getField(Collection<Field> fields, Class<? extends PMMLObject> clazz){
+		return fields.stream()
+			.filter(field -> clazz.isAssignableFrom(field.getType()))
+			.collect(MoreCollectors.onlyElement());
 	}
 }
