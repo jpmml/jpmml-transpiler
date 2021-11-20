@@ -22,6 +22,7 @@ import java.util.Arrays;
 
 import com.sun.codemodel.JAssignmentTarget;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -180,7 +181,7 @@ public class ArgumentsRef extends JVarRef {
 	private JDefinedClass type(){
 		JVar variable = getExpression();
 
-		return(JDefinedClass) variable.type();
+		return (JDefinedClass)variable.type();
 	}
 
 	static
@@ -273,29 +274,29 @@ public class ArgumentsRef extends JVarRef {
 
 		JFieldVar constantVar = (owner.fields()).get(name);
 		if(constantVar == null){
-			JType type;
+			JClass type;
 			JExpression initExpr;
 
 			switch(dataType){
 				case STRING:
 					type = context.ref(String.class);
-					initExpr = JExpr._new(type);
+					initExpr = context._new(type);
 					break;
 				case INTEGER:
 					type = context.ref(Integer.class);
-					initExpr = JExpr._new(type).arg(JExpr.lit(-999));
+					initExpr = context._new(type, -999);
 					break;
 				case FLOAT:
 					type = context.ref(Float.class);
-					initExpr = JExpr._new(type).arg(JExpr.lit(-999f));
+					initExpr = context._new(type, -999f);
 					break;
 				case DOUBLE:
 					type = context.ref(Double.class);
-					initExpr = JExpr._new(type).arg(JExpr.lit(-999d));
+					initExpr = context._new(type, -999d);
 					break;
 				case BOOLEAN:
 					type = context.ref(Boolean.class);
-					initExpr = JExpr._new(type).arg(JExpr.lit(false));
+					initExpr = context._new(type, false);
 					break;
 				default:
 					throw new IllegalArgumentException(dataType.toString());

@@ -112,7 +112,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			context.popOwner();
 		}
 
-		JWrappedExpression expression = new JWrappedExpression(JExpr._new(javaModelClazz));
+		JWrappedExpression expression = new JWrappedExpression(context._new(javaModelClazz));
 
 		TranslatedModel translatedModel = new TranslatedModel(model)
 			.setExpression(expression)
@@ -478,7 +478,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 					try {
 						arg = (context.getArgumentsVariable()).getExpression();
 					} catch(IllegalArgumentException iae){
-						arg = JExpr._new(ensureArgumentsType(context)).arg((context.getContextVariable()).getExpression());
+						arg = context._new(ensureArgumentsType(context), (context.getContextVariable()).getExpression());
 					}
 					break;
 				case Scope.VAR_CONTEXT:

@@ -21,7 +21,6 @@ package org.jpmml.translator.regression;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -437,7 +436,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JFieldVar termsVar = resourceInitializer.initStringLists(IdentifierUtil.create("terms", regressionTable, name), terms);
 
-			JFieldVar termIndicesVar = owner.field(Modifiers.MEMBER_PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable, name), JExpr._new(context.ref(LinkedHashMap.class).narrow(Collections.emptyList())));
+			JFieldVar termIndicesVar = owner.field(Modifiers.MEMBER_PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable, name), context._new(LinkedHashMap.class));
 
 			JForLoop termIndicesForLoop = new JForLoop();
 

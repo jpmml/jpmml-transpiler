@@ -179,7 +179,7 @@ public class PMMLObjectUtil {
 
 		JBlock block = method.body();
 
-		JVar resultVar = block.decl(context.ref(List.class).narrow(clazz), "result", JExpr._new(context.ref(ArrayList.class).narrow(Collections.emptyList())).arg(JExpr.lit(objects.size())));
+		JVar resultVar = block.decl(context.ref(List.class).narrow(clazz), "result", context._new(ArrayList.class, objects.size()));
 
 		for(int i = 0; i < objects.size(); i += PMMLObjectUtil.CHUNK_SIZE){
 			List<?> chunk = objects.subList(i, Math.min(i + PMMLObjectUtil.CHUNK_SIZE, objects.size()));

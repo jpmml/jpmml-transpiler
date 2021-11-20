@@ -30,6 +30,7 @@ import javax.xml.namespace.QName;
 
 import com.sun.codemodel.JArray;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -79,11 +80,11 @@ public class JBinaryFileInitializer extends JClassInitializer {
 
 		JBlock resourceStmt = new JBlock(false, false);
 
-		JType dataInputStreamClazz = context.ref(DataInputStream.class);
+		JClass dataInputStreamClazz = context.ref(DataInputStream.class);
 
 		JExpression isExpr = (JExpr.dotclass(owner)).invoke("getResourceAsStream").arg(name);
 
-		this.dataInputVar = resourceStmt.decl(dataInputStreamClazz, "dataInput", (JExpr._new(dataInputStreamClazz)).arg(isExpr));
+		this.dataInputVar = resourceStmt.decl(dataInputStreamClazz, "dataInput", context._new(dataInputStreamClazz, isExpr));
 
 		JBlock catchStmt = new JBlock(false, false);
 

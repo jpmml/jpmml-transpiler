@@ -19,7 +19,6 @@
 package org.jpmml.translator;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +106,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 					.mapToInt(List::size)
 					.max().orElseThrow(NoSuchElementException::new);
 
-				TextIndexUtil.computeTermFrequencyTable(termFrequencyTableVar, localTextIndex, textIndexVar, JExpr._new(context.ref(HashSet.class).narrow(Collections.emptyList())).arg(termsVar), maxLength, context);
+				TextIndexUtil.computeTermFrequencyTable(termFrequencyTableVar, localTextIndex, textIndexVar, context._new(HashSet.class, termsVar), maxLength, context);
 			} finally {
 				context.popScope();
 			}

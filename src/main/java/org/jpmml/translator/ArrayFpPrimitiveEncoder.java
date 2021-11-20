@@ -97,7 +97,7 @@ public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements Array
 
 			JVar valueVar = thenBlock.decl(context.ref(FieldValue.class), "value", context.invoke(JExpr.refthis("context"), "evaluate", nameExpr));
 
-			thenBlock._if(valueVar.eq(JExpr._null()))._then()._throw(JExpr._new(context.ref(MissingValueException.class)).arg(nameExpr));
+			thenBlock._if(valueVar.eq(JExpr._null()))._then()._throw(context._new(MissingValueException.class, nameExpr));
 
 			thenBlock.assign(JExpr.refthis(listField.name()), JExpr.cast(listField.type(), valueVar.invoke("getValue")));
 

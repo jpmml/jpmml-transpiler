@@ -21,7 +21,6 @@ package org.jpmml.translator;
 import java.util.Objects;
 
 import com.sun.codemodel.JDefinedClass;
-import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -58,7 +57,7 @@ public class ExpressionTranslator<E extends Expression> {
 			context.popOwner();
 		}
 
-		return JExpr._new(javaExpressionClazz);
+		return context._new(javaExpressionClazz);
 	}
 
 	private JMethod createEvaluateMethod(TranslationContext context){

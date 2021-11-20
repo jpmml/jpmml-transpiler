@@ -19,11 +19,9 @@
 package org.jpmml.translator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.sun.codemodel.JDefinedClass;
-import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -65,7 +63,7 @@ class JClassInitializer {
 	protected JFieldVar createConstant(String name, JType type, TranslationContext context){
 		JDefinedClass owner = context.getOwner(JavaModel.class);
 
-		JFieldVar constant = owner.field(Modifiers.MEMBER_PRIVATE, context.ref(List.class).narrow(type), name, JExpr._new((context.ref(ArrayList.class)).narrow(Collections.emptyList())));
+		JFieldVar constant = owner.field(Modifiers.MEMBER_PRIVATE, context.ref(List.class).narrow(type), name, context._new(ArrayList.class));
 
 		return constant;
 	}
