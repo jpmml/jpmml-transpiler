@@ -49,18 +49,17 @@ public class Main {
 	private File input = null;
 
 	@Parameter (
+		names = {"--output", "--jar-output"},
+		description = "PMML service provider JAR output file"
+	)
+	private File output = null;
+
+	@Parameter (
 		names = {"--class-name"},
 		description = "The fully qualified name of the transpiled PMML class",
 		required = false
 	)
 	private String className = null;
-
-	@Parameter (
-		names = {"--output", "--jar-output"},
-		description = "PMML service provider JAR output file",
-		required = true
-	)
-	private File output = null;
 
 
 	static
@@ -100,8 +99,13 @@ public class Main {
 
 	public void run() throws Exception {
 		File input = getInput();
-		String className = getClassName();
 		File output = getOutput();
+
+		if(output == null){
+			output = new File(input.getAbsolutePath() + ".jar");
+		}
+
+		String className = getClassName();
 
 		JCodeModel codeModel;
 
@@ -131,19 +135,19 @@ public class Main {
 		this.input = input;
 	}
 
-	public String getClassName(){
-		return this.className;
-	}
-
-	public void setClassName(String className){
-		this.className = className;
-	}
-
 	public File getOutput(){
 		return this.output;
 	}
 
 	public void setOutput(File output){
 		this.output = output;
+	}
+
+	public String getClassName(){
+		return this.className;
+	}
+
+	public void setClassName(String className){
+		this.className = className;
 	}
 }
