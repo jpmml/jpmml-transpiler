@@ -146,11 +146,13 @@ public class ArgumentsRef extends JVarRef {
 				if(fieldVar == null){
 					ArrayEncoder arrayEncoder = (ArrayEncoder)fieldInfo.getEncoder();
 
-					fieldVar = argumentsClazz.field(JMod.PRIVATE, type.array(), memberName, JExpr.newArray(type, arrayEncoder.getLength()));
+					JFieldVar initFieldVar = argumentsClazz.field((JMod.PRIVATE | JMod.FINAL | JMod.STATIC), type.array(), "INIT_" + memberName.toUpperCase(), JExpr.newArray(type, arrayEncoder.getLength()));
 
-					JBlock init = argumentsClazz.instanceInit();
+					JBlock init = argumentsClazz.init();
 
-					init.add(context.ref(Arrays.class).staticInvoke("fill").arg(fieldVar).arg(initExpr));
+					init.add(context.staticInvoke(Arrays.class, "fill", argumentsClazz.staticRef(initFieldVar), initExpr));
+
+					fieldVar = argumentsClazz.field(JMod.PRIVATE, type.array(), memberName, argumentsClazz.staticRef(initFieldVar).invoke("clone"));
 				}
 			} else
 
