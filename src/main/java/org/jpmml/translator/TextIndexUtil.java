@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.sun.codemodel.JAssignment;
-import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JVar;
@@ -83,7 +82,7 @@ public class TextIndexUtil {
 
 		JVar textTokensVar = context.declare(context.ref(List.class).narrow(String.class), textVar.name() + "Tokens", textTokenizationInvocation);
 
-		JInvocation termFrequencyTableInvocation = context.staticInvoke(TextUtil.class, "termFrequencyTable", textIndexExpr, textTokensVar, vocabularyExpr, JExpr.lit(maxLength));
+		JInvocation termFrequencyTableInvocation = context.staticInvoke(TextUtil.class, "termFrequencyTable", textIndexExpr, textTokensVar, vocabularyExpr, maxLength);
 
 		if(assignmentTargetVar != null){
 			context.add((JAssignment)assignmentTargetVar.assign(termFrequencyTableInvocation));

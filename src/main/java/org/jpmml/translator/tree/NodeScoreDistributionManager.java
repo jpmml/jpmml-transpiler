@@ -111,19 +111,7 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 		JArray array = JExpr.newArray(componentType.elementType());
 
 		for(Number probability : probabilities){
-			JExpression elementExpr;
-
-			if(probability instanceof Float){
-				elementExpr = JExpr.lit(probability.floatValue());
-			} else
-
-			if(probability instanceof Double){
-				elementExpr = JExpr.lit(probability.doubleValue());
-			} else
-
-			{
-				throw new IllegalArgumentException();
-			}
+			JExpression elementExpr = ScorerUtil.format(probability);
 
 			array = array.add(elementExpr);
 		}

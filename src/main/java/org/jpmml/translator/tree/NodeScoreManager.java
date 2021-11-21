@@ -52,16 +52,7 @@ public class NodeScoreManager extends ArrayManager<Number> implements Scorer<Num
 
 	@Override
 	public JExpression createExpression(Number score){
-
-		if(score instanceof Float){
-			return JExpr.lit(score.floatValue());
-		} else
-
-		if(score instanceof Double){
-			return JExpr.lit(score.doubleValue());
-		}
-
-		throw new IllegalArgumentException();
+		return ScorerUtil.format(score);
 	}
 
 	public JExpression createIndexExpression(Number score){

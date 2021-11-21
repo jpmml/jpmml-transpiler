@@ -152,7 +152,7 @@ public class ArgumentsRef extends JVarRef {
 
 					init.add(context.staticInvoke(Arrays.class, "fill", argumentsClazz.staticRef(initFieldVar), initExpr));
 
-					fieldVar = argumentsClazz.field(JMod.PRIVATE, type.array(), memberName, argumentsClazz.staticRef(initFieldVar).invoke("clone"));
+					fieldVar = argumentsClazz.field(JMod.PRIVATE, initFieldVar.type(), memberName, argumentsClazz.staticRef(initFieldVar).invoke("clone"));
 				}
 			} else
 

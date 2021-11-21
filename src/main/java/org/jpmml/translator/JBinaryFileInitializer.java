@@ -140,7 +140,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readFieldNames", this.dataInputVar, JExpr.lit(names.length));
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readFieldNames", this.dataInputVar, names.length);
 
 		this.tryBody.assign(field, invocation);
 	}
@@ -157,7 +157,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readQNames", this.dataInputVar, JExpr.lit(names.length));
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readQNames", this.dataInputVar, names.length);
 
 		this.tryBody.assign(field, invocation);
 	}
@@ -206,7 +206,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumbers(mathContext), this.dataInputVar, JExpr.lit(values.length));
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumbers(mathContext), this.dataInputVar, values.length);
 
 		add(context.staticInvoke(Collections.class, "addAll", constant, invocation));
 
@@ -308,7 +308,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 
 		JForEach forEach = block.forEach(intType, "count", countsVar);
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumberArrays(mathContext), dataInputParam, forEach.var(), JExpr.lit(length));
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumberArrays(mathContext), dataInputParam, forEach.var(), length);
 
 		forEach.body().add((constant.invoke("add")).arg(invocation));
 
