@@ -34,7 +34,7 @@ JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "trans
 
 ### Release versions
 
-The current release version is **1.1.14** (14 November, 2021):
+The current release version is **1.1.15** (21 November, 2021):
 
 JPMML-Transpiler library JAR files (together with accompanying Java source and Javadocs JAR files) are released via [Maven Central Repository](https://repo1.maven.org/maven2/org/jpmml/).
 
@@ -42,7 +42,7 @@ JPMML-Transpiler library JAR files (together with accompanying Java source and J
 <dependency>
 	<groupId>org.jpmml</groupId>
 	<artifactId>jpmml-transpiler</artifactId>
-	<version>1.1.14</version>
+	<version>1.1.15</version>
 </dependency>
 ```
 
