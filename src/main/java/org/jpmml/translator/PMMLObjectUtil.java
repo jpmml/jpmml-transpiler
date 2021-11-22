@@ -45,7 +45,6 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -96,7 +95,7 @@ public class PMMLObjectUtil {
 
 		definedClazz._extends(clazz);
 
-		JMethod loaderMethod = definedClazz.method(Modifiers.MEMBER_PRIVATE, void.class, "ensureLoaded");
+		JMethod loaderMethod = definedClazz.method(Modifiers.PRIVATE_STATIC_FINAL, void.class, "ensureLoaded");
 
 		JBlock init = definedClazz.init();
 
@@ -118,7 +117,7 @@ public class PMMLObjectUtil {
 			throw new IllegalArgumentException(jcaee);
 		}
 
-		JMethod loaderMethod = definedClazz.method(Modifiers.MEMBER_PRIVATE, void.class, "ensureLoaded");
+		JMethod loaderMethod = definedClazz.method(Modifiers.PRIVATE_STATIC_FINAL, void.class, "ensureLoaded");
 
 		JMethod ownerLoaderMethod = owner.getMethod("ensureLoaded", new JType[0]);
 
@@ -134,7 +133,7 @@ public class PMMLObjectUtil {
 	public JMethod createDefaultConstructor(PMMLObject object, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod constructor = owner.constructor(JMod.PUBLIC);
+		JMethod constructor = owner.constructor(Modifiers.PUBLIC);
 
 		JBlock block = constructor.body();
 
@@ -162,7 +161,7 @@ public class PMMLObjectUtil {
 
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method((JMod.PRIVATE | JMod.FINAL | (owner.isAnonymous() ? 0 : JMod.STATIC)), clazz, IdentifierUtil.create("build" + clazz.getSimpleName(), object));
+		JMethod method = owner.method((owner.isAnonymous() ? Modifiers.PRIVATE_FINAL : Modifiers.PRIVATE_STATIC_FINAL), clazz, IdentifierUtil.create("build" + clazz.getSimpleName(), object));
 
 		JBlock block = method.body();
 
@@ -175,7 +174,7 @@ public class PMMLObjectUtil {
 	public JMethod createArrayBuilderMethod(Class<?> clazz, List<?> objects, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method((JMod.PRIVATE | JMod.FINAL | (owner.isAnonymous() ? 0 : JMod.STATIC)), context.ref(clazz).array(), IdentifierUtil.create("build" + clazz.getSimpleName() + "Array", objects));
+		JMethod method = owner.method((owner.isAnonymous() ? Modifiers.PRIVATE_FINAL : Modifiers.PRIVATE_STATIC_FINAL), context.ref(clazz).array(), IdentifierUtil.create("build" + clazz.getSimpleName() + "Array", objects));
 
 		JBlock block = method.body();
 

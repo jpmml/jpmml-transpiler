@@ -609,7 +609,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(textIndex, name);
 
-			textIndexVar = owner.field(Modifiers.MEMBER_PRIVATE, context.ref(TextIndex.class), textIndexName, PMMLObjectUtil.createObject(localTextIndex, context));
+			textIndexVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(TextIndex.class), textIndexName, PMMLObjectUtil.createObject(localTextIndex, context));
 
 			List<String>[] terms = (encoder.getVocabulary()).stream()
 				.toArray(List[]::new);

@@ -29,7 +29,6 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPrimitiveType;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -82,9 +81,9 @@ public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements Array
 			return method;
 		}
 
-		JFieldVar listField = owner.field(JMod.PRIVATE, context.ref(List.class).narrow(Number.class), IdentifierUtil.sanitize(arrayInfo.getName()));
+		JFieldVar listField = owner.field(Modifiers.PRIVATE, context.ref(List.class).narrow(Number.class), IdentifierUtil.sanitize(arrayInfo.getName()));
 
-		JMethod ensureListMethod = owner.method(JMod.PRIVATE, listField.type(), IdentifierUtil.sanitize(arrayInfo.getName()));
+		JMethod ensureListMethod = owner.method(Modifiers.PRIVATE_FINAL, listField.type(), IdentifierUtil.sanitize(arrayInfo.getName()));
 
 		try {
 			context.pushScope(new MethodScope(ensureListMethod));
@@ -106,7 +105,7 @@ public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements Array
 			context.popScope();
 		}
 
-		method = owner.method(JMod.PRIVATE, returnType, name);
+		method = owner.method(Modifiers.PRIVATE_FINAL, returnType, name);
 
 		JVar indexParam = method.param(codeModel.INT, "index");
 

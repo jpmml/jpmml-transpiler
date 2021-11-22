@@ -23,7 +23,6 @@ import java.util.Objects;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import org.dmg.pmml.Expression;
 import org.jpmml.evaluator.EvaluationContext;
 import org.jpmml.evaluator.FieldValue;
@@ -45,7 +44,7 @@ public class ExpressionTranslator<E extends Expression> {
 	public JExpression translate(TranslationContext context){
 		Expression expression = getExpression();
 
-		JDefinedClass javaExpressionClazz = PMMLObjectUtil.createMemberClass(Modifiers.MEMBER_PUBLIC, IdentifierUtil.create(JavaExpression.class.getSimpleName(), expression), context);
+		JDefinedClass javaExpressionClazz = PMMLObjectUtil.createMemberClass(Modifiers.PUBLIC_STATIC_FINAL, IdentifierUtil.create(JavaExpression.class.getSimpleName(), expression), context);
 
 		javaExpressionClazz._extends(JavaExpression.class);
 
@@ -63,7 +62,7 @@ public class ExpressionTranslator<E extends Expression> {
 	private JMethod createEvaluateMethod(TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(JMod.PUBLIC, context.ref(FieldValue.class), "evaluate");
+		JMethod method = owner.method(Modifiers.PUBLIC_FINAL, context.ref(FieldValue.class), "evaluate");
 		method.annotate(Override.class);
 
 		method.param(EvaluationContext.class, Scope.VAR_CONTEXT);

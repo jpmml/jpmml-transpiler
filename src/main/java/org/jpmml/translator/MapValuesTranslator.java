@@ -29,7 +29,6 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
@@ -80,7 +79,7 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 
 		JVar valueVar = context.declare(FieldValue.class, "value", (context.getContextVariable()).evaluate(PMMLObjectUtil.createExpression(fieldColumnPair.getField(), context)));
 
-		JMethod mapValueMethod = owner.method(JMod.PUBLIC, Object.class, "mapValues");
+		JMethod mapValueMethod = owner.method(Modifiers.PUBLIC_FINAL, Object.class, "mapValues");
 
 		JVar valueParam = mapValueMethod.param(context.ref(FieldValue.class), "value");
 

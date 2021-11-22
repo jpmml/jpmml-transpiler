@@ -27,7 +27,6 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPrimitiveType;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -163,7 +162,7 @@ public class FpPrimitiveEncoder implements Encoder {
 			return method;
 		}
 
-		method = owner.method(JMod.PRIVATE, returnType, name);
+		method = owner.method(Modifiers.PRIVATE_FINAL, returnType, name);
 
 		JVar nameParam = method.param(fieldNameClazz, "name");
 

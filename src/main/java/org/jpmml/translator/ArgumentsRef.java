@@ -29,7 +29,6 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -106,7 +105,7 @@ public class ArgumentsRef extends JVarRef {
 
 		JType type = encoderMethod.type();
 
-		method = argumentsClazz.method(JMod.PUBLIC, type, memberName);
+		method = argumentsClazz.method(Modifiers.PUBLIC_FINAL, type, memberName);
 
 		JVar indexParam = null;
 
@@ -146,18 +145,18 @@ public class ArgumentsRef extends JVarRef {
 				if(fieldVar == null){
 					ArrayEncoder arrayEncoder = (ArrayEncoder)fieldInfo.getEncoder();
 
-					JFieldVar initFieldVar = argumentsClazz.field((JMod.PRIVATE | JMod.FINAL | JMod.STATIC), type.array(), "INIT_" + memberName.toUpperCase(), JExpr.newArray(type, arrayEncoder.getLength()));
+					JFieldVar initFieldVar = argumentsClazz.field(Modifiers.PRIVATE_STATIC_FINAL, type.array(), "INIT_" + memberName.toUpperCase(), JExpr.newArray(type, arrayEncoder.getLength()));
 
 					JBlock init = argumentsClazz.init();
 
 					init.add(context.staticInvoke(Arrays.class, "fill", argumentsClazz.staticRef(initFieldVar), initExpr));
 
-					fieldVar = argumentsClazz.field(JMod.PRIVATE, initFieldVar.type(), memberName, argumentsClazz.staticRef(initFieldVar).invoke("clone"));
+					fieldVar = argumentsClazz.field(Modifiers.PRIVATE, initFieldVar.type(), memberName, argumentsClazz.staticRef(initFieldVar).invoke("clone"));
 				}
 			} else
 
 			{
-				fieldVar = argumentsClazz.field(JMod.PRIVATE, type, memberName, initExpr);
+				fieldVar = argumentsClazz.field(Modifiers.PRIVATE, type, memberName, initExpr);
 			}
 
 			JExpression fieldVarRef = JExpr.refthis(fieldVar.name());
@@ -227,7 +226,7 @@ public class ArgumentsRef extends JVarRef {
 			return method;
 		}
 
-		method = owner.method(JMod.PRIVATE, returnType, name);
+		method = owner.method(Modifiers.PRIVATE_FINAL, returnType, name);
 
 		JVar nameParam = method.param(fieldNameClazz, "name");
 
@@ -304,7 +303,7 @@ public class ArgumentsRef extends JVarRef {
 					throw new IllegalArgumentException(dataType.toString());
 			}
 
-			constantVar = owner.field((JMod.PRIVATE | JMod.FINAL | JMod.STATIC), type, name, initExpr);
+			constantVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, type, name, initExpr);
 		}
 
 		return owner.staticRef(constantVar);

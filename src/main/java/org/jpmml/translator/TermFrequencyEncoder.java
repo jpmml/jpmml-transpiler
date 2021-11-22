@@ -31,7 +31,6 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPrimitiveType;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
@@ -86,9 +85,9 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 		JFieldVar textIndexVar = fields.get(IdentifierUtil.create("textIndex", tf.getTextIndex(), tf.getTextField()));
 		JFieldVar termsVar = fields.get(IdentifierUtil.create("terms", tf.getTextIndex(), tf.getTextField()));
 
-		JFieldVar termFrequencyTableVar = owner.field(JMod.PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termFrequencyTable", tf.getTextField()));
+		JFieldVar termFrequencyTableVar = owner.field(Modifiers.PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termFrequencyTable", tf.getTextField()));
 
-		JMethod frequencyTableMethod = owner.method(JMod.PRIVATE, termFrequencyTableVar.type(), termFrequencyTableVar.name());
+		JMethod frequencyTableMethod = owner.method(Modifiers.PRIVATE_FINAL, termFrequencyTableVar.type(), termFrequencyTableVar.name());
 
 		try {
 			context.pushScope(new MethodScope(frequencyTableMethod));
@@ -116,7 +115,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 			context.popScope();
 		}
 
-		method = owner.method(JMod.PRIVATE, returnType, name);
+		method = owner.method(Modifiers.PRIVATE_FINAL, returnType, name);
 
 		JVar indexParam = method.param(codeModel.INT, "index");
 

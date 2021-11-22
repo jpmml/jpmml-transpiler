@@ -27,7 +27,6 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.Field;
@@ -77,7 +76,7 @@ public class OrdinalEncoder implements Encoder {
 
 		Field<?> field = fieldInfo.getField();
 
-		JMethod method = owner.method(JMod.PRIVATE, context._ref(int.class), IdentifierUtil.create("toOrdinal", field.getName()));
+		JMethod method = owner.method(Modifiers.PRIVATE_FINAL, context._ref(int.class), IdentifierUtil.create("toOrdinal", field.getName()));
 
 		JVar nameParam = method.param(FieldName.class, "name");
 
@@ -124,7 +123,7 @@ public class OrdinalEncoder implements Encoder {
 			return isSetMethod;
 		}
 
-		isSetMethod = owner.method(Modifiers.MEMBER_PRIVATE, boolean.class, "isSet");
+		isSetMethod = owner.method(Modifiers.PRIVATE_STATIC_FINAL, boolean.class, "isSet");
 
 		JVar bitSetParam = isSetMethod.param(intType, "bitSet");
 		JVar indexParam = isSetMethod.param(intType, "index");

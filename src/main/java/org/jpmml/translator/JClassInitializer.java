@@ -24,7 +24,6 @@ import java.util.List;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import org.jpmml.evaluator.java.JavaModel;
@@ -54,7 +53,7 @@ class JClassInitializer {
 	protected JMethod createMethod(String name, TranslationContext context){
 		JDefinedClass owner = context.getOwner(JavaModel.class);
 
-		JMethod method = owner.method(JMod.PRIVATE | JMod.STATIC, void.class, "init" + (name.substring(0, 1)).toUpperCase() + name.substring(1));
+		JMethod method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, void.class, "init" + (name.substring(0, 1)).toUpperCase() + name.substring(1));
 
 		return method;
 	}
@@ -63,7 +62,7 @@ class JClassInitializer {
 	protected JFieldVar createConstant(String name, JType type, TranslationContext context){
 		JDefinedClass owner = context.getOwner(JavaModel.class);
 
-		JFieldVar constant = owner.field(Modifiers.MEMBER_PRIVATE, context.ref(List.class).narrow(type), name, context._new(ArrayList.class));
+		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(List.class).narrow(type), name, context._new(ArrayList.class));
 
 		return constant;
 	}

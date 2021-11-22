@@ -39,7 +39,6 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.FieldName;
@@ -561,7 +560,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JTypeVar typeVar = definedClazz.generify("T");
 
-		JMethod method = definedClazz.method(JMod.PUBLIC | JMod.ABSTRACT, codeModel.INT, "apply");
+		JMethod method = definedClazz.method(Modifiers.PUBLIC_ABSTRACT, codeModel.INT, "apply");
 
 		method.param(typeVar, "value");
 
@@ -569,7 +568,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	}
 
 	private <S> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
-		JDefinedClass treeModelClazz = PMMLObjectUtil.createMemberClass(Modifiers.MEMBER_PRIVATE, IdentifierUtil.create(TreeModel.class.getSimpleName(), treeModel), context);
+		JDefinedClass treeModelClazz = PMMLObjectUtil.createMemberClass(Modifiers.PRIVATE_STATIC_FINAL, IdentifierUtil.create(TreeModel.class.getSimpleName(), treeModel), context);
 
 		try {
 			context.pushOwner(treeModelClazz);

@@ -42,7 +42,6 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
@@ -97,7 +96,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	public JExpression translate(TranslationContext context){
 		M model = getModel();
 
-		JDefinedClass javaModelClazz = PMMLObjectUtil.createMemberClass(Modifiers.MEMBER_PUBLIC, IdentifierUtil.create(JavaModel.class.getSimpleName(), model), context);
+		JDefinedClass javaModelClazz = PMMLObjectUtil.createMemberClass(Modifiers.PUBLIC_STATIC_FINAL, IdentifierUtil.create(JavaModel.class.getSimpleName(), model), context);
 
 		javaModelClazz._extends(JavaModel.class);
 
@@ -414,7 +413,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	public JMethod createEvaluatorMethod(String name, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(JMod.PUBLIC, context.ref(Map.class).narrow(Arrays.asList(context.ref(FieldName.class), context.ref(Object.class).wildcard())), name);
+		JMethod method = owner.method(Modifiers.PUBLIC_FINAL, context.ref(Map.class).narrow(Arrays.asList(context.ref(FieldName.class), context.ref(Object.class).wildcard())), name);
 		method.annotate(Override.class);
 
 		JTypeVar numberTypeVar = method.generify(MethodScope.TYPEVAR_NUMBER, Number.class);
@@ -441,7 +440,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	private JMethod createEvaluatorMethod(Class<?> type, String name, boolean withValueFactory, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(Modifiers.MEMBER_PRIVATE, type, name);
+		JMethod method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, type, name);
 
 		if(withValueFactory){
 			JTypeVar numberTypeVar = method.generify(MethodScope.TYPEVAR_NUMBER, Number.class);
@@ -509,11 +508,11 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			}
 		}
 
-		JDefinedClass argumentsClazz = PMMLObjectUtil.createMemberClass(Modifiers.MEMBER_PUBLIC, "Arguments", context);
+		JDefinedClass argumentsClazz = PMMLObjectUtil.createMemberClass(Modifiers.PUBLIC_STATIC_FINAL, "Arguments", context);
 
-		JFieldVar contextVar = argumentsClazz.field(JMod.PRIVATE, EvaluationContext.class, "context");
+		JFieldVar contextVar = argumentsClazz.field(Modifiers.PRIVATE, EvaluationContext.class, "context");
 
-		JMethod constructor = argumentsClazz.constructor(JMod.PUBLIC);
+		JMethod constructor = argumentsClazz.constructor(Modifiers.PUBLIC);
 
 		JVar contextParam = constructor.param(EvaluationContext.class, "context");
 

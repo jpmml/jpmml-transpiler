@@ -22,6 +22,14 @@ import com.sun.codemodel.JMod;
 
 public interface Modifiers {
 
-	int MEMBER_PUBLIC = (JMod.PUBLIC | JMod.FINAL | JMod.STATIC);
-	int MEMBER_PRIVATE = (JMod.PRIVATE | JMod.FINAL | JMod.STATIC);
+	int PUBLIC_STATIC_FINAL = (JMod.PUBLIC | JMod.FINAL | JMod.STATIC);
+	int PRIVATE_STATIC_FINAL = (JMod.PRIVATE | JMod.FINAL | JMod.STATIC);
+
+	int PUBLIC_ABSTRACT = (JMod.PUBLIC | JMod.ABSTRACT);
+
+	int PUBLIC_FINAL = (JMod.PUBLIC | JMod.FINAL);
+	int PRIVATE_FINAL = (JMod.PRIVATE | JMod.FINAL);
+
+	int PUBLIC = JMod.PUBLIC;
+	int PRIVATE = JMod.PRIVATE;
 }
