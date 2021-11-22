@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Objects;
 
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -67,8 +66,6 @@ public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements Array
 
 	@Override
 	public JMethod createEncoderMethod(FieldInfo fieldInfo, JPrimitiveType returnType, String name, List<JPrimitiveType> castSequenceTypes, DataType dataType, TranslationContext context){
-		JCodeModel codeModel = context.getCodeModel();
-
 		JDefinedClass owner = context.getOwner();
 
 		ArrayInfo arrayInfo = getArrayInfo();
@@ -76,7 +73,7 @@ public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements Array
 		// XXX
 		name = name + "$" + IdentifierUtil.sanitize(arrayInfo.getName());
 
-		JMethod method = owner.getMethod(name, new JType[]{codeModel.INT});
+		JMethod method = owner.getMethod(name, new JType[]{context._ref(int.class)});
 		if(method != null){
 			return method;
 		}
@@ -107,7 +104,7 @@ public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements Array
 
 		method = owner.method(Modifiers.PRIVATE_FINAL, returnType, name);
 
-		JVar indexParam = method.param(codeModel.INT, "index");
+		JVar indexParam = method.param(context._ref(int.class), "index");
 
 		try {
 			context.pushScope(new MethodScope(method));

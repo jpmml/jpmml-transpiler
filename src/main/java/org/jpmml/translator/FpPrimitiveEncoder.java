@@ -86,8 +86,6 @@ public class FpPrimitiveEncoder implements Encoder {
 
 	@Override
 	public JMethod createEncoderMethod(FieldInfo fieldInfo, TranslationContext context){
-		JCodeModel codeModel = context.getCodeModel();
-
 		Field<?> field = fieldInfo.getField();
 
 		DataType dataType = field.getDataType();
@@ -98,15 +96,15 @@ public class FpPrimitiveEncoder implements Encoder {
 		switch(dataType){
 			case INTEGER:
 				name = "Integer";
-				returnType = codeModel.DOUBLE;
+				returnType = (JPrimitiveType)context._ref(int.class);
 				break;
 			case FLOAT:
 				name = "Float";
-				returnType = codeModel.FLOAT;
+				returnType = (JPrimitiveType)context._ref(float.class);
 				break;
 			case DOUBLE:
 				name = "Double";
-				returnType = codeModel.DOUBLE;
+				returnType = (JPrimitiveType)context._ref(double.class);
 				break;
 			default:
 				throw new IllegalArgumentException(dataType.toString());
@@ -132,15 +130,15 @@ public class FpPrimitiveEncoder implements Encoder {
 			switch(dataType){
 				case INTEGER:
 					name += "Integer";
-					castSequenceTypes.add(codeModel.INT);
+					castSequenceTypes.add((JPrimitiveType)context._ref(int.class));
 					break;
 				case FLOAT:
 					name += "Float";
-					castSequenceTypes.add(codeModel.FLOAT);
+					castSequenceTypes.add((JPrimitiveType)context._ref(float.class));
 					break;
 				case DOUBLE:
 					name += "Double";
-					castSequenceTypes.add(codeModel.DOUBLE);
+					castSequenceTypes.add((JPrimitiveType)context._ref(double.class));
 					break;
 				default:
 					throw new IllegalArgumentException(dataType.toString());

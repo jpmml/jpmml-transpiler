@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -63,8 +62,6 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 
 	@Override
 	public JMethod createEncoderMethod(FieldInfo fieldInfo, JPrimitiveType returnType, String name, List<JPrimitiveType> castSequenceTypes, DataType dataType, TranslationContext context){
-		JCodeModel codeModel = context.getCodeModel();
-
 		// JavaModel$Arguments
 		JDefinedClass owner = context.getOwner();
 
@@ -72,7 +69,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 
 		name = IdentifierUtil.create(name, tf.getTextField());
 
-		JMethod method = owner.getMethod(name, new JType[]{codeModel.INT});
+		JMethod method = owner.getMethod(name, new JType[]{context._ref(int.class)});
 		if(method != null){
 			return method;
 		}
@@ -117,7 +114,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 
 		method = owner.method(Modifiers.PRIVATE_FINAL, returnType, name);
 
-		JVar indexParam = method.param(codeModel.INT, "index");
+		JVar indexParam = method.param(context._ref(int.class), "index");
 
 		try {
 			context.pushScope(new MethodScope(method));

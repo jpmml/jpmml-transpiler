@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClassAlreadyExistsException;
-import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -536,8 +535,6 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	}
 
 	private JDefinedClass ensureTreeFunction(TranslationContext context){
-		JCodeModel codeModel = context.getCodeModel();
-
 		JDefinedClass owner = context.getOwner();
 
 		for(Iterator<JDefinedClass> it = owner.classes(); it.hasNext(); ){
@@ -560,7 +557,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JTypeVar typeVar = definedClazz.generify("T");
 
-		JMethod method = definedClazz.method(Modifiers.PUBLIC_ABSTRACT, codeModel.INT, "apply");
+		JMethod method = definedClazz.method(Modifiers.PUBLIC_ABSTRACT, context._ref(int.class), "apply");
 
 		method.param(typeVar, "value");
 

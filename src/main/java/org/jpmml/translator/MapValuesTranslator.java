@@ -81,7 +81,7 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 
 		JMethod mapValueMethod = owner.method(Modifiers.PUBLIC_FINAL, Object.class, "mapValues");
 
-		JVar valueParam = mapValueMethod.param(context.ref(FieldValue.class), "value");
+		JVar valueParam = mapValueMethod.param(FieldValue.class, "value");
 
 		try {
 			context.pushScope(new MethodScope(mapValueMethod));

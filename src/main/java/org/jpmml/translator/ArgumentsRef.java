@@ -23,7 +23,6 @@ import java.util.Arrays;
 import com.sun.codemodel.JAssignmentTarget;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
-import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -45,8 +44,6 @@ public class ArgumentsRef extends JVarRef {
 	}
 
 	public JMethod getMethod(FieldInfo fieldInfo, TranslationContext context){
-		JCodeModel codeModel = context.getCodeModel();
-
 		JDefinedClass argumentsClazz = type();
 
 		Field<?> field = fieldInfo.getField();
@@ -67,7 +64,7 @@ public class ArgumentsRef extends JVarRef {
 			memberName = finalFieldInfo.getMemberName();
 
 			if(encoder instanceof ArrayEncoder){
-				argTypes = new JType[]{codeModel.INT};
+				argTypes = new JType[]{context._ref(int.class)};
 			}
 		} else
 
@@ -110,7 +107,7 @@ public class ArgumentsRef extends JVarRef {
 		JVar indexParam = null;
 
 		if(encoder instanceof ArrayEncoder){
-			indexParam = method.param(codeModel.INT, "index");
+			indexParam = method.param(context._ref(int.class), "index");
 		}
 
 		JBlock block = method.body();
