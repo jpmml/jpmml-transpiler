@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -29,6 +31,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.google.common.base.Functions;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Streams;
@@ -257,14 +260,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		try {
 			context.pushScope(new NodeScope(ifStatement));
 
-			translateNode(treeModel, root, collectDependentNodes(root, Collections.emptyList()), scorer, fieldInfos, context);
+			translateNode(treeModel, root, collectDependentNodes(root, Collections.emptyList()), null, scorer, fieldInfos, context);
 		} finally {
 			context.popScope();
 		}
 	}
 
 	static
-	public <S> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public <S> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, Set<FieldName> declarableNames, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		S score = scorer.prepare(node);
 
 		NodeScope nodeScope = translatePredicate(treeModel, node, dependentNodes, scorer, fieldInfos, context);
@@ -275,15 +278,45 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			if(node.hasNodes()){
 				List<Node> children = node.getNodes();
 
+				List<NodeGroup> nodeGroups = NodeGroupUtil.group(children);
+
+				if(declarableNames == null){
+
+					if(nodeGroups.size() > 0){
+						Map<FieldName, Long> leadingNameCounts = nodeGroups.stream()
+							.map(nodeGroup -> {
+								Predicate predicate = nodeGroup.getPredicate(0);
+
+								if(predicate instanceof HasFieldReference){
+									HasFieldReference<?> hasFieldReference = (HasFieldReference<?>)predicate;
+
+									return hasFieldReference.getField();
+								}
+
+								return null;
+							})
+							.filter(Objects::nonNull)
+							.collect(Collectors.groupingBy(Functions.identity(), Collectors.counting()));
+
+						declarableNames = (leadingNameCounts.entrySet()).stream()
+							.filter(entry -> (entry.getValue() > 1L))
+							.map(entry -> entry.getKey())
+							.collect(Collectors.toCollection(LinkedHashSet::new));
+					} else
+
+					{
+						declarableNames = Collections.emptySet();
+					}
+				}
+
 				JIfStatement firstIfStatement = null;
 
 				int offset = 0;
 
-				List<NodeGroup> nodeGroups = NodeGroupUtil.group(children);
 				for(int i = 0; i < nodeGroups.size(); i++){
 					NodeGroup nodeGroup = nodeGroups.get(i);
 
-					translateNodeGroup(treeModel, nodeGroup, nodeGroups, scorer, fieldInfos, context);
+					translateNodeGroup(treeModel, nodeGroup, nodeGroups, declarableNames, scorer, fieldInfos, context);
 
 					JIfStatement ifStatement = (JIfStatement)nodeScope.chainContent(offset);
 
@@ -337,8 +370,24 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private <S> void translateNodeGroup(TreeModel treeModel, NodeGroup nodeGroup, List<NodeGroup> nodeGroups, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	private <S> void translateNodeGroup(TreeModel treeModel, NodeGroup nodeGroup, List<NodeGroup> nodeGroups, Set<FieldName> declarableNames, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
 		List<Node> nodes = nodeGroup;
+
+		if(!declarableNames.isEmpty()){
+			Iterator<FieldName> nameIt = declarableNames.iterator();
+
+			while(nameIt.hasNext()){
+				FieldName name = nameIt.next();
+
+				if(usesField(nodes, name)){
+					FieldInfo fieldInfo = getFieldInfo(name, fieldInfos);
+
+					context.ensureOperable(fieldInfo, (method) -> true);
+
+					nameIt.remove();
+				}
+			}
+		}
 
 		for(int i = 0; i < nodes.size(); i++){
 			Node node = nodes.get(i);
@@ -360,7 +409,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				}
 			}
 
-			translateNode(treeModel, node, dependentNodes, scorer, fieldInfos, context);
+			translateNode(treeModel, node, dependentNodes, declarableNames, scorer, fieldInfos, context);
 		}
 	}
 
@@ -651,36 +700,6 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 				return usesField(dependentNodes, hasFieldReference.getField());
 			}
-
-			private boolean usesField(Collection<Node> nodes, FieldName name){
-
-				for(Node node : nodes){
-
-					if(usesField(node, name)){
-						return true;
-					}
-				}
-
-				return false;
-			}
-
-			private boolean usesField(Node node, FieldName name){
-				Predicate predicate = node.getPredicate();
-
-				if(predicate instanceof HasFieldReference){
-					HasFieldReference<?> hasFieldReference = (HasFieldReference<?>)predicate;
-
-					if(Objects.equals(hasFieldReference.getField(), name)){
-						return true;
-					}
-				} // End if
-
-				if(node.hasNodes()){
-					return usesField(node.getNodes(), name);
-				}
-
-				return false;
-			}
 		};
 
 		return context.ensureOperable(fieldInfo, function);
@@ -730,5 +749,37 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		}
 
 		return siblings;
+	}
+
+	static
+	private boolean usesField(Collection<Node> nodes, FieldName name){
+
+		for(Node node : nodes){
+
+			if(usesField(node, name)){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	static
+	private boolean usesField(Node node, FieldName name){
+		Predicate predicate = node.getPredicate();
+
+		if(predicate instanceof HasFieldReference){
+			HasFieldReference<?> hasFieldReference = (HasFieldReference<?>)predicate;
+
+			if(Objects.equals(hasFieldReference.getField(), name)){
+				return true;
+			}
+		} // End if
+
+		if(node.hasNodes()){
+			return usesField(node.getNodes(), name);
+		}
+
+		return false;
 	}
 }

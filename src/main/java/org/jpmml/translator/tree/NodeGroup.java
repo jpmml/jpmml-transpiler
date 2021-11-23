@@ -21,6 +21,7 @@ package org.jpmml.translator.tree;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dmg.pmml.Predicate;
 import org.dmg.pmml.tree.Node;
 
 public class NodeGroup extends ArrayList<Node> {
@@ -43,6 +44,12 @@ public class NodeGroup extends ArrayList<Node> {
 		}
 
 		return true;
+	}
+
+	public Predicate getPredicate(int index){
+		Node node = get(index);
+
+		return node.getPredicate();
 	}
 
 	public String getParent(){
