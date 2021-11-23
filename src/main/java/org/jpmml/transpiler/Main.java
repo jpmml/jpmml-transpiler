@@ -103,6 +103,10 @@ public class Main {
 
 		if(output == null){
 			output = new File(input.getAbsolutePath() + ".jar");
+		} else
+
+		if(output.isDirectory()){
+			output = new File(output, input.getName() + ".jar");
 		}
 
 		String className = getClassName();
