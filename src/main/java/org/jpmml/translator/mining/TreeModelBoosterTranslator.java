@@ -19,9 +19,11 @@
 package org.jpmml.translator.mining;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
@@ -49,6 +51,7 @@ import org.dmg.pmml.mining.Segmentation;
 import org.dmg.pmml.tree.ComplexNode;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.TreeModel;
+import org.jpmml.converter.ValueUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
@@ -58,7 +61,9 @@ import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.JCompoundAssignment;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
+import org.jpmml.translator.PredicateKey;
 import org.jpmml.translator.TranslationContext;
+import org.jpmml.translator.tree.NodeGroup;
 import org.jpmml.translator.tree.NodeGroupUtil;
 import org.jpmml.translator.tree.Scorer;
 import org.jpmml.translator.tree.TreeModelTranslator;
@@ -268,6 +273,8 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 	static
 	private TreeModel transformSegmentation(MiningModel miningModel){
+		MathContext mathContext = miningModel.getMathContext();
+
 		Segmentation segmentation = miningModel.getSegmentation();
 
 		Node root = new ComplexNode()
@@ -275,7 +282,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			.setPredicate(True.INSTANCE);
 
 		TreeModel treeModel = new TreeModel(MiningFunction.REGRESSION, new MiningSchema(), root)
-			.setMathContext(miningModel.getMathContext()) // XXX
+			.setMathContext(mathContext)
 			.setNoTrueChildStrategy(TreeModel.NoTrueChildStrategy.RETURN_LAST_PREDICTION)
 			.setMissingValueStrategy(TreeModel.MissingValueStrategy.NONE);
 
@@ -403,6 +410,76 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			}
 		};
 		treeModelInitializer.applyTo(segmentation);
+
+		Visitor nodeGroupMerger = new AbstractVisitor(){
+
+			@Override
+			public VisitorAction visit(Node node){
+
+				children:
+				if(node.hasNodes()){
+					List<Node> children = node.getNodes();
+
+					if(children.size() == 1){
+						break children;
+					}
+
+					List<NodeGroup> nodeGroups = NodeGroupUtil.group(children);
+					if(nodeGroups.size() > 1){
+						Map<List<PredicateKey>, NodeGroup> uniqueNodeGroups = null;
+
+						for(NodeGroup nodeGroup : nodeGroups){
+
+							// XXX
+							if(!nodeGroup.isShallow()){
+								continue;
+							}
+
+							if(uniqueNodeGroups == null){
+								uniqueNodeGroups = new HashMap<>();
+							}
+
+							List<PredicateKey> key = createKey(nodeGroup);
+
+							NodeGroup prevNodeGroup = uniqueNodeGroups.get(key);
+							if(prevNodeGroup != null){
+								merge(prevNodeGroup, nodeGroup);
+
+								children.removeAll(nodeGroup);
+							} else
+
+							{
+								uniqueNodeGroups.put(key, nodeGroup);
+							}
+						}
+					}
+				}
+
+				return super.visit(node);
+			}
+
+			private List<PredicateKey> createKey(List<Node> nodes){
+				return nodes.stream()
+					.map(node -> new PredicateKey(node.getPredicate()))
+					.collect(Collectors.toList());
+			}
+
+			private void merge(List<Node> leftNodes, List<Node> rightNodes){
+
+				for(int i = 0; i < leftNodes.size(); i++){
+					Node leftNode = leftNodes.get(i);
+					Node rightNode = rightNodes.get(i);
+
+					// XXX
+					if(leftNode.hasNodes() || rightNode.hasNodes()){
+						throw new IllegalArgumentException();
+					}
+
+					leftNode.setScore(ValueUtil.add(mathContext, (Number)leftNode.getScore(), (Number)rightNode.getScore()));
+				}
+			}
+		};
+		nodeGroupMerger.applyTo(treeModel);
 
 		return treeModel;
 	}

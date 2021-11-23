@@ -19,6 +19,7 @@
 package org.jpmml.translator.tree;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.dmg.pmml.tree.Node;
 
@@ -29,6 +30,19 @@ public class NodeGroup extends ArrayList<Node> {
 
 	public NodeGroup(String parent){
 		setParent(parent);
+	}
+
+	public boolean isShallow(){
+		List<Node> nodes = this;
+
+		for(Node node : nodes){
+
+			if(node.hasNodes()){
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public String getParent(){
