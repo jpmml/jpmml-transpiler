@@ -43,7 +43,6 @@ import com.sun.codemodel.JVar;
 import org.dmg.pmml.ComplexArray;
 import org.dmg.pmml.DataField;
 import org.dmg.pmml.DataType;
-import org.dmg.pmml.Extension;
 import org.dmg.pmml.False;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.FieldName;
@@ -280,33 +279,23 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 				int offset = 0;
 
-				String prevParentId = null;
+				List<NodeGroup> nodeGroups = NodeGroupUtil.group(children);
+				for(int i = 0; i < nodeGroups.size(); i++){
+					NodeGroup nodeGroup = nodeGroups.get(i);
 
-				for(int i = 0; i < children.size(); i++){
-					Node child = children.get(i);
+					translateNodeGroup(treeModel, nodeGroup, nodeGroups, scorer, fieldInfos, context);
 
-					String parentId = getExtension(child, TreeModelTranslator.EXTENSION_PARENT);
-					if(i > 0 && !Objects.equals(prevParentId, parentId)){
-						JIfStatement ifStatement = (JIfStatement)nodeScope.chainContent(offset);
+					JIfStatement ifStatement = (JIfStatement)nodeScope.chainContent(offset);
 
-						if(firstIfStatement == null){
-							firstIfStatement = ifStatement;
-						}
+					if(i == 0){
+						firstIfStatement = ifStatement;
+					} // End if
 
+					if(i < (nodeGroups.size() - 1)){
 						context._comment("break");
-
-						offset = nodeScope.reInit();
 					}
 
-					translateNode(treeModel, child, collectDependentNodes(child, children.subList(i + 1, children.size())), scorer, fieldInfos, context);
-
-					prevParentId = parentId;
-				}
-
-				JIfStatement ifStatement = (JIfStatement)nodeScope.chainContent(offset);
-
-				if(firstIfStatement == null){
-					firstIfStatement = ifStatement;
+					offset = nodeScope.reInit();
 				}
 
 				TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
@@ -322,7 +311,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 						throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
 				}
 
-				if(firstIfStatement.hasElse()){
+				if(firstIfStatement == null || firstIfStatement.hasElse()){
 					throw new IllegalStateException();
 				}
 
@@ -344,6 +333,34 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			}
 		} finally {
 			context.popScope();
+		}
+	}
+
+	static
+	private <S> void translateNodeGroup(TreeModel treeModel, NodeGroup nodeGroup, List<NodeGroup> nodeGroups, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+		List<Node> nodes = nodeGroup;
+
+		for(int i = 0; i < nodes.size(); i++){
+			Node node = nodes.get(i);
+
+			List<Node> dependentNodes = collectDependentNodes(node, nodes.subList(i + 1, nodes.size()));
+
+			if(i == 0){
+				dependentNodes = new ArrayList<>(dependentNodes);
+
+				int index = nodeGroups.indexOf(nodeGroup);
+				if(index < 0){
+					throw new IllegalArgumentException();
+				}
+
+				for(int j = (index + 1); j < nodeGroups.size(); j++){
+					NodeGroup siblingNodeGroup = nodeGroups.get(j);
+
+					dependentNodes.addAll(siblingNodeGroup);
+				}
+			}
+
+			translateNode(treeModel, node, dependentNodes, scorer, fieldInfos, context);
 		}
 	}
 
@@ -714,37 +731,4 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		return siblings;
 	}
-
-	static
-	public void addParentExtension(Node node, int parentId){
-		addExtension(node, TreeModelTranslator.EXTENSION_PARENT, String.valueOf(parentId));
-	}
-
-	static
-	public String getExtension(Node node, String name){
-
-		if(node.hasExtensions()){
-			List<Extension> extensions = node.getExtensions();
-
-			for(Extension extension : extensions){
-
-				if((name).equals(extension.getName())){
-					return extension.getValue();
-				}
-			}
-		}
-
-		return null;
-	}
-
-	static
-	public void addExtension(Node node, String name, String value){
-		Extension extension = new Extension()
-			.setName(name)
-			.setValue(value);
-
-		node.addExtensions(extension);
-	}
-
-	public static final String EXTENSION_PARENT = "parent";
 }

@@ -59,6 +59,7 @@ import org.jpmml.translator.JCompoundAssignment;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.TranslationContext;
+import org.jpmml.translator.tree.NodeGroupUtil;
 import org.jpmml.translator.tree.Scorer;
 import org.jpmml.translator.tree.TreeModelTranslator;
 
@@ -300,7 +301,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			public VisitorAction visit(Node node){
 				PMMLObject parent = getParent();
 
-				TreeModelTranslator.addParentExtension(node, System.identityHashCode(parent));
+				NodeGroupUtil.setParentId(node, System.identityHashCode(parent));
 
 				return super.visit(node);
 			}
@@ -344,7 +345,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 							.setScore(score)
 							.setPredicate(True.INSTANCE);
 
-						TreeModelTranslator.addParentExtension(elseChild, System.identityHashCode(root));
+						NodeGroupUtil.setParentId(elseChild, System.identityHashCode(root));
 
 						addNode(elseChild);
 					}
