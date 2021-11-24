@@ -90,7 +90,7 @@ public class ClassificationTest extends TranspilerTest implements Algorithms, Da
 
 	@Test
 	public void evaluateXGBoostSentiment() throws Exception {
-		evaluate(XGBOOST, SENTIMENT, excludeFields(SENTIMENT_PROBABILITY_FALSE), new FloatEquivalence(8));
+		evaluate(XGBOOST, SENTIMENT, excludeFields(SENTIMENT_PROBABILITY_FALSE), new FloatEquivalence(32));
 	}
 
 	@Test

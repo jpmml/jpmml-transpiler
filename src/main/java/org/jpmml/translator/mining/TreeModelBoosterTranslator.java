@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -42,6 +43,8 @@ import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Predicate;
+import org.dmg.pmml.Target;
+import org.dmg.pmml.Targets;
 import org.dmg.pmml.True;
 import org.dmg.pmml.Visitor;
 import org.dmg.pmml.VisitorAction;
@@ -59,10 +62,12 @@ import org.jpmml.model.visitors.AbstractVisitor;
 import org.jpmml.model.visitors.NodeFilterer;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.JCompoundAssignment;
+import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.PredicateKey;
 import org.jpmml.translator.TranslationContext;
+import org.jpmml.translator.ValueBuilder;
 import org.jpmml.translator.tree.NodeGroup;
 import org.jpmml.translator.tree.NodeGroupUtil;
 import org.jpmml.translator.tree.Scorer;
@@ -160,6 +165,10 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		MathContext mathContext = treeModel.getMathContext();
 
+		Targets targets = treeModel.getTargets();
+
+		Target target = Iterables.getOnlyElement(targets);
+
 		ModelTranslator<?> modelTranslator = new TreeModelTranslator(pmml, treeModel);
 
 		Node root = treeModel.getNode();
@@ -236,7 +245,13 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 			TreeModelTranslator.translateNode(treeModel, root, scorer, fieldInfos, context);
 
-			context._return((context.getValueFactoryVariable()).newValue(resultVar));
+			JVarBuilder valueBuilder = new ValueBuilder(context)
+				.declare("resultValue", context.getValueFactoryVariable().newValue(resultVar))
+				.update("add", target.getRescaleConstant());
+
+			JVar resultValueVar = valueBuilder.getVariable();
+
+			context._return(resultValueVar);
 		} finally {
 			context.popScope();
 		}
@@ -281,10 +296,17 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			.setScore(0)
 			.setPredicate(True.INSTANCE);
 
+		Target target = new Target()
+			.setRescaleConstant(0);
+
+		Targets targets = new Targets()
+			.addTargets(target);
+
 		TreeModel treeModel = new TreeModel(MiningFunction.REGRESSION, new MiningSchema(), root)
 			.setMathContext(mathContext)
 			.setNoTrueChildStrategy(TreeModel.NoTrueChildStrategy.RETURN_LAST_PREDICTION)
-			.setMissingValueStrategy(TreeModel.MissingValueStrategy.NONE);
+			.setMissingValueStrategy(TreeModel.MissingValueStrategy.NONE)
+			.setTargets(targets);
 
 		Visitor nodeFilterer = new NodeFilterer() {
 
@@ -314,6 +336,53 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			}
 		};
 		nodeExtender.applyTo(segmentation);
+
+		Visitor nodeScoreUpdater = new AbstractVisitor(){
+
+			@Override
+			public VisitorAction visit(TreeModel treeModel){
+				Node root = treeModel.getNode();
+
+				Number score = (Number)root.getScore();
+
+				target.setRescaleConstant(ValueUtil.add(mathContext, target.getRescaleConstant(), score));
+
+				updateNodeScores(root, score);
+
+				return super.visit(treeModel);
+			}
+
+			private void updateNodeScores(Node node, Number adjustment){
+				Number score = (Number)node.getScore();
+
+				node.setScore(subtract(mathContext, score, adjustment));
+
+				if(node.hasNodes()){
+					List<Node> children = node.getNodes();
+
+					for(Node child : children){
+						updateNodeScores(child, adjustment);
+					}
+				}
+			}
+
+			private Number subtract(MathContext mathContext, Number left, Number right){
+
+				if(mathContext == null){
+					mathContext = MathContext.DOUBLE;
+				}
+
+				switch(mathContext){
+					case FLOAT:
+						return (left.floatValue() - right.floatValue());
+					case DOUBLE:
+						return (left.doubleValue() - right.doubleValue());
+					default:
+						throw new IllegalArgumentException();
+				}
+			}
+		};
+		nodeScoreUpdater.applyTo(segmentation);
 
 		Visitor treeModelInitializer = new AbstractVisitor(){
 
