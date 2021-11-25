@@ -282,19 +282,19 @@ public class ArgumentsRef extends JVarRef {
 					break;
 				case INTEGER:
 					type = context.ref(Integer.class);
-					initExpr = context._new(type, -999);
+					initExpr = JExpr.lit(-999);
 					break;
 				case FLOAT:
 					type = context.ref(Float.class);
-					initExpr = context._new(type, -999f);
+					initExpr = JExpr.lit(-999f);
 					break;
 				case DOUBLE:
 					type = context.ref(Double.class);
-					initExpr = context._new(type, -999d);
+					initExpr = JExpr.lit(-999d);
 					break;
 				case BOOLEAN:
 					type = context.ref(Boolean.class);
-					initExpr = context._new(type, false);
+					initExpr = JExpr.lit(false);
 					break;
 				default:
 					throw new IllegalArgumentException(dataType.toString());
