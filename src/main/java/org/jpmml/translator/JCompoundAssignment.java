@@ -51,7 +51,7 @@ public class JCompoundAssignment extends JExpressionImpl implements JStatement {
 
 	@Override
 	public void generate(JFormatter formatter){
-		formatter.g(this.leftHandSide).p(this.operator).g(this.rightHandSide);
+		formatter.g(this.leftHandSide).p(padOperator(this.operator)).g(this.rightHandSide);
 	}
 
 	@Override
@@ -59,5 +59,16 @@ public class JCompoundAssignment extends JExpressionImpl implements JStatement {
 		formatter.g(this).p(";");
 
 		formatter.nl();
+	}
+
+	static
+	private String padOperator(String operator){
+
+		switch(operator){
+			case "-=":
+				return " -=";
+			default:
+				return operator;
+		}
 	}
 }
