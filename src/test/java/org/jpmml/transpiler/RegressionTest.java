@@ -75,6 +75,6 @@ public class RegressionTest extends TranspilerTest implements Algorithms, Datase
 
 	@Test
 	public void evaluateXGBoostAutoNA() throws Exception {
-		evaluate(XGBOOST, AUTO_NA, new FloatEquivalence(8));
+		evaluate(XGBOOST, AUTO_NA, new FloatEquivalence(6));
 	}
 }

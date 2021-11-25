@@ -60,7 +60,7 @@ public class ClassificationTest extends TranspilerTest implements Algorithms, Da
 
 	@Test
 	public void evaluateXGBoostAudit() throws Exception {
-		evaluate(XGBOOST, AUDIT, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(12));
+		evaluate(XGBOOST, AUDIT, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(10));
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class ClassificationTest extends TranspilerTest implements Algorithms, Da
 
 	@Test
 	public void evaluateXGBoostSentiment() throws Exception {
-		evaluate(XGBOOST, SENTIMENT, excludeFields(SENTIMENT_PROBABILITY_FALSE), new FloatEquivalence(32));
+		evaluate(XGBOOST, SENTIMENT, excludeFields(SENTIMENT_PROBABILITY_FALSE), new FloatEquivalence(24));
 	}
 
 	@Test
@@ -120,6 +120,6 @@ public class ClassificationTest extends TranspilerTest implements Algorithms, Da
 
 	@Test
 	public void evaluateXGBoostIris() throws Exception {
-		evaluate(XGBOOST, IRIS, new FloatEquivalence(12));
+		evaluate(XGBOOST, IRIS, new FloatEquivalence(10));
 	}
 }

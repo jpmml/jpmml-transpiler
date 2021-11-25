@@ -18,6 +18,9 @@
  */
 package org.jpmml.translator.mining;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +57,6 @@ import org.dmg.pmml.mining.Segmentation;
 import org.dmg.pmml.tree.ComplexNode;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.TreeModel;
-import org.jpmml.converter.ValueUtil;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
@@ -62,6 +64,7 @@ import org.jpmml.model.visitors.AbstractVisitor;
 import org.jpmml.model.visitors.NodeFilterer;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.JCompoundAssignment;
+import org.jpmml.translator.JExprUtil;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
@@ -184,7 +187,8 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 			switch(mathContext){
 				case FLOAT:
-					resultVar = context.declare(float.class, "result", JExpr.lit(0f));
+					// Use a double accumulator (instead of a float one) for improved numerical stability
+					resultVar = context.declare(double.class, "result", JExprUtil.directNoPara(toFloatString(floatAsDouble(0f)) + "D"));
 					break;
 				case DOUBLE:
 					resultVar = context.declare(double.class, "result", JExpr.lit(0d));
@@ -227,9 +231,9 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 					switch(mathContext){
 						case FLOAT:
 							{
-								float floatValue = value.floatValue();
+								double floatAsDoubleValue = floatAsDouble(value);
 
-								return new JCompoundAssignment(resultVar, JExpr.lit(Math.abs(floatValue)), floatValue >= 0f ? "+=" : "-=");
+								return new JCompoundAssignment(resultVar, JExprUtil.directNoPara(toFloatString(Math.abs(floatAsDoubleValue)) + "D"), floatAsDoubleValue >= 0d ? "+=" : "-=");
 							}
 						case DOUBLE:
 							{
@@ -246,8 +250,28 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			TreeModelTranslator.translateNode(treeModel, root, scorer, fieldInfos, context);
 
 			JVarBuilder valueBuilder = new ValueBuilder(context)
-				.declare("resultValue", context.getValueFactoryVariable().newValue(resultVar))
-				.update("add", target.getRescaleConstant());
+				.declare("resultValue", context.getValueFactoryVariable().newValue(resultVar));
+
+			Number intercept = target.getRescaleConstant();
+
+			switch(mathContext){
+				case FLOAT:
+					{
+						double floatAsDoubleValue = floatAsDouble(intercept);
+
+						valueBuilder.update("add", JExprUtil.directNoPara(toFloatString(floatAsDoubleValue) + "D"));
+					}
+					break;
+				case DOUBLE:
+					{
+						double doubleValue = intercept.doubleValue();
+
+						valueBuilder.update("add", JExpr.lit(doubleValue));
+					}
+					break;
+				default:
+					throw new UnsupportedAttributeException(miningModel, mathContext);
+			}
 
 			JVar resultValueVar = valueBuilder.getVariable();
 
@@ -292,12 +316,25 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		Segmentation segmentation = miningModel.getSegmentation();
 
+		Number zero;
+
+		switch(mathContext){
+			case FLOAT:
+				zero = floatAsDouble(0f);
+				break;
+			case DOUBLE:
+				zero = 0d;
+				break;
+			default:
+				throw new UnsupportedAttributeException(miningModel, mathContext);
+		}
+
 		Node root = new ComplexNode()
-			.setScore(0)
+			.setScore(zero)
 			.setPredicate(True.INSTANCE);
 
 		Target target = new Target()
-			.setRescaleConstant(0);
+			.setRescaleConstant(zero);
 
 		Targets targets = new Targets()
 			.addTargets(target);
@@ -345,7 +382,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 				Number score = (Number)root.getScore();
 
-				target.setRescaleConstant(ValueUtil.add(mathContext, target.getRescaleConstant(), score));
+				target.setRescaleConstant(add(mathContext, target.getRescaleConstant(), score));
 
 				updateNodeScores(root, score);
 
@@ -363,22 +400,6 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 					for(Node child : children){
 						updateNodeScores(child, adjustment);
 					}
-				}
-			}
-
-			private Number subtract(MathContext mathContext, Number left, Number right){
-
-				if(mathContext == null){
-					mathContext = MathContext.DOUBLE;
-				}
-
-				switch(mathContext){
-					case FLOAT:
-						return (left.floatValue() - right.floatValue());
-					case DOUBLE:
-						return (left.doubleValue() - right.doubleValue());
-					default:
-						throw new IllegalArgumentException();
 				}
 			}
 		};
@@ -544,13 +565,84 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 						throw new IllegalArgumentException();
 					}
 
-					leftNode.setScore(ValueUtil.add(mathContext, (Number)leftNode.getScore(), (Number)rightNode.getScore()));
+					leftNode.setScore(add(mathContext, (Number)leftNode.getScore(), (Number)rightNode.getScore()));
 				}
 			}
 		};
 		nodeGroupMerger.applyTo(treeModel);
 
 		return treeModel;
+	}
+
+	static
+	private Number add(MathContext mathContext, Number left, Number right){
+
+		switch(mathContext){
+			case FLOAT:
+				return (floatAsDouble(left) + floatAsDouble(right));
+			case DOUBLE:
+				return (left.doubleValue() + right.doubleValue());
+			default:
+				throw new IllegalArgumentException();
+		}
+	}
+
+	static
+	private Number subtract(MathContext mathContext, Number left, Number right){
+
+		switch(mathContext){
+			case FLOAT:
+				return (floatAsDouble(left) - floatAsDouble(right));
+			case DOUBLE:
+				return (left.doubleValue() - right.doubleValue());
+			default:
+				throw new IllegalArgumentException();
+		}
+	}
+
+	static
+	private double floatAsDouble(Number value){
+
+		if(value instanceof Float){
+			Float floatValue = (Float)value;
+
+			return Double.parseDouble(floatValue.toString());
+		} else
+
+		if(value instanceof Double){
+			Double doubleValue = (Double)value;
+
+			return doubleValue.doubleValue();
+		} else
+
+		{
+			throw new IllegalArgumentException();
+		}
+	}
+
+	static
+	private String toFloatString(Number value){
+		DecimalFormat formatter = TreeModelBoosterTranslator.FORMAT_DECIMAL32;
+
+		synchronized(formatter){
+			return formatter.format(value);
+		}
+	}
+
+	/**
+	 * @see java.math.MathContext#DECIMAL32
+	 */
+	private static final DecimalFormat FORMAT_DECIMAL32;
+
+	static {
+		// Add one extra decimal place
+		String pattern = "0.#######" + "E0";
+
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+		symbols.setDecimalSeparator('.');
+
+		FORMAT_DECIMAL32 = new DecimalFormat(pattern, symbols);
+		FORMAT_DECIMAL32.setRoundingMode(RoundingMode.HALF_EVEN);
 	}
 
 	public static final int NODE_COUNT_LIMIT = Integer.getInteger(TreeModelBoosterTranslator.class.getName() + "#" + "NODE_COUNT_LIMIT", 1000);
