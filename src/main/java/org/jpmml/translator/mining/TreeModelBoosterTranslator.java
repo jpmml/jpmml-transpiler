@@ -640,6 +640,8 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
 		symbols.setDecimalSeparator('.');
+		symbols.setMinusSign('-');
+		symbols.setExponentSeparator("E");
 
 		FORMAT_DECIMAL32 = new DecimalFormat(pattern, symbols);
 		FORMAT_DECIMAL32.setRoundingMode(RoundingMode.HALF_EVEN);
