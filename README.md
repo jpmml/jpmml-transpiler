@@ -34,7 +34,7 @@ JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "trans
 
 ### Release versions
 
-The current release version is **1.1.15** (21 November, 2021):
+The current release version is **1.1.16** (25 November, 2021):
 
 JPMML-Transpiler library JAR files (together with accompanying Java source and Javadocs JAR files) are released via [Maven Central Repository](https://repo1.maven.org/maven2/org/jpmml/).
 
@@ -42,7 +42,7 @@ JPMML-Transpiler library JAR files (together with accompanying Java source and J
 <dependency>
 	<groupId>org.jpmml</groupId>
 	<artifactId>jpmml-transpiler</artifactId>
-	<version>1.1.15</version>
+	<version>1.1.16</version>
 </dependency>
 ```
 
@@ -60,8 +60,8 @@ $ mvn clean install
 
 The build produces two files:
 
-* `target/jpmml-transpiler-1.1-SNAPSHOT.jar` - the library JAR file.
-* `target/jpmml-transpiler-executable-1.1-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
+* `target/jpmml-transpiler-1.2-SNAPSHOT.jar` - the library JAR file.
+* `target/jpmml-transpiler-executable-1.2-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
 
 # Usage #
 
@@ -222,7 +222,7 @@ For example, evaluating the `/src/test/resources/pmml/LightGBMAudit.pmml` model 
 Evaluating the model in interpreted mode:
 
 ```
-$ java -jar pmml-evaluator-example-executable-1.5-SNAPSHOT.jar --model LightGBMAudit.pmml --input Audit.csv --output /dev/null --optimize --intern --loop 100
+$ java -jar pmml-evaluator-example-executable-1.6-SNAPSHOT.jar --model LightGBMAudit.pmml --input Audit.csv --output /dev/null --optimize --intern --loop 100
 
 -- Timers ----------------------------------------------------------------------
 main
@@ -246,19 +246,19 @@ main
 Transpiling the model:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.1-SNAPSHOT.jar --pmml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
+$ java -jar target/jpmml-transpiler-executable-1.2-SNAPSHOT.jar --pmml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
 ```
 
 Getting help:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.1-SNAPSHOT.jar --help
+$ java -jar target/jpmml-transpiler-executable-1.2-SNAPSHOT.jar --help
 ```
 
 Evaluating the model in transpiled mode:
 
 ```
-$ java -jar pmml-evaluator-example-executable-1.5-SNAPSHOT.jar --model LightGBMAudit.jar --input Audit.csv --output /dev/null --loop 1000
+$ java -jar pmml-evaluator-example-executable-1.6-SNAPSHOT.jar --model LightGBMAudit.jar --input Audit.csv --output /dev/null --loop 1000
 
 -- Timers ----------------------------------------------------------------------
 main
