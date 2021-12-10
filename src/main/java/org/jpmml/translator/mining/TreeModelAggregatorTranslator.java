@@ -40,7 +40,6 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.Model;
@@ -186,7 +185,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	}
 
 	@Override
-	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
+	public Map<String, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
 		Segmentation segmentation = (Segmentation)Iterables.getOnlyElement(bodyObjects);
 
 		Set<Node> nodes = new LinkedHashSet<>();
@@ -200,7 +199,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			nodes.add(node);
 		}
 
-		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(nodes);
+		Map<String, FieldInfo> fieldInfos = super.getFieldInfos(nodes);
 		Map<String, ArrayInfo> arrayInfos = getArrayInfos();
 
 		declareArrayFields(arrayInfos.values());
@@ -218,7 +217,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
-		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
+		Map<String, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
@@ -388,7 +387,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
-		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
+		Map<String, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
 
 		ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
@@ -564,7 +563,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		return definedClazz;
 	}
 
-	private <S> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	private <S> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
 		JDefinedClass treeModelClazz = PMMLObjectUtil.createMemberClass(Modifiers.PRIVATE_STATIC_FINAL, IdentifierUtil.create(TreeModel.class.getSimpleName(), treeModel), context);
 
 		try {

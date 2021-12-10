@@ -28,7 +28,6 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.DerivedField;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.OpType;
 import org.dmg.pmml.TextIndex;
 import org.jpmml.evaluator.TextUtil;
@@ -39,7 +38,7 @@ public class TextIndexUtil {
 	}
 
 	static
-	public TextIndex toLocalTextIndex(TextIndex textIndex, FieldName name){
+	public TextIndex toLocalTextIndex(TextIndex textIndex, String name){
 		String wordRE = textIndex.getWordRE();
 		String wordSeparatorCharacterRE = textIndex.getWordSeparatorCharacterRE();
 

@@ -33,7 +33,6 @@ import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
-import org.dmg.pmml.FieldName;
 import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 
@@ -49,7 +48,7 @@ public class ArgumentsRef extends JVarRef {
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();
 
-		FieldName name = field.getName();
+		String name = field.getName();
 
 		String memberName;
 		JType[] argTypes = new JType[0];
@@ -186,7 +185,7 @@ public class ArgumentsRef extends JVarRef {
 	private JMethod createEncoderMethod(Field<?> field, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JType fieldNameClazz = context.ref(FieldName.class);
+		JType stringClazz = context.ref(String.class);
 
 		DataType dataType = field.getDataType();
 
@@ -196,7 +195,7 @@ public class ArgumentsRef extends JVarRef {
 		switch(dataType){
 			case STRING:
 				name = "toString";
-				returnType = context.ref(String.class);
+				returnType = stringClazz;
 				break;
 			case INTEGER:
 				name = "toInteger";
@@ -218,14 +217,14 @@ public class ArgumentsRef extends JVarRef {
 				throw new UnsupportedAttributeException(field, dataType);
 		}
 
-		JMethod method = owner.getMethod(name, new JType[]{fieldNameClazz});
+		JMethod method = owner.getMethod(name, new JType[]{stringClazz});
 		if(method != null){
 			return method;
 		}
 
 		method = owner.method(Modifiers.PRIVATE_FINAL, returnType, name);
 
-		JVar nameParam = method.param(fieldNameClazz, "name");
+		JVar nameParam = method.param(stringClazz, "name");
 
 		try {
 			context.pushScope(new MethodScope(method));

@@ -51,7 +51,6 @@ import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.DerivedField;
 import org.dmg.pmml.Expression;
 import org.dmg.pmml.Field;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.HasFieldReference;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
@@ -100,7 +99,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 		javaModelClazz._extends(JavaModel.class);
 
-		Set<FieldName> activeFieldNames = context.getActiveFieldNames();
+		Set<String> activeFieldNames = context.getActiveFieldNames();
 		activeFieldNames.clear();
 
 		try {
@@ -215,14 +214,14 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		return evaluateClassificationMethod;
 	}
 
-	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
+	public Map<String, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
 		PMML pmml = getPMML();
 		M model = getModel();
 
 		MiningSchema miningSchema = model.getMiningSchema();
 		Output output = model.getOutput();
 
-		Map<FieldName, Field<?>> bodyFields = new HashMap<>();
+		Map<String, Field<?>> bodyFields = new HashMap<>();
 
 		Visitor fieldResolver = new FieldResolver(){
 
@@ -235,11 +234,11 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 					Collection<Field<?>> fields = getFields();
 
 					for(Field<?> field : fields){
-						FieldName name = field.getName();
+						String name = field.getName();
 
 						Field<?> previousField = bodyFields.put(name, field);
 						if((previousField != null) && (previousField != field)){
-							throw new IllegalArgumentException(name.getValue());
+							throw new IllegalArgumentException(name);
 						}
 					}
 
@@ -252,10 +251,10 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		};
 		fieldResolver.applyTo(pmml);
 
-		Map<FieldName, FieldInfo> result = new LinkedHashMap<>();
+		Map<String, FieldInfo> result = new LinkedHashMap<>();
 
-		Set<FieldName> names = ActiveFieldFinder.getFieldNames(bodyObjects.toArray(new PMMLObject[bodyObjects.size()]));
-		for(FieldName name : names){
+		Set<String> names = ActiveFieldFinder.getFieldNames(bodyObjects.toArray(new PMMLObject[bodyObjects.size()]));
+		for(String name : names){
 			Field<?> field = bodyFields.get(name);
 
 			FieldInfo fieldInfo = new FieldInfo(field);
@@ -289,14 +288,14 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 		List<InputField> inputFields = getInputFields();
 		for(InputField inputField : inputFields){
-			FieldName name = inputField.getFieldName();
+			String name = inputField.getFieldName();
 
 			if(matcher == null){
-				matcher = pattern.matcher(name.getValue());
+				matcher = pattern.matcher(name);
 			} else
 
 			{
-				matcher.reset(name.getValue());
+				matcher.reset(name);
 			} // End if
 
 			if(matcher.matches()){
@@ -342,7 +341,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		}
 
 		for(ArrayInfo arrayInfo : arrayInfos){
-			DataField dataField = new DataField(FieldName.create(arrayInfo.getName()), arrayInfo.getOpType(), arrayInfo.getDataType());
+			DataField dataField = new DataField(arrayInfo.getName(), arrayInfo.getOpType(), arrayInfo.getDataType());
 
 			dataDictionary.addDataFields(dataField);
 		}
@@ -376,15 +375,15 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	}
 
 	static
-	public FieldInfo getFieldInfo(HasFieldReference<?> hasFieldReference, Map<FieldName, FieldInfo> fieldInfos){
+	public FieldInfo getFieldInfo(HasFieldReference<?> hasFieldReference, Map<String, FieldInfo> fieldInfos){
 		return getFieldInfo(hasFieldReference.getField(), fieldInfos);
 	}
 
 	static
-	public FieldInfo getFieldInfo(FieldName name, Map<FieldName, FieldInfo> fieldInfos){
+	public FieldInfo getFieldInfo(String name, Map<String, FieldInfo> fieldInfos){
 		FieldInfo fieldInfo = fieldInfos.get(name);
 		if(fieldInfo == null){
-			throw new IllegalArgumentException(name.getValue());
+			throw new IllegalArgumentException(name);
 		}
 
 		return fieldInfo;
@@ -413,7 +412,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	public JMethod createEvaluatorMethod(String name, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(Modifiers.PUBLIC_FINAL, context.ref(Map.class).narrow(Arrays.asList(context.ref(FieldName.class), context.ref(Object.class).wildcard())), name);
+		JMethod method = owner.method(Modifiers.PUBLIC_FINAL, context.ref(Map.class).narrow(Arrays.asList(context.ref(String.class), context.ref(Object.class).wildcard())), name);
 		method.annotate(Override.class);
 
 		JTypeVar numberTypeVar = method.generify(MethodScope.TYPEVAR_NUMBER, Number.class);
@@ -524,7 +523,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	}
 
 	static
-	private void enhanceFieldInfo(FieldInfo fieldInfo, MiningSchema miningSchema, Map<FieldName, Field<?>> bodyFields, Map<FieldName, FieldInfo> fieldInfos, FunctionInvocationContext context){
+	private void enhanceFieldInfo(FieldInfo fieldInfo, MiningSchema miningSchema, Map<String, Field<?>> bodyFields, Map<String, FieldInfo> fieldInfos, FunctionInvocationContext context){
 		Field<?> field = fieldInfo.getField();
 
 		if(field instanceof DerivedField){
@@ -537,15 +536,15 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			if(functionInvocation instanceof FunctionInvocation.Ref){
 				FunctionInvocation.Ref ref = (FunctionInvocation.Ref)functionInvocation;
 
-				FieldName name = ref.getField();
+				String fieldName = ref.getField();
 
-				FieldInfo refFieldInfo = fieldInfos.get(name);
+				FieldInfo refFieldInfo = fieldInfos.get(fieldName);
 				if(refFieldInfo == null){
-					Field<?> refField = bodyFields.get(name);
+					Field<?> refField = bodyFields.get(fieldName);
 
 					refFieldInfo = new FieldInfo(refField);
 
-					fieldInfos.put(name, refFieldInfo);
+					fieldInfos.put(fieldName, refFieldInfo);
 
 					enhanceFieldInfo(refFieldInfo, miningSchema, bodyFields, fieldInfos, context);
 				}

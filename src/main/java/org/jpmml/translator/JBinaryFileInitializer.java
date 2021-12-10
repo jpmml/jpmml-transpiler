@@ -44,7 +44,6 @@ import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.codemodel.fmt.JBinaryFile;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.jpmml.evaluator.ResourceUtil;
 
@@ -128,19 +127,19 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		this.tryBody.add(statement);
 	}
 
-	public void initFieldNames(JFieldVar field, FieldName[] names){
+	public void initFieldNames(JFieldVar field, String[] names){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
 
-			ResourceUtil.writeFieldNames(dataOutput, names);
+			ResourceUtil.writeStrings(dataOutput, names);
 		} catch(IOException ioe){
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readFieldNames", this.dataInputVar, names.length);
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readStrings", this.dataInputVar, names.length);
 
 		this.tryBody.assign(field, invocation);
 	}

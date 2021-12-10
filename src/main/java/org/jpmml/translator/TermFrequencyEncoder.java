@@ -50,14 +50,14 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 	public String getVariableName(FieldInfo fieldInfo){
 		FunctionInvocation.Tf tf = getTf(fieldInfo);
 
-		return IdentifierUtil.sanitize((tf.getTextField()).getValue()) + "2tf" + "$" + String.valueOf(getIndex());
+		return IdentifierUtil.sanitize(tf.getTextField()) + "2tf" + "$" + String.valueOf(getIndex());
 	}
 
 	@Override
 	public String getMemberName(FieldInfo fieldInfo){
 		FunctionInvocation.Tf tf = getTf(fieldInfo);
 
-		return IdentifierUtil.sanitize((tf.getTextField()).getValue()) + "2tf";
+		return IdentifierUtil.sanitize(tf.getTextField()) + "2tf";
 	}
 
 	@Override

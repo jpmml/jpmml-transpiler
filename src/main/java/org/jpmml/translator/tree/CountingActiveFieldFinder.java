@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.dmg.pmml.CompoundPredicate;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.HasFieldReference;
 import org.dmg.pmml.Predicate;
 import org.dmg.pmml.SimplePredicate;
@@ -35,7 +34,7 @@ import org.jpmml.model.visitors.AbstractVisitor;
 
 public class CountingActiveFieldFinder extends AbstractVisitor {
 
-	private Map<FieldName, Integer> nameCounts = new LinkedHashMap<>();
+	private Map<String, Integer> nameCounts = new LinkedHashMap<>();
 
 
 	public void applyTo(Node node){
@@ -61,23 +60,23 @@ public class CountingActiveFieldFinder extends AbstractVisitor {
 		return super.visit(simpleSetPredicate);
 	}
 
-	public Set<FieldName> getFieldNames(){
+	public Set<String> getFieldNames(){
 		return Collections.unmodifiableSet(this.nameCounts.keySet());
 	}
 
-	public Integer getCount(FieldName name){
+	public Integer getCount(String name){
 		return this.nameCounts.get(name);
 	}
 
-	public Map<FieldName, Integer> getFieldNameCounts(){
+	public Map<String, Integer> getFieldNameCounts(){
 		return Collections.unmodifiableMap(this.nameCounts);
 	}
 
 	private <P extends Predicate & HasFieldReference<P>> void process(P predicate){
-		FieldName name = predicate.getField();
+		String fieldName = predicate.getField();
 
-		Integer count = this.nameCounts.get(name);
+		Integer count = this.nameCounts.get(fieldName);
 
-		this.nameCounts.put(name, count != null ? (count + 1) : 1);
+		this.nameCounts.put(fieldName, count != null ? (count + 1) : 1);
 	}
 }

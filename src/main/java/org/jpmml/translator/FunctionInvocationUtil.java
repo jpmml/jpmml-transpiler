@@ -24,7 +24,6 @@ import org.dmg.pmml.Apply;
 import org.dmg.pmml.Constant;
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.Expression;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.FieldRef;
 import org.dmg.pmml.PMMLFunctions;
 import org.dmg.pmml.ParameterField;
@@ -58,7 +57,7 @@ public class FunctionInvocationUtil {
 		return new FunctionInvocation.Ref(){
 
 			@Override
-			public FieldName getField(){
+			public String getField(){
 				return fieldRef.getField();
 			}
 		};
@@ -74,7 +73,7 @@ public class FunctionInvocationUtil {
 			}
 
 			@Override
-			public FieldName getTextField(){
+			public String getTextField(){
 				TextIndex textIndex = getTextIndex();
 
 				return context.resolve(textIndex.getTextField());

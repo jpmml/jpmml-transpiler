@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.ForwardingModel;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMMLObject;
@@ -34,7 +33,7 @@ public class TranslatedModel extends ForwardingModel implements HasActiveFields 
 
 	private JWrappedExpression expression = null;
 
-	private Set<FieldName> activeFields = Collections.emptySet();
+	private Set<String> activeFields = Collections.emptySet();
 
 
 	public TranslatedModel(Model model){
@@ -52,11 +51,11 @@ public class TranslatedModel extends ForwardingModel implements HasActiveFields 
 	}
 
 	@Override
-	public Set<FieldName> getActiveFields(){
+	public Set<String> getActiveFields(){
 		return this.activeFields;
 	}
 
-	public TranslatedModel setActiveFields(Set<FieldName> activeFields){
+	public TranslatedModel setActiveFields(Set<String> activeFields){
 		this.activeFields = Objects.requireNonNull(activeFields);
 
 		return this;

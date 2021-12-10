@@ -33,7 +33,6 @@ import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataField;
 import org.dmg.pmml.DataType;
-import org.dmg.pmml.FieldName;
 import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.MissingValueException;
 
@@ -85,7 +84,7 @@ public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements Array
 		try {
 			context.pushScope(new MethodScope(ensureListMethod));
 
-			JExpression nameExpr = context.constantFieldName(FieldName.create(arrayInfo.getName()), true);
+			JExpression nameExpr = context.constantFieldName(arrayInfo.getName(), true);
 
 			JBlock block = ensureListMethod.body();
 

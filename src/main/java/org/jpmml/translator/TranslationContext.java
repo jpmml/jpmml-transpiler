@@ -57,7 +57,6 @@ import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.jpmml.evaluator.PMMLException;
@@ -78,13 +77,13 @@ public class TranslationContext {
 
 	private Deque<Scope> scopes = new ArrayDeque<>();
 
-	private ArrayManager<FieldName> fieldNameManager = null;
+	private ArrayManager<String> fieldNameManager = null;
 
 	private ArrayManager<QName> xmlNameManager = null;
 
 	private Map<Model, TranslatedModel> translations = new IdentityHashMap<>();
 
-	private Set<FieldName> activeFieldNames = new LinkedHashSet<>();
+	private Set<String> activeFieldNames = new LinkedHashSet<>();
 
 
 	public TranslationContext(PMML pmml, JCodeModel codeModel){
@@ -131,15 +130,15 @@ public class TranslationContext {
 	public void pushOwner(JDefinedClass owner){
 
 		if(isSubclass(PMML.class, owner)){
-			this.fieldNameManager = new ArrayManager<FieldName>(ref(FieldName.class), "fieldNames"){
+			this.fieldNameManager = new ArrayManager<String>(ref(String.class), "fieldNames"){
 
 				{
 					initArrayVar(owner);
 				}
 
 				@Override
-				public JExpression createExpression(FieldName name){
-					return staticInvoke(FieldName.class, "create", name.getValue());
+				public JExpression createExpression(String name){
+					return JExpr.lit(name);
 				}
 			};
 
@@ -167,8 +166,8 @@ public class TranslationContext {
 
 			JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(PMML.class.getSimpleName(), pmml) + ".data", 0, this);
 
-			FieldName[] fieldNames = this.fieldNameManager.getElements()
-				.toArray(new FieldName[this.fieldNameManager.size()]);
+			String[] fieldNames = this.fieldNameManager.getElements()
+				.toArray(new String[this.fieldNameManager.size()]);
 
 			resourceInitializer.initFieldNames(this.fieldNameManager.getArrayVar(), fieldNames);
 
@@ -571,17 +570,17 @@ public class TranslationContext {
 		this.scopes.removeFirst();
 	}
 
-	public JExpression constantFieldName(FieldName name){
+	public JExpression constantFieldName(String name){
 		return constantFieldName(name, false);
 	}
 
-	public JExpression constantFieldName(FieldName name, boolean markActive){
+	public JExpression constantFieldName(String name, boolean markActive){
 
 		if(name == null){
 			return JExpr._null();
 		}
 
-		ArrayManager<FieldName> fieldNameManager = this.fieldNameManager;
+		ArrayManager<String> fieldNameManager = this.fieldNameManager;
 
 		if(markActive){
 			this.activeFieldNames.add(name);
@@ -632,7 +631,7 @@ public class TranslationContext {
 		this.translations.put(model, translatedModel);
 	}
 
-	public Set<FieldName> getActiveFieldNames(){
+	public Set<String> getActiveFieldNames(){
 		return this.activeFieldNames;
 	}
 

@@ -20,7 +20,6 @@ package org.jpmml.translator;
 
 import java.util.List;
 
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.TextIndex;
 import org.jpmml.evaluator.TextUtil;
 
@@ -29,7 +28,7 @@ public interface FunctionInvocation {
 	static
 	interface Ref extends FunctionInvocation {
 
-		FieldName getField();
+		String getField();
 	}
 
 	static
@@ -37,7 +36,7 @@ public interface FunctionInvocation {
 
 		TextIndex getTextIndex();
 
-		FieldName getTextField();
+		String getTextField();
 
 		String getTerm();
 

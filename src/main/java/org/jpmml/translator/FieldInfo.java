@@ -21,7 +21,6 @@ package org.jpmml.translator;
 import java.util.Objects;
 
 import org.dmg.pmml.Field;
-import org.dmg.pmml.FieldName;
 
 public class FieldInfo {
 
@@ -140,9 +139,7 @@ public class FieldInfo {
 		{
 			Field<?> field = getField();
 
-			FieldName name = field.getName();
-
-			return IdentifierUtil.sanitize(name.getValue());
+			return IdentifierUtil.sanitize(field.getName());
 		}
 	}
 
@@ -156,9 +153,7 @@ public class FieldInfo {
 		{
 			Field<?> field = getField();
 
-			FieldName name = field.getName();
-
-			return IdentifierUtil.sanitize(name.getValue());
+			return IdentifierUtil.sanitize(field.getName());
 		}
 	}
 }

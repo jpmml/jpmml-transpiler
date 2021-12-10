@@ -18,8 +18,6 @@
  */
 package org.jpmml.transpiler;
 
-import org.dmg.pmml.FieldName;
-
 public interface Datasets {
 
 	String AUDIT = "Audit";
@@ -29,12 +27,12 @@ public interface Datasets {
 	String IRIS = "Iris";
 	String SENTIMENT = "Sentiment";
 
-	FieldName AUDIT_ADJUSTED = FieldName.create("Adjusted");
-	FieldName AUDIT_PROBABILITY_TRUE = FieldName.create("probability(1)");
-	FieldName AUDIT_PROBABILITY_FALSE = FieldName.create("probability(0)");
+	String AUDIT_ADJUSTED = "Adjusted";
+	String AUDIT_PROBABILITY_TRUE = "probability(1)";
+	String AUDIT_PROBABILITY_FALSE = "probability(0)";
 
-	FieldName SENTIMENT_PROBABILITY_TRUE = FieldName.create("probability(1)");
-	FieldName SENTIMENT_PROBABILITY_FALSE = FieldName.create("probability(0)");
+	String SENTIMENT_PROBABILITY_TRUE = "probability(1)";
+	String SENTIMENT_PROBABILITY_FALSE = "probability(0)";
 
-	FieldName SKLEARN_PREDICT_OUTLIER = FieldName.create("predict(outlier)");
+	String SKLEARN_PREDICT_OUTLIER = "predict(outlier)";
 }

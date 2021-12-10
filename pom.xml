@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>[21.0, 30.1-jre]</version>
+			<version>[21.0, 31.0-jre]</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.code.findbugs</groupId>
@@ -81,34 +81,17 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Inherited from org.jpmml:pmml-model dependency -->
+		<!-- Inherited from org.jpmml:pmml-model dependency via org.jpmml:pmml-converter and org.jpmml:pmml-evaluator dependencies -->
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>2.3.5</version>
+			<version>3.0.2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jpmml</groupId>
-			<artifactId>pmml-evaluator</artifactId>
-			<version>1.5.16</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jpmml</groupId>
-			<artifactId>pmml-evaluator-extension</artifactId>
-			<version>1.5.16</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jpmml</groupId>
-			<artifactId>jpmml-codemodel</artifactId>
-			<version>1.1.7</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jpmml</groupId>
-			<artifactId>jpmml-converter</artifactId>
-			<version>1.4.10</version>
+			<artifactId>pmml-converter</artifactId>
+			<version>1.5.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jpmml</groupId>
@@ -121,7 +104,19 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Inherited from org.jpmml:pmml-model dependency -->
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>pmml-evaluator</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>jpmml-codemodel</artifactId>
+			<version>1.1.7</version>
+		</dependency>
+
+		<!-- Inherited from org.jpmml:pmml-model dependency via org.jpmml:pmml-converter and org.jpmml:pmml-evaluator dependencies -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -141,13 +136,9 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-testing</artifactId>
-			<version>1.5.16</version>
+			<version>1.6.0</version>
 			<scope>test</scope>
 			<exclusions>
-				<exclusion>
-					<groupId>org.jpmml</groupId>
-					<artifactId>pmml-evaluator-kryo</artifactId>
-				</exclusion>
 				<exclusion>
 					<groupId>org.jpmml</groupId>
 					<artifactId>pmml-evaluator-metro</artifactId>
@@ -162,7 +153,7 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-model</artifactId>
-			<version>1.5.16</version>
+			<version>1.6.0</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>

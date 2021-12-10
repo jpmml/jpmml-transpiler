@@ -22,16 +22,15 @@ import java.util.HashMap;
 
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.Expression;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.FieldRef;
 
 abstract
-public class FunctionInvocationContext extends HashMap<FieldName, Expression> {
+public class FunctionInvocationContext extends HashMap<String, Expression> {
 
 	abstract
 	public DefineFunction getDefineFunction(String name);
 
-	public FieldName resolve(FieldName name){
+	public String resolve(String name){
 
 		if(isEmpty()){
 			return name;

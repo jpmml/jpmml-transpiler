@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.dmg.pmml.ComplexArray;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.SimplePredicate;
 import org.dmg.pmml.SimpleSetPredicate;
 import org.dmg.pmml.VisitorAction;
@@ -33,19 +32,19 @@ import org.jpmml.model.visitors.AbstractVisitor;
 
 public class DiscreteValueFinder extends AbstractVisitor {
 
-	private Map<FieldName, Set<Object>> fieldValues = new LinkedHashMap<>();
+	private Map<String, Set<Object>> fieldValues = new LinkedHashMap<>();
 
 
 	@Override
 	public VisitorAction visit(SimplePredicate simplePredicate){
-		FieldName name = simplePredicate.getField();
+		String fieldName = simplePredicate.getField();
 		SimplePredicate.Operator operator = simplePredicate.getOperator();
 		Object value = simplePredicate.getValue();
 
 		switch(operator){
 			case EQUAL:
 			case NOT_EQUAL:
-				addValue(name, value);
+				addValue(fieldName, value);
 				break;
 			default:
 				break;
@@ -56,7 +55,7 @@ public class DiscreteValueFinder extends AbstractVisitor {
 
 	@Override
 	public VisitorAction visit(SimpleSetPredicate simpleSetPredicate){
-		FieldName name = simpleSetPredicate.getField();
+		String fieldName = simpleSetPredicate.getField();
 		SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.getBooleanOperator();
 		ComplexArray array = (ComplexArray)simpleSetPredicate.getArray();
 
@@ -66,7 +65,7 @@ public class DiscreteValueFinder extends AbstractVisitor {
 			case IS_IN:
 			case IS_NOT_IN:
 				for(Object value : values){
-					addValue(name, value);
+					addValue(fieldName, value);
 				}
 				break;
 			default:
@@ -76,20 +75,20 @@ public class DiscreteValueFinder extends AbstractVisitor {
 		return super.visit(simpleSetPredicate);
 	}
 
-	public void addValue(FieldName name, Object value){
-		Map<FieldName, Set<Object>> fieldValues = getFieldValues();
+	public void addValue(String fieldName, Object value){
+		Map<String, Set<Object>> fieldValues = getFieldValues();
 
-		Set<Object> values = fieldValues.get(name);
+		Set<Object> values = fieldValues.get(fieldName);
 		if(values == null){
 			values = new LinkedHashSet<>();
 
-			fieldValues.put(name, values);
+			fieldValues.put(fieldName, values);
 		}
 
 		values.add(value);
 	}
 
-	public Map<FieldName, Set<Object>> getFieldValues(){
+	public Map<String, Set<Object>> getFieldValues(){
 		return this.fieldValues;
 	}
 }

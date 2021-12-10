@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -48,11 +47,11 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+import jakarta.xml.bind.JAXBElement;
 import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.Expression;
 import org.dmg.pmml.False;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.HasDiscreteDomain;
 import org.dmg.pmml.Header;
 import org.dmg.pmml.LocalTransformations;
@@ -296,12 +295,6 @@ public class PMMLObjectUtil {
 			JClass enumClass = context.ref(clazz);
 
 			return enumClass.staticRef(enumValue.name());
-		} else
-
-		if((FieldName.class).isAssignableFrom(clazz)){
-			FieldName fieldName = (FieldName)value;
-
-			return context.constantFieldName(fieldName);
 		} else
 
 		if((QName.class).isAssignableFrom(clazz)){

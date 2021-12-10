@@ -36,7 +36,6 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DerivedField;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.LocalTransformations;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningField;
@@ -176,7 +175,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		Node root = treeModel.getNode();
 
-		Map<FieldName, FieldInfo> fieldInfos = modelTranslator.getFieldInfos(Collections.singleton(root));
+		Map<String, FieldInfo> fieldInfos = modelTranslator.getFieldInfos(Collections.singleton(root));
 
 		JMethod evaluateNodeMethod = createEvaluatorMethod(Value.class, root, true, context);
 

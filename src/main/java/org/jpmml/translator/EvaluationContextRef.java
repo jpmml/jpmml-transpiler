@@ -21,7 +21,6 @@ package org.jpmml.translator;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.FieldName;
 import org.jpmml.evaluator.EvaluationContext;
 
 /**
@@ -34,7 +33,7 @@ public class EvaluationContextRef extends JVarRef {
 	}
 
 	/**
-	 * @see EvaluationContext#evaluate(FieldName)
+	 * @see EvaluationContext#evaluate(String)
 	 */
 	public JInvocation evaluate(JExpression nameExpr){
 		return invoke("evaluate", nameExpr);

@@ -33,7 +33,6 @@ import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataField;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.OpType;
 import org.jpmml.evaluator.FieldValue;
 
@@ -46,9 +45,7 @@ public class FpPrimitiveEncoder implements Encoder {
 	public String getVariableName(FieldInfo fieldInfo){
 		Field<?> field = fieldInfo.getField();
 
-		FieldName name = field.getName();
-
-		return IdentifierUtil.sanitize(name.getValue()) + "2fp";
+		return IdentifierUtil.sanitize(field.getName()) + "2fp";
 	}
 
 	@Override
@@ -153,16 +150,16 @@ public class FpPrimitiveEncoder implements Encoder {
 	public JMethod createEncoderMethod(FieldInfo fieldInfo, JPrimitiveType returnType, String name, List<JPrimitiveType> castSequenceTypes, DataType dataType, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JType fieldNameClazz = context.ref(FieldName.class);
+		JType stringClazz = context.ref(String.class);
 
-		JMethod method = owner.getMethod(name, new JType[]{fieldNameClazz});
+		JMethod method = owner.getMethod(name, new JType[]{stringClazz});
 		if(method != null){
 			return method;
 		}
 
 		method = owner.method(Modifiers.PRIVATE_FINAL, returnType, name);
 
-		JVar nameParam = method.param(fieldNameClazz, "name");
+		JVar nameParam = method.param(stringClazz, "name");
 
 		try {
 			context.pushScope(new MethodScope(method));

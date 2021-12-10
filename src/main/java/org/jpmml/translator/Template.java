@@ -32,10 +32,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.annotation.XmlTransient;
-
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JInvocation;
+import jakarta.xml.bind.annotation.XmlTransient;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;

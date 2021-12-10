@@ -48,7 +48,6 @@ import org.dmg.pmml.DataField;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.False;
 import org.dmg.pmml.Field;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.HasFieldReference;
 import org.dmg.pmml.OpType;
 import org.dmg.pmml.PMML;
@@ -143,7 +142,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			}
 		};
 
-		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
+		Map<String, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
 
 		JMethod evaluateNodeMethod = createEvaluatorMethod(int.class, node, false, context);
 
@@ -198,7 +197,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			}
 		};
 
-		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
+		Map<String, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
 
 		JMethod evaluateNodeMethod = createEvaluatorMethod(int.class, node, false, context);
 
@@ -232,8 +231,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	@Override
-	public Map<FieldName, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
-		Map<FieldName, FieldInfo> fieldInfos = super.getFieldInfos(bodyObjects);
+	public Map<String, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
+		Map<String, FieldInfo> fieldInfos = super.getFieldInfos(bodyObjects);
 		Map<String, ArrayInfo> arrayInfos = getArrayInfos();
 
 		declareArrayFields(arrayInfos.values());
@@ -244,7 +243,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S> void translateNode(TreeModel treeModel, Node root, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public <S> void translateNode(TreeModel treeModel, Node root, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
 		Predicate predicate = root.getPredicate();
 
 		if(!(predicate instanceof True)){
@@ -267,7 +266,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, Set<FieldName> declarableNames, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public <S> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, Set<String> declarableNames, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
 		S score = scorer.prepare(node);
 
 		NodeScope nodeScope = translatePredicate(treeModel, node, dependentNodes, scorer, fieldInfos, context);
@@ -283,7 +282,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				if(declarableNames == null){
 
 					if(nodeGroups.size() > 0){
-						Map<FieldName, Long> leadingNameCounts = nodeGroups.stream()
+						Map<String, Long> leadingNameCounts = nodeGroups.stream()
 							.map(nodeGroup -> {
 								Predicate predicate = nodeGroup.getPredicate(0);
 
@@ -370,14 +369,14 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private <S> void translateNodeGroup(TreeModel treeModel, NodeGroup nodeGroup, List<NodeGroup> nodeGroups, Set<FieldName> declarableNames, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	private <S> void translateNodeGroup(TreeModel treeModel, NodeGroup nodeGroup, List<NodeGroup> nodeGroups, Set<String> declarableNames, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
 		List<Node> nodes = nodeGroup;
 
 		if(!declarableNames.isEmpty()){
-			Iterator<FieldName> nameIt = declarableNames.iterator();
+			Iterator<String> nameIt = declarableNames.iterator();
 
 			while(nameIt.hasNext()){
-				FieldName name = nameIt.next();
+				String name = nameIt.next();
 
 				if(usesField(nodes, name)){
 					FieldInfo fieldInfo = getFieldInfo(name, fieldInfos);
@@ -414,7 +413,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S> NodeScope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Scorer<S> scorer, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public <S> NodeScope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
 		Predicate predicate = node.getPredicate();
 
 		OperableRef operableRef;
@@ -535,7 +534,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public Map<FieldName, FieldInfo> enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, Map<FieldName, FieldInfo> fieldInfos, Map<String, ArrayInfo> arrayInfos){
+	public Map<String, FieldInfo> enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, Map<String, FieldInfo> fieldInfos, Map<String, ArrayInfo> arrayInfos){
 		CountingActiveFieldFinder countingActiveFieldFinder = new CountingActiveFieldFinder();
 		DiscreteValueFinder discreteValueFinder = new DiscreteValueFinder();
 
@@ -546,7 +545,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			discreteValueFinder.applyTo(node);
 		}
 
-		Map<FieldName, Set<Object>> discreteFieldValues = discreteValueFinder.getFieldValues();
+		Map<String, Set<Object>> discreteFieldValues = discreteValueFinder.getFieldValues();
 
 		Map<ArrayInfo, List<DataField>> arrayInfoElements = new HashMap<>();
 
@@ -571,11 +570,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					.forEach((dataField) -> fieldArrayInfos.put(dataField, arrayInfo));
 			});
 
-		ListMultimap<FieldName, List<String>> tfTokens = ArrayListMultimap.create();
+		ListMultimap<String, List<String>> tfTokens = ArrayListMultimap.create();
 
-		Collection<? extends Map.Entry<FieldName, FieldInfo>> entries = fieldInfos.entrySet();
-		for(Map.Entry<FieldName, FieldInfo> entry : entries){
-			FieldName name = entry.getKey();
+		Collection<? extends Map.Entry<String, FieldInfo>> entries = fieldInfos.entrySet();
+		for(Map.Entry<String, FieldInfo> entry : entries){
+			String name = entry.getKey();
 			FieldInfo fieldInfo = entry.getValue();
 
 			Field<?> field = fieldInfo.getField();
@@ -665,7 +664,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 		FunctionInvocation.Tf tf = encoder.getTf(fieldInfo);
 
 		TextIndex textIndex = tf.getTextIndex();
-		FieldName name = tf.getTextField();
+		String name = tf.getTextField();
 
 		String textIndexName = IdentifierUtil.create("textIndex", textIndex, name);
 
@@ -685,7 +684,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private OperableRef ensureOperable(HasFieldReference<?> hasFieldReference, List<Node> dependentNodes, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	private OperableRef ensureOperable(HasFieldReference<?> hasFieldReference, List<Node> dependentNodes, Map<String, FieldInfo> fieldInfos, TranslationContext context){
 		FieldInfo fieldInfo = getFieldInfo(hasFieldReference, fieldInfos);
 
 		Function<JMethod, Boolean> function = new Function<JMethod, Boolean>(){
@@ -752,11 +751,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private boolean usesField(Collection<Node> nodes, FieldName name){
+	private boolean usesField(Collection<Node> nodes, String fieldName){
 
 		for(Node node : nodes){
 
-			if(usesField(node, name)){
+			if(usesField(node, fieldName)){
 				return true;
 			}
 		}
@@ -765,19 +764,19 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private boolean usesField(Node node, FieldName name){
+	private boolean usesField(Node node, String fieldName){
 		Predicate predicate = node.getPredicate();
 
 		if(predicate instanceof HasFieldReference){
 			HasFieldReference<?> hasFieldReference = (HasFieldReference<?>)predicate;
 
-			if(Objects.equals(hasFieldReference.getField(), name)){
+			if(Objects.equals(hasFieldReference.getField(), fieldName)){
 				return true;
 			}
 		} // End if
 
 		if(node.hasNodes()){
-			return usesField(node.getNodes(), name);
+			return usesField(node.getNodes(), fieldName);
 		}
 
 		return false;

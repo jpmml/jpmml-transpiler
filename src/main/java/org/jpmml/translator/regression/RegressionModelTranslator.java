@@ -44,7 +44,6 @@ import com.sun.codemodel.JForEach;
 import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.FieldName;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.Output;
@@ -112,7 +111,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 		List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
 
-		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
+		Map<String, FieldInfo> fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
 
 		RegressionTable regressionTable = Iterables.getOnlyElement(regressionTables);
 
@@ -137,7 +136,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 		List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
 
-		Map<FieldName, FieldInfo> fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
+		Map<String, FieldInfo> fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
 
 		JMethod evaluateListMethod = createEvaluatorMethod(Classification.class, regressionTables, true, context);
 
@@ -265,14 +264,14 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	}
 
 	static
-	public ValueBuilder translateRegressionTable(RegressionTable regressionTable, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	public ValueBuilder translateRegressionTable(RegressionTable regressionTable, Map<String, FieldInfo> fieldInfos, TranslationContext context){
 		ValueBuilder valueBuilder = new ValueBuilder(context)
 			.declare(IdentifierUtil.create("result", regressionTable), context.getValueFactoryVariable().newValue());
 
 		if(regressionTable.hasNumericPredictors()){
 			List<NumericPredictor> numericPredictors = regressionTable.getNumericPredictors();
 
-			ListMultimap<FieldName, FunctionInvocationPredictor> tfTerms = ArrayListMultimap.create();
+			ListMultimap<String, FunctionInvocationPredictor> tfTerms = ArrayListMultimap.create();
 
 			for(NumericPredictor numericPredictor : numericPredictors){
 				FieldInfo fieldInfo = getFieldInfo(numericPredictor, fieldInfos);
@@ -313,13 +312,13 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 		} // End if
 
 		if(regressionTable.hasCategoricalPredictors()){
-			Map<FieldName, List<CategoricalPredictor>> fieldCategoricalPredictors = regressionTable.getCategoricalPredictors().stream()
+			Map<String, List<CategoricalPredictor>> fieldCategoricalPredictors = regressionTable.getCategoricalPredictors().stream()
 				.collect(Collectors.groupingBy(categoricalPredictor -> categoricalPredictor.getField(), Collectors.toList()));
 
 			JBlock block = context.block();
 
-			Collection<Map.Entry<FieldName, List<CategoricalPredictor>>> entries = fieldCategoricalPredictors.entrySet();
-			for(Map.Entry<FieldName, List<CategoricalPredictor>> entry : entries){
+			Collection<Map.Entry<String, List<CategoricalPredictor>>> entries = fieldCategoricalPredictors.entrySet();
+			for(Map.Entry<String, List<CategoricalPredictor>> entry : entries){
 				FieldInfo fieldInfo = getFieldInfo(entry.getKey(), fieldInfos);
 
 				JMethod evaluateCategoryMethod = createEvaluatorMethod(Number.class, entry.getValue(), false, context);
@@ -366,7 +365,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	}
 
 	static
-	private void addTermFrequencies(RegressionTable regressionTable, ValueBuilder valueBuilder, Map<FieldName, List<FunctionInvocationPredictor>> tfTerms, Map<FieldName, FieldInfo> fieldInfos, TranslationContext context){
+	private void addTermFrequencies(RegressionTable regressionTable, ValueBuilder valueBuilder, Map<String, List<FunctionInvocationPredictor>> tfTerms, Map<String, FieldInfo> fieldInfos, TranslationContext context){
 		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		if(tfTerms.isEmpty()){
@@ -415,9 +414,9 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			}
 		};
 
-		Collection<Map.Entry<FieldName, List<FunctionInvocationPredictor>>> entries = tfTerms.entrySet();
-		for(Map.Entry<FieldName, List<FunctionInvocationPredictor>> entry : entries){
-			FieldName name = entry.getKey();
+		Collection<Map.Entry<String, List<FunctionInvocationPredictor>>> entries = tfTerms.entrySet();
+		for(Map.Entry<String, List<FunctionInvocationPredictor>> entry : entries){
+			String name = entry.getKey();
 			Collection<FunctionInvocationPredictor> predictors = entry.getValue();
 
 			Set<TextIndex> textIndexes = predictors.stream()

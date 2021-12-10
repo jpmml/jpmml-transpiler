@@ -119,7 +119,7 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 			context.popScope();
 		}
 
-		JInvocation invocation = context.staticInvoke(FieldValueUtil.class, "create", PMMLObjectUtil.createExpression(outputDataType, context), PMMLObjectUtil.createExpression(OpType.CATEGORICAL, context), JExpr.invoke(mapValueMethod).arg(valueVar));
+		JInvocation invocation = context.staticInvoke(FieldValueUtil.class, "create", PMMLObjectUtil.createExpression(OpType.CATEGORICAL, context), PMMLObjectUtil.createExpression(outputDataType, context), JExpr.invoke(mapValueMethod).arg(valueVar));
 
 		context._return(invocation);
 	}
