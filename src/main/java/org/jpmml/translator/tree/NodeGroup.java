@@ -49,7 +49,7 @@ public class NodeGroup extends ArrayList<Node> {
 	public Predicate getPredicate(int index){
 		Node node = get(index);
 
-		return node.getPredicate();
+		return node.requirePredicate();
 	}
 
 	public String getParent(){

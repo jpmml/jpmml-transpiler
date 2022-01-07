@@ -59,10 +59,10 @@ import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
-import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueMap;
+import org.jpmml.model.PMMLException;
 import org.jpmml.translator.tree.TreeModelTranslator;
 
 public class TranslationContext {

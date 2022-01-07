@@ -80,7 +80,7 @@ public class PMMLTemplate extends Template {
 
 				@Override
 				public VisitorAction visit(Segment segment){
-					segment.setModel(filter(segment.getModel()));
+					segment.setModel(filter(segment.requireModel()));
 
 					return super.visit(segment);
 				}

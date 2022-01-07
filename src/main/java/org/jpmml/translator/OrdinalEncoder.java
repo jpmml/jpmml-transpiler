@@ -54,7 +54,7 @@ public class OrdinalEncoder implements Encoder {
 	public String getVariableName(FieldInfo fieldInfo){
 		Field<?> field = fieldInfo.getField();
 
-		return IdentifierUtil.sanitize(field.getName()) + "2ordinal";
+		return IdentifierUtil.sanitize(field.requireName()) + "2ordinal";
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class OrdinalEncoder implements Encoder {
 
 		Field<?> field = fieldInfo.getField();
 
-		JMethod method = owner.method(Modifiers.PRIVATE_FINAL, context._ref(int.class), IdentifierUtil.create("toOrdinal", field.getName()));
+		JMethod method = owner.method(Modifiers.PRIVATE_FINAL, context._ref(int.class), IdentifierUtil.create("toOrdinal", field.requireName()));
 
 		JVar nameParam = method.param(String.class, "name");
 

@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dmg.pmml.Expression;
-import org.jpmml.evaluator.InvalidMarkupException;
-import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.ServiceFactory;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.UnsupportedMarkupException;
+import org.jpmml.model.InvalidMarkupException;
+import org.jpmml.model.PMMLException;
 
 public class ExpressionTranslatorFactory extends ServiceFactory<Expression, ExpressionTranslator<?>> {
 

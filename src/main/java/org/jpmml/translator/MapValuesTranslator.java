@@ -40,10 +40,10 @@ import org.dmg.pmml.PMMLAttributes;
 import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.FieldValueUtil;
 import org.jpmml.evaluator.InlineTableUtil;
-import org.jpmml.evaluator.InvalidAttributeException;
-import org.jpmml.evaluator.InvalidElementException;
 import org.jpmml.evaluator.TypeUtil;
 import org.jpmml.evaluator.UnsupportedElementException;
+import org.jpmml.model.InvalidAttributeException;
+import org.jpmml.model.InvalidElementException;
 
 public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 
@@ -68,7 +68,7 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 
 		FieldColumnPair fieldColumnPair = Iterables.getOnlyElement(fieldColumnPairs);
 
-		Map<Object, Object> mapping = parseInlineTable(inlineTable, fieldColumnPair.getColumn(), mapValues.getOutputColumn());
+		Map<Object, Object> mapping = parseInlineTable(inlineTable, fieldColumnPair.requireColumn(), mapValues.requireOutputColumn());
 
 		DataType inputDataType = TypeUtil.getDataType(mapping.keySet());
 
@@ -77,7 +77,7 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 			outputDataType = TypeUtil.getDataType(mapping.values());
 		}
 
-		JVar valueVar = context.declare(FieldValue.class, "value", (context.getContextVariable()).evaluate(PMMLObjectUtil.createExpression(fieldColumnPair.getField(), context)));
+		JVar valueVar = context.declare(FieldValue.class, "value", (context.getContextVariable()).evaluate(PMMLObjectUtil.createExpression(fieldColumnPair.requireField(), context)));
 
 		JMethod mapValueMethod = owner.method(Modifiers.PUBLIC_FINAL, Object.class, "mapValues");
 

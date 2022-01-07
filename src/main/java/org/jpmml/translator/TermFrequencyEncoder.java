@@ -35,12 +35,13 @@ import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.TextIndex;
+import org.jpmml.evaluator.TokenizedString;
 
 public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEncoder {
 
 	private int index = -1;
 
-	private List<List<String>> vocabulary = null;
+	private List<TokenizedString> vocabulary = null;
 
 
 	public TermFrequencyEncoder(){
@@ -82,7 +83,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 		JFieldVar textIndexVar = fields.get(IdentifierUtil.create("textIndex", tf.getTextIndex(), tf.getTextField()));
 		JFieldVar termsVar = fields.get(IdentifierUtil.create("terms", tf.getTextIndex(), tf.getTextField()));
 
-		JFieldVar termFrequencyTableVar = owner.field(Modifiers.PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termFrequencyTable", tf.getTextField()));
+		JFieldVar termFrequencyTableVar = owner.field(Modifiers.PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(TokenizedString.class), context.ref(Integer.class))), IdentifierUtil.create("termFrequencyTable", tf.getTextField()));
 
 		JMethod frequencyTableMethod = owner.method(Modifiers.PRIVATE_FINAL, termFrequencyTableVar.type(), termFrequencyTableVar.name());
 
@@ -99,7 +100,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 				TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(tf.getTextIndex(), tf.getTextField());
 
 				int maxLength = getVocabulary().stream()
-					.mapToInt(List::size)
+					.mapToInt(TokenizedString::size)
 					.max().orElseThrow(NoSuchElementException::new);
 
 				TextIndexUtil.computeTermFrequencyTable(termFrequencyTableVar, localTextIndex, textIndexVar, context._new(HashSet.class, termsVar), maxLength, context);
@@ -161,7 +162,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 
 	@Override
 	public int getLength(){
-		List<List<String>> vocabulary = getVocabulary();
+		List<TokenizedString> vocabulary = getVocabulary();
 		if(vocabulary == null){
 			throw new IllegalStateException();
 		}
@@ -169,11 +170,11 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 		return vocabulary.size();
 	}
 
-	public List<List<String>> getVocabulary(){
+	public List<TokenizedString> getVocabulary(){
 		return this.vocabulary;
 	}
 
-	public TermFrequencyEncoder setVocabulary(List<List<String>> vocabulary){
+	public TermFrequencyEncoder setVocabulary(List<TokenizedString> vocabulary){
 		this.vocabulary = vocabulary;
 
 		return this;

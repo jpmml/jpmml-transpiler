@@ -68,8 +68,8 @@ import org.dmg.pmml.True;
 import org.dmg.pmml.Value;
 import org.dmg.pmml.mining.Segment;
 import org.dmg.pmml.mining.Segmentation;
-import org.jpmml.evaluator.PMMLException;
 import org.jpmml.evaluator.java.JavaModel;
+import org.jpmml.model.PMMLException;
 import org.jpmml.model.ReflectionUtil;
 import org.w3c.dom.Element;
 
@@ -356,7 +356,7 @@ public class PMMLObjectUtil {
 								break discreteValues;
 							}
 
-							discreteValues.put(pmmlValue.getProperty(), pmmlValue.getValue());
+							discreteValues.put(pmmlValue.getProperty(), pmmlValue.requireValue());
 						}
 
 						suppressedPmmlValues = new ArrayList<>(pmmlValues);

@@ -18,10 +18,9 @@
  */
 package org.jpmml.translator;
 
-import java.util.List;
-
 import org.dmg.pmml.TextIndex;
 import org.jpmml.evaluator.TextUtil;
+import org.jpmml.evaluator.TokenizedString;
 
 public interface FunctionInvocation {
 
@@ -41,7 +40,7 @@ public interface FunctionInvocation {
 		String getTerm();
 
 		default
-		List<String> getTermTokens(){
+		TokenizedString getTermTokens(){
 			TextIndex textIndex = getTextIndex();
 			String term = getTerm();
 

@@ -139,7 +139,7 @@ public class FieldInfo {
 		{
 			Field<?> field = getField();
 
-			return IdentifierUtil.sanitize(field.getName());
+			return IdentifierUtil.sanitize(field.requireName());
 		}
 	}
 
@@ -153,7 +153,7 @@ public class FieldInfo {
 		{
 			Field<?> field = getField();
 
-			return IdentifierUtil.sanitize(field.getName());
+			return IdentifierUtil.sanitize(field.requireName());
 		}
 	}
 }

@@ -57,14 +57,15 @@ import org.dmg.pmml.regression.PredictorTerm;
 import org.dmg.pmml.regression.RegressionModel;
 import org.dmg.pmml.regression.RegressionTable;
 import org.jpmml.evaluator.Classification;
-import org.jpmml.evaluator.InvalidElementException;
 import org.jpmml.evaluator.ProbabilityDistribution;
+import org.jpmml.evaluator.TokenizedString;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.VoteDistribution;
 import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.evaluator.regression.RegressionModelUtil;
+import org.jpmml.model.InvalidElementException;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
@@ -85,7 +86,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	public RegressionModelTranslator(PMML pmml, RegressionModel regressionModel){
 		super(pmml, regressionModel);
 
-		MiningFunction miningFunction = regressionModel.getMiningFunction();
+		MiningFunction miningFunction = regressionModel.requireMiningFunction();
 		switch(miningFunction){
 			case REGRESSION:
 			case CLASSIFICATION:
@@ -94,7 +95,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				throw new UnsupportedAttributeException(regressionModel, miningFunction);
 		}
 
-		List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
+		List<RegressionTable> regressionTables = regressionModel.requireRegressionTables();
 		for(RegressionTable regressionTable : regressionTables){
 
 			if(regressionTable.hasPredictorTerms()){
@@ -288,7 +289,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					continue;
 				}
 
-				Number coefficient = numericPredictor.getCoefficient();
+				Number coefficient = numericPredictor.requireCoefficient();
 				Integer exponent = numericPredictor.getExponent();
 
 				OperableRef operableRef = context.ensureOperable(fieldInfo, (method) -> true);
@@ -313,7 +314,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 		if(regressionTable.hasCategoricalPredictors()){
 			Map<String, List<CategoricalPredictor>> fieldCategoricalPredictors = regressionTable.getCategoricalPredictors().stream()
-				.collect(Collectors.groupingBy(categoricalPredictor -> categoricalPredictor.getField(), Collectors.toList()));
+				.collect(Collectors.groupingBy(categoricalPredictor -> categoricalPredictor.requireField(), Collectors.toList()));
 
 			JBlock block = context.block();
 
@@ -329,7 +330,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					OperableRef operableRef = context.ensureOperable(fieldInfo, (method) -> true);
 
 					Map<Object, Number> categoryValues = (entry.getValue()).stream()
-						.collect(Collectors.toMap(CategoricalPredictor::getValue, CategoricalPredictor::getCoefficient));
+						.collect(Collectors.toMap(CategoricalPredictor::requireValue, CategoricalPredictor::requireCoefficient));
 
 					context._return(operableRef.getExpression(), categoryValues, null);
 				} finally {
@@ -356,8 +357,8 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			throw new UnsupportedElementException(Iterables.getFirst(predictorTerms, null));
 		}
 
-		Number intercept = regressionTable.getIntercept();
-		if(intercept != null && intercept.doubleValue() != 0d){
+		Number intercept = regressionTable.requireIntercept();
+		if(intercept.doubleValue() != 0d){
 			valueBuilder.update("add", intercept);
 		}
 
@@ -384,10 +385,10 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			}
 		};
 
-		Function<FunctionInvocationPredictor, List<String>> termFunction = new Function<FunctionInvocationPredictor, List<String>>(){
+		Function<FunctionInvocationPredictor, TokenizedString> termFunction = new Function<FunctionInvocationPredictor, TokenizedString>(){
 
 			@Override
-			public List<String> apply(FunctionInvocationPredictor tfTerm){
+			public TokenizedString apply(FunctionInvocationPredictor tfTerm){
 				FunctionInvocation.Tf tf = tfTerm.getTf();
 
 				return tf.getTermTokens();
@@ -400,7 +401,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			public Number apply(FunctionInvocationPredictor tfTerm){
 				NumericPredictor numericPredictor = tfTerm.numericPredictor;
 
-				return numericPredictor.getCoefficient();
+				return numericPredictor.requireCoefficient();
 			}
 		};
 
@@ -429,13 +430,13 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JFieldVar textIndexVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(TextIndex.class), IdentifierUtil.create("textIndex", regressionTable, name), PMMLObjectUtil.createObject(localTextIndex, context));
 
-			List<String>[] terms = predictors.stream()
+			TokenizedString[] terms = predictors.stream()
 				.map(termFunction)
-				.toArray(List[]::new);
+				.toArray(TokenizedString[]::new);
 
-			JFieldVar termsVar = resourceInitializer.initStringLists(IdentifierUtil.create("terms", regressionTable, name), terms);
+			JFieldVar termsVar = resourceInitializer.initTokenizedStringLists(IdentifierUtil.create("terms", regressionTable, name), terms);
 
-			JFieldVar termIndicesVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable, name), context._new(LinkedHashMap.class));
+			JFieldVar termIndicesVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(Map.class).narrow(Arrays.asList(context.ref(TokenizedString.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable, name), context._new(LinkedHashMap.class));
 
 			JForLoop termIndicesForLoop = new JForLoop();
 
@@ -466,7 +467,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			}
 
 			int maxLength = Arrays.stream(terms)
-				.mapToInt(List::size)
+				.mapToInt(TokenizedString::size)
 				.max().orElseThrow(NoSuchElementException::new);
 
 			JVar termFrequencyTableVar = (JVar)TextIndexUtil.computeTermFrequencyTable(null, localTextIndex, textIndexVar, termIndicesVar.invoke("keySet"), maxLength, context);
@@ -480,7 +481,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			try {
 				context.pushScope(new Scope(entriesForEach.body()));
 
-				JVar termVar = context.declare(context.ref(List.class).narrow(String.class), "term", entriesForEach.var().invoke("getKey"));
+				JVar termVar = context.declare(context.ref(TokenizedString.class), "term", entriesForEach.var().invoke("getKey"));
 				JVar frequencyVar = context.declare(context.ref(Integer.class), "frequency", entriesForEach.var().invoke("getValue"));
 
 				JVar indexVar = context.declare(context.ref(Integer.class), "termIndex", termIndicesVar.invoke("get").arg(termVar));

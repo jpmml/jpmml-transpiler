@@ -85,7 +85,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	public TreeModelAggregatorTranslator(PMML pmml, MiningModel miningModel){
 		super(pmml, miningModel);
 
-		MiningFunction miningFunction = miningModel.getMiningFunction();
+		MiningFunction miningFunction = miningModel.requireMiningFunction();
 		switch(miningFunction){
 			case REGRESSION:
 			case CLASSIFICATION:
@@ -96,9 +96,9 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		MathContext mathContext = miningModel.getMathContext();
 
-		Segmentation segmentation = miningModel.getSegmentation();
+		Segmentation segmentation = miningModel.requireSegmentation();
 
-		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
+		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.requireMultipleModelMethod();
 		switch(multipleModelMethod){
 			case SUM:
 			case WEIGHTED_SUM:
@@ -120,10 +120,10 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				throw new UnsupportedAttributeException(segmentation, missingPredictionTreatment);
 		}
 
-		List<Segment> segments = segmentation.getSegments();
+		List<Segment> segments = segmentation.requireSegments();
 		for(Segment segment : segments){
-			Predicate predicate = segment.getPredicate();
-			Model model = segment.getModel();
+			Predicate predicate = segment.requirePredicate();
+			Model model = segment.requireModel();
 
 			if(!(predicate instanceof True)){
 				throw new UnsupportedElementException(predicate);
@@ -133,7 +133,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				throw new UnsupportedElementException(model);
 			} // End if
 
-			if(!(mathContext).equals(model.getMathContext())){
+			if(model.getMathContext() != mathContext){
 				throw new UnsupportedAttributeException(model, model.getMathContext());
 			}
 
@@ -150,7 +150,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	public JMethod translateRegressor(TranslationContext context){
 		MiningModel miningModel = getModel();
 
-		Segmentation segmentation = miningModel.getSegmentation();
+		Segmentation segmentation = miningModel.requireSegmentation();
 
 		JMethod evaluateMethod = createEvaluatorMethod(Value.class, segmentation, true, context);
 
@@ -169,7 +169,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	public JMethod translateClassifier(TranslationContext context){
 		MiningModel miningModel = getModel();
 
-		Segmentation segmentation = miningModel.getSegmentation();
+		Segmentation segmentation = miningModel.requireSegmentation();
 
 		JMethod evaluateMethod = createEvaluatorMethod(Classification.class, segmentation, true, context);
 
@@ -192,7 +192,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		List<Segment> segments = segmentation.getSegments();
 		for(Segment segment : segments){
-			TreeModel treeModel = (TreeModel)segment.getModel();
+			TreeModel treeModel = (TreeModel)segment.requireModel();
 
 			Node node = treeModel.getNode();
 
@@ -214,7 +214,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		MathContext mathContext = miningModel.getMathContext();
 
-		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
+		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.requireMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
 		Map<String, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
@@ -249,8 +249,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		List<JMethod> methods = new ArrayList<>();
 
 		for(Segment segment : segments){
-			True _true = (True)segment.getPredicate();
-			TreeModel treeModel = (TreeModel)segment.getModel();
+			True _true = (True)segment.requirePredicate();
+			TreeModel treeModel = (TreeModel)segment.requireModel();
 
 			Node node = treeModel.getNode();
 
@@ -384,7 +384,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		MathContext mathContext = miningModel.getMathContext();
 
-		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
+		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.requireMultipleModelMethod();
 		List<Segment> segments = segmentation.getSegments();
 
 		Map<String, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(segmentation));
@@ -413,8 +413,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		List<JMethod> methods = new ArrayList<>();
 
 		for(Segment segment : segments){
-			True _true = (True)segment.getPredicate();
-			TreeModel treeModel = (TreeModel)segment.getModel();
+			True _true = (True)segment.requirePredicate();
+			TreeModel treeModel = (TreeModel)segment.requireModel();
 
 			Node node = treeModel.getNode();
 

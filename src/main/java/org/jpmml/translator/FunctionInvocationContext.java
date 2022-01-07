@@ -38,7 +38,7 @@ public class FunctionInvocationContext extends HashMap<String, Expression> {
 
 		FieldRef fieldRef = (FieldRef)get(name);
 
-		return fieldRef.getField();
+		return fieldRef.requireField();
 	}
 
 	public Expression resolve(Expression expression){
@@ -50,7 +50,7 @@ public class FunctionInvocationContext extends HashMap<String, Expression> {
 		if(expression instanceof FieldRef){
 			FieldRef fieldRef = (FieldRef)expression;
 
-			return get(fieldRef.getField());
+			return get(fieldRef.requireField());
 		}
 
 		return expression;

@@ -29,8 +29,6 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JType;
 import org.dmg.pmml.ScoreDistribution;
 import org.dmg.pmml.tree.Node;
-import org.dmg.pmml.tree.PMMLAttributes;
-import org.jpmml.evaluator.MissingAttributeException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.ValueMap;
@@ -65,12 +63,9 @@ public class NodeScoreDistributionManager<V extends Number> extends ArrayManager
 
 		List<ScoreDistribution> scoreDistributions = node.getScoreDistributions();
 		for(ScoreDistribution scoreDistribution : scoreDistributions){
-			Number recordCount = scoreDistribution.getRecordCount();
-			if(recordCount == null){
-				throw new MissingAttributeException(node, PMMLAttributes.COMPLEXNODE_RECORDCOUNT);
-			}
+			Number recordCount = scoreDistribution.requireRecordCount();
 
-			Object category = scoreDistribution.getValue();
+			Object category = scoreDistribution.requireValue();
 			Value<V> value = valueFactory.newValue(recordCount);
 
 			probabilityMap.put(category, value);

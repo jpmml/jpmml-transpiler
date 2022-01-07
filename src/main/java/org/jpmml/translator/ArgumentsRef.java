@@ -48,7 +48,7 @@ public class ArgumentsRef extends JVarRef {
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();
 
-		String name = field.getName();
+		String name = field.requireName();
 
 		String memberName;
 		JType[] argTypes = new JType[0];
@@ -58,7 +58,7 @@ public class ArgumentsRef extends JVarRef {
 
 			Field<?> finalField = finalFieldInfo.getField();
 
-			name = finalField.getName();
+			name = finalField.requireName();
 
 			memberName = finalFieldInfo.getMemberName();
 

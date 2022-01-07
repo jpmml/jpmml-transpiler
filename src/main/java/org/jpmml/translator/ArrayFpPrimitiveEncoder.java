@@ -34,7 +34,7 @@ import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataField;
 import org.dmg.pmml.DataType;
 import org.jpmml.evaluator.FieldValue;
-import org.jpmml.evaluator.MissingValueException;
+import org.jpmml.evaluator.MissingFieldValueException;
 
 public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements ArrayEncoder {
 
@@ -92,7 +92,7 @@ public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements Array
 
 			JVar valueVar = thenBlock.decl(context.ref(FieldValue.class), "value", context.invoke(JExpr.refthis("context"), "evaluate", nameExpr));
 
-			thenBlock._if(valueVar.eq(JExpr._null()))._then()._throw(context._new(MissingValueException.class, nameExpr));
+			thenBlock._if(valueVar.eq(JExpr._null()))._then()._throw(context._new(MissingFieldValueException.class, nameExpr));
 
 			thenBlock.assign(JExpr.refthis(listField.name()), JExpr.cast(listField.type(), valueVar.invoke("getValue")));
 

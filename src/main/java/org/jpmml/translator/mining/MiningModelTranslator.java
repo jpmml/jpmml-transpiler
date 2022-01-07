@@ -28,14 +28,10 @@ import org.dmg.pmml.Output;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Targets;
 import org.dmg.pmml.mining.MiningModel;
-import org.dmg.pmml.mining.PMMLAttributes;
-import org.dmg.pmml.mining.PMMLElements;
+import org.dmg.pmml.mining.Segment;
 import org.dmg.pmml.mining.Segmentation;
 import org.jpmml.evaluator.InputFieldUtil;
-import org.jpmml.evaluator.MissingAttributeException;
-import org.jpmml.evaluator.MissingElementException;
 import org.jpmml.evaluator.UnsupportedElementException;
-import org.jpmml.model.XPathUtil;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.ModelTranslatorFactory;
 
@@ -45,19 +41,13 @@ public class MiningModelTranslator extends ModelTranslator<MiningModel> {
 	public MiningModelTranslator(PMML pmml, MiningModel miningModel){
 		super(pmml, miningModel);
 
-		Segmentation segmentation = miningModel.getSegmentation();
-		if(segmentation == null){
-			throw new MissingElementException(miningModel, PMMLElements.MININGMODEL_SEGMENTATION);
-		}
+		Segmentation segmentation = miningModel.requireSegmentation();
 
-		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
-		if(multipleModelMethod == null){
-			throw new MissingAttributeException(segmentation, PMMLAttributes.SEGMENTATION_MULTIPLEMODELMETHOD);
-		} // End if
+		@SuppressWarnings("unused")
+		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.requireMultipleModelMethod();
 
-		if(!segmentation.hasSegments()){
-			throw new MissingElementException(segmentation, PMMLElements.SEGMENTATION_SEGMENTS);
-		}
+		@SuppressWarnings("unused")
+		List<Segment> segments = segmentation.requireSegments();
 	}
 
 	public ModelTranslator<?> newModelTranslator(Model model){
@@ -70,11 +60,7 @@ public class MiningModelTranslator extends ModelTranslator<MiningModel> {
 
 	static
 	public void checkMiningSchema(Model model){
-		MiningSchema miningSchema = model.getMiningSchema();
-
-		if(miningSchema == null){
-			throw new MissingElementException(MissingElementException.formatMessage(XPathUtil.formatElement(model.getClass()) + "/" + XPathUtil.formatElement(MiningSchema.class)), model);
-		} // End if
+		MiningSchema miningSchema = model.requireMiningSchema();
 
 		if(miningSchema.hasMiningFields()){
 			List<MiningField> miningFields = miningSchema.getMiningFields();

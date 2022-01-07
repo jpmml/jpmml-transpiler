@@ -19,7 +19,7 @@
 package org.jpmml.transpiler;
 
 import org.dmg.pmml.PMMLObject;
-import org.jpmml.evaluator.PMMLException;
+import org.jpmml.model.PMMLException;
 import org.jpmml.model.XPathUtil;
 
 public class UntranslatedElementException extends PMMLException {

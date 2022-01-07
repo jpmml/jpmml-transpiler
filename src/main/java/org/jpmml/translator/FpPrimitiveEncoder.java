@@ -45,7 +45,7 @@ public class FpPrimitiveEncoder implements Encoder {
 	public String getVariableName(FieldInfo fieldInfo){
 		Field<?> field = fieldInfo.getField();
 
-		return IdentifierUtil.sanitize(field.getName()) + "2fp";
+		return IdentifierUtil.sanitize(field.requireName()) + "2fp";
 	}
 
 	@Override

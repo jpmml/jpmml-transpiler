@@ -80,7 +80,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 	public TreeModelBoosterTranslator(PMML pmml, MiningModel miningModel){
 		super(pmml, miningModel);
 
-		MiningFunction miningFunction = miningModel.getMiningFunction();
+		MiningFunction miningFunction = miningModel.requireMiningFunction();
 		switch(miningFunction){
 			case REGRESSION:
 				break;
@@ -90,9 +90,9 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		MathContext mathContext = miningModel.getMathContext();
 
-		Segmentation segmentation = miningModel.getSegmentation();
+		Segmentation segmentation = miningModel.requireSegmentation();
 
-		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
+		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.requireMultipleModelMethod();
 		switch(multipleModelMethod){
 			case SUM:
 				break;
@@ -100,10 +100,10 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 		}
 
-		List<Segment> segments = segmentation.getSegments();
+		List<Segment> segments = segmentation.requireSegments();
 		for(Segment segment : segments){
-			Predicate predicate = segment.getPredicate();
-			Model model = segment.getModel();
+			Predicate predicate = segment.requirePredicate();
+			Model model = segment.requireModel();
 
 			if(!(predicate instanceof True)){
 				throw new UnsupportedElementException(predicate);
@@ -113,7 +113,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 				throw new UnsupportedElementException(model);
 			} // End if
 
-			if(!(mathContext).equals(model.getMathContext())){
+			if(model.getMathContext() != mathContext){
 				throw new UnsupportedAttributeException(model, model.getMathContext());
 			}
 
@@ -286,7 +286,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 	private TreeModel transformModel(MiningModel miningModel){
 		TreeModel treeModel = transformSegmentation(miningModel);
 
-		Segmentation segmentation = miningModel.getSegmentation();
+		Segmentation segmentation = miningModel.requireSegmentation();
 
 		List<Segment> segments = segmentation.getSegments();
 		if(!segments.isEmpty()){
@@ -313,7 +313,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 	private TreeModel transformSegmentation(MiningModel miningModel){
 		MathContext mathContext = miningModel.getMathContext();
 
-		Segmentation segmentation = miningModel.getSegmentation();
+		Segmentation segmentation = miningModel.requireSegmentation();
 
 		Number zero;
 
@@ -407,10 +407,10 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 		Visitor treeModelInitializer = new AbstractVisitor(){
 
 			{
-				MiningSchema miningSchema = miningModel.getMiningSchema();
+				MiningSchema miningSchema = miningModel.requireMiningSchema();
 				LocalTransformations localTransformations = miningModel.getLocalTransformations();
 
-				if(miningSchema != null && miningSchema.hasMiningFields()){
+				if(miningSchema.hasMiningFields()){
 					addMiningFields(miningSchema.getMiningFields());
 				} // End if
 
@@ -423,7 +423,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			public VisitorAction visit(TreeModel treeModel){
 				Node root = treeModel.getNode();
 
-				Predicate predicate = root.getPredicate();
+				Predicate predicate = root.requirePredicate();
 				if(!(predicate instanceof True)){
 					throw new IllegalArgumentException();
 				} // End if
@@ -461,7 +461,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			}
 
 			private void addMiningFields(List<MiningField> miningFields){
-				MiningSchema miningSchema = treeModel.getMiningSchema();
+				MiningSchema miningSchema = treeModel.requireMiningSchema();
 
 				miningFields:
 				for(MiningField miningField : miningFields){
@@ -549,7 +549,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 			private List<PredicateKey> createKey(List<Node> nodes){
 				return nodes.stream()
-					.map(node -> new PredicateKey(node.getPredicate()))
+					.map(node -> new PredicateKey(node.requirePredicate()))
 					.collect(Collectors.toList());
 			}
 

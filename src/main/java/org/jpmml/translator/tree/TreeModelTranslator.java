@@ -59,16 +59,15 @@ import org.dmg.pmml.TextIndex;
 import org.dmg.pmml.True;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.PMMLAttributes;
-import org.dmg.pmml.tree.PMMLElements;
 import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
-import org.jpmml.evaluator.MissingAttributeException;
-import org.jpmml.evaluator.MissingElementException;
 import org.jpmml.evaluator.ProbabilityDistribution;
+import org.jpmml.evaluator.TokenizedString;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.java.JavaModel;
+import org.jpmml.model.MissingAttributeException;
 import org.jpmml.translator.ArrayFpPrimitiveEncoder;
 import org.jpmml.translator.ArrayInfo;
 import org.jpmml.translator.Encoder;
@@ -115,12 +114,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				throw new UnsupportedAttributeException(treeModel, noTrueChildStrategy);
 		}
 
-		Node root = treeModel.getNode();
-		if(root == null){
-			throw new MissingElementException(treeModel, PMMLElements.TREEMODEL_NODE);
-		}
+		Node root = treeModel.requireNode();
 
-		Predicate predicate = root.getPredicate();
+		Predicate predicate = root.requirePredicate();
 		if(!(predicate instanceof True)){
 			throw new UnsupportedElementException(predicate);
 		}
@@ -244,7 +240,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	static
 	public <S> void translateNode(TreeModel treeModel, Node root, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
-		Predicate predicate = root.getPredicate();
+		Predicate predicate = root.requirePredicate();
 
 		if(!(predicate instanceof True)){
 			throw new UnsupportedElementException(predicate);
@@ -289,7 +285,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 								if(predicate instanceof HasFieldReference){
 									HasFieldReference<?> hasFieldReference = (HasFieldReference<?>)predicate;
 
-									return hasFieldReference.getField();
+									return hasFieldReference.requireField();
 								}
 
 								return null;
@@ -414,7 +410,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	static
 	public <S> NodeScope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
-		Predicate predicate = node.getPredicate();
+		Predicate predicate = node.requirePredicate();
 
 		OperableRef operableRef;
 
@@ -425,7 +421,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			operableRef = ensureOperable(simplePredicate, dependentNodes, fieldInfos, context);
 
-			SimplePredicate.Operator operator = simplePredicate.getOperator();
+			SimplePredicate.Operator operator = simplePredicate.requireOperator();
 			switch(operator){
 				case IS_MISSING:
 					return createBranch(operableRef.isMissing(), context);
@@ -435,7 +431,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					break;
 			}
 
-			Object value = simplePredicate.getValue();
+			Object value = simplePredicate.requireValue();
 
 			switch(operator){
 				case EQUAL:
@@ -466,11 +462,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			operableRef = ensureOperable(simpleSetPredicate, dependentNodes, fieldInfos, context);
 
-			ComplexArray complexArray = (ComplexArray)simpleSetPredicate.getArray();
+			ComplexArray complexArray = (ComplexArray)simpleSetPredicate.requireArray();
 
 			Collection<?> values = complexArray.getValue();
 
-			SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.getBooleanOperator();
+			SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.requireBooleanOperator();
 			switch(booleanOperator){
 				case IS_IN:
 					valueExpr = operableRef.isIn(values, context);
@@ -570,7 +566,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					.forEach((dataField) -> fieldArrayInfos.put(dataField, arrayInfo));
 			});
 
-		ListMultimap<String, List<String>> tfTokens = ArrayListMultimap.create();
+		ListMultimap<String, TokenizedString> tfTokens = ArrayListMultimap.create();
 
 		Collection<? extends Map.Entry<String, FieldInfo>> entries = fieldInfos.entrySet();
 		for(Map.Entry<String, FieldInfo> entry : entries){
@@ -611,7 +607,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 									FunctionInvocation.Tf tf = termFrequencyEncoder.getTf(fieldInfo);
 
-									List<List<String>> tokens = tfTokens.get(tf.getTextField());
+									List<TokenizedString> tokens = tfTokens.get(tf.getTextField());
 
 									int index = tokens.indexOf(tf.getTermTokens());
 									if(index < 0){
@@ -627,7 +623,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 								{
 									// XXX
-									if((DataType.INTEGER).equals(dataType)){
+									if(dataType == DataType.INTEGER){
 										encoder = null;
 									}
 								}
@@ -676,10 +672,10 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			textIndexVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(TextIndex.class), textIndexName, PMMLObjectUtil.createObject(localTextIndex, context));
 
-			List<String>[] terms = (encoder.getVocabulary()).stream()
-				.toArray(List[]::new);
+			TokenizedString[] terms = (encoder.getVocabulary()).stream()
+				.toArray(TokenizedString[]::new);
 
-			JFieldVar termsVar = resourceInitializer.initStringLists(IdentifierUtil.create("terms", textIndex, name), terms);
+			JFieldVar termsVar = resourceInitializer.initTokenizedStringLists(IdentifierUtil.create("terms", textIndex, name), terms);
 		}
 	}
 
@@ -697,7 +693,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 					return true;
 				}
 
-				return usesField(dependentNodes, hasFieldReference.getField());
+				return usesField(dependentNodes, hasFieldReference.requireField());
 			}
 		};
 
@@ -765,12 +761,12 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	static
 	private boolean usesField(Node node, String fieldName){
-		Predicate predicate = node.getPredicate();
+		Predicate predicate = node.requirePredicate();
 
 		if(predicate instanceof HasFieldReference){
 			HasFieldReference<?> hasFieldReference = (HasFieldReference<?>)predicate;
 
-			if(Objects.equals(hasFieldReference.getField(), fieldName)){
+			if(Objects.equals(hasFieldReference.requireField(), fieldName)){
 				return true;
 			}
 		} // End if

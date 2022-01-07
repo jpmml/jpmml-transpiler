@@ -73,7 +73,7 @@ public class CountingActiveFieldFinder extends AbstractVisitor {
 	}
 
 	private <P extends Predicate & HasFieldReference<P>> void process(P predicate){
-		String fieldName = predicate.getField();
+		String fieldName = predicate.requireField();
 
 		Integer count = this.nameCounts.get(fieldName);
 

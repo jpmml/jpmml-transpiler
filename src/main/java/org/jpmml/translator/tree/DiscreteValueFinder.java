@@ -37,13 +37,14 @@ public class DiscreteValueFinder extends AbstractVisitor {
 
 	@Override
 	public VisitorAction visit(SimplePredicate simplePredicate){
-		String fieldName = simplePredicate.getField();
-		SimplePredicate.Operator operator = simplePredicate.getOperator();
-		Object value = simplePredicate.getValue();
+		String fieldName = simplePredicate.requireField();
+		SimplePredicate.Operator operator = simplePredicate.requireOperator();
 
 		switch(operator){
 			case EQUAL:
 			case NOT_EQUAL:
+				Object value = simplePredicate.requireValue();
+
 				addValue(fieldName, value);
 				break;
 			default:
@@ -55,9 +56,9 @@ public class DiscreteValueFinder extends AbstractVisitor {
 
 	@Override
 	public VisitorAction visit(SimpleSetPredicate simpleSetPredicate){
-		String fieldName = simpleSetPredicate.getField();
-		SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.getBooleanOperator();
-		ComplexArray array = (ComplexArray)simpleSetPredicate.getArray();
+		String fieldName = simpleSetPredicate.requireField();
+		SimpleSetPredicate.BooleanOperator booleanOperator = simpleSetPredicate.requireBooleanOperator();
+		ComplexArray array = (ComplexArray)simpleSetPredicate.requireArray();
 
 		Collection<?> values = array.getValue();
 

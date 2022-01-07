@@ -56,7 +56,6 @@ import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.MiningSchema;
 import org.dmg.pmml.Model;
-import org.dmg.pmml.Output;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLAttributes;
 import org.dmg.pmml.PMMLObject;
@@ -124,7 +123,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	public void createEvaluateMethod(TranslationContext context){
 		M model = getModel();
 
-		MiningFunction miningFunction = model.getMiningFunction();
+		MiningFunction miningFunction = model.requireMiningFunction();
 		switch(miningFunction){
 			case REGRESSION:
 				{
@@ -218,8 +217,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		PMML pmml = getPMML();
 		M model = getModel();
 
-		MiningSchema miningSchema = model.getMiningSchema();
-		Output output = model.getOutput();
+		MiningSchema miningSchema = model.requireMiningSchema();
 
 		Map<String, Field<?>> bodyFields = new HashMap<>();
 
@@ -234,7 +232,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 					Collection<Field<?>> fields = getFields();
 
 					for(Field<?> field : fields){
-						String name = field.getName();
+						String name = field.requireName();
 
 						Field<?> previousField = bodyFields.put(name, field);
 						if((previousField != null) && (previousField != field)){
@@ -333,12 +331,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			return;
 		}
 
-		DataDictionary dataDictionary = pmml.getDataDictionary();
-		if(dataDictionary == null){
-			dataDictionary = new DataDictionary();
-
-			pmml.setDataDictionary(dataDictionary);
-		}
+		DataDictionary dataDictionary = pmml.requireDataDictionary();
 
 		for(ArrayInfo arrayInfo : arrayInfos){
 			DataField dataField = new DataField(arrayInfo.getName(), arrayInfo.getOpType(), arrayInfo.getDataType());
@@ -376,7 +369,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 	static
 	public FieldInfo getFieldInfo(HasFieldReference<?> hasFieldReference, Map<String, FieldInfo> fieldInfos){
-		return getFieldInfo(hasFieldReference.getField(), fieldInfos);
+		return getFieldInfo(hasFieldReference.requireField(), fieldInfos);
 	}
 
 	static
@@ -529,7 +522,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		if(field instanceof DerivedField){
 			DerivedField derivedField = (DerivedField)field;
 
-			Expression expression = derivedField.getExpression();
+			Expression expression = derivedField.requireExpression();
 
 			FunctionInvocation functionInvocation = FunctionInvocationUtil.match(expression, context);
 

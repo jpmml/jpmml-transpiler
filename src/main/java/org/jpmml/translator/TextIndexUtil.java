@@ -19,7 +19,6 @@
 package org.jpmml.translator;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import com.sun.codemodel.JAssignment;
@@ -31,6 +30,7 @@ import org.dmg.pmml.DerivedField;
 import org.dmg.pmml.OpType;
 import org.dmg.pmml.TextIndex;
 import org.jpmml.evaluator.TextUtil;
+import org.jpmml.evaluator.TokenizedString;
 
 public class TextIndexUtil {
 
@@ -65,7 +65,7 @@ public class TextIndexUtil {
 	static
 	public JExpression computeTermFrequencyTable(JVar assignmentTargetVar, TextIndex textIndex, JExpression textIndexExpr, JExpression vocabularyExpr, int maxLength, TranslationContext context){
 		// XXX
-		FieldInfo textFieldInfo = new FieldInfo(new DerivedField(textIndex.getTextField(), OpType.CATEGORICAL, DataType.STRING, null));
+		FieldInfo textFieldInfo = new FieldInfo(new DerivedField(textIndex.requireTextField(), OpType.CATEGORICAL, DataType.STRING, null));
 
 		StringRef textRef = (StringRef)context.ensureOperable(textFieldInfo, (method) -> true);
 
@@ -79,7 +79,7 @@ public class TextIndexUtil {
 
 		JInvocation textTokenizationInvocation = context.staticInvoke(TextUtil.class, "tokenize", textIndexExpr, textVar);
 
-		JVar textTokensVar = context.declare(context.ref(List.class).narrow(String.class), textVar.name() + "Tokens", textTokenizationInvocation);
+		JVar textTokensVar = context.declare(context.ref(TokenizedString.class), textVar.name() + "Tokens", textTokenizationInvocation);
 
 		JInvocation termFrequencyTableInvocation = context.staticInvoke(TextUtil.class, "termFrequencyTable", textIndexExpr, textTokensVar, vocabularyExpr, maxLength);
 
@@ -89,7 +89,7 @@ public class TextIndexUtil {
 			return termFrequencyTableInvocation;
 		}
 
-		JVar termFrequencyTableVar = context.declare(context.ref(Map.class).narrow(Arrays.asList(context.ref(List.class).narrow(String.class), context.ref(Integer.class))), textVar.name() + "FrequencyTable", termFrequencyTableInvocation);
+		JVar termFrequencyTableVar = context.declare(context.ref(Map.class).narrow(Arrays.asList(context.ref(TokenizedString.class), context.ref(Integer.class))), textVar.name() + "FrequencyTable", termFrequencyTableInvocation);
 
 		return termFrequencyTableVar;
 	}

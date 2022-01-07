@@ -46,6 +46,7 @@ import com.sun.codemodel.JVar;
 import com.sun.codemodel.fmt.JBinaryFile;
 import org.dmg.pmml.MathContext;
 import org.jpmml.evaluator.ResourceUtil;
+import org.jpmml.evaluator.TokenizedString;
 
 public class JBinaryFileInitializer extends JClassInitializer {
 
@@ -161,21 +162,21 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		this.tryBody.assign(field, invocation);
 	}
 
-	public JFieldVar initStringLists(String name, List<String>[] stringLists){
+	public JFieldVar initTokenizedStringLists(String name, TokenizedString[] tokenizedStrings){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
-		JFieldVar constant = createConstant(name, context.ref(List.class).narrow(String.class), context);
+		JFieldVar constant = createConstant(name, context.ref(TokenizedString.class), context);
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
 
-			ResourceUtil.writeStringLists(dataOutput, stringLists);
+			ResourceUtil.writeTokenizedStrings(dataOutput, tokenizedStrings);
 		} catch(IOException ioe){
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readStringLists", this.dataInputVar);
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readTokenizedStrings", this.dataInputVar, tokenizedStrings.length);
 
 		add(context.staticInvoke(Collections.class, "addAll", constant, invocation));
 

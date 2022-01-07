@@ -41,10 +41,10 @@ import org.dmg.pmml.regression.NumericPredictor;
 import org.dmg.pmml.regression.RegressionModel;
 import org.dmg.pmml.regression.RegressionTable;
 import org.jpmml.evaluator.Classification;
-import org.jpmml.evaluator.InvalidElementException;
-import org.jpmml.evaluator.MissingElementException;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
+import org.jpmml.model.InvalidElementException;
+import org.jpmml.model.MissingElementException;
 import org.jpmml.model.XPathUtil;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.MethodScope;
@@ -60,7 +60,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 	public ModelChainTranslator(PMML pmml, MiningModel miningModel){
 		super(pmml, miningModel);
 
-		MiningFunction miningFunction = miningModel.getMiningFunction();
+		MiningFunction miningFunction = miningModel.requireMiningFunction();
 		switch(miningFunction){
 			case CLASSIFICATION:
 				break;
@@ -70,9 +70,9 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 		MathContext mathContext = miningModel.getMathContext();
 
-		Segmentation segmentation = miningModel.getSegmentation();
+		Segmentation segmentation = miningModel.requireSegmentation();
 
-		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.getMultipleModelMethod();
+		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.requireMultipleModelMethod();
 		switch(multipleModelMethod){
 			case MODEL_CHAIN:
 				break;
@@ -80,18 +80,18 @@ public class ModelChainTranslator extends MiningModelTranslator {
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 		}
 
-		List<Segment> segments = segmentation.getSegments();
+		List<Segment> segments = segmentation.requireSegments();
 
 		List<Segment> regressorSegments = segments.subList(0, segments.size() - 1);
 		for(Segment regressorSegment : regressorSegments){
-			Predicate predicate = regressorSegment.getPredicate();
-			Model model = regressorSegment.getModel();
+			Predicate predicate = regressorSegment.requirePredicate();
+			Model model = regressorSegment.requireModel();
 
 			if(!(predicate instanceof True)){
 				throw new UnsupportedElementException(predicate);
 			}
 
-			MiningFunction modelMiningFunction = model.getMiningFunction();
+			MiningFunction modelMiningFunction = model.requireMiningFunction();
 			switch(modelMiningFunction){
 				case REGRESSION:
 					break;
@@ -140,8 +140,8 @@ public class ModelChainTranslator extends MiningModelTranslator {
 		{
 			Segment classifierSegment = segments.get(segments.size() - 1);
 
-			Predicate predicate = classifierSegment.getPredicate();
-			Model model = classifierSegment.getModel();
+			Predicate predicate = classifierSegment.requirePredicate();
+			Model model = classifierSegment.requireModel();
 
 			if(!(predicate instanceof True)){
 				throw new UnsupportedElementException(predicate);
@@ -151,7 +151,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 				throw new UnsupportedElementException(model);
 			}
 
-			MiningFunction modelMiningFunction = model.getMiningFunction();
+			MiningFunction modelMiningFunction = model.requireMiningFunction();
 			switch(modelMiningFunction){
 				case CLASSIFICATION:
 					break;
@@ -192,7 +192,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 	public JMethod translateClassifier(TranslationContext context){
 		MiningModel miningModel = getModel();
 
-		Segmentation segmentation = miningModel.getSegmentation();
+		Segmentation segmentation = miningModel.requireSegmentation();
 
 		JMethod evaluateMethod = createEvaluatorMethod(Classification.class, segmentation, true, context);
 
@@ -210,11 +210,11 @@ public class ModelChainTranslator extends MiningModelTranslator {
 	private void translateSegmentation(Segmentation segmentation, TranslationContext context){
 		MiningModel miningModel = getModel();
 
-		List<Segment> segments = segmentation.getSegments();
+		List<Segment> segments = segmentation.requireSegments();
 
 		List<Segment> regressorSegments = segments.subList(0, segments.size() - 1);
 		for(Segment regressorSegment : regressorSegments){
-			Model model = regressorSegment.getModel();
+			Model model = regressorSegment.requireModel();
 
 			Output modelOutput = model.getOutput();
 
@@ -226,7 +226,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 			JInvocation methodInvocation = createEvaluatorMethodInvocation(evaluateMethod, context);
 
-			context.declare(context.getValueType(), IdentifierUtil.create("value", outputField.getName()), methodInvocation);
+			context.declare(context.getValueType(), IdentifierUtil.create("value", outputField.requireName()), methodInvocation);
 
 			pullUpDerivedFields(miningModel, model);
 		}
@@ -237,26 +237,26 @@ public class ModelChainTranslator extends MiningModelTranslator {
 		{
 			Segment classifierSegment = segments.get(segments.size() - 1);
 
-			RegressionModel regressionModel = (RegressionModel)classifierSegment.getModel();
+			RegressionModel regressionModel = (RegressionModel)classifierSegment.requireModel();
 
 			List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
 			for(RegressionTable regressionTable : regressionTables){
 				List<NumericPredictor> numericPredictors = regressionTable.getNumericPredictors();
 
-				Number intercept = regressionTable.getIntercept();
+				Number intercept = regressionTable.requireIntercept();
 
 				JExpression valueExpr;
 
 				NumericPredictor numericPredictor = Iterables.getFirst(numericPredictors, null);
 				if(numericPredictor != null){
-					valueExpr = context.getVariable(IdentifierUtil.create("value", numericPredictor.getField()));
+					valueExpr = context.getVariable(IdentifierUtil.create("value", numericPredictor.requireField()));
 
-					Number coefficient = numericPredictor.getCoefficient();
-					if(coefficient != null && coefficient.doubleValue() != 1d){
+					Number coefficient = numericPredictor.requireCoefficient();
+					if(coefficient.doubleValue() != 1d){
 						valueExpr = context.invoke(valueExpr, "multiply", coefficient);
 					} // End if
 
-					if(intercept != null && intercept.doubleValue() != 0d){
+					if(intercept.doubleValue() != 0d){
 						valueExpr = context.invoke(valueExpr, "add", intercept);
 					}
 				} else
@@ -264,7 +264,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 				{
 					ValueFactoryRef valueFactoryRef = context.getValueFactoryVariable();
 
-					if(intercept != null && intercept.doubleValue() != 0d){
+					if(intercept.doubleValue() != 0d){
 						valueExpr = valueFactoryRef.newValue(PMMLObjectUtil.createExpression(intercept, context));
 					} else
 

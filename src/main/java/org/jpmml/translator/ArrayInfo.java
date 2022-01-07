@@ -60,7 +60,7 @@ public class ArrayInfo {
 		Map<Integer, DataField> dataFields = getDataFields();
 
 		Set<DataType> dataTypes = (dataFields.values()).stream()
-			.map(dataField -> dataField.getDataType())
+			.map(dataField -> dataField.requireDataType())
 			.collect(Collectors.toSet());
 
 		return Iterables.getOnlyElement(dataTypes);
@@ -70,7 +70,7 @@ public class ArrayInfo {
 		Map<Integer, DataField> dataFields = getDataFields();
 
 		Set<OpType> opTypes = (dataFields.values()).stream()
-			.map(dataField -> dataField.getOpType())
+			.map(dataField -> dataField.requireOpType())
 			.collect(Collectors.toSet());
 
 		return Iterables.getOnlyElement(opTypes);

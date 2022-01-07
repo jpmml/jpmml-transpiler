@@ -58,7 +58,7 @@ public class FunctionInvocationUtil {
 
 			@Override
 			public String getField(){
-				return fieldRef.getField();
+				return fieldRef.requireField();
 			}
 		};
 	}
@@ -76,14 +76,14 @@ public class FunctionInvocationUtil {
 			public String getTextField(){
 				TextIndex textIndex = getTextIndex();
 
-				return context.resolve(textIndex.getTextField());
+				return context.resolve(textIndex.requireTextField());
 			}
 
 			@Override
 			public String getTerm(){
 				TextIndex textIndex = getTextIndex();
 
-				Constant constant = (Constant)context.resolve(textIndex.getExpression());
+				Constant constant = (Constant)context.resolve(textIndex.requireExpression());
 
 				return (String)constant.getValue();
 			}
@@ -92,7 +92,7 @@ public class FunctionInvocationUtil {
 
 	static
 	public FunctionInvocation matchApply(Apply apply, FunctionInvocationContext context){
-		String function = apply.getFunction();
+		String function = apply.requireFunction();
 		List<Expression> expressions = apply.getExpressions();
 
 		if((PMMLFunctions.MULTIPLY).equals(function) && expressions.size() == 2){
@@ -122,7 +122,7 @@ public class FunctionInvocationUtil {
 			DefineFunction defineFunction = context.getDefineFunction(function);
 
 			if(defineFunction != null){
-				Expression expression = defineFunction.getExpression();
+				Expression expression = defineFunction.requireExpression();
 
 				FunctionInvocationContext defineFunctionContext = new FunctionInvocationContext(){
 
@@ -136,7 +136,7 @@ public class FunctionInvocationUtil {
 					List<ParameterField> parameterFields = defineFunction.getParameterFields();
 
 					for(int i = 0; i < parameterFields.size(); i++){
-						defineFunctionContext.put((parameterFields.get(i)).getName(), expressions.get(i));
+						defineFunctionContext.put((parameterFields.get(i)).requireName(), expressions.get(i));
 					}
 				}
 
