@@ -70,6 +70,7 @@ import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.model.MissingAttributeException;
 import org.jpmml.translator.ArrayFpPrimitiveEncoder;
 import org.jpmml.translator.ArrayInfo;
+import org.jpmml.translator.ArrayInfoMap;
 import org.jpmml.translator.Encoder;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FieldInfoMap;
@@ -230,9 +231,11 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	@Override
 	public FieldInfoMap getFieldInfos(Set<? extends PMMLObject> bodyObjects){
 		FieldInfoMap fieldInfos = super.getFieldInfos(bodyObjects);
-		Map<String, ArrayInfo> arrayInfos = getArrayInfos();
 
-		declareArrayFields(arrayInfos.values());
+		ArrayInfoMap arrayInfos = getArrayInfos();
+		if(!arrayInfos.isEmpty()){
+			declareArrayFields(arrayInfos.values());
+		}
 
 		fieldInfos = TreeModelTranslator.enhanceFieldInfos(bodyObjects, fieldInfos, arrayInfos);
 
@@ -531,7 +534,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public FieldInfoMap enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, FieldInfoMap fieldInfos, Map<String, ArrayInfo> arrayInfos){
+	public FieldInfoMap enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, FieldInfoMap fieldInfos, ArrayInfoMap arrayInfos){
 		CountingActiveFieldFinder countingActiveFieldFinder = new CountingActiveFieldFinder();
 		DiscreteValueFinder discreteValueFinder = new DiscreteValueFinder();
 

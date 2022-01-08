@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -273,8 +272,8 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		return result;
 	}
 
-	public Map<String, ArrayInfo> getArrayInfos(){
-		Map<String, ArrayInfo> result = new LinkedHashMap<>();
+	public ArrayInfoMap getArrayInfos(){
+		ArrayInfoMap result = new ArrayInfoMap();
 
 		// XXX
 		Pattern pattern = Pattern.compile("^(.+)\\_(\\d+)");
@@ -301,9 +300,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 				ArrayInfo arrayInfo = result.get(arrayName);
 				if(arrayInfo == null){
-					arrayInfo = new ArrayInfo(arrayName);
-
-					result.put(arrayName, arrayInfo);
+					arrayInfo = result.create(arrayName);
 				}
 
 				arrayInfo.setElement(arrayIndex, dataField);
@@ -323,10 +320,6 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 	protected void declareArrayFields(Collection<ArrayInfo> arrayInfos){
 		PMML pmml = getPMML();
-
-		if(arrayInfos.isEmpty()){
-			return;
-		}
 
 		DataDictionary dataDictionary = pmml.requireDataDictionary();
 

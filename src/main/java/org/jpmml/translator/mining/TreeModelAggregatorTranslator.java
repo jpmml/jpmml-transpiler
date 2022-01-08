@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,7 +60,7 @@ import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueAggregator;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.translator.AggregatorBuilder;
-import org.jpmml.translator.ArrayInfo;
+import org.jpmml.translator.ArrayInfoMap;
 import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
@@ -200,9 +199,11 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		}
 
 		FieldInfoMap fieldInfos = super.getFieldInfos(nodes);
-		Map<String, ArrayInfo> arrayInfos = getArrayInfos();
 
-		declareArrayFields(arrayInfos.values());
+		ArrayInfoMap arrayInfos = getArrayInfos();
+		if(!arrayInfos.isEmpty()){
+			declareArrayFields(arrayInfos.values());
+		}
 
 		fieldInfos = TreeModelTranslator.enhanceFieldInfos(nodes, fieldInfos, arrayInfos);
 
