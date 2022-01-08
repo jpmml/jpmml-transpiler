@@ -72,6 +72,7 @@ import org.jpmml.translator.ArrayFpPrimitiveEncoder;
 import org.jpmml.translator.ArrayInfo;
 import org.jpmml.translator.Encoder;
 import org.jpmml.translator.FieldInfo;
+import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.FpPrimitiveEncoder;
 import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
@@ -138,7 +139,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			}
 		};
 
-		Map<String, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
+		FieldInfoMap fieldInfos = getFieldInfos(Collections.singleton(node));
 
 		JMethod evaluateNodeMethod = createEvaluatorMethod(int.class, node, false, context);
 
@@ -193,7 +194,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			}
 		};
 
-		Map<String, FieldInfo> fieldInfos = getFieldInfos(Collections.singleton(node));
+		FieldInfoMap fieldInfos = getFieldInfos(Collections.singleton(node));
 
 		JMethod evaluateNodeMethod = createEvaluatorMethod(int.class, node, false, context);
 
@@ -227,8 +228,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	@Override
-	public Map<String, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
-		Map<String, FieldInfo> fieldInfos = super.getFieldInfos(bodyObjects);
+	public FieldInfoMap getFieldInfos(Set<? extends PMMLObject> bodyObjects){
+		FieldInfoMap fieldInfos = super.getFieldInfos(bodyObjects);
 		Map<String, ArrayInfo> arrayInfos = getArrayInfos();
 
 		declareArrayFields(arrayInfos.values());
@@ -239,7 +240,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S> void translateNode(TreeModel treeModel, Node root, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
+	public <S> void translateNode(TreeModel treeModel, Node root, Scorer<S> scorer, FieldInfoMap fieldInfos, TranslationContext context){
 		Predicate predicate = root.requirePredicate();
 
 		if(!(predicate instanceof True)){
@@ -262,7 +263,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, Set<String> declarableNames, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
+	public <S> void translateNode(TreeModel treeModel, Node node, List<Node> dependentNodes, Set<String> declarableNames, Scorer<S> scorer, FieldInfoMap fieldInfos, TranslationContext context){
 		S score = scorer.prepare(node);
 
 		NodeScope nodeScope = translatePredicate(treeModel, node, dependentNodes, scorer, fieldInfos, context);
@@ -365,7 +366,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private <S> void translateNodeGroup(TreeModel treeModel, NodeGroup nodeGroup, List<NodeGroup> nodeGroups, Set<String> declarableNames, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
+	private <S> void translateNodeGroup(TreeModel treeModel, NodeGroup nodeGroup, List<NodeGroup> nodeGroups, Set<String> declarableNames, Scorer<S> scorer, FieldInfoMap fieldInfos, TranslationContext context){
 		List<Node> nodes = nodeGroup;
 
 		if(!declarableNames.isEmpty()){
@@ -375,7 +376,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 				String name = nameIt.next();
 
 				if(usesField(nodes, name)){
-					FieldInfo fieldInfo = getFieldInfo(name, fieldInfos);
+					FieldInfo fieldInfo = fieldInfos.require(name);
 
 					context.ensureOperable(fieldInfo, (method) -> true);
 
@@ -409,7 +410,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public <S> NodeScope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Scorer<S> scorer, Map<String, FieldInfo> fieldInfos, TranslationContext context){
+	public <S> NodeScope translatePredicate(TreeModel treeModel, Node node, List<Node> dependentNodes, Scorer<S> scorer, FieldInfoMap fieldInfos, TranslationContext context){
 		Predicate predicate = node.requirePredicate();
 
 		OperableRef operableRef;
@@ -530,7 +531,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	public Map<String, FieldInfo> enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, Map<String, FieldInfo> fieldInfos, Map<String, ArrayInfo> arrayInfos){
+	public FieldInfoMap enhanceFieldInfos(Set<? extends PMMLObject> bodyObjects, FieldInfoMap fieldInfos, Map<String, ArrayInfo> arrayInfos){
 		CountingActiveFieldFinder countingActiveFieldFinder = new CountingActiveFieldFinder();
 		DiscreteValueFinder discreteValueFinder = new DiscreteValueFinder();
 
@@ -680,8 +681,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 	}
 
 	static
-	private OperableRef ensureOperable(HasFieldReference<?> hasFieldReference, List<Node> dependentNodes, Map<String, FieldInfo> fieldInfos, TranslationContext context){
-		FieldInfo fieldInfo = getFieldInfo(hasFieldReference, fieldInfos);
+	private OperableRef ensureOperable(HasFieldReference<?> hasFieldReference, List<Node> dependentNodes, FieldInfoMap fieldInfos, TranslationContext context){
+		FieldInfo fieldInfo = fieldInfos.require(hasFieldReference);
 
 		Function<JMethod, Boolean> function = new Function<JMethod, Boolean>(){
 

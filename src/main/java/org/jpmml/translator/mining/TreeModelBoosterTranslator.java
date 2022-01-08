@@ -61,7 +61,7 @@ import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.model.visitors.AbstractVisitor;
 import org.jpmml.model.visitors.NodeFilterer;
-import org.jpmml.translator.FieldInfo;
+import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.JCompoundAssignment;
 import org.jpmml.translator.JExprUtil;
 import org.jpmml.translator.JVarBuilder;
@@ -175,7 +175,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		Node root = treeModel.getNode();
 
-		Map<String, FieldInfo> fieldInfos = modelTranslator.getFieldInfos(Collections.singleton(root));
+		FieldInfoMap fieldInfos = modelTranslator.getFieldInfos(Collections.singleton(root));
 
 		JMethod evaluateNodeMethod = createEvaluatorMethod(Value.class, root, true, context);
 

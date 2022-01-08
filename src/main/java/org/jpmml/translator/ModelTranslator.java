@@ -51,7 +51,6 @@ import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.DerivedField;
 import org.dmg.pmml.Expression;
 import org.dmg.pmml.Field;
-import org.dmg.pmml.HasFieldReference;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.MiningSchema;
@@ -213,7 +212,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		return evaluateClassificationMethod;
 	}
 
-	public Map<String, FieldInfo> getFieldInfos(Set<? extends PMMLObject> bodyObjects){
+	public FieldInfoMap getFieldInfos(Set<? extends PMMLObject> bodyObjects){
 		PMML pmml = getPMML();
 		M model = getModel();
 
@@ -249,15 +248,13 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		};
 		fieldResolver.applyTo(pmml);
 
-		Map<String, FieldInfo> result = new LinkedHashMap<>();
+		FieldInfoMap result = new FieldInfoMap();
 
 		Set<String> names = ActiveFieldFinder.getFieldNames(bodyObjects.toArray(new PMMLObject[bodyObjects.size()]));
 		for(String name : names){
 			Field<?> field = bodyFields.get(name);
 
-			FieldInfo fieldInfo = new FieldInfo(field);
-
-			result.put(name, fieldInfo);
+			result.create(field);
 		}
 
 		FunctionInvocationContext context = new FunctionInvocationContext(){
@@ -365,21 +362,6 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			default:
 				throw new UnsupportedAttributeException(model, mathContext);
 		}
-	}
-
-	static
-	public FieldInfo getFieldInfo(HasFieldReference<?> hasFieldReference, Map<String, FieldInfo> fieldInfos){
-		return getFieldInfo(hasFieldReference.requireField(), fieldInfos);
-	}
-
-	static
-	public FieldInfo getFieldInfo(String name, Map<String, FieldInfo> fieldInfos){
-		FieldInfo fieldInfo = fieldInfos.get(name);
-		if(fieldInfo == null){
-			throw new IllegalArgumentException(name);
-		}
-
-		return fieldInfo;
 	}
 
 	static
@@ -516,7 +498,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	}
 
 	static
-	private void enhanceFieldInfo(FieldInfo fieldInfo, MiningSchema miningSchema, Map<String, Field<?>> bodyFields, Map<String, FieldInfo> fieldInfos, FunctionInvocationContext context){
+	private void enhanceFieldInfo(FieldInfo fieldInfo, MiningSchema miningSchema, Map<String, Field<?>> bodyFields, FieldInfoMap fieldInfos, FunctionInvocationContext context){
 		Field<?> field = fieldInfo.getField();
 
 		if(field instanceof DerivedField){
@@ -535,9 +517,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 				if(refFieldInfo == null){
 					Field<?> refField = bodyFields.get(fieldName);
 
-					refFieldInfo = new FieldInfo(refField);
-
-					fieldInfos.put(fieldName, refFieldInfo);
+					refFieldInfo = fieldInfos.create(refField);
 
 					enhanceFieldInfo(refFieldInfo, miningSchema, bodyFields, fieldInfos, context);
 				}

@@ -67,6 +67,7 @@ import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.evaluator.regression.RegressionModelUtil;
 import org.jpmml.model.InvalidElementException;
 import org.jpmml.translator.FieldInfo;
+import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
@@ -112,7 +113,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 		List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
 
-		Map<String, FieldInfo> fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
+		FieldInfoMap fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
 
 		RegressionTable regressionTable = Iterables.getOnlyElement(regressionTables);
 
@@ -137,7 +138,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 		List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
 
-		Map<String, FieldInfo> fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
+		FieldInfoMap fieldInfos = getFieldInfos(new HashSet<>(regressionTables));
 
 		JMethod evaluateListMethod = createEvaluatorMethod(Classification.class, regressionTables, true, context);
 
@@ -265,7 +266,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	}
 
 	static
-	public ValueBuilder translateRegressionTable(RegressionTable regressionTable, Map<String, FieldInfo> fieldInfos, TranslationContext context){
+	public ValueBuilder translateRegressionTable(RegressionTable regressionTable, FieldInfoMap fieldInfos, TranslationContext context){
 		ValueBuilder valueBuilder = new ValueBuilder(context)
 			.declare(IdentifierUtil.create("result", regressionTable), context.getValueFactoryVariable().newValue());
 
@@ -275,7 +276,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			ListMultimap<String, FunctionInvocationPredictor> tfTerms = ArrayListMultimap.create();
 
 			for(NumericPredictor numericPredictor : numericPredictors){
-				FieldInfo fieldInfo = getFieldInfo(numericPredictor, fieldInfos);
+				FieldInfo fieldInfo = fieldInfos.require(numericPredictor);
 
 				FunctionInvocation functionInvocation = fieldInfo.getFunctionInvocation();
 
@@ -320,7 +321,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			Collection<Map.Entry<String, List<CategoricalPredictor>>> entries = fieldCategoricalPredictors.entrySet();
 			for(Map.Entry<String, List<CategoricalPredictor>> entry : entries){
-				FieldInfo fieldInfo = getFieldInfo(entry.getKey(), fieldInfos);
+				FieldInfo fieldInfo = fieldInfos.require(entry.getKey());
 
 				JMethod evaluateCategoryMethod = createEvaluatorMethod(Number.class, entry.getValue(), false, context);
 
@@ -366,7 +367,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	}
 
 	static
-	private void addTermFrequencies(RegressionTable regressionTable, ValueBuilder valueBuilder, Map<String, List<FunctionInvocationPredictor>> tfTerms, Map<String, FieldInfo> fieldInfos, TranslationContext context){
+	private void addTermFrequencies(RegressionTable regressionTable, ValueBuilder valueBuilder, Map<String, List<FunctionInvocationPredictor>> tfTerms, FieldInfoMap fieldInfos, TranslationContext context){
 		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		if(tfTerms.isEmpty()){
