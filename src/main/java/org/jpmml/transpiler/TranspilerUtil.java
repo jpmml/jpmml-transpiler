@@ -20,8 +20,14 @@ package org.jpmml.transpiler;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Collections;
 import java.util.jar.Manifest;
+
+import javax.tools.Diagnostic;
+import javax.tools.DiagnosticListener;
+import javax.tools.JavaFileObject;
+import javax.tools.SimpleJavaFileObject;
 
 import com.sun.codemodel.CodeWriter;
 import com.sun.codemodel.JClass;
@@ -72,7 +78,29 @@ public class TranspilerUtil {
 
 	static
 	public void compile(JCodeModel codeModel) throws IOException {
-		CompilerUtil.compile(codeModel);
+		compile(codeModel, System.out);
+	}
+
+	static
+	public void compile(JCodeModel codeModel, PrintStream diagnosticStream) throws IOException {
+		DiagnosticListener<JavaFileObject> diagnosticListener = null;
+
+		if(diagnosticStream != null){
+			diagnosticListener = new DiagnosticListener<JavaFileObject>(){
+
+				@Override
+				public void report(Diagnostic<? extends JavaFileObject> diagnostic){
+					SimpleJavaFileObject source = (SimpleJavaFileObject)diagnostic.getSource();
+					long lineNumber = diagnostic.getLineNumber();
+					Diagnostic.Kind kind = diagnostic.getKind();
+					String message = diagnostic.getMessage(null);
+
+					diagnosticStream.println((source != null ? (source.getName() + ":" + lineNumber + ": ") : "") + ((kind.name()).toLowerCase() + ": ") + message);
+				}
+			};
+		}
+
+		CompilerUtil.compile(codeModel, null, diagnosticListener, null);
 	}
 
 	static
