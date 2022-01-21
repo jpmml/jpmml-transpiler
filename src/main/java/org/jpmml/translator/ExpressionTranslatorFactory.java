@@ -28,7 +28,6 @@ import org.dmg.pmml.Expression;
 import org.jpmml.evaluator.ServiceFactory;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.UnsupportedMarkupException;
-import org.jpmml.model.InvalidMarkupException;
 import org.jpmml.model.PMMLException;
 
 public class ExpressionTranslatorFactory extends ServiceFactory<Expression, ExpressionTranslator<?>> {
@@ -53,12 +52,7 @@ public class ExpressionTranslatorFactory extends ServiceFactory<Expression, Expr
 
 					if(cause instanceof PMMLException){
 
-						// Invalid here, invalid everywhere
-						if(cause instanceof InvalidMarkupException){
-							// Ignored
-						} else
-
-						// Unsupported here, might be supported somewhere else
+						// Unsupported by this one, might be supported by next ones
 						if(cause instanceof UnsupportedMarkupException){
 							continue;
 						}

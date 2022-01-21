@@ -23,10 +23,9 @@ import java.util.function.Predicate;
 import com.google.common.base.Equivalence;
 import org.dmg.pmml.Visitor;
 import org.jpmml.evaluator.ResultField;
-import org.jpmml.evaluator.testing.Batch;
-import org.jpmml.evaluator.testing.IntegrationTest;
+import org.jpmml.evaluator.testing.SimpleArchiveBatchTest;
 
-public class TranspilerTest extends IntegrationTest {
+public class TranspilerTest extends SimpleArchiveBatchTest {
 
 	private Visitor checker = null;
 
@@ -42,11 +41,11 @@ public class TranspilerTest extends IntegrationTest {
 	}
 
 	@Override
-	protected Batch createBatch(String name, String dataset, Predicate<ResultField> predicate, Equivalence<Object> equivalence){
-		Batch result = new TranspilerTestBatch(name, dataset, predicate, equivalence){
+	public TranspilerTestBatch createBatch(String algorithm, String dataset, Predicate<ResultField> columnFilter, Equivalence<Object> equivalence){
+		TranspilerTestBatch result = new TranspilerTestBatch(algorithm, dataset, columnFilter, equivalence){
 
 			@Override
-			public TranspilerTest getIntegrationTest(){
+			public TranspilerTest getArchiveBatchTest(){
 				return TranspilerTest.this;
 			}
 		};

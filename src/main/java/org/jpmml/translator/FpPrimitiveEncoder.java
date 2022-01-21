@@ -85,7 +85,7 @@ public class FpPrimitiveEncoder implements Encoder {
 	public JMethod createEncoderMethod(FieldInfo fieldInfo, TranslationContext context){
 		Field<?> field = fieldInfo.getField();
 
-		DataType dataType = field.getDataType();
+		DataType dataType = field.requireDataType();
 
 		String name;
 		JPrimitiveType returnType;
@@ -118,7 +118,7 @@ public class FpPrimitiveEncoder implements Encoder {
 
 			field = refField;
 
-			dataType = field.getDataType();
+			dataType = field.requireDataType();
 
 			if(castSequenceTypes == null){
 				castSequenceTypes = new ArrayList<>();
@@ -184,7 +184,7 @@ public class FpPrimitiveEncoder implements Encoder {
 	public JExpression createInitExpression(FieldInfo fieldInfo, TranslationContext context){
 		Field<?> field = fieldInfo.getField();
 
-		DataType dataType = field.getDataType();
+		DataType dataType = field.requireDataType();
 
 		switch(dataType){
 			case INTEGER:
@@ -234,19 +234,19 @@ public class FpPrimitiveEncoder implements Encoder {
 
 	static
 	protected boolean isCastable(Field<?> field){
-		OpType opType = field.getOpType();
-		switch(opType){
-			case CONTINUOUS:
+		DataType dataType = field.requireDataType();
+		switch(dataType){
+			case INTEGER:
+			case FLOAT:
+			case DOUBLE:
 				break;
 			default:
 				return false;
 		}
 
-		DataType dataType = field.getDataType();
-		switch(dataType){
-			case INTEGER:
-			case FLOAT:
-			case DOUBLE:
+		OpType opType = field.requireOpType();
+		switch(opType){
+			case CONTINUOUS:
 				break;
 			default:
 				return false;

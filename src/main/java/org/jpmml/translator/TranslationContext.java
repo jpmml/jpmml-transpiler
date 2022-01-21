@@ -254,7 +254,7 @@ public class TranslationContext {
 		Field<?> field = fieldInfo.getField();
 		Encoder encoder = fieldInfo.getEncoder();
 
-		DataType dataType = field.getDataType();
+		DataType dataType = field.requireDataType();
 
 		String variableName;
 

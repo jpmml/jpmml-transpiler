@@ -55,7 +55,6 @@ import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.MiningSchema;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
-import org.dmg.pmml.PMMLAttributes;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Target;
 import org.dmg.pmml.Visitor;
@@ -335,7 +334,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 				dataFieldsField.setAccessible(true);
 			}
 
-			dataFieldsField.set(this, ImmutableMap.copyOf(IndexableUtil.buildMap(dataDictionary.getDataFields(), PMMLAttributes.DATAFIELD_NAME)));
+			dataFieldsField.set(this, ImmutableMap.copyOf(IndexableUtil.buildMap(dataDictionary.getDataFields())));
 		} catch(ReflectiveOperationException roe){
 			throw new RuntimeException(roe);
 		}

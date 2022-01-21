@@ -82,7 +82,7 @@ public class OrdinalEncoder implements Encoder {
 
 			JVar valueVar = context.declare(FieldValue.class, "value", context.invoke(JExpr.refthis("context"), "evaluate", nameParam));
 
-			FieldValueRef fieldValueRef = new FieldValueRef(valueVar, field.getDataType());
+			FieldValueRef fieldValueRef = new FieldValueRef(valueVar, field.requireDataType());
 
 			context._returnIf(valueVar.eq(JExpr._null()), OrdinalEncoder.MISSING_VALUE);
 

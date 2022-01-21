@@ -35,7 +35,7 @@ public class NodeScoreManager extends ArrayManager<Number> implements Scorer<Num
 
 	@Override
 	public Number prepare(Node node){
-		Object score = node.getScore();
+		Object score = node.requireScore();
 
 		return (Number)score;
 	}

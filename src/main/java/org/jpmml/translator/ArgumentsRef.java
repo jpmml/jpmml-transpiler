@@ -187,7 +187,7 @@ public class ArgumentsRef extends JVarRef {
 
 		JType stringClazz = context.ref(String.class);
 
-		DataType dataType = field.getDataType();
+		DataType dataType = field.requireDataType();
 
 		String name;
 		JType returnType;
@@ -245,7 +245,7 @@ public class ArgumentsRef extends JVarRef {
 	private JExpression createInitExpression(Field<?> field, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		DataType dataType = field.getDataType();
+		DataType dataType = field.requireDataType();
 
 		String name;
 

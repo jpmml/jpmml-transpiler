@@ -20,6 +20,7 @@ package org.jpmml.transpiler;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.function.Predicate;
 
 import com.google.common.base.Equivalence;
@@ -29,30 +30,58 @@ import com.sun.codemodel.writer.FileCodeWriter;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Visitor;
 import org.jpmml.evaluator.Evaluator;
+import org.jpmml.evaluator.EvaluatorBuilder;
+import org.jpmml.evaluator.FieldNameSet;
+import org.jpmml.evaluator.FunctionNameStack;
 import org.jpmml.evaluator.HasPMML;
+import org.jpmml.evaluator.LoadingModelEvaluatorBuilder;
+import org.jpmml.evaluator.OutputFilters;
 import org.jpmml.evaluator.ResultField;
-import org.jpmml.evaluator.testing.IntegrationTestBatch;
+import org.jpmml.evaluator.testing.SimpleArchiveBatch;
 import org.jpmml.model.SerializationUtil;
+import org.jpmml.translator.visitors.DefaultModelTranslatorBattery;
 
 abstract
-public class TranspilerTestBatch extends IntegrationTestBatch {
+public class TranspilerTestBatch extends SimpleArchiveBatch {
 
 	private String explodedArchiveDir = System.getProperty(TranspilerTestBatch.class.getName() + "." + "explodedArchiveDir", null);
 
 
-	public TranspilerTestBatch(String name, String dataset, Predicate<ResultField> predicate, Equivalence<Object> equivalence){
-		super(name, dataset, predicate, equivalence);
+	public TranspilerTestBatch(String algorithm, String dataset, Predicate<ResultField> columnFilter, Equivalence<Object> equivalence){
+		super(algorithm, dataset, columnFilter, equivalence);
 	}
 
 	@Override
 	abstract
-	public TranspilerTest getIntegrationTest();
+	public TranspilerTest getArchiveBatchTest();
 
 	@Override
-	public PMML getPMML() throws Exception {
-		TranspilerTest transpilerTest = getIntegrationTest();
+	public Evaluator getEvaluator() throws Exception {
+		Evaluator evaluator = super.getEvaluator();
 
-		PMML xmlPmml = super.getPMML();
+		validateEvaluator(evaluator);
+
+		return evaluator;
+	}
+
+	@Override
+	public EvaluatorBuilder getEvaluatorBuilder() throws Exception {
+		TranspilerTest transpilerTest = getArchiveBatchTest();
+
+		LoadingModelEvaluatorBuilder evaluatorBuilder = new LoadingModelEvaluatorBuilder();
+		evaluatorBuilder.setVisitors(new DefaultModelTranslatorBattery());
+
+		// XXX
+		evaluatorBuilder.setDerivedFieldGuard(new FieldNameSet(8));
+		evaluatorBuilder.setFunctionGuard(new FunctionNameStack(4));
+
+		evaluatorBuilder.setOutputFilter(OutputFilters.KEEP_FINAL_RESULTS);
+
+		try(InputStream is = open(getPmmlPath())){
+			evaluatorBuilder.load(is);
+		}
+
+		PMML xmlPmml = evaluatorBuilder.getPMML();
 
 		Transpiler transpiler = new InMemoryTranspiler(null){
 
@@ -79,7 +108,7 @@ public class TranspilerTestBatch extends IntegrationTestBatch {
 			private void export(JCodeModel codeModel) throws IOException {
 
 				if(TranspilerTestBatch.this.explodedArchiveDir != null){
-					File explodedArchiveDir = new File(TranspilerTestBatch.this.explodedArchiveDir + "/" + getName() + getDataset());
+					File explodedArchiveDir = new File(TranspilerTestBatch.this.explodedArchiveDir + "/" + getAlgorithm() + getDataset());
 
 					if(!explodedArchiveDir.exists()){
 						boolean success = explodedArchiveDir.mkdirs();
@@ -96,17 +125,18 @@ public class TranspilerTestBatch extends IntegrationTestBatch {
 			}
 		};
 
-		PMML javaPmml = transpiler.transpile(xmlPmml);
+		evaluatorBuilder.transform(new TranspilerTransformer(transpiler));
+
+		PMML javaPmml = evaluatorBuilder.getPMML();
 
 		Visitor checker = transpilerTest.getChecker();
 		if(checker != null){
 			checker.applyTo(javaPmml);
 		}
 
-		return javaPmml;
+		return evaluatorBuilder;
 	}
 
-	@Override
 	protected void validateEvaluator(Evaluator evaluator) throws Exception {
 		HasPMML hasPMML = (HasPMML)evaluator;
 

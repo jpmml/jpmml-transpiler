@@ -579,8 +579,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 			Field<?> field = fieldInfo.getField();
 
-			OpType opType = field.getOpType();
-			DataType dataType = field.getDataType();
+			DataType dataType = field.requireDataType();
+			OpType opType = field.requireOpType();
 
 			fieldInfo.updateCount(countingActiveFieldFinder.getCount(name));
 

@@ -200,7 +200,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 				@Override
 				public Number prepare(Node node){
-					Object score = node.getScore();
+					Object score = node.requireScore();
 
 					return (Number)score;
 				}
@@ -379,7 +379,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			public VisitorAction visit(TreeModel treeModel){
 				Node root = treeModel.getNode();
 
-				Number score = (Number)root.getScore();
+				Number score = (Number)root.requireScore();
 
 				target.setRescaleConstant(add(mathContext, target.getRescaleConstant(), score));
 
@@ -389,7 +389,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			}
 
 			private void updateNodeScores(Node node, Number adjustment){
-				Number score = (Number)node.getScore();
+				Number score = (Number)node.requireScore();
 
 				node.setScore(subtract(mathContext, score, adjustment));
 
@@ -435,7 +435,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 						addNode(child);
 					}
 
-					Number score = (Number)root.getScore();
+					Number score = (Number)root.requireScore();
 					if(score.doubleValue() != 0d){
 						Node elseChild = new ComplexNode()
 							.setScore(score)
@@ -564,7 +564,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 						throw new IllegalArgumentException();
 					}
 
-					leftNode.setScore(add(mathContext, (Number)leftNode.getScore(), (Number)rightNode.getScore()));
+					leftNode.setScore(add(mathContext, (Number)leftNode.requireScore(), (Number)rightNode.requireScore()));
 				}
 			}
 		};
