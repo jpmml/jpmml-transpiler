@@ -200,6 +200,22 @@ if "Iris" in datasets:
 	build_iris(RandomForestClassifier(n_estimators = 5, random_state = 13), "RandomForestIris", compact = False, flat = False)
 	build_iris(XGBClassifier(objective = "multi:softprob", n_estimators = 11, random_state = 13), "XGBoostIris")
 
+iris_X, iris_y = load_iris("IrisVec")
+
+def build_iris_vec(classifier, name):
+	pipeline = PMMLPipeline([
+		("classifier", classifier)
+	])
+	pipeline.fit(iris_X, iris_y)
+	store_pmml(pipeline, name)
+	species = DataFrame(pipeline.predict(iris_X), columns = ["Species"])
+	species_proba = DataFrame(pipeline.predict_proba(iris_X), columns = ["probability(setosa)", "probability(versicolor)", "probability(virginica)"])
+	store_csv(pandas.concat((species, species_proba), axis = 1), name)
+
+if "Iris" in datasets:
+	build_iris_vec(DecisionTreeClassifier(min_samples_leaf = 5, random_state = 13), "DecisionTreeIrisVec")
+	build_iris_vec(RandomForestClassifier(n_estimators = 7, max_depth = 3, random_state = 13), "RandomForestIrisVec")
+
 #
 # Regression
 #

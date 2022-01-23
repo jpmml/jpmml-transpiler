@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.6.35"/>
+		<Timestamp>2022-01-23T18:22:21Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="Species" optype="categorical" dataType="string">
+			<Value value="setosa"/>
+			<Value value="versicolor"/>
+			<Value value="virginica"/>
+		</DataField>
+		<DataField name="x_0" optype="continuous" dataType="float"/>
+		<DataField name="x_2" optype="continuous" dataType="float"/>
+		<DataField name="x_3" optype="continuous" dataType="float"/>
+	</DataDictionary>
+	<TreeModel functionName="classification" algorithmName="sklearn.tree._classes.DecisionTreeClassifier" missingValueStrategy="nullPrediction">
+		<MiningSchema>
+			<MiningField name="Species" usageType="target"/>
+			<MiningField name="x_3"/>
+			<MiningField name="x_2"/>
+			<MiningField name="x_0"/>
+		</MiningSchema>
+		<Output>
+			<OutputField name="probability(setosa)" optype="continuous" dataType="double" feature="probability" value="setosa"/>
+			<OutputField name="probability(versicolor)" optype="continuous" dataType="double" feature="probability" value="versicolor"/>
+			<OutputField name="probability(virginica)" optype="continuous" dataType="double" feature="probability" value="virginica"/>
+		</Output>
+		<LocalTransformations>
+			<DerivedField name="double(x_3)" optype="continuous" dataType="double">
+				<FieldRef field="x_3"/>
+			</DerivedField>
+			<DerivedField name="double(x_2)" optype="continuous" dataType="double">
+				<FieldRef field="x_2"/>
+			</DerivedField>
+			<DerivedField name="double(x_0)" optype="continuous" dataType="double">
+				<FieldRef field="x_0"/>
+			</DerivedField>
+		</LocalTransformations>
+		<Node>
+			<True/>
+			<Node score="setosa" recordCount="50">
+				<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="0.800000011920929"/>
+				<ScoreDistribution value="setosa" recordCount="50"/>
+				<ScoreDistribution value="versicolor" recordCount="0"/>
+				<ScoreDistribution value="virginica" recordCount="0"/>
+			</Node>
+			<Node>
+				<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="1.75"/>
+				<Node>
+					<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.950000047683716"/>
+					<Node score="versicolor" recordCount="5">
+						<SimplePredicate field="double(x_0)" operator="lessOrEqual" value="5.1499998569488525"/>
+						<ScoreDistribution value="setosa" recordCount="0"/>
+						<ScoreDistribution value="versicolor" recordCount="4"/>
+						<ScoreDistribution value="virginica" recordCount="1"/>
+					</Node>
+					<Node score="versicolor" recordCount="43">
+						<True/>
+						<ScoreDistribution value="setosa" recordCount="0"/>
+						<ScoreDistribution value="versicolor" recordCount="43"/>
+						<ScoreDistribution value="virginica" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node score="virginica" recordCount="6">
+					<True/>
+					<ScoreDistribution value="setosa" recordCount="0"/>
+					<ScoreDistribution value="versicolor" recordCount="2"/>
+					<ScoreDistribution value="virginica" recordCount="4"/>
+				</Node>
+			</Node>
+			<Node score="virginica" recordCount="6">
+				<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.950000047683716"/>
+				<ScoreDistribution value="setosa" recordCount="0"/>
+				<ScoreDistribution value="versicolor" recordCount="1"/>
+				<ScoreDistribution value="virginica" recordCount="5"/>
+			</Node>
+			<Node score="virginica" recordCount="40">
+				<True/>
+				<ScoreDistribution value="setosa" recordCount="0"/>
+				<ScoreDistribution value="versicolor" recordCount="0"/>
+				<ScoreDistribution value="virginica" recordCount="40"/>
+			</Node>
+		</Node>
+	</TreeModel>
+</PMML>

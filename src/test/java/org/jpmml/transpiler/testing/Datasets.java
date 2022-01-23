@@ -25,6 +25,8 @@ public interface Datasets {
 	String AUTO = "Auto";
 	String AUTO_NA = AUTO + "NA";
 	String IRIS = "Iris";
+	String IRIS_NA = IRIS + "NA";
+	String IRIS_VEC = IRIS + "Vec";
 	String SENTIMENT = "Sentiment";
 
 	String AUDIT_ADJUSTED = "Adjusted";
