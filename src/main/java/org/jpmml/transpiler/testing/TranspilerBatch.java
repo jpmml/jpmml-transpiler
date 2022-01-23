@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with JPMML-Transpiler.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.jpmml.transpiler;
+package org.jpmml.transpiler.testing;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +40,9 @@ import org.jpmml.evaluator.ResultField;
 import org.jpmml.evaluator.testing.SimpleArchiveBatch;
 import org.jpmml.model.SerializationUtil;
 import org.jpmml.translator.visitors.DefaultModelTranslatorBattery;
+import org.jpmml.transpiler.InMemoryTranspiler;
+import org.jpmml.transpiler.Transpiler;
+import org.jpmml.transpiler.TranspilerTransformer;
 
 abstract
 public class TranspilerBatch extends SimpleArchiveBatch {

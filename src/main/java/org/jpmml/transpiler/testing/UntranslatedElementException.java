@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with JPMML-Transpiler.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.jpmml.transpiler;
+package org.jpmml.transpiler.testing;
 
 import org.dmg.pmml.PMMLObject;
-import org.jpmml.model.PMMLException;
+import org.jpmml.model.MarkupException;
 import org.jpmml.model.XPathUtil;
 
-public class UntranslatedElementException extends PMMLException {
+public class UntranslatedElementException extends MarkupException {
 
 	public UntranslatedElementException(PMMLObject object){
 		super("Element " + XPathUtil.formatElement(object.getClass()) + " has not been translated to Java application code", object);

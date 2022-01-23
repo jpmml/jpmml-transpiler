@@ -58,8 +58,8 @@
 				</exclusion>
 				<!--
 				<exclusion>
-				<groupId>com.google.guava</groupId>
-				<artifactId>failureaccess</artifactId>
+					<groupId>com.google.guava</groupId>
+					<artifactId>failureaccess</artifactId>
 				</exclusion>
 				-->
 				<exclusion>
@@ -109,6 +109,22 @@
 			<artifactId>pmml-evaluator</artifactId>
 			<version>1.6.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>pmml-evaluator-testing</artifactId>
+			<version>1.6.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jpmml</groupId>
+					<artifactId>pmml-evaluator-metro</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jpmml</groupId>
+					<artifactId>pmml-evaluator-moxy</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.jpmml</groupId>
@@ -126,23 +142,6 @@
 			-->
 		</dependency>
 
-		<dependency>
-			<groupId>org.jpmml</groupId>
-			<artifactId>pmml-evaluator-testing</artifactId>
-			<version>1.6.2</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jpmml</groupId>
-					<artifactId>pmml-evaluator-metro</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jpmml</groupId>
-					<artifactId>pmml-evaluator-moxy</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-model</artifactId>
@@ -245,7 +244,7 @@
 					<argLine>${jacoco.agent}</argLine>
 					<trimStackTrace>false</trimStackTrace>
 					<systemPropertyVariables>
-						<org.jpmml.transpiler.TranspilerBatch.explodedArchiveDir>target/exploded-test-archives</org.jpmml.transpiler.TranspilerBatch.explodedArchiveDir>
+						<org.jpmml.transpiler.testing.TranspilerBatch.explodedArchiveDir>target/exploded-test-archives</org.jpmml.transpiler.testing.TranspilerBatch.explodedArchiveDir>
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with JPMML-Transpiler.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.jpmml.transpiler;
+package org.jpmml.transpiler.testing;
 
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
