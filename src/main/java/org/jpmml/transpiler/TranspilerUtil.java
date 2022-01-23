@@ -117,7 +117,7 @@ public class TranspilerUtil {
 	static {
 		String[] lines = {
 			"/*",
-			" * Copyright (c) 2021 Villu Ruusmann",
+			" * Copyright (c) 2022 Villu Ruusmann",
 			" *",
 			// All the generated code is functionally dependent on the JPMML-Evaluator library.
 			" * This file is part of JPMML-Evaluator",
