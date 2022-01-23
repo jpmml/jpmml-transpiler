@@ -63,6 +63,7 @@ import org.jpmml.evaluator.EvaluationContext;
 import org.jpmml.evaluator.IndexableUtil;
 import org.jpmml.evaluator.InputField;
 import org.jpmml.evaluator.ModelManager;
+import org.jpmml.evaluator.PMMLManager;
 import org.jpmml.evaluator.TargetField;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.Value;
@@ -329,7 +330,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		}
 
 		try {
-			java.lang.reflect.Field dataFieldsField = ModelManager.class.getDeclaredField("dataFields");
+			java.lang.reflect.Field dataFieldsField = PMMLManager.class.getDeclaredField("dataFields");
 			if(!dataFieldsField.isAccessible()){
 				dataFieldsField.setAccessible(true);
 			}
