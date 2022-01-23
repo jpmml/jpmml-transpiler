@@ -36,6 +36,7 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DerivedField;
+import org.dmg.pmml.False;
 import org.dmg.pmml.LocalTransformations;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningField;
@@ -59,6 +60,7 @@ import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
+import org.jpmml.model.PMMLObjectKey;
 import org.jpmml.model.visitors.AbstractVisitor;
 import org.jpmml.model.visitors.NodeFilterer;
 import org.jpmml.translator.FieldInfoMap;
@@ -67,7 +69,6 @@ import org.jpmml.translator.JExprUtil;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
-import org.jpmml.translator.PredicateKey;
 import org.jpmml.translator.TranslationContext;
 import org.jpmml.translator.ValueBuilder;
 import org.jpmml.translator.tree.NodeGroup;
@@ -515,7 +516,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 					List<NodeGroup> nodeGroups = NodeGroupUtil.group(children);
 					if(nodeGroups.size() > 1){
-						Map<List<PredicateKey>, NodeGroup> uniqueNodeGroups = null;
+						Map<List<PMMLObjectKey>, NodeGroup> uniqueNodeGroups = null;
 
 						for(NodeGroup nodeGroup : nodeGroups){
 
@@ -528,7 +529,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 								uniqueNodeGroups = new HashMap<>();
 							}
 
-							List<PredicateKey> key = createKey(nodeGroup);
+							List<PMMLObjectKey> key = createKey(nodeGroup);
 
 							NodeGroup prevNodeGroup = uniqueNodeGroups.get(key);
 							if(prevNodeGroup != null){
@@ -547,10 +548,23 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 				return super.visit(node);
 			}
 
-			private List<PredicateKey> createKey(List<Node> nodes){
+			private List<PMMLObjectKey> createKey(List<Node> nodes){
 				return nodes.stream()
-					.map(node -> new PredicateKey(node.requirePredicate()))
+					.map(node -> new PMMLObjectKey(filterPredicate(node.requirePredicate())))
 					.collect(Collectors.toList());
+			}
+
+			private Predicate filterPredicate(Predicate predicate){
+
+				if(predicate instanceof True){
+					return True.INSTANCE;
+				} else
+
+				if(predicate instanceof False){
+					return False.INSTANCE;
+				}
+
+				return predicate;
 			}
 
 			private void merge(List<Node> leftNodes, List<Node> rightNodes){
