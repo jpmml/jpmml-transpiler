@@ -25,28 +25,28 @@ import org.dmg.pmml.Visitor;
 import org.jpmml.evaluator.ResultField;
 import org.jpmml.evaluator.testing.SimpleArchiveBatchTest;
 
-public class TranspilerTest extends SimpleArchiveBatchTest {
+public class TranspilerBatchTest extends SimpleArchiveBatchTest {
 
 	private Visitor checker = null;
 
 
-	public TranspilerTest(Equivalence<Object> equivalence){
+	public TranspilerBatchTest(Equivalence<Object> equivalence){
 		this(equivalence, new DefaultTranslationChecker());
 	}
 
-	public TranspilerTest(Equivalence<Object> equivalence, Visitor checker){
+	public TranspilerBatchTest(Equivalence<Object> equivalence, Visitor checker){
 		super(equivalence);
 
 		setChecker(checker);
 	}
 
 	@Override
-	public TranspilerTestBatch createBatch(String algorithm, String dataset, Predicate<ResultField> columnFilter, Equivalence<Object> equivalence){
-		TranspilerTestBatch result = new TranspilerTestBatch(algorithm, dataset, columnFilter, equivalence){
+	public TranspilerBatch createBatch(String algorithm, String dataset, Predicate<ResultField> columnFilter, Equivalence<Object> equivalence){
+		TranspilerBatch result = new TranspilerBatch(algorithm, dataset, columnFilter, equivalence){
 
 			@Override
-			public TranspilerTest getArchiveBatchTest(){
-				return TranspilerTest.this;
+			public TranspilerBatchTest getArchiveBatchTest(){
+				return TranspilerBatchTest.this;
 			}
 		};
 

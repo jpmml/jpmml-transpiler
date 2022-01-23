@@ -21,7 +21,7 @@ package org.jpmml.transpiler;
 import org.jpmml.evaluator.testing.PMMLEquivalence;
 import org.junit.Test;
 
-public class AnomalyDetectionTest extends TranspilerTest implements Algorithms, Datasets {
+public class AnomalyDetectionTest extends TranspilerBatchTest implements Algorithms, Datasets {
 
 	public AnomalyDetectionTest(){
 		super(new PMMLEquivalence(1e-13, 1e-13));

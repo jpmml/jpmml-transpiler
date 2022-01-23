@@ -42,18 +42,18 @@ import org.jpmml.model.SerializationUtil;
 import org.jpmml.translator.visitors.DefaultModelTranslatorBattery;
 
 abstract
-public class TranspilerTestBatch extends SimpleArchiveBatch {
+public class TranspilerBatch extends SimpleArchiveBatch {
 
-	private String explodedArchiveDir = System.getProperty(TranspilerTestBatch.class.getName() + "." + "explodedArchiveDir", null);
+	private String explodedArchiveDir = System.getProperty(TranspilerBatch.class.getName() + "." + "explodedArchiveDir", null);
 
 
-	public TranspilerTestBatch(String algorithm, String dataset, Predicate<ResultField> columnFilter, Equivalence<Object> equivalence){
+	public TranspilerBatch(String algorithm, String dataset, Predicate<ResultField> columnFilter, Equivalence<Object> equivalence){
 		super(algorithm, dataset, columnFilter, equivalence);
 	}
 
 	@Override
 	abstract
-	public TranspilerTest getArchiveBatchTest();
+	public TranspilerBatchTest getArchiveBatchTest();
 
 	@Override
 	public Evaluator getEvaluator() throws Exception {
@@ -66,7 +66,7 @@ public class TranspilerTestBatch extends SimpleArchiveBatch {
 
 	@Override
 	public EvaluatorBuilder getEvaluatorBuilder() throws Exception {
-		TranspilerTest transpilerTest = getArchiveBatchTest();
+		TranspilerBatchTest transpilerTest = getArchiveBatchTest();
 
 		LoadingModelEvaluatorBuilder evaluatorBuilder = new LoadingModelEvaluatorBuilder();
 		evaluatorBuilder.setVisitors(new DefaultModelTranslatorBattery());
@@ -107,8 +107,8 @@ public class TranspilerTestBatch extends SimpleArchiveBatch {
 
 			private void export(JCodeModel codeModel) throws IOException {
 
-				if(TranspilerTestBatch.this.explodedArchiveDir != null){
-					File explodedArchiveDir = new File(TranspilerTestBatch.this.explodedArchiveDir + "/" + getAlgorithm() + getDataset());
+				if(TranspilerBatch.this.explodedArchiveDir != null){
+					File explodedArchiveDir = new File(TranspilerBatch.this.explodedArchiveDir + "/" + getAlgorithm() + getDataset());
 
 					if(!explodedArchiveDir.exists()){
 						boolean success = explodedArchiveDir.mkdirs();

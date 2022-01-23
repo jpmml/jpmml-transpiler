@@ -22,7 +22,7 @@ import org.jpmml.evaluator.testing.FloatEquivalence;
 import org.jpmml.evaluator.testing.PMMLEquivalence;
 import org.junit.Test;
 
-public class RegressionTest extends TranspilerTest implements Algorithms, Datasets {
+public class RegressionTest extends TranspilerBatchTest implements Algorithms, Datasets {
 
 	public RegressionTest(){
 		super(new PMMLEquivalence(1e-13, 1e-13));
