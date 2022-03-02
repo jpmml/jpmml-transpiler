@@ -34,7 +34,7 @@ import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.jpmml.evaluator.FieldValue;
-import org.jpmml.evaluator.UnsupportedAttributeException;
+import org.jpmml.model.UnsupportedAttributeException;
 
 public class ArgumentsRef extends JVarRef {
 

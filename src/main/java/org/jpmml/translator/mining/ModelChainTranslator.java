@@ -31,7 +31,6 @@ import org.dmg.pmml.Model;
 import org.dmg.pmml.Output;
 import org.dmg.pmml.OutputField;
 import org.dmg.pmml.PMML;
-import org.dmg.pmml.Predicate;
 import org.dmg.pmml.ResultFeature;
 import org.dmg.pmml.True;
 import org.dmg.pmml.mining.MiningModel;
@@ -41,10 +40,10 @@ import org.dmg.pmml.regression.NumericPredictor;
 import org.dmg.pmml.regression.RegressionModel;
 import org.dmg.pmml.regression.RegressionTable;
 import org.jpmml.evaluator.Classification;
-import org.jpmml.evaluator.UnsupportedAttributeException;
-import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.model.InvalidElementException;
 import org.jpmml.model.MissingElementException;
+import org.jpmml.model.UnsupportedAttributeException;
+import org.jpmml.model.UnsupportedElementException;
 import org.jpmml.model.XPathUtil;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.MethodScope;
@@ -84,12 +83,9 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 		List<Segment> regressorSegments = segments.subList(0, segments.size() - 1);
 		for(Segment regressorSegment : regressorSegments){
-			Predicate predicate = regressorSegment.requirePredicate();
+			@SuppressWarnings("unused")
+			True _true = regressorSegment.requirePredicate(True.class);
 			Model model = regressorSegment.requireModel();
-
-			if(!(predicate instanceof True)){
-				throw new UnsupportedElementException(predicate);
-			}
 
 			MiningFunction modelMiningFunction = model.requireMiningFunction();
 			switch(modelMiningFunction){
@@ -140,35 +136,26 @@ public class ModelChainTranslator extends MiningModelTranslator {
 		{
 			Segment classifierSegment = segments.get(segments.size() - 1);
 
-			Predicate predicate = classifierSegment.requirePredicate();
-			Model model = classifierSegment.requireModel();
+			@SuppressWarnings("unused")
+			True _true = classifierSegment.requirePredicate(True.class);
+			RegressionModel regressionModel = classifierSegment.requireModel(RegressionModel.class);
 
-			if(!(predicate instanceof True)){
-				throw new UnsupportedElementException(predicate);
-			} // End if
-
-			if(!(model instanceof RegressionModel)){
-				throw new UnsupportedElementException(model);
-			}
-
-			MiningFunction modelMiningFunction = model.requireMiningFunction();
+			MiningFunction modelMiningFunction = regressionModel.requireMiningFunction();
 			switch(modelMiningFunction){
 				case CLASSIFICATION:
 					break;
 				default:
-					throw new UnsupportedAttributeException(model, modelMiningFunction);
+					throw new UnsupportedAttributeException(regressionModel, modelMiningFunction);
 			}
 
-			MathContext modelMathContext = model.getMathContext();
+			MathContext modelMathContext = regressionModel.getMathContext();
 			if(!Objects.equals(mathContext, modelMathContext)){
-				throw new UnsupportedAttributeException(model, modelMathContext);
+				throw new UnsupportedAttributeException(regressionModel, modelMathContext);
 			}
 
-			checkMiningSchema(model);
-			checkLocalTransformations(model);
-			checkTargets(model);
-
-			RegressionModel regressionModel = (RegressionModel)model;
+			checkMiningSchema(regressionModel);
+			checkLocalTransformations(regressionModel);
+			checkTargets(regressionModel);
 
 			List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
 			for(RegressionTable regressionTable : regressionTables){
@@ -237,7 +224,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 		{
 			Segment classifierSegment = segments.get(segments.size() - 1);
 
-			RegressionModel regressionModel = (RegressionModel)classifierSegment.requireModel();
+			RegressionModel regressionModel = classifierSegment.requireModel(RegressionModel.class);
 
 			List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
 			for(RegressionTable regressionTable : regressionTables){

@@ -41,9 +41,9 @@ import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.FieldValueUtil;
 import org.jpmml.evaluator.InlineTableUtil;
 import org.jpmml.evaluator.TypeUtil;
-import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.model.InvalidAttributeException;
 import org.jpmml.model.InvalidElementException;
+import org.jpmml.model.UnsupportedElementException;
 
 public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 

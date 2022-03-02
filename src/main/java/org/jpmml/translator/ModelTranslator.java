@@ -65,11 +65,11 @@ import org.jpmml.evaluator.InputField;
 import org.jpmml.evaluator.ModelManager;
 import org.jpmml.evaluator.PMMLManager;
 import org.jpmml.evaluator.TargetField;
-import org.jpmml.evaluator.UnsupportedAttributeException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.ValueFactoryFactory;
 import org.jpmml.evaluator.java.JavaModel;
+import org.jpmml.model.UnsupportedAttributeException;
 import org.jpmml.model.visitors.ActiveFieldFinder;
 import org.jpmml.model.visitors.FieldResolver;
 

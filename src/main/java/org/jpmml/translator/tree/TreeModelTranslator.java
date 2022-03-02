@@ -63,11 +63,11 @@ import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.ProbabilityDistribution;
 import org.jpmml.evaluator.TokenizedString;
-import org.jpmml.evaluator.UnsupportedAttributeException;
-import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.model.MissingAttributeException;
+import org.jpmml.model.UnsupportedAttributeException;
+import org.jpmml.model.UnsupportedElementException;
 import org.jpmml.translator.ArrayFpPrimitiveEncoder;
 import org.jpmml.translator.ArrayInfo;
 import org.jpmml.translator.ArrayInfoMap;
@@ -118,10 +118,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		Node root = treeModel.requireNode();
 
-		Predicate predicate = root.requirePredicate();
-		if(!(predicate instanceof True)){
-			throw new UnsupportedElementException(predicate);
-		}
+		@SuppressWarnings("unused")
+		True _true = root.requirePredicate(True.class);
 	}
 
 	@Override
@@ -244,11 +242,8 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 	static
 	public <S> void translateNode(TreeModel treeModel, Node root, Scorer<S> scorer, FieldInfoMap fieldInfos, TranslationContext context){
-		Predicate predicate = root.requirePredicate();
-
-		if(!(predicate instanceof True)){
-			throw new UnsupportedElementException(predicate);
-		}
+		@SuppressWarnings("unused")
+		True _true = root.requirePredicate(True.class);
 
 		JBlock block = context.block();
 

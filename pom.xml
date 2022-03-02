@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>[21.0, 31.0-jre]</version>
+			<version>[21.0, 31.0.1-jre]</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.code.findbugs</groupId>
@@ -81,22 +81,11 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Inherited from org.jpmml:pmml-model dependency via org.jpmml:pmml-converter and org.jpmml:pmml-evaluator dependencies -->
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-			<version>3.0.2</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-converter</artifactId>
-			<version>1.5.2</version>
+			<version>1.5.3</version>
 			<exclusions>
-				<exclusion>
-					<groupId>org.jpmml</groupId>
-					<artifactId>pmml-model-metro</artifactId>
-				</exclusion>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>*</artifactId>
@@ -107,22 +96,17 @@
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator</artifactId>
-			<version>1.6.2</version>
+			<version>1.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>pmml-evaluator-metro</artifactId>
+			<version>1.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator-testing</artifactId>
-			<version>1.6.2</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jpmml</groupId>
-					<artifactId>pmml-evaluator-metro</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jpmml</groupId>
-					<artifactId>pmml-evaluator-moxy</artifactId>
-				</exclusion>
-			</exclusions>
+			<version>1.6.3</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -132,20 +116,10 @@
 			<version>1.1.7</version>
 		</dependency>
 
-		<!-- Inherited from org.jpmml:pmml-model dependency via org.jpmml:pmml-converter and org.jpmml:pmml-evaluator dependencies -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>[2.9.4, 2.12.5]</version>
-			<!--
-			<scope>provided</scope>
-			-->
-		</dependency>
-
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-model</artifactId>
-			<version>1.6.2</version>
+			<version>1.6.3</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>

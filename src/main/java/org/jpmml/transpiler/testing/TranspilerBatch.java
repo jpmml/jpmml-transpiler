@@ -74,14 +74,15 @@ public class TranspilerBatch extends SimpleArchiveBatch {
 	public EvaluatorBuilder getEvaluatorBuilder() throws Exception {
 		TranspilerBatchTest transpilerTest = getArchiveBatchTest();
 
-		LoadingModelEvaluatorBuilder evaluatorBuilder = new LoadingModelEvaluatorBuilder();
-		evaluatorBuilder.setVisitors(new DefaultModelTranslatorBattery());
+		LoadingModelEvaluatorBuilder evaluatorBuilder = new LoadingModelEvaluatorBuilder()
+			.setOutputFilter(OutputFilters.KEEP_FINAL_RESULTS);
 
 		// XXX
-		evaluatorBuilder.setDerivedFieldGuard(new FieldNameSet(8));
-		evaluatorBuilder.setFunctionGuard(new FunctionNameStack(4));
+		evaluatorBuilder
+			.setDerivedFieldGuard(new FieldNameSet(8))
+			.setFunctionGuard(new FunctionNameStack(4));
 
-		evaluatorBuilder.setOutputFilter(OutputFilters.KEEP_FINAL_RESULTS);
+		evaluatorBuilder.setVisitors(new DefaultModelTranslatorBattery());
 
 		try(InputStream is = open(getPmmlPath())){
 			evaluatorBuilder.load(is);

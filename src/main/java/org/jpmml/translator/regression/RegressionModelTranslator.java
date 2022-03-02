@@ -59,13 +59,13 @@ import org.dmg.pmml.regression.RegressionTable;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.ProbabilityDistribution;
 import org.jpmml.evaluator.TokenizedString;
-import org.jpmml.evaluator.UnsupportedAttributeException;
-import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.VoteDistribution;
 import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.evaluator.regression.RegressionModelUtil;
 import org.jpmml.model.InvalidElementException;
+import org.jpmml.model.UnsupportedAttributeException;
+import org.jpmml.model.UnsupportedElementListException;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.FunctionInvocation;
@@ -102,7 +102,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			if(regressionTable.hasPredictorTerms()){
 				List<PredictorTerm> predictorTerms = regressionTable.getPredictorTerms();
 
-				throw new UnsupportedElementException(Iterables.getFirst(predictorTerms, null));
+				throw new UnsupportedElementListException(predictorTerms);
 			}
 		}
 	}
@@ -355,7 +355,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 		if(regressionTable.hasPredictorTerms()){
 			List<PredictorTerm> predictorTerms = regressionTable.getPredictorTerms();
 
-			throw new UnsupportedElementException(Iterables.getFirst(predictorTerms, null));
+			throw new UnsupportedElementListException(predictorTerms);
 		}
 
 		Number intercept = regressionTable.requireIntercept();

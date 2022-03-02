@@ -41,10 +41,8 @@ import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
-import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
-import org.dmg.pmml.Predicate;
 import org.dmg.pmml.True;
 import org.dmg.pmml.mining.MiningModel;
 import org.dmg.pmml.mining.Segment;
@@ -54,11 +52,10 @@ import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.ProbabilityAggregator;
 import org.jpmml.evaluator.ProbabilityDistribution;
-import org.jpmml.evaluator.UnsupportedAttributeException;
-import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueAggregator;
 import org.jpmml.evaluator.ValueFactory;
+import org.jpmml.model.UnsupportedAttributeException;
 import org.jpmml.translator.AggregatorBuilder;
 import org.jpmml.translator.ArrayInfoMap;
 import org.jpmml.translator.FieldInfoMap;
@@ -121,27 +118,20 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		List<Segment> segments = segmentation.requireSegments();
 		for(Segment segment : segments){
-			Predicate predicate = segment.requirePredicate();
-			Model model = segment.requireModel();
+			@SuppressWarnings("unused")
+			True _true = segment.requirePredicate(True.class);
+			TreeModel treeModel = segment.requireModel(TreeModel.class);
 
-			if(!(predicate instanceof True)){
-				throw new UnsupportedElementException(predicate);
-			} // End if
-
-			if(!(model instanceof TreeModel)){
-				throw new UnsupportedElementException(model);
-			} // End if
-
-			if(model.getMathContext() != mathContext){
-				throw new UnsupportedAttributeException(model, model.getMathContext());
+			if(treeModel.getMathContext() != mathContext){
+				throw new UnsupportedAttributeException(treeModel, treeModel.getMathContext());
 			}
 
-			checkMiningSchema(model);
-			checkTargets(model);
-			checkOutput(model);
+			checkMiningSchema(treeModel);
+			checkTargets(treeModel);
+			checkOutput(treeModel);
 
 			@SuppressWarnings("unused")
-			ModelTranslator<?> modelTranslator = newModelTranslator(model);
+			ModelTranslator<?> modelTranslator = newModelTranslator(treeModel);
 		}
 	}
 
@@ -191,7 +181,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		List<Segment> segments = segmentation.getSegments();
 		for(Segment segment : segments){
-			TreeModel treeModel = (TreeModel)segment.requireModel();
+			TreeModel treeModel = segment.requireModel(TreeModel.class);
 
 			Node node = treeModel.getNode();
 
@@ -250,8 +240,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		List<JMethod> methods = new ArrayList<>();
 
 		for(Segment segment : segments){
-			True _true = (True)segment.requirePredicate();
-			TreeModel treeModel = (TreeModel)segment.requireModel();
+			True _true = segment.requirePredicate(True.class);
+			TreeModel treeModel = segment.requireModel(TreeModel.class);
 
 			Node node = treeModel.getNode();
 
@@ -414,8 +404,8 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		List<JMethod> methods = new ArrayList<>();
 
 		for(Segment segment : segments){
-			True _true = (True)segment.requirePredicate();
-			TreeModel treeModel = (TreeModel)segment.requireModel();
+			True _true = segment.requirePredicate(True.class);
+			TreeModel treeModel = segment.requireModel(TreeModel.class);
 
 			Node node = treeModel.getNode();
 

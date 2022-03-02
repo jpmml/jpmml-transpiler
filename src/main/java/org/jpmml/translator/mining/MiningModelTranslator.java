@@ -20,6 +20,7 @@ package org.jpmml.translator.mining;
 
 import java.util.List;
 
+import org.dmg.pmml.EmbeddedModel;
 import org.dmg.pmml.LocalTransformations;
 import org.dmg.pmml.MiningField;
 import org.dmg.pmml.MiningSchema;
@@ -31,7 +32,8 @@ import org.dmg.pmml.mining.MiningModel;
 import org.dmg.pmml.mining.Segment;
 import org.dmg.pmml.mining.Segmentation;
 import org.jpmml.evaluator.InputFieldUtil;
-import org.jpmml.evaluator.UnsupportedElementException;
+import org.jpmml.model.UnsupportedElementException;
+import org.jpmml.model.UnsupportedElementListException;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.ModelTranslatorFactory;
 
@@ -40,6 +42,12 @@ public class MiningModelTranslator extends ModelTranslator<MiningModel> {
 
 	public MiningModelTranslator(PMML pmml, MiningModel miningModel){
 		super(pmml, miningModel);
+
+		if(miningModel.hasEmbeddedModels()){
+			List<EmbeddedModel> embeddedModels = miningModel.getEmbeddedModels();
+
+			throw new UnsupportedElementListException(embeddedModels);
+		}
 
 		Segmentation segmentation = miningModel.requireSegmentation();
 

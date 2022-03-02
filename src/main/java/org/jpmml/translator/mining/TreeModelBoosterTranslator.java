@@ -42,7 +42,6 @@ import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningField;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.MiningSchema;
-import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.dmg.pmml.Predicate;
@@ -57,10 +56,10 @@ import org.dmg.pmml.mining.Segmentation;
 import org.dmg.pmml.tree.ComplexNode;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.TreeModel;
-import org.jpmml.evaluator.UnsupportedAttributeException;
-import org.jpmml.evaluator.UnsupportedElementException;
 import org.jpmml.evaluator.Value;
 import org.jpmml.model.PMMLObjectKey;
+import org.jpmml.model.UnsupportedAttributeException;
+import org.jpmml.model.UnsupportedElementException;
 import org.jpmml.model.visitors.AbstractVisitor;
 import org.jpmml.model.visitors.NodeFilterer;
 import org.jpmml.translator.FieldInfoMap;
@@ -103,26 +102,17 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		List<Segment> segments = segmentation.requireSegments();
 		for(Segment segment : segments){
-			Predicate predicate = segment.requirePredicate();
-			Model model = segment.requireModel();
+			@SuppressWarnings("unused")
+			True _true = segment.requirePredicate(True.class);
+			TreeModel treeModel = segment.requireModel(TreeModel.class);
 
-			if(!(predicate instanceof True)){
-				throw new UnsupportedElementException(predicate);
-			} // End if
-
-			if(!(model instanceof TreeModel)){
-				throw new UnsupportedElementException(model);
-			} // End if
-
-			if(model.getMathContext() != mathContext){
-				throw new UnsupportedAttributeException(model, model.getMathContext());
+			if(treeModel.getMathContext() != mathContext){
+				throw new UnsupportedAttributeException(treeModel, treeModel.getMathContext());
 			}
 
-			checkMiningSchema(model);
-			checkTargets(model);
-			checkOutput(model);
-
-			TreeModel treeModel = (TreeModel)model;
+			checkMiningSchema(treeModel);
+			checkTargets(treeModel);
+			checkOutput(treeModel);
 
 			TreeModel.NoTrueChildStrategy noTrueChildStrategy = treeModel.getNoTrueChildStrategy();
 			switch(noTrueChildStrategy){
@@ -424,10 +414,8 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			public VisitorAction visit(TreeModel treeModel){
 				Node root = treeModel.getNode();
 
-				Predicate predicate = root.requirePredicate();
-				if(!(predicate instanceof True)){
-					throw new IllegalArgumentException();
-				} // End if
+				@SuppressWarnings("unused")
+				True _true = root.requirePredicate(True.class);
 
 				if(root.hasNodes()){
 					List<Node> children = root.getNodes();
