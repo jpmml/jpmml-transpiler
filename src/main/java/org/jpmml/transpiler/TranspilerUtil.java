@@ -43,7 +43,7 @@ import org.jpmml.codemodel.MarkedCodeWriter;
 import org.jpmml.model.visitors.VisitorBattery;
 import org.jpmml.translator.PMMLObjectUtil;
 import org.jpmml.translator.TranslationContext;
-import org.jpmml.translator.visitors.DefaultModelTranslatorBattery;
+import org.jpmml.translator.visitors.ModelTranslatorVisitorBattery;
 
 public class TranspilerUtil {
 
@@ -52,7 +52,7 @@ public class TranspilerUtil {
 
 	static
 	public JCodeModel translate(PMML pmml, String className){
-		VisitorBattery visitorBattery = new DefaultModelTranslatorBattery();
+		VisitorBattery visitorBattery = new ModelTranslatorVisitorBattery();
 
 		visitorBattery.applyTo(pmml);
 

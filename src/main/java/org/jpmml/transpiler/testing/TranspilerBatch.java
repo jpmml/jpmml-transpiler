@@ -42,7 +42,7 @@ import org.jpmml.evaluator.PMMLTransformer;
 import org.jpmml.evaluator.ResultField;
 import org.jpmml.evaluator.testing.SimpleArchiveBatch;
 import org.jpmml.model.SerializationUtil;
-import org.jpmml.translator.visitors.DefaultModelTranslatorBattery;
+import org.jpmml.translator.visitors.ModelTranslatorVisitorBattery;
 import org.jpmml.transpiler.InMemoryTranspiler;
 import org.jpmml.transpiler.Transpiler;
 import org.jpmml.transpiler.TranspilerTransformer;
@@ -82,7 +82,7 @@ public class TranspilerBatch extends SimpleArchiveBatch {
 			.setDerivedFieldGuard(new FieldNameSet(8))
 			.setFunctionGuard(new FunctionNameStack(4));
 
-		evaluatorBuilder.setVisitors(new DefaultModelTranslatorBattery());
+		evaluatorBuilder.setVisitors(new ModelTranslatorVisitorBattery());
 
 		try(InputStream is = open(getPmmlPath())){
 			evaluatorBuilder.load(is);

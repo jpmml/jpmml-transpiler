@@ -22,9 +22,9 @@ import org.jpmml.evaluator.visitors.AttributeOptimizerBattery;
 import org.jpmml.evaluator.visitors.ElementOptimizerBattery;
 import org.jpmml.model.visitors.VisitorBattery;
 
-public class DefaultModelTranslatorBattery extends VisitorBattery {
+public class ModelTranslatorVisitorBattery extends VisitorBattery {
 
-	public DefaultModelTranslatorBattery(){
+	public ModelTranslatorVisitorBattery(){
 		addAll(new AttributeOptimizerBattery());
 		addAll(new ElementOptimizerBattery());
 	}
