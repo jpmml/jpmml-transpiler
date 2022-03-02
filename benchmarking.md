@@ -31,13 +31,13 @@ main
 Transpiling the model:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.2-SNAPSHOT.jar --pmml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
+$ java -jar target/jpmml-transpiler-executable-1.3-SNAPSHOT.jar --pmml-input LightGBMAudit.pmml --jar-output LightGBMAudit.jar
 ```
 
 Getting help:
 
 ```
-$ java -jar target/jpmml-transpiler-executable-1.2-SNAPSHOT.jar --help
+$ java -jar target/jpmml-transpiler-executable-1.3-SNAPSHOT.jar --help
 ```
 
 Evaluating the model in transpiled mode:

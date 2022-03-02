@@ -34,7 +34,7 @@ JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "trans
 
 ### Release versions
 
-The current release version is **1.2.1** (23 January, 2022):
+The current release version is **1.2.2** (2 March, 2022):
 
 JPMML-Transpiler library JAR files (together with accompanying Java source and Javadocs JAR files) are released via [Maven Central Repository](https://repo1.maven.org/maven2/org/jpmml/).
 
@@ -42,7 +42,7 @@ JPMML-Transpiler library JAR files (together with accompanying Java source and J
 <dependency>
 	<groupId>org.jpmml</groupId>
 	<artifactId>jpmml-transpiler</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2</version>
 </dependency>
 ```
 
@@ -60,8 +60,8 @@ $ mvn clean install
 
 The build produces two files:
 
-* `target/jpmml-transpiler-1.2-SNAPSHOT.jar` - the library JAR file.
-* `target/jpmml-transpiler-executable-1.2-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
+* `target/jpmml-transpiler-1.3-SNAPSHOT.jar` - the library JAR file.
+* `target/jpmml-transpiler-executable-1.3-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
 
 # Usage #
 
