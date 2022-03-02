@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with JPMML-Transpiler.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.jpmml.transpiler;
+package org.jpmml.transpiler.example;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +31,7 @@ import com.beust.jcommander.ParameterException;
 import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
 import org.jpmml.model.PMMLUtil;
+import org.jpmml.transpiler.TranspilerUtil;
 
 public class Main {
 

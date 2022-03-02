@@ -60,8 +60,8 @@ $ mvn clean install
 
 The build produces two files:
 
-* `target/jpmml-transpiler-1.3-SNAPSHOT.jar` - the library JAR file.
-* `target/jpmml-transpiler-executable-1.3-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
+* `pmml-transpiler/target/pmml-transpiler-1.3-SNAPSHOT.jar` - the library JAR file.
+* `pmml-transpiler-example/target/pmml-transpiler-example-executable-1.3-SNAPSHOT.jar` - the executable uber-JAR file (the library JAR file plus all its transitive dependencies).
 
 # Usage #
 

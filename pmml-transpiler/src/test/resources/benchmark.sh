@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export JPMML_EVALUATOR_JAR=~/Workspace/jpmml-evaluator/pmml-evaluator-example/target/pmml-evaluator-example-executable-*.jar
-export JPMML_TRANSPILER_JAR=~/Workspace/jpmml-transpiler/target/jpmml-transpiler-executable-*.jar
+export JPMML_TRANSPILER_JAR=~/Workspace/jpmml-transpiler/pmml-transpiler-example/target/pmml-transpiler-example-executable-*.jar
 
 for dataset in "Audit" "Iris" "Auto"; do
 	echo ${dataset}
