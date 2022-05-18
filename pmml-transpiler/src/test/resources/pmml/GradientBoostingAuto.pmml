@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.33"/>
-		<Timestamp>2021-11-07T10:01:12Z</Timestamp>
+		<Application name="JPMML-SkLearn library" version="1.7.6"/>
+		<Timestamp>2022-05-18T11:37:40Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -37,10 +37,10 @@
 			<Interval closure="closedClosed" leftMargin="68.0" rightMargin="455.0"/>
 		</DataField>
 		<DataField name="horsepower" optype="continuous" dataType="double">
-			<Interval closure="closedClosed" leftMargin="46" rightMargin="230"/>
+			<Interval closure="closedClosed" leftMargin="46.0" rightMargin="230.0"/>
 		</DataField>
 		<DataField name="weight" optype="continuous" dataType="double">
-			<Interval closure="closedClosed" leftMargin="1613" rightMargin="5140"/>
+			<Interval closure="closedClosed" leftMargin="1613.0" rightMargin="5140.0"/>
 		</DataField>
 		<DataField name="acceleration" optype="continuous" dataType="double">
 			<Interval closure="closedClosed" leftMargin="8.0" rightMargin="24.8"/>
@@ -85,15 +85,15 @@
 			</UnivariateStats>
 			<UnivariateStats field="horsepower">
 				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
-				<NumericInfo minimum="46" maximum="230" mean="104.46938775510205" standardDeviation="38.44203271442593" median="93.5" interQuartileRange="51.0"/>
+				<NumericInfo minimum="46.0" maximum="230.0" mean="104.46938775510205" standardDeviation="38.44203271442593" median="93.5" interQuartileRange="51.0"/>
 			</UnivariateStats>
 			<UnivariateStats field="weight">
 				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
-				<NumericInfo minimum="1613" maximum="5140" mean="2977.5841836734694" standardDeviation="848.3184465698362" median="2803.5" interQuartileRange="1389.5"/>
+				<NumericInfo minimum="1613.0" maximum="5140.0" mean="2977.5841836734694" standardDeviation="848.3184465698362" median="2803.5" interQuartileRange="1389.5"/>
 			</UnivariateStats>
 			<UnivariateStats field="acceleration">
 				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
-				<NumericInfo minimum="8.0" maximum="24.8" mean="15.541326530612244" standardDeviation="2.7553429127509967" median="15.5" interQuartileRange="3.2499999999999964"/>
+				<NumericInfo minimum="8.0" maximum="24.8" mean="15.541326530612244" standardDeviation="2.7553429127509967" median="15.5" interQuartileRange="3.2499999999999982"/>
 			</UnivariateStats>
 		</ModelStats>
 		<Targets>

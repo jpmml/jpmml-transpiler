@@ -73,7 +73,7 @@ def load_audit(name):
 	df = load_csv(name)
 	df = df.where((pandas.notnull(df)), None)
 	df["Adjusted"] = df["Adjusted"].astype(int)
-	df["Age"] = df["Age"].astype(pandas.Int64Dtype())
+	df["Age"] = df["Age"].astype(pandas.Int64Dtype() if name.endswith("NA") else int)
 	df["Income"] = df["Income"].astype(float)
 	df["Hours"] = df["Hours"].astype(float)
 	return split_csv(df)
@@ -198,7 +198,7 @@ if "Iris" in datasets:
 	build_iris(LGBMClassifier(objective = "multiclass", solver = "lbfgs", n_estimators = 11, random_state = 13), "LightGBMIris")
 	build_iris(LogisticRegression(multi_class = "multinomial", random_state = 13), "LogisticRegressionIris")
 	build_iris(RandomForestClassifier(n_estimators = 5, random_state = 13), "RandomForestIris", compact = False, flat = False)
-	build_iris(XGBClassifier(objective = "multi:softprob", n_estimators = 11, random_state = 13), "XGBoostIris")
+	build_iris(XGBClassifier(objective = "multi:softprob", n_estimators = 11, use_label_encoder = True, random_state = 13), "XGBoostIris")
 
 iris_X, iris_y = load_iris("IrisVec")
 
@@ -223,17 +223,15 @@ if "Iris" in datasets:
 def load_auto(name):
 	df = load_csv(name)
 	df = df.where((pandas.notnull(df)), None)
-	df["cylinders"] = df["cylinders"].astype(pandas.Int64Dtype())
-	df["model_year"] = df["model_year"].astype(pandas.Int64Dtype())
+	df["cylinders"] = df["cylinders"].astype(pandas.Int64Dtype() if name.endswith("NA") else int)
+	df["horsepower"] = df["horsepower"].astype(float)
+	df["model_year"] = df["model_year"].astype(pandas.Int64Dtype() if name.endswith("NA") else int)
 	df["mpg"] = df["mpg"].astype(float)
-	df["origin"] = df["origin"].astype(pandas.Int64Dtype())
+	df["origin"] = df["origin"].astype(pandas.Int64Dtype() if name.endswith("NA") else int)
+	df["weight"] = df["weight"].astype(float)
 	return split_csv(df)
 
 auto_X, auto_y = load_auto("Auto")
-
-auto_X["cylinders"] = auto_X["cylinders"].astype(int)
-auto_X["model_year"] = auto_X["model_year"].astype(int)
-auto_X["origin"] = auto_X["origin"].astype(int)
 
 def build_auto(regressor, name, **pmml_options):
 	cat_columns = ["cylinders", "model_year", "origin"]

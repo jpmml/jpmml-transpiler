@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.33"/>
-		<Timestamp>2021-11-07T10:00:33Z</Timestamp>
+		<Application name="JPMML-SkLearn library" version="1.7.6"/>
+		<Timestamp>2022-05-18T11:36:48Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -68,7 +68,7 @@
 			<Value value="false"/>
 			<Value value="true"/>
 		</DataField>
-		<DataField name="Age" optype="continuous" dataType="double">
+		<DataField name="Age" optype="continuous" dataType="integer">
 			<Interval closure="closedClosed" leftMargin="17" rightMargin="83"/>
 		</DataField>
 		<DataField name="Income" optype="continuous" dataType="double">
@@ -166,9 +166,6 @@
 						<OutputField name="xgbValue" optype="continuous" dataType="float" isFinalResult="false"/>
 					</Output>
 					<LocalTransformations>
-						<DerivedField name="float(Age)" optype="continuous" dataType="float">
-							<FieldRef field="Age"/>
-						</DerivedField>
 						<DerivedField name="float(Income)" optype="continuous" dataType="float">
 							<FieldRef field="Income"/>
 						</DerivedField>
@@ -187,7 +184,7 @@
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -198,7 +195,7 @@
 										<Node score="-0.3176471">
 											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 											<Node score="0.04615385">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 												<Node score="-0.06666667">
 													<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
 													<Node score="-0.27272728">
@@ -235,7 +232,7 @@
 											</Node>
 										</Node>
 										<Node score="-0.21649484">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 											<Node score="-0.17142859">
 												<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
 												<Node score="0.27272728">
@@ -268,7 +265,7 @@
 									<Node score="-0.52000004">
 										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 										<Node score="0.026086958">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 											<Node score="-0.3857143">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="76022.97"/>
 											</Node>
@@ -299,7 +296,7 @@
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -314,7 +311,7 @@
 												<Node score="0.41426584">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="14991.77"/>
 													<Node score="0.057695318">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 													</Node>
 												</Node>
 											</Node>
@@ -336,7 +333,7 @@
 											<Node score="-0.16702247">
 												<SimplePredicate field="Employment" operator="equal" value="Private"/>
 												<Node score="0.16018435">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="33.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="34"/>
 												</Node>
 											</Node>
 											<Node score="2.1127606E-4">
@@ -344,7 +341,7 @@
 											</Node>
 										</Node>
 										<Node score="-0.3689586">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="35.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="36"/>
 											<Node score="0.056009386">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="34.5"/>
 												<Node score="-0.11216476">
@@ -368,7 +365,7 @@
 											<SimplePredicate field="Education" operator="equal" value="Professional"/>
 										</Node>
 										<Node score="0.13595988">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="52.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="53"/>
 											<Node score="-0.18768318">
 												<SimplePredicate field="Employment" operator="equal" value="Private"/>
 											</Node>
@@ -386,7 +383,7 @@
 									<Node score="-0.39061087">
 										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 										<Node score="-0.17351091">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 											<Node score="-0.371132">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="77266.09"/>
 												<Node score="-0.061123326">
@@ -420,7 +417,7 @@
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -443,7 +440,7 @@
 												</Node>
 											</Node>
 											<Node score="0.040581316">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 												<Node score="0.23409139">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="29239.695"/>
 												</Node>
@@ -461,9 +458,9 @@
 												</Node>
 											</Node>
 											<Node score="-0.0817631">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 												<Node score="0.20122373">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 												</Node>
 											</Node>
 											<Node score="0.38896722">
@@ -480,7 +477,7 @@
 											</Node>
 										</Node>
 										<Node score="-0.15619197">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 											<Node score="0.23551133">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="55991.355"/>
 											</Node>
@@ -510,11 +507,11 @@
 									<Node score="-0.3598762">
 										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 										<Node score="0.18926434">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 											<Node score="0.04103795">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="76022.97"/>
 												<Node score="-0.309604">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="52.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="53"/>
 												</Node>
 											</Node>
 											<Node score="-0.11027721">
@@ -524,7 +521,7 @@
 										<Node score="-0.27406275">
 											<SimplePredicate field="Gender" operator="equal" value="Male"/>
 											<Node score="0.031590834">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 											</Node>
 										</Node>
 									</Node>
@@ -549,7 +546,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -566,7 +563,7 @@
 													<Node score="0.30330622">
 														<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="48.5"/>
 														<Node score="-0.10643177">
-															<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.5"/>
+															<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 														</Node>
 													</Node>
 												</Node>
@@ -593,7 +590,7 @@
 										<Node score="0.05014639">
 											<SimplePredicate field="Deductions" operator="equal" value="true"/>
 											<Node score="-0.07516606">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="60"/>
 											</Node>
 											<Node score="0.28689802">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="29787.67"/>
@@ -610,7 +607,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.027195211">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="39"/>
 										<Node score="0.21821393">
 											<SimplePredicate field="Education" operator="equal" value="Professional"/>
 										</Node>
@@ -623,20 +620,20 @@
 												</Node>
 											</Node>
 											<Node score="-0.0696072">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 											</Node>
 										</Node>
 										<Node score="0.0963509">
 											<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
 										</Node>
 										<Node score="-0.29391468">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 										</Node>
 									</Node>
 									<Node score="0.08467684">
 										<SimplePredicate field="Education" operator="equal" value="Associate"/>
 										<Node score="-0.22787298">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="25"/>
 										</Node>
 									</Node>
 									<Node score="-0.29793844">
@@ -664,7 +661,7 @@
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -682,14 +679,14 @@
 												<Node score="0.007904825">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="36146.15"/>
 													<Node score="-0.11794166">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="55.0"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.18930104">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 												<Node score="0.0050505707">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 												</Node>
 											</Node>
 											<Node score="0.030610729">
@@ -711,7 +708,7 @@
 										<Node score="0.19632362">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.5"/>
 											<Node score="0.09983144">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="35.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="36"/>
 												<Node score="-0.11237041">
 													<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
 												</Node>
@@ -721,17 +718,17 @@
 											</Node>
 										</Node>
 										<Node score="-0.019509392">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 											<Node score="-0.37830848">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 											</Node>
 										</Node>
 										<Node score="-0.16291505">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="29"/>
 										</Node>
 									</Node>
 									<Node score="-0.17088072">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="39"/>
 										<Node score="-0.20037866">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.5"/>
 											<Node score="-0.12648092">
@@ -769,7 +766,7 @@
 											</Node>
 										</Node>
 										<Node score="-0.30945504">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										</Node>
 									</Node>
 									<Node score="-0.30075875">
@@ -780,7 +777,7 @@
 										<Node score="-0.19858201">
 											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 											<Node score="0.14675285">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="30.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 											</Node>
 										</Node>
 										<Node score="-0.05147057">
@@ -807,7 +804,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -822,7 +819,7 @@
 												<Node score="0.33324683">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="22307.814"/>
 													<Node score="0.23930305">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="52.5"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="53"/>
 														<Node score="-0.115447365">
 															<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="47.5"/>
 														</Node>
@@ -839,7 +836,7 @@
 												</Node>
 											</Node>
 											<Node score="0.026506212">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 												<Node score="-0.33544433">
 													<SimplePredicate field="Education" operator="equal" value="Yr9"/>
 												</Node>
@@ -851,7 +848,7 @@
 										<Node score="-0.13146691">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105568.625"/>
 											<Node score="-0.107474566">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="32.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="33"/>
 												<Node score="0.17121756">
 													<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
 												</Node>
@@ -863,7 +860,7 @@
 										<Node score="-0.3741247">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27061.68"/>
 											<Node score="0.035509605">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="64.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="65"/>
 												<Node score="-0.25659594">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="34099.42"/>
 												</Node>
@@ -873,11 +870,11 @@
 											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
 										</Node>
 										<Node score="0.23313186">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										</Node>
 									</Node>
 									<Node score="-0.3020739">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="39"/>
 										<Node score="0.18589538">
 											<SimplePredicate field="Education" operator="equal" value="Professional"/>
 										</Node>
@@ -903,7 +900,7 @@
 									<Node score="-0.28755835">
 										<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 										<Node score="-0.27039057">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="26.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="27"/>
 											<Node score="-0.14266191">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="73480.7"/>
 												<Node score="0.24058901">
@@ -918,7 +915,7 @@
 									<Node score="0.07361161">
 										<SimplePredicate field="Education" operator="equal" value="Associate"/>
 										<Node score="-0.18027335">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="25"/>
 										</Node>
 									</Node>
 									<Node score="-0.24272947">
@@ -942,7 +939,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -959,7 +956,7 @@
 												</Node>
 											</Node>
 											<Node score="0.017829243">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="60"/>
 											</Node>
 											<Node score="0.31886137">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="22428.969"/>
@@ -973,7 +970,7 @@
 													<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="64.5"/>
 												</Node>
 												<Node score="0.15386435">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 												</Node>
 											</Node>
 											<Node score="-0.304465">
@@ -989,18 +986,18 @@
 												<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 											</Node>
 											<Node score="0.17773917">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											</Node>
 										</Node>
 										<Node score="-0.3126631">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27061.68"/>
 										</Node>
 										<Node score="0.101529405">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="49.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 										</Node>
 									</Node>
 									<Node score="-0.22484066">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="28"/>
 										<Node score="-0.29971182">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="105720.125"/>
 											<Node score="-0.007969872">
@@ -1032,7 +1029,7 @@
 											</Node>
 										</Node>
 										<Node score="0.021606544">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 										</Node>
 									</Node>
 									<Node score="-0.053998437">
@@ -1052,7 +1049,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -1063,13 +1060,13 @@
 										<Node score="0.096578375">
 											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 											<Node score="0.3186803">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 												<Node score="-0.0101564415">
 													<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
 												</Node>
 											</Node>
 											<Node score="0.11520585">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 												<Node score="-0.03699175">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="34569.25"/>
 													<Node score="-0.3872944">
@@ -1080,7 +1077,7 @@
 											<Node score="0.024512092">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="29416.725"/>
 												<Node score="0.28697902">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 												</Node>
 											</Node>
 											<Node score="-0.24384108">
@@ -1093,7 +1090,7 @@
 										<Node score="-0.05865176">
 											<SimplePredicate field="Occupation" operator="equal" value="Support"/>
 											<Node score="0.35687673">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 												<Node score="0.07608584">
 													<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 												</Node>
@@ -1110,15 +1107,15 @@
 										</Node>
 									</Node>
 									<Node score="0.012419521">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="26.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="27"/>
 										<Node score="0.2323962">
 											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 											<Node score="-0.26033545">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="29"/>
 												<Node score="0.18007952">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 													<Node score="0.002056412">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 													</Node>
 												</Node>
 												<Node score="-0.024380121">
@@ -1156,7 +1153,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -1169,11 +1166,11 @@
 											<Node score="-0.23187403">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="48465.766"/>
 												<Node score="0.21919">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.0"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 												</Node>
 											</Node>
 											<Node score="-0.32554105">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 												<Node score="-0.06844951">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="33292.656"/>
 												</Node>
@@ -1185,13 +1182,13 @@
 										<Node score="0.0927287">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="59640.008"/>
 											<Node score="0.051685106">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="51"/>
 												<Node score="-0.2524992">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="168725.83"/>
 												</Node>
 											</Node>
 											<Node score="0.2808756">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											</Node>
 										</Node>
 										<Node score="-0.29262006">
@@ -1228,7 +1225,7 @@
 											</Node>
 										</Node>
 										<Node score="-0.023622738">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="28"/>
 											<Node score="-0.24322839">
 												<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 											</Node>
@@ -1253,18 +1250,18 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="-0.2889767">
 									<True/>
 									<Node score="-0.011573143">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="25"/>
 										<Node score="-0.04497662">
 											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 											<Node score="-0.035327822">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 											</Node>
 											<Node score="-0.2914676">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="23.5"/>
@@ -1272,7 +1269,7 @@
 													<SimplePredicate field="Education" operator="equal" value="College"/>
 												</Node>
 												<Node score="-0.06817757">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 												</Node>
 											</Node>
 										</Node>
@@ -1288,7 +1285,7 @@
 										<Node score="-0.29042727">
 											<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
 											<Node score="0.1285297">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 												<Node score="-0.2426162">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="50143.53"/>
 												</Node>
@@ -1319,14 +1316,14 @@
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="-0.26978692">
 									<True/>
 									<Node score="-0.045120668">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="25"/>
 										<Node score="-0.26265436">
 											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 											<Node score="-0.014593971">
@@ -1334,7 +1331,7 @@
 												<Node score="-0.18587705">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="48465.766"/>
 													<Node score="0.18922444">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.0"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 													</Node>
 												</Node>
 												<Node score="-0.27168262">
@@ -1350,7 +1347,7 @@
 											<Node score="0.10520936">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="20620.316"/>
 												<Node score="-0.18776043">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="51"/>
 													<Node score="0.09541863">
 														<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="65112.88"/>
 													</Node>
@@ -1363,7 +1360,7 @@
 												<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
 											</Node>
 											<Node score="0.3687132">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="34.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="34"/>
 											</Node>
 										</Node>
 										<Node score="-0.1759583">
@@ -1375,7 +1372,7 @@
 												</Node>
 											</Node>
 											<Node score="0.06391954">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 											</Node>
 										</Node>
 										<Node score="0.16917013">
@@ -1401,7 +1398,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -1410,7 +1407,7 @@
 									<Node score="-0.14574197">
 										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
 										<Node score="-0.2586659">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 											<Node score="0.2936249">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="26718.215"/>
 												<Node score="-0.0648502">
@@ -1429,7 +1426,7 @@
 											<Node score="-0.31364822">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="21264.176"/>
 												<Node score="0.08293608">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 													<Node score="-0.31339747">
 														<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
 													</Node>
@@ -1442,7 +1439,7 @@
 												</Node>
 											</Node>
 											<Node score="0.050277267">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="53"/>
 											</Node>
 										</Node>
 										<Node score="0.22528963">
@@ -1451,7 +1448,7 @@
 										<Node score="-0.21663971">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="19973.24"/>
 											<Node score="-0.24857286">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="33.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="34"/>
 												<Node score="0.0015254681">
 													<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 												</Node>
@@ -1471,7 +1468,7 @@
 										</Node>
 									</Node>
 									<Node score="0.29992437">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 										<Node score="-0.08112605">
 											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
 											<Node score="-0.2633447">
@@ -1501,25 +1498,25 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="-0.22808489">
 									<True/>
 									<Node score="0.009796303">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="23.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="24"/>
 										<Node score="-0.2457674">
 											<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 											<Node score="-0.005278547">
 												<SimplePredicate field="Marital" operator="equal" value="Married"/>
 												<Node score="0.0470781">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="52.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="53"/>
 												</Node>
 												<Node score="-0.2362677">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27380.82"/>
 													<Node score="-0.025037445">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 													</Node>
 												</Node>
 											</Node>
@@ -1536,7 +1533,7 @@
 										<Node score="-0.22048075">
 											<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
 											<Node score="0.060035452">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 											</Node>
 										</Node>
 										<Node score="0.1893303">
@@ -1554,7 +1551,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -1573,7 +1570,7 @@
 											<Node score="-0.012704549">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="212917.97"/>
 												<Node score="-0.20652601">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.0"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 												</Node>
 												<Node score="0.14825423">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="324720.7"/>
@@ -1589,7 +1586,7 @@
 										<Node score="-0.025441242">
 											<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
 											<Node score="-0.2980379">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 											</Node>
 											<Node score="-0.003980244">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="42574.08"/>
@@ -1626,7 +1623,7 @@
 									<Node score="-0.28024754">
 										<SimplePredicate field="Education" operator="equal" value="College"/>
 										<Node score="-0.02771218">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										</Node>
 									</Node>
 									<Node score="0.0073371916">
@@ -1658,7 +1655,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -1672,7 +1669,7 @@
 										<Node score="-0.07254332">
 											<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
 											<Node score="-0.09054426">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 												<Node score="0.045284886">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="39711.266"/>
 													<Node score="-0.23270543">
@@ -1684,7 +1681,7 @@
 												</Node>
 											</Node>
 											<Node score="0.20799978">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="29"/>
 											</Node>
 										</Node>
 										<Node score="0.025334317">
@@ -1697,14 +1694,14 @@
 											</Node>
 										</Node>
 										<Node score="0.013621976">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="23.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="24"/>
 											<Node score="-0.12552103">
 												<SimplePredicate field="Occupation" operator="equal" value="Farming"/>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="-0.029492568">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 										<Node score="0.16594468">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="265026.03"/>
 										</Node>
@@ -1713,7 +1710,7 @@
 											<Node score="0.1640509">
 												<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 												<Node score="-0.12136926">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 												</Node>
 											</Node>
 											<Node score="-0.052566703">
@@ -1739,7 +1736,7 @@
 								<MiningSchema>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -1748,14 +1745,14 @@
 									<Node score="-0.04143083">
 										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 										<Node score="0.03343826">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 										</Node>
 										<Node score="-0.2563748">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="26828.398"/>
 											<Node score="0.026422288">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 												<Node score="-0.12485116">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 												</Node>
 											</Node>
 										</Node>
@@ -1764,24 +1761,24 @@
 										<SimplePredicate field="Education" operator="equal" value="Yr7t8"/>
 									</Node>
 									<Node score="0.010306433">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="28"/>
 										<Node score="-0.026724562">
 											<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
 											<Node score="-0.09792977">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 											</Node>
 											<Node score="0.38419914">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 											</Node>
 										</Node>
 										<Node score="-0.19915988">
 											<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
 											<Node score="0.019112578">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="55.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="56"/>
 											</Node>
 										</Node>
 										<Node score="-0.14445889">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 										</Node>
 									</Node>
 									<Node score="-0.18409865">
@@ -1807,7 +1804,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -1820,13 +1817,13 @@
 											<Node score="0.31238484">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="61026.203"/>
 												<Node score="-0.048530385">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 												</Node>
 											</Node>
 											<Node score="0.09281519">
 												<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
 												<Node score="-0.13656989">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 													<Node score="0.075527">
 														<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="34433.633"/>
 													</Node>
@@ -1838,7 +1835,7 @@
 											<Node score="-0.24060331">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="53654.4"/>
 												<Node score="-0.02488268">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="33.0"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="33"/>
 												</Node>
 											</Node>
 											<Node score="0.20479931">
@@ -1859,7 +1856,7 @@
 											<Node score="0.009640801">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="38.5"/>
 												<Node score="-0.18827558">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 												</Node>
 											</Node>
 											<Node score="-0.18643975">
@@ -1867,11 +1864,11 @@
 											</Node>
 										</Node>
 										<Node score="0.23077193">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 											<Node score="-0.18985595">
 												<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 												<Node score="0.007941677">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 												</Node>
 											</Node>
 											<Node score="0.029030126">
@@ -1888,7 +1885,7 @@
 									<Node score="-0.26284876">
 										<SimplePredicate field="Education" operator="equal" value="College"/>
 										<Node score="-0.02311935">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										</Node>
 									</Node>
 									<Node score="-0.22211263">
@@ -1897,13 +1894,13 @@
 									<Node score="-0.023782348">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="116069.71"/>
 										<Node score="0.06712264">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="39"/>
 											<Node score="-0.10919319">
 												<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
 											</Node>
 										</Node>
 										<Node score="-0.2505844">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="25"/>
 										</Node>
 									</Node>
 									<Node score="-0.13583997">
@@ -1913,7 +1910,7 @@
 										</Node>
 									</Node>
 									<Node score="0.008739952">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="29"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -1925,7 +1922,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -1939,13 +1936,13 @@
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="37934.49"/>
 											</Node>
 											<Node score="-0.112446815">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											</Node>
 										</Node>
 										<Node score="0.0049162554">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="227693.55"/>
 											<Node score="-0.23280023">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 											</Node>
 											<Node score="-0.12504728">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="273264.38"/>
@@ -1954,7 +1951,7 @@
 										<Node score="0.04960529">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="193089.31"/>
 											<Node score="0.25979206">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="39"/>
 											</Node>
 										</Node>
 										<Node score="-0.20517975">
@@ -1965,7 +1962,7 @@
 										</Node>
 									</Node>
 									<Node score="0.15896583">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 										<Node score="-0.024859598">
 											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
 											<Node score="-0.22269776">
@@ -1973,7 +1970,7 @@
 											</Node>
 										</Node>
 										<Node score="-0.054289166">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="36"/>
 											<Node score="-0.22031148">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="16.5"/>
 												<Node score="-0.030231215">
@@ -1996,7 +1993,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2013,7 +2010,7 @@
 												<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
 											</Node>
 											<Node score="0.04841835">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											</Node>
 										</Node>
 										<Node score="-0.20174024">
@@ -2021,7 +2018,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.18368605">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="23.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="24"/>
 										<Node score="-0.23520915">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.5"/>
 											<Node score="0.044725455">
@@ -2040,7 +2037,7 @@
 												<SimplePredicate field="Occupation" operator="equal" value="Sales"/>
 											</Node>
 											<Node score="0.16800538">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="59"/>
 											</Node>
 										</Node>
 										<Node score="0.096790366">
@@ -2067,7 +2064,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2080,20 +2077,20 @@
 											<Node score="0.20168401">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="48.5"/>
 												<Node score="-0.17958775">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 													<Node score="0.016654963">
 														<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="55.0"/>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.24176066">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 											</Node>
 										</Node>
 										<Node score="-0.029887846">
 											<SimplePredicate field="Occupation" operator="equal" value="Support"/>
 											<Node score="0.19934094">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 											</Node>
 										</Node>
 										<Node score="-0.035176963">
@@ -2140,7 +2137,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2162,7 +2159,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.1033995">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="25"/>
 										<Node score="0.24487428">
 											<SimplePredicate field="Education" operator="equal" value="Professional"/>
 											<Node score="-0.044329952">
@@ -2172,7 +2169,7 @@
 										<Node score="0.24750564">
 											<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
 											<Node score="-0.046840183">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="56"/>
 											</Node>
 											<Node score="0.05757503">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="38299.43"/>
@@ -2189,7 +2186,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.19249398">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="21.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="22"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -2201,7 +2198,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2219,19 +2216,19 @@
 											<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
 										</Node>
 										<Node score="-0.07593588">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 											<Node score="0.1259808">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="51"/>
 											</Node>
 										</Node>
 										<Node score="0.34229973">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 										</Node>
 									</Node>
 									<Node score="0.24186228">
 										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="69.0"/>
 										<Node score="-0.116127275">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 										</Node>
 									</Node>
 									<Node score="-0.1922083">
@@ -2250,7 +2247,7 @@
 										</Node>
 									</Node>
 									<Node score="0.011906319">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -2263,7 +2260,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2278,9 +2275,9 @@
 									<Node score="-0.04493737">
 										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
 										<Node score="0.32600385">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 											<Node score="-0.04674635">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="56"/>
 											</Node>
 										</Node>
 									</Node>
@@ -2303,7 +2300,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.042849313">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -2314,7 +2311,7 @@
 								<MiningSchema>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="0.0023994548">
@@ -2322,7 +2319,7 @@
 									<Node score="-0.17693098">
 										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 										<Node score="0.029070856">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 										</Node>
 										<Node score="0.009496263">
 											<SimplePredicate field="Education" operator="equal" value="College"/>
@@ -2337,13 +2334,13 @@
 									<Node score="0.22278292">
 										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="69.0"/>
 										<Node score="-0.09783798">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 										</Node>
 									</Node>
 									<Node score="-0.25471947">
 										<SimplePredicate field="Occupation" operator="equal" value="Farming"/>
 										<Node score="0.08244377">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="53"/>
 										</Node>
 									</Node>
 									<Node score="0.09232864">
@@ -2360,7 +2357,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2374,7 +2371,7 @@
 												<SimplePredicate field="Marital" operator="equal" value="Absent"/>
 											</Node>
 											<Node score="-0.08169119">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="49.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="50"/>
 											</Node>
 											<Node score="0.2719207">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="26199.385"/>
@@ -2400,7 +2397,7 @@
 											<Node score="-0.1743903">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="253672.84"/>
 												<Node score="-0.026649876">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 												</Node>
 											</Node>
 										</Node>
@@ -2436,14 +2433,14 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="0.18634038">
 									<True/>
 									<Node score="-0.19751643">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 										<Node score="0.04560236">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.0"/>
 										</Node>
@@ -2452,12 +2449,12 @@
 										</Node>
 									</Node>
 									<Node score="0.22259584">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="65.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="66"/>
 									</Node>
 									<Node score="0.12306153">
 										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
 										<Node score="-0.25478086">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										</Node>
 										<Node score="-0.09308502">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="34924.58"/>
@@ -2495,7 +2492,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2515,7 +2512,7 @@
 												</Node>
 											</Node>
 											<Node score="0.05314572">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 												<Node score="-0.20087951">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="30453.02"/>
 												</Node>
@@ -2545,10 +2542,10 @@
 										<Node score="0.024970006">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="59.0"/>
 											<Node score="0.17767666">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="57"/>
 											</Node>
 											<Node score="-0.17109977">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 											</Node>
 										</Node>
 										<Node score="0.26530346">
@@ -2562,9 +2559,9 @@
 										</Node>
 									</Node>
 									<Node score="0.11334046">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 										<Node score="-0.18897389">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="61"/>
 											<Node score="0.034228697">
 												<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
 											</Node>
@@ -2585,7 +2582,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2631,7 +2628,7 @@
 											<Node score="-0.2632315">
 												<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
 												<Node score="-0.057608057">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 												</Node>
 											</Node>
 											<Node score="0.21067883">
@@ -2641,7 +2638,7 @@
 										<Node score="0.2856615">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="40228.367"/>
 											<Node score="0.049825035">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 											</Node>
 										</Node>
 										<Node score="-0.20659584">
@@ -2679,7 +2676,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2689,9 +2686,9 @@
 										<SimplePredicate field="Education" operator="equal" value="Yr5t6"/>
 									</Node>
 									<Node score="-0.06849841">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										<Node score="-0.21090017">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 											<Node score="-0.22732282">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="235952.97"/>
 											</Node>
@@ -2761,7 +2758,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2770,10 +2767,10 @@
 									<Node score="-0.05695364">
 										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
 										<Node score="-0.032502472">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="56"/>
 										</Node>
 										<Node score="0.22021253">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 										</Node>
 										<Node score="0.091195635">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="73932.734"/>
@@ -2785,9 +2782,9 @@
 											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 										</Node>
 										<Node score="0.29348126">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 											<Node score="0.03471964">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 											</Node>
 										</Node>
 									</Node>
@@ -2800,9 +2797,9 @@
 									<Node score="-0.14564082">
 										<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 										<Node score="0.11783547">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="32.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="33"/>
 											<Node score="-0.008858965">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 											</Node>
 										</Node>
 										<Node score="0.035322744">
@@ -2828,7 +2825,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2837,7 +2834,7 @@
 									<Node score="-0.15790205">
 										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 										<Node score="0.03169907">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 										</Node>
 										<Node score="0.0058808737">
 											<SimplePredicate field="Education" operator="equal" value="College"/>
@@ -2911,7 +2908,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2923,7 +2920,7 @@
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.0"/>
 										</Node>
 										<Node score="0.14335437">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										</Node>
 										<Node score="-0.034176324">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="47765.508"/>
@@ -2946,7 +2943,7 @@
 										<Node score="0.1678677">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="86452.305"/>
 											<Node score="-0.077845566">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 											</Node>
 										</Node>
 										<Node score="-0.22208287">
@@ -2962,7 +2959,7 @@
 											</Node>
 										</Node>
 										<Node score="-0.054214254">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 										</Node>
 									</Node>
 									<Node score="-0.0077699726">
@@ -2984,7 +2981,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -2994,7 +2991,7 @@
 										<SimplePredicate field="Education" operator="equal" value="Yr5t6"/>
 									</Node>
 									<Node score="-0.16398877">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 										<Node score="0.022998273">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="6556.1904"/>
 											<Node score="-0.24917361">
@@ -3003,7 +3000,7 @@
 													<SimplePredicate field="Employment" operator="equal" value="SelfEmp"/>
 												</Node>
 												<Node score="-0.020781865">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 												</Node>
 											</Node>
 											<Node score="0.040609658">
@@ -3035,11 +3032,11 @@
 											</Node>
 										</Node>
 										<Node score="0.003881891">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 										</Node>
 									</Node>
 									<Node score="0.108800195">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="30.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="31"/>
 										<Node score="-0.22944999">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="14317.525"/>
 											<Node score="0.06877783">
@@ -3060,14 +3057,14 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="-0.032308735">
 									<True/>
 									<Node score="-0.16754276">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 										<Node score="0.026836174">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.0"/>
 										</Node>
@@ -3076,7 +3073,7 @@
 										</Node>
 									</Node>
 									<Node score="0.19135419">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="65.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="66"/>
 									</Node>
 									<Node score="-0.16856323">
 										<SimplePredicate field="Education" operator="equal" value="Yr9"/>
@@ -3084,9 +3081,9 @@
 									<Node score="-0.06243509">
 										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
 										<Node score="0.26828915">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="32.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="33"/>
 											<Node score="0.023776704">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="51"/>
 											</Node>
 										</Node>
 									</Node>
@@ -3110,7 +3107,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -3121,7 +3118,7 @@
 										<Node score="-0.049438246">
 											<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
 											<Node score="-0.18823208">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 											</Node>
 										</Node>
 										<Node score="-0.19872141">
@@ -3142,7 +3139,7 @@
 										<Node score="-0.16715352">
 											<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
 											<Node score="0.33047292">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											</Node>
 											<Node score="0.23129715">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="83055.125"/>
@@ -3161,11 +3158,11 @@
 									<Node score="-0.17990461">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="47407.914"/>
 										<Node score="-0.342852">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 											<Node score="0.020963116">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 												<Node score="-0.1511791">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="61.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="62"/>
 												</Node>
 											</Node>
 										</Node>
@@ -3182,7 +3179,7 @@
 									<Node score="-0.0059237718">
 										<SimplePredicate field="Occupation" operator="equal" value="Sales"/>
 										<Node score="-0.14445339">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="59.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="60"/>
 										</Node>
 										<Node score="0.06709869">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="46.5"/>
@@ -3191,14 +3188,14 @@
 											</Node>
 										</Node>
 										<Node score="0.37718156">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="36"/>
 										</Node>
 									</Node>
 									<Node score="0.15949112">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="46681.6"/>
 									</Node>
 									<Node score="0.043664068">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										<Node score="-0.1119321">
 											<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
 										</Node>
@@ -3217,7 +3214,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.23698346">
@@ -3236,7 +3233,7 @@
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="29191.629"/>
 											</Node>
 											<Node score="0.21868858">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="49.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 											</Node>
 										</Node>
 									</Node>
@@ -3245,7 +3242,7 @@
 										<Node score="-0.05846119">
 											<SimplePredicate field="Occupation" operator="equal" value="Support"/>
 											<Node score="0.14918864">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 											</Node>
 										</Node>
 										<Node score="0.14086181">
@@ -3268,7 +3265,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.06768959">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.0"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="51"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -3282,7 +3279,7 @@
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="-0.1469655">
@@ -3329,10 +3326,10 @@
 									<Node score="-0.04392101">
 										<SimplePredicate field="Employment" operator="equal" value="PSFederal"/>
 										<Node score="0.21099693">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="50"/>
 										</Node>
 										<Node score="0.006058336">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 											<Node score="-0.17695895">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="28907.535"/>
 											</Node>
@@ -3344,11 +3341,11 @@
 									<Node score="0.15595083">
 										<SimplePredicate field="Deductions" operator="equal" value="true"/>
 										<Node score="-0.03221606">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="56"/>
 										</Node>
 									</Node>
 									<Node score="-0.019416606">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 										<Node score="-0.2133656">
 											<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
 										</Node>
@@ -3365,7 +3362,7 @@
 								<MiningSchema>
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="-0.16480789">
@@ -3386,9 +3383,9 @@
 										</Node>
 									</Node>
 									<Node score="-0.004035558">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="25"/>
 										<Node score="-0.12358985">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="62.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="63"/>
 											<Node score="-0.21772113">
 												<SimplePredicate field="Education" operator="equal" value="College"/>
 											</Node>
@@ -3396,11 +3393,11 @@
 												<SimplePredicate field="Employment" operator="equal" value="SelfEmp"/>
 											</Node>
 											<Node score="0.029354582">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="65.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="66"/>
 											</Node>
 										</Node>
 										<Node score="0.09396645">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 											<Node score="0.34383407">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="36350.766"/>
 												<Node score="0.08966195">
@@ -3414,11 +3411,11 @@
 										<Node score="0.015297667">
 											<SimplePredicate field="Employment" operator="equal" value="PSState"/>
 											<Node score="0.23273319">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 											</Node>
 										</Node>
 										<Node score="-0.17431997">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="57"/>
 										</Node>
 									</Node>
 									<Node score="-0.029111525">
@@ -3435,7 +3432,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.0068564927">
@@ -3443,19 +3440,19 @@
 									<Node score="0.03479417">
 										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 										<Node score="0.032088354">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 										</Node>
 										<Node score="-0.20065783">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27157.488"/>
 											<Node score="-0.03656401">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="0.16776994">
 										<SimplePredicate field="Marital" operator="equal" value="Unmarried"/>
 										<Node score="0.012376374">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="34.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="35"/>
 										</Node>
 									</Node>
 									<Node score="-0.0106459875">
@@ -3468,7 +3465,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.046755474">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="61"/>
 										<Node score="-0.037375253">
 											<SimplePredicate field="Education" operator="equal" value="College"/>
 											<Node score="-0.23208521">
@@ -3480,13 +3477,13 @@
 										</Node>
 									</Node>
 									<Node score="-0.0138940895">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 										<Node score="0.2232851">
 											<SimplePredicate field="Employment" operator="equal" value="Private"/>
 										</Node>
 									</Node>
 									<Node score="-0.1543745">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="57"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -3498,7 +3495,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -3522,9 +3519,9 @@
 											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 										</Node>
 										<Node score="0.22499333">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											<Node score="0.036850017">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 											</Node>
 										</Node>
 									</Node>
@@ -3533,7 +3530,7 @@
 										<Node score="0.020815581">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.0"/>
 											<Node score="-0.092008844">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											</Node>
 										</Node>
 										<Node score="-0.022914479">
@@ -3543,7 +3540,7 @@
 									<Node score="0.16438428">
 										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="69.0"/>
 										<Node score="-0.028525682">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 										</Node>
 									</Node>
 									<Node score="-0.08226245">
@@ -3560,16 +3557,16 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="-0.01917389">
 									<True/>
 									<Node score="0.22158083">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 										<Node score="-0.24587628">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 											<Node score="0.08292116">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="32713.898"/>
 												<Node score="-0.2178901">
@@ -3582,7 +3579,7 @@
 													</Node>
 												</Node>
 												<Node score="-0.14650461">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="59"/>
 												</Node>
 												<Node score="0.28372565">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="36239.484"/>
@@ -3592,7 +3589,7 @@
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="32022.715"/>
 											</Node>
 											<Node score="0.016231671">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 												<Node score="-0.18243289">
 													<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 												</Node>
@@ -3609,7 +3606,7 @@
 										</Node>
 									</Node>
 									<Node score="0.12117524">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="33.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="34"/>
 										<Node score="-0.34274402">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27104.45"/>
 											<Node score="-0.1878301">
@@ -3622,7 +3619,7 @@
 												</Node>
 											</Node>
 											<Node score="-0.048318326">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="35.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="36"/>
 											</Node>
 										</Node>
 										<Node score="0.02116726">
@@ -3641,7 +3638,7 @@
 											</Node>
 										</Node>
 										<Node score="0.00400952">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="29"/>
 										</Node>
 									</Node>
 									<Node score="0.26203266">
@@ -3669,13 +3666,13 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="-0.002249404">
 									<True/>
 									<Node score="0.0044425935">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 										<Node score="-0.020543732">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="20701.754"/>
 											<Node score="-0.12727189">
@@ -3684,12 +3681,12 @@
 										</Node>
 									</Node>
 									<Node score="0.17945838">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="65.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="66"/>
 									</Node>
 									<Node score="0.11288744">
 										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
 										<Node score="-0.20986547">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										</Node>
 										<Node score="-0.07962984">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="34924.58"/>
@@ -3702,9 +3699,9 @@
 										</Node>
 									</Node>
 									<Node score="0.05763007">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										<Node score="-0.009117449">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 										</Node>
 									</Node>
 									<Node score="-0.15652093">
@@ -3721,7 +3718,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.19767669">
@@ -3772,7 +3769,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.045932263">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.0"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="53"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -3785,7 +3782,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -3794,11 +3791,11 @@
 									<Node score="0.016837701">
 										<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
 										<Node score="-0.21192141">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 											<Node score="0.12178616">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="35.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="36"/>
 												<Node score="0.054968067">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="39"/>
 													<Node score="-0.24261437">
 														<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="30182.45"/>
 														<Node score="-0.057584118">
@@ -3842,7 +3839,7 @@
 											</Node>
 										</Node>
 										<Node score="0.2671713">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 										</Node>
 										<Node score="-0.012777176">
 											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
@@ -3867,7 +3864,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -3876,22 +3873,22 @@
 									<Node score="0.024040096">
 										<SimplePredicate field="Occupation" operator="equal" value="Service"/>
 										<Node score="0.031180536">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 										</Node>
 										<Node score="-0.17859592">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27157.488"/>
 											<Node score="-0.034299944">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="0.038628243">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="188872.25"/>
 										<Node score="-0.14309597">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="49.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="50"/>
 										</Node>
 										<Node score="0.17547329">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="33.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="34"/>
 											<Node score="0.057567168">
 												<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
 												<Node score="0.26233143">
@@ -3916,9 +3913,9 @@
 										</Node>
 									</Node>
 									<Node score="0.14353438">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										<Node score="-8.293983E-4">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 										</Node>
 									</Node>
 									<Node score="-0.005419734">
@@ -3934,7 +3931,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -3946,7 +3943,7 @@
 											<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
 										</Node>
 										<Node score="-0.08167643">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 											<Node score="-0.2102559">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="86989.73"/>
 												<Node score="0.014331025">
@@ -3964,7 +3961,7 @@
 											</Node>
 										</Node>
 										<Node score="0.042474337">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 										</Node>
 									</Node>
 									<Node score="-0.016761778">
@@ -4001,7 +3998,7 @@
 										</Node>
 									</Node>
 									<Node score="0.13418014">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -4014,7 +4011,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4030,10 +4027,10 @@
 										</Node>
 									</Node>
 									<Node score="-0.11489443">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="70.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="71"/>
 									</Node>
 									<Node score="0.027364973">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 										<Node score="0.059192907">
 											<SimplePredicate field="Gender" operator="equal" value="Male"/>
 											<Node score="0.18894726">
@@ -4053,7 +4050,7 @@
 									<Node score="-0.035742007">
 										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
 										<Node score="0.22887668">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 										</Node>
 									</Node>
 									<Node score="-0.03811354">
@@ -4074,7 +4071,7 @@
 								<MiningSchema>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4091,17 +4088,17 @@
 										<Node score="-0.02563867">
 											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 											<Node score="-0.069258004">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 											</Node>
 											<Node score="0.11664298">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 											</Node>
 										</Node>
 										<Node score="0.16912863">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="47123.094"/>
 										</Node>
 										<Node score="0.07927733">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 										</Node>
 									</Node>
 									<Node score="-0.26540607">
@@ -4132,7 +4129,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="-0.014448057">
@@ -4143,7 +4140,7 @@
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="324720.7"/>
 										</Node>
 										<Node score="0.0019372631">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 										</Node>
 									</Node>
 									<Node score="0.0013420249">
@@ -4155,7 +4152,7 @@
 											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 										</Node>
 										<Node score="-0.14545016">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 										</Node>
 									</Node>
 									<Node score="-0.13003957">
@@ -4183,7 +4180,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4195,17 +4192,17 @@
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="324720.7"/>
 										</Node>
 										<Node score="-0.012520173">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										</Node>
 									</Node>
 									<Node score="0.14337754">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 										<Node score="-0.0646086">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="37"/>
 											<Node score="-0.112513736">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 												<Node score="-0.011744586">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 													<Node score="0.035778098">
 														<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.5"/>
 													</Node>
@@ -4226,7 +4223,7 @@
 											<Node score="0.11844135">
 												<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 												<Node score="-0.15695083">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="34.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="35"/>
 												</Node>
 											</Node>
 											<Node score="-0.005614975">
@@ -4239,7 +4236,7 @@
 										<Node score="0.10140825">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="44.5"/>
 											<Node score="0.026233438">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="29"/>
 												<Node score="-0.14393824">
 													<SimplePredicate field="Employment" operator="equal" value="Private"/>
 												</Node>
@@ -4255,7 +4252,7 @@
 											</Node>
 										</Node>
 										<Node score="0.17190605">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="30.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="31"/>
 										</Node>
 									</Node>
 								</Node>
@@ -4269,7 +4266,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4281,7 +4278,7 @@
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.0"/>
 										</Node>
 										<Node score="0.10804189">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										</Node>
 									</Node>
 									<Node score="-0.19093944">
@@ -4309,7 +4306,7 @@
 											<Node score="0.09891673">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="33634.86"/>
 												<Node score="-0.15187226">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="59"/>
 												</Node>
 											</Node>
 											<Node score="-0.13717683">
@@ -4318,9 +4315,9 @@
 										</Node>
 									</Node>
 									<Node score="0.1799548">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="61.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="62"/>
 										<Node score="-0.07835907">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 											<Node score="0.063879326">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="37478.04"/>
 											</Node>
@@ -4336,7 +4333,7 @@
 										</Node>
 									</Node>
 									<Node score="0.004731361">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -4346,7 +4343,7 @@
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
 									<MiningField name="Education"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4360,7 +4357,7 @@
 												<SimplePredicate field="Education" operator="equal" value="Yr10"/>
 											</Node>
 											<Node score="-0.0999516">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 												<Node score="0.13317832">
 													<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="37.0"/>
 													<Node score="0.0049047377">
@@ -4369,9 +4366,9 @@
 												</Node>
 											</Node>
 											<Node score="-0.25284827">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 												<Node score="-0.016510287">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 												</Node>
 											</Node>
 											<Node score="-0.09214514">
@@ -4382,7 +4379,7 @@
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="38641.336"/>
 										</Node>
 										<Node score="0.07267507">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 										</Node>
 									</Node>
 									<Node score="0.2263186">
@@ -4391,7 +4388,7 @@
 									<Node score="-0.047416866">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="35355.785"/>
 										<Node score="-0.23314738">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 										</Node>
 									</Node>
 									<Node score="0.014010409">
@@ -4416,7 +4413,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.0048609697">
@@ -4428,7 +4425,7 @@
 											<Node score="-0.14540872">
 												<SimplePredicate field="Occupation" operator="equal" value="Transport"/>
 												<Node score="-0.049633905">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.0"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 												</Node>
 											</Node>
 											<Node score="-0.03214177">
@@ -4436,7 +4433,7 @@
 												<Node score="-0.1226761">
 													<SimplePredicate field="Occupation" operator="equal" value="Sales"/>
 													<Node score="0.09111931">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="55.0"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 													</Node>
 												</Node>
 												<Node score="0.02694477">
@@ -4454,13 +4451,13 @@
 									<Node score="-0.013768431">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="36186.867"/>
 										<Node score="0.22191902">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 										</Node>
 									</Node>
 									<Node score="-0.03707358">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="35355.785"/>
 										<Node score="-0.24373709">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 										</Node>
 									</Node>
 									<Node score="0.23818399">
@@ -4473,7 +4470,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.08108445">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="57"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -4486,7 +4483,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4508,17 +4505,17 @@
 										</Node>
 									</Node>
 									<Node score="0.13982707">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="23.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="24"/>
 										<Node score="-0.17799613">
 											<SimplePredicate field="Employment" operator="equal" value="SelfEmp"/>
 											<Node score="-0.11117149">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="57.0"/>
 												<Node score="0.1756841">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.0"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 												</Node>
 											</Node>
 											<Node score="0.07954514">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="59.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="60"/>
 											</Node>
 										</Node>
 										<Node score="-0.13919353">
@@ -4595,7 +4592,7 @@
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
 									<MiningField name="Education"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4620,7 +4617,7 @@
 													</Node>
 												</Node>
 												<Node score="0.12031398">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 												</Node>
 												<Node score="-0.008268404">
 													<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.5"/>
@@ -4659,13 +4656,13 @@
 										</Node>
 									</Node>
 									<Node score="0.22852902">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 										<Node score="-0.027467035">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="55.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 										</Node>
 									</Node>
 									<Node score="-0.14228854">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -4678,7 +4675,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4712,7 +4709,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.09307279">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="62.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="63"/>
 										<Node score="-0.17630416">
 											<SimplePredicate field="Education" operator="equal" value="College"/>
 										</Node>
@@ -4721,13 +4718,13 @@
 										</Node>
 									</Node>
 									<Node score="0.09609642">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 										<Node score="-0.13573073">
 											<SimplePredicate field="Employment" operator="equal" value="PSState"/>
 										</Node>
 									</Node>
 									<Node score="-0.07936317">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -4738,7 +4735,7 @@
 								<MiningSchema>
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.106678985">
@@ -4748,19 +4745,19 @@
 										<Node score="-0.007152218">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="22128.32"/>
 											<Node score="-0.12311322">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="61"/>
 												<Node score="-0.16944653">
 													<SimplePredicate field="Education" operator="equal" value="College"/>
 												</Node>
 												<Node score="0.0873975">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="61.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="62"/>
 													<Node score="-0.04524547">
 														<SimplePredicate field="Employment" operator="equal" value="Private"/>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.13948558">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="59.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="60"/>
 											</Node>
 											<Node score="-0.09589658">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="25018.16"/>
@@ -4776,18 +4773,18 @@
 									<Node score="-0.04425665">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="18753.281"/>
 										<Node score="0.19514301">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="39"/>
 											<Node score="0.008786423">
 												<SimplePredicate field="Education" operator="equal" value="College"/>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="0.0630753">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 										<Node score="-0.08809374">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="14802.425"/>
 											<Node score="0.026685497">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 											</Node>
 											<Node score="-0.25796634">
 												<SimplePredicate field="Education" operator="equal" value="College"/>
@@ -4809,7 +4806,7 @@
 								<MiningSchema>
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4818,7 +4815,7 @@
 									<Node score="-0.15234572">
 										<SimplePredicate field="Marital" operator="equal" value="Divorced"/>
 										<Node score="-0.089919">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 											<Node score="0.08900932">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="53.5"/>
 											</Node>
@@ -4839,17 +4836,17 @@
 											</Node>
 										</Node>
 										<Node score="0.010643533">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 										</Node>
 									</Node>
 									<Node score="-0.009327147">
 										<SimplePredicate field="Education" operator="equal" value="Doctorate"/>
 										<Node score="0.12518854">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 										</Node>
 									</Node>
 									<Node score="-0.117095836">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="70.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="71"/>
 									</Node>
 									<Node score="-0.08260286">
 										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="16.5"/>
@@ -4861,7 +4858,7 @@
 										</Node>
 									</Node>
 									<Node score="0.12293178">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="59.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="60"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -4873,7 +4870,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4882,7 +4879,7 @@
 									<Node score="0.057094995">
 										<SimplePredicate field="Education" operator="equal" value="Master"/>
 										<Node score="-0.06791415">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 										</Node>
 										<Node score="0.028761024">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="31570.33"/>
@@ -4921,7 +4918,7 @@
 									<Node score="0.004416608">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="83537.77"/>
 										<Node score="0.24552818">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="59"/>
 										</Node>
 									</Node>
 									<Node score="-0.19577661">
@@ -4939,7 +4936,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -4954,7 +4951,7 @@
 									<Node score="-0.09118353">
 										<SimplePredicate field="Marital" operator="equal" value="Divorced"/>
 										<Node score="-0.0064489334">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 											<Node score="0.062149428">
 												<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 												<Node score="-0.026292248">
@@ -4975,7 +4972,7 @@
 									<Node score="0.108599275">
 										<SimplePredicate field="Deductions" operator="equal" value="true"/>
 										<Node score="0.09321633">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="35.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="35"/>
 											<Node score="-0.048769716">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="49162.617"/>
 											</Node>
@@ -4989,7 +4986,7 @@
 										<Node score="-0.09663558">
 											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 											<Node score="0.14620276">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 											</Node>
 										</Node>
 										<Node score="0.098792344">
@@ -5015,7 +5012,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5032,7 +5029,7 @@
 												</Node>
 											</Node>
 											<Node score="0.0063011358">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 											</Node>
 											<Node score="0.17947146">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="34792.89"/>
@@ -5049,7 +5046,7 @@
 											<Node score="0.10426772">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="44.5"/>
 												<Node score="-0.1108277">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="29"/>
 												</Node>
 											</Node>
 											<Node score="0.07085113">
@@ -5071,11 +5068,11 @@
 										<Node score="0.20116107">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.0"/>
 											<Node score="-0.04566292">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 											</Node>
 										</Node>
 										<Node score="0.06709844">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="30.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="31"/>
 											<Node score="-0.07818777">
 												<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
 												<Node score="0.17907767">
@@ -5093,7 +5090,7 @@
 									<Node score="-0.050398387">
 										<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 										<Node score="0.10754981">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 										</Node>
 									</Node>
 									<Node score="-0.25634232">
@@ -5113,7 +5110,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5139,7 +5136,7 @@
 												</Node>
 											</Node>
 											<Node score="0.012976817">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 											</Node>
 										</Node>
 										<Node score="-0.18232204">
@@ -5160,11 +5157,11 @@
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.0"/>
 											</Node>
 											<Node score="0.07253935">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 											</Node>
 										</Node>
 										<Node score="-0.048061904">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 										</Node>
 									</Node>
 									<Node score="-0.107475094">
@@ -5172,7 +5169,7 @@
 										<Node score="0.050713543">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="263449.75"/>
 											<Node score="-0.018135315">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 											</Node>
 										</Node>
 									</Node>
@@ -5193,7 +5190,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5202,7 +5199,7 @@
 									<Node score="0.00415621">
 										<SimplePredicate field="Gender" operator="equal" value="Male"/>
 										<Node score="0.070961274">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="63.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="64"/>
 											<Node score="-0.19641374">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="25.5"/>
 												<Node score="0.024412178">
@@ -5229,7 +5226,7 @@
 											</Node>
 										</Node>
 										<Node score="0.08921204">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="59.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="60"/>
 										</Node>
 									</Node>
 									<Node score="0.0781478">
@@ -5241,7 +5238,7 @@
 											<SimplePredicate field="Marital" operator="equal" value="Absent"/>
 										</Node>
 										<Node score="0.024821958">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 										</Node>
 										<Node score="0.23863943">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="112082.72"/>
@@ -5260,9 +5257,9 @@
 										<SimplePredicate field="Education" operator="equal" value="Associate"/>
 									</Node>
 									<Node score="0.059620935">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 										<Node score="-0.095630296">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 										</Node>
 									</Node>
 								</Node>
@@ -5276,7 +5273,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="-0.09056406">
@@ -5298,18 +5295,18 @@
 										<Node score="-0.0012109646">
 											<SimplePredicate field="Marital" operator="equal" value="Married"/>
 											<Node score="0.077685356">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="-0.060951203">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 										<Node score="0.08357511">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 											<Node score="-0.17430001">
 												<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
 												<Node score="0.07554556">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="59.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="60"/>
 												</Node>
 											</Node>
 											<Node score="-0.027575405">
@@ -5327,7 +5324,7 @@
 										</Node>
 									</Node>
 									<Node score="0.20910917">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										<Node score="-0.018883185">
 											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 										</Node>
@@ -5354,7 +5351,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5380,7 +5377,7 @@
 												</Node>
 											</Node>
 											<Node score="-0.23490892">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="52.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="53"/>
 											</Node>
 										</Node>
 										<Node score="-0.10416018">
@@ -5412,7 +5409,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5424,16 +5421,16 @@
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="61743.715"/>
 										</Node>
 										<Node score="0.0030224433">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="56.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="56"/>
 										</Node>
 										<Node score="0.1405019">
 											<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
 										</Node>
 									</Node>
 									<Node score="-0.010659766">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="25"/>
 										<Node score="0.025655122">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="61"/>
 											<Node score="-0.02839825">
 												<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 												<Node score="0.12146286">
@@ -5454,7 +5451,7 @@
 											</Node>
 										</Node>
 										<Node score="0.056173645">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 											<Node score="6.092455E-4">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="33232.516"/>
 											</Node>
@@ -5473,7 +5470,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5499,9 +5496,9 @@
 												</Node>
 											</Node>
 											<Node score="0.2446368">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 												<Node score="-0.19589953">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 													<Node score="0.0151437735">
 														<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="36376.33"/>
 													</Node>
@@ -5511,13 +5508,13 @@
 												</Node>
 											</Node>
 											<Node score="-0.19639166">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 												<Node score="0.007441523">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="126477.73"/>
 												</Node>
 											</Node>
 											<Node score="0.1401882">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="27.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="28"/>
 											</Node>
 										</Node>
 									</Node>
@@ -5533,7 +5530,7 @@
 									<Node score="-0.022794869">
 										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="38.5"/>
 										<Node score="-0.09923003">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											<Node score="0.06370845">
 												<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 											</Node>
@@ -5543,7 +5540,7 @@
 										</Node>
 									</Node>
 									<Node score="0.0051421565">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										<Node score="0.24948123">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="29.0"/>
 										</Node>
@@ -5558,7 +5555,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.07504753">
@@ -5569,7 +5566,7 @@
 											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 										</Node>
 										<Node score="-0.11241893">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="35.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="36"/>
 											<Node score="0.021032864">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="33511.71"/>
 											</Node>
@@ -5584,7 +5581,7 @@
 												<Node score="-0.12659489">
 													<SimplePredicate field="Employment" operator="equal" value="Consultant"/>
 													<Node score="0.028902976">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 													</Node>
 												</Node>
 												<Node score="0.01138195">
@@ -5596,13 +5593,13 @@
 									<Node score="-0.011307461">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="47407.914"/>
 										<Node score="-0.1986392">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 										</Node>
 									</Node>
 									<Node score="0.13008672">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 										<Node score="-0.025775038">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 											<Node score="0.019894825">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="29882.875"/>
 											</Node>
@@ -5627,7 +5624,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5645,13 +5642,13 @@
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="138740.62"/>
 										</Node>
 										<Node score="-0.14677167">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 											<Node score="0.009414468">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="52.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="53"/>
 											</Node>
 										</Node>
 										<Node score="0.12398755">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 										</Node>
 									</Node>
 									<Node score="0.11597989">
@@ -5661,7 +5658,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.040774807">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 										<Node score="-0.003106802">
 											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 											<Node score="0.14025941">
@@ -5669,17 +5666,17 @@
 											</Node>
 										</Node>
 										<Node score="0.006584863">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 										</Node>
 									</Node>
 									<Node score="0.0051585627">
 										<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 										<Node score="-0.15237455">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="29"/>
 										</Node>
 									</Node>
 									<Node score="0.10550521">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -5691,7 +5688,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5710,17 +5707,17 @@
 										</Node>
 									</Node>
 									<Node score="-0.06615586">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="24.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="25"/>
 										<Node score="0.0036122294">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="13.0"/>
 											<Node score="0.11317588">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="65.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="66"/>
 												<Node score="-0.01500694">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="67.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="68"/>
 												</Node>
 											</Node>
 											<Node score="-0.106428586">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="63.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="64"/>
 											</Node>
 											<Node score="-0.07817201">
 												<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
@@ -5794,7 +5791,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5803,12 +5800,12 @@
 									<Node score="0.028222675">
 										<SimplePredicate field="Education" operator="equal" value="Master"/>
 										<Node score="-0.0665698">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 										</Node>
 										<Node score="-0.05998059">
 											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 											<Node score="0.052570295">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 											</Node>
 										</Node>
 										<Node score="0.15087287">
@@ -5820,7 +5817,7 @@
 										<Node score="-0.0336674">
 											<SimplePredicate field="Marital" operator="equal" value="Married"/>
 											<Node score="-0.0702936">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 											</Node>
 											<Node score="0.08768586">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="221911.05"/>
@@ -5833,10 +5830,10 @@
 									<Node score="0.17182548">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="83537.77"/>
 										<Node score="0.1938337">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="58.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="59"/>
 										</Node>
 										<Node score="-0.22927324">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 											<Node score="0.0034055102">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="99943.86"/>
 											</Node>
@@ -5865,7 +5862,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5888,7 +5885,7 @@
 												</Node>
 											</Node>
 											<Node score="0.048644602">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="30.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="31"/>
 												<Node score="0.22442305">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="98518.16"/>
 												</Node>
@@ -5903,7 +5900,7 @@
 												</Node>
 											</Node>
 											<Node score="-0.001862398">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 											</Node>
 										</Node>
 										<Node score="-0.046527565">
@@ -5919,14 +5916,14 @@
 									<Node score="-0.19383626">
 										<SimplePredicate field="Education" operator="equal" value="College"/>
 										<Node score="0.023763118">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										</Node>
 									</Node>
 									<Node score="-0.1393501">
 										<SimplePredicate field="Employment" operator="equal" value="PSFederal"/>
 									</Node>
 									<Node score="-0.09162277">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="44.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 										<Node score="0.04270829">
 											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 										</Node>
@@ -5943,7 +5940,7 @@
 								<MiningSchema>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -5956,16 +5953,16 @@
 											<Node score="-0.017055934">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="23678.16"/>
 												<Node score="-0.09398139">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="61"/>
 													<Node score="-0.15239042">
 														<SimplePredicate field="Education" operator="equal" value="College"/>
 													</Node>
 													<Node score="0.0255671">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="61.5"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="62"/>
 													</Node>
 												</Node>
 												<Node score="0.025744967">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 													<Node score="-0.049990494">
 														<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="59.0"/>
 													</Node>
@@ -5982,7 +5979,7 @@
 									<Node score="0.03706974">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="18753.281"/>
 										<Node score="0.17537603">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="45.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="45"/>
 										</Node>
 									</Node>
 									<Node score="0.096351445">
@@ -5994,7 +5991,7 @@
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="17560.059"/>
 										</Node>
 										<Node score="-0.04515072">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="47.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 										</Node>
 									</Node>
 									<Node score="0.11374373">
@@ -6012,13 +6009,13 @@
 								<MiningSchema>
 									<MiningField name="Employment"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.0020572478">
 									<True/>
 									<Node score="-0.08064637">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 										<Node score="-0.0031688844">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="37478.04"/>
 										</Node>
@@ -6026,7 +6023,7 @@
 									<Node score="0.06008556">
 										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
 										<Node score="-0.13900189">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="33.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="34"/>
 										</Node>
 									</Node>
 									<Node score="-0.19919029">
@@ -6064,7 +6061,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -6081,7 +6078,7 @@
 												</Node>
 											</Node>
 											<Node score="0.0037639532">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 											</Node>
 										</Node>
 									</Node>
@@ -6122,7 +6119,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="-0.15427557">
@@ -6134,17 +6131,17 @@
 											<Node score="0.045377433">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="167403.16"/>
 												<Node score="-0.10900311">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.0"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="50"/>
 												</Node>
 												<Node score="0.13481829">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 												</Node>
 												<Node score="-0.13019542">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 												</Node>
 											</Node>
 											<Node score="0.05018977">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="30.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="31"/>
 												<Node score="0.19818299">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="98518.16"/>
 												</Node>
@@ -6159,7 +6156,7 @@
 										<Node score="-0.15806189">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="55885.812"/>
 											<Node score="0.03322887">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 											</Node>
 										</Node>
 										<Node score="0.13320628">
@@ -6169,7 +6166,7 @@
 									<Node score="-0.1780866">
 										<SimplePredicate field="Education" operator="equal" value="College"/>
 										<Node score="0.014706649">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										</Node>
 									</Node>
 									<Node score="0.16810799">
@@ -6188,7 +6185,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.07473021">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 										<Node score="0.066262566">
 											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 										</Node>
@@ -6205,7 +6202,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Deductions"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -6234,11 +6231,11 @@
 										<Node score="-0.09602635">
 											<SimplePredicate field="Education" operator="equal" value="Bachelor"/>
 											<Node score="0.12423131">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 											</Node>
 										</Node>
 										<Node score="-0.15008578">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 										</Node>
 									</Node>
 									<Node score="-0.039279465">
@@ -6260,7 +6257,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.008591176">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="28.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="29"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -6272,7 +6269,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.0032467202">
@@ -6306,7 +6303,7 @@
 												</Node>
 											</Node>
 											<Node score="-0.023152152">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="39"/>
 											</Node>
 										</Node>
 									</Node>
@@ -6335,14 +6332,14 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="-0.07347789">
 									<True/>
 									<Node score="-0.04711154">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 										<Node score="-0.02725695">
 											<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
 											<Node score="-0.16347209">
@@ -6358,7 +6355,7 @@
 										<Node score="-0.13324216">
 											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 											<Node score="0.059611764">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 											</Node>
 										</Node>
 										<Node score="0.037818085">
@@ -6379,7 +6376,7 @@
 										<Node score="-0.19956274">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="30232.11"/>
 											<Node score="0.10620434">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 												<Node score="-0.075144336">
 													<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="58.0"/>
 												</Node>
@@ -6418,7 +6415,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -6453,9 +6450,9 @@
 												<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 											</Node>
 											<Node score="-0.15493153">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="33.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="34"/>
 												<Node score="0.04911958">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 												</Node>
 											</Node>
 										</Node>
@@ -6463,7 +6460,7 @@
 											<SimplePredicate field="Occupation" operator="equal" value="Machinist"/>
 										</Node>
 										<Node score="-0.016348042">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="49.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="50"/>
 											<Node score="-0.15411015">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="32022.715"/>
 											</Node>
@@ -6487,15 +6484,15 @@
 									<Node score="-0.035104293">
 										<SimplePredicate field="Education" operator="equal" value="Master"/>
 										<Node score="0.13362312">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										</Node>
 									</Node>
 									<Node score="0.07551843">
 										<SimplePredicate field="Marital" operator="equal" value="Divorced"/>
 										<Node score="-0.19205578">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 											<Node score="0.0021541743">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 											</Node>
 										</Node>
 										<Node score="0.0049126525">
@@ -6522,7 +6519,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -6543,9 +6540,9 @@
 											</Node>
 										</Node>
 										<Node score="0.0053504505">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="41"/>
 											<Node score="-0.022512816">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 												<Node score="0.035945415">
 													<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="42.5"/>
 												</Node>
@@ -6565,7 +6562,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.0075503974">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 										<Node score="0.10025835">
 											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
 										</Node>
@@ -6575,7 +6572,7 @@
 										<Node score="0.09846871">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="160829.53"/>
 											<Node score="-0.17693798">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 												<Node score="0.0013560514">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="217124.0"/>
 												</Node>
@@ -6592,7 +6589,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.18519266">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -6604,7 +6601,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -6622,7 +6619,7 @@
 									<Node score="0.13166548">
 										<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="69.0"/>
 										<Node score="-0.03987014">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 										</Node>
 									</Node>
 									<Node score="-0.13126579">
@@ -6644,7 +6641,7 @@
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="42787.785"/>
 									</Node>
 									<Node score="0.014101118">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 										<Node score="-0.09729889">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="41530.824"/>
 										</Node>
@@ -6662,7 +6659,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -6685,13 +6682,13 @@
 												</Node>
 											</Node>
 											<Node score="-0.04013444">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="48.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="48"/>
 											</Node>
 										</Node>
 										<Node score="-0.13445546">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="55885.812"/>
 											<Node score="0.026107928">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 											</Node>
 										</Node>
 										<Node score="0.105270974">
@@ -6714,7 +6711,7 @@
 										</Node>
 									</Node>
 									<Node score="-0.041194145">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -6726,7 +6723,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -6752,14 +6749,14 @@
 										<Node score="-0.15719655">
 											<SimplePredicate field="Education" operator="equal" value="HSgrad"/>
 											<Node score="0.08998908">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 												<Node score="-0.043539897">
 													<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="144609.47"/>
 												</Node>
 											</Node>
 										</Node>
 										<Node score="-0.062302362">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="55"/>
 										</Node>
 										<Node score="-0.0387956">
 											<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
@@ -6795,7 +6792,7 @@
 								<MiningSchema>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -6807,7 +6804,7 @@
 									<Node score="-0.15467392">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="116069.71"/>
 										<Node score="0.06462492">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="30.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="31"/>
 											<Node score="-0.00798025">
 												<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
 												<Node score="0.12328898">
@@ -6833,7 +6830,7 @@
 										<Node score="0.05044205">
 											<SimplePredicate field="Education" operator="equal" value="Yr10"/>
 											<Node score="-0.16701919">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											</Node>
 										</Node>
 										<Node score="0.0030950326">
@@ -6843,7 +6840,7 @@
 									<Node score="-0.19487317">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="27061.68"/>
 										<Node score="0.008271842">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="64.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="65"/>
 										</Node>
 									</Node>
 								</Node>
@@ -6858,7 +6855,7 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -6870,7 +6867,7 @@
 											<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
 										</Node>
 										<Node score="-0.048904438">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										</Node>
 										<Node score="-0.020239608">
 											<SimplePredicate field="Marital" operator="equal" value="Absent"/>
@@ -6910,11 +6907,11 @@
 										</Node>
 									</Node>
 									<Node score="-0.012870852">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										<Node score="0.0043065366">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="49.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="50"/>
 											<Node score="-0.019552382">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 												<Node score="0.08977043">
 													<SimplePredicate field="Marital" operator="equal" value="Widowed"/>
 												</Node>
@@ -6933,7 +6930,7 @@
 									<Node score="0.037423518">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="143889.75"/>
 										<Node score="-0.08748023">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 										</Node>
 									</Node>
 								</Node>
@@ -7000,14 +6997,14 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="0.015659058">
 									<True/>
 									<Node score="-0.067343">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 										<Node score="-0.0072332225">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="37478.04"/>
 										</Node>
@@ -7023,7 +7020,7 @@
 										<Node score="-0.016189074">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="192150.94"/>
 											<Node score="0.11198846">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="39"/>
 											</Node>
 										</Node>
 										<Node score="-0.086802">
@@ -7049,7 +7046,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.07155571">
@@ -7057,7 +7054,7 @@
 									<Node score="-0.051367447">
 										<SimplePredicate field="Education" operator="equal" value="Master"/>
 										<Node score="0.03526322">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 											<Node score="-0.08574773">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="36611.008"/>
 											</Node>
@@ -7087,7 +7084,7 @@
 									<Node score="-0.14505425">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="4877.32"/>
 										<Node score="0.03856271">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 											<Node score="-0.10605589">
 												<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
 											</Node>
@@ -7106,7 +7103,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -7136,9 +7133,9 @@
 											</Node>
 										</Node>
 										<Node score="-0.0029782208">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 											<Node score="-0.17814851">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="51"/>
 											</Node>
 											<Node score="0.12832046">
 												<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="49.0"/>
@@ -7148,10 +7145,10 @@
 									<Node score="0.00753829">
 										<SimplePredicate field="Occupation" operator="equal" value="Repair"/>
 										<Node score="0.055273235">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="46"/>
 										</Node>
 										<Node score="-0.17031641">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="36.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="36"/>
 										</Node>
 									</Node>
 									<Node score="0.18916415">
@@ -7161,7 +7158,7 @@
 										</Node>
 									</Node>
 									<Node score="0.01692679">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 										<Node score="0.012324252">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="41.0"/>
 											<Node score="0.08847094">
@@ -7176,7 +7173,7 @@
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="16368.47"/>
 									</Node>
 									<Node score="0.20451273">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="33.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="34"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -7186,24 +7183,24 @@
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.02361596">
 									<True/>
 									<Node score="-0.06403782">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 										<Node score="-0.010177638">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="37478.04"/>
 										</Node>
 									</Node>
 									<Node score="0.08247004">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="65.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="66"/>
 									</Node>
 									<Node score="-0.0017994052">
 										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
 										<Node score="0.088121295">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 										</Node>
 									</Node>
 									<Node score="-0.11133652">
@@ -7230,7 +7227,7 @@
 								<MiningSchema>
 									<MiningField name="Employment"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -7239,11 +7236,11 @@
 									<Node score="-0.11712601">
 										<SimplePredicate field="Occupation" operator="equal" value="Farming"/>
 										<Node score="0.04521207">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="54.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 										</Node>
 									</Node>
 									<Node score="0.02553068">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="53.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="54"/>
 										<Node score="-0.097955815">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="39280.12"/>
 											<Node score="-0.0090019265">
@@ -7264,7 +7261,7 @@
 											<Node score="-0.12036005">
 												<SimplePredicate field="Employment" operator="equal" value="Private"/>
 												<Node score="0.13899246">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="57.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="58"/>
 												</Node>
 											</Node>
 										</Node>
@@ -7278,7 +7275,7 @@
 									<Node score="-0.1323911">
 										<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="38641.336"/>
 										<Node score="-0.19080882">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 										</Node>
 										<Node score="-0.13986954">
 											<SimplePredicate field="Employment" operator="equal" value="PSFederal"/>
@@ -7288,7 +7285,7 @@
 										</Node>
 									</Node>
 									<Node score="0.2510348">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 										<Node score="0.05698997">
 											<SimplePredicate field="Occupation" operator="equal" value="Executive"/>
 										</Node>
@@ -7296,11 +7293,11 @@
 									<Node score="0.019271247">
 										<SimplePredicate field="Employment" operator="equal" value="Private"/>
 										<Node score="-0.09261024">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										</Node>
 									</Node>
 									<Node score="0.11685658">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="41.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="42"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -7313,7 +7310,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="-0.1487613">
@@ -7335,7 +7332,7 @@
 												</Node>
 											</Node>
 											<Node score="0.13042249">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="31.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="32"/>
 											</Node>
 										</Node>
 										<Node score="-0.16640139">
@@ -7407,13 +7404,13 @@
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="-0.026901836">
 									<True/>
 									<Node score="0.05767457">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="60.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="61"/>
 										<Node score="0.039421894">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="42063.855"/>
 											<Node score="-0.0437295">
@@ -7431,12 +7428,12 @@
 										</Node>
 									</Node>
 									<Node score="0.07360183">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="59.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="60"/>
 									</Node>
 									<Node score="2.758691E-4">
 										<SimplePredicate field="Occupation" operator="equal" value="Protective"/>
 										<Node score="0.10505241">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 										</Node>
 									</Node>
 									<Node score="-0.14683484">
@@ -7448,7 +7445,7 @@
 											</Node>
 										</Node>
 										<Node score="-0.019912057">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 										</Node>
 									</Node>
 									<Node score="0.041256987">
@@ -7468,7 +7465,7 @@
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
 									<MiningField name="Education"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 								</MiningSchema>
 								<Node score="0.13705823">
@@ -7488,11 +7485,11 @@
 														</Node>
 													</Node>
 													<Node score="0.14318824">
-														<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="46.5"/>
+														<SimplePredicate field="Age" operator="greaterOrEqual" value="47"/>
 													</Node>
 												</Node>
 												<Node score="-0.10839356">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.0"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 												</Node>
 											</Node>
 											<Node score="0.14416584">
@@ -7500,11 +7497,11 @@
 											</Node>
 										</Node>
 										<Node score="0.042256005">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="43.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="44"/>
 										</Node>
 									</Node>
 									<Node score="-0.037014857">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="40.0"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -7516,7 +7513,7 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Education"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -7527,7 +7524,7 @@
 										<Node score="0.03176357">
 											<SimplePredicate field="Occupation" operator="equal" value="Professional"/>
 											<Node score="-0.06930716">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="51.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="52"/>
 											</Node>
 										</Node>
 										<Node score="0.0047110175">
@@ -7539,11 +7536,11 @@
 										<Node score="-0.04504159">
 											<SimplePredicate field="Occupation" operator="equal" value="Clerical"/>
 											<Node score="0.0598207">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="39.5"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="40"/>
 											</Node>
 										</Node>
 										<Node score="-0.13406782">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="37.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 										</Node>
 									</Node>
 									<Node score="0.08696532">
@@ -7572,7 +7569,7 @@
 									<MiningField name="Education"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Gender"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
@@ -7597,7 +7594,7 @@
 											<Node score="-0.08928613">
 												<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="104242.516"/>
 												<Node score="0.09481929">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="29.5"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="30"/>
 													<Node score="-8.700048E-4">
 														<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="116938.43"/>
 													</Node>
@@ -7607,9 +7604,9 @@
 										<Node score="0.12452094">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="74126.57"/>
 											<Node score="-0.026295265">
-												<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="38.0"/>
+												<SimplePredicate field="Age" operator="greaterOrEqual" value="38"/>
 												<Node score="0.08344619">
-													<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="49.0"/>
+													<SimplePredicate field="Age" operator="greaterOrEqual" value="49"/>
 												</Node>
 											</Node>
 										</Node>
@@ -7629,7 +7626,7 @@
 											</Node>
 										</Node>
 										<Node score="-0.022157053">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 											<Node score="0.07796741">
 												<SimplePredicate field="Marital" operator="equal" value="Married"/>
 											</Node>
@@ -7657,14 +7654,14 @@
 									<MiningField name="Employment"/>
 									<MiningField name="Marital"/>
 									<MiningField name="Occupation"/>
-									<MiningField name="float(Age)"/>
+									<MiningField name="Age"/>
 									<MiningField name="float(Income)"/>
 									<MiningField name="float(Hours)"/>
 								</MiningSchema>
 								<Node score="0.043612987">
 									<True/>
 									<Node score="-0.06496095">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="66.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="67"/>
 										<Node score="-0.0060148863">
 											<SimplePredicate field="float(Income)" operator="greaterOrEqual" value="37478.04"/>
 										</Node>
@@ -7672,7 +7669,7 @@
 									<Node score="0.038192272">
 										<SimplePredicate field="Occupation" operator="equal" value="Cleaner"/>
 										<Node score="-0.11450665">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="33.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="34"/>
 										</Node>
 									</Node>
 									<Node score="-0.15860023">
@@ -7690,14 +7687,14 @@
 									<Node score="0.10569636">
 										<SimplePredicate field="Employment" operator="equal" value="PSFederal"/>
 										<Node score="0.1545366">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="50.0"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="50"/>
 										</Node>
 										<Node score="-0.099988446">
-											<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+											<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										</Node>
 									</Node>
 									<Node score="0.027936596">
-										<SimplePredicate field="float(Age)" operator="greaterOrEqual" value="42.5"/>
+										<SimplePredicate field="Age" operator="greaterOrEqual" value="43"/>
 										<Node score="-0.058896396">
 											<SimplePredicate field="float(Hours)" operator="greaterOrEqual" value="59.0"/>
 										</Node>
