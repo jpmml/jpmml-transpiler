@@ -77,8 +77,6 @@ public class TranslationContext {
 
 	private Deque<Scope> scopes = new ArrayDeque<>();
 
-	private ArrayManager<String> fieldNameManager = null;
-
 	private ArrayManager<QName> xmlNameManager = null;
 
 	private Map<Model, TranslatedModel> translations = new IdentityHashMap<>();
@@ -130,18 +128,6 @@ public class TranslationContext {
 	public void pushOwner(JDefinedClass owner){
 
 		if(isSubclass(PMML.class, owner)){
-			this.fieldNameManager = new ArrayManager<String>(ref(String.class), "fieldNames"){
-
-				{
-					initArrayVar(owner);
-				}
-
-				@Override
-				public JExpression createExpression(String name){
-					return JExpr.lit(name);
-				}
-			};
-
 			this.xmlNameManager = new ArrayManager<QName>(ref(QName.class), "xmlNames"){
 
 				{
@@ -165,11 +151,6 @@ public class TranslationContext {
 			PMML pmml = getPMML();
 
 			JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(PMML.class.getSimpleName(), pmml) + ".data", 0, this);
-
-			String[] fieldNames = this.fieldNameManager.getElements()
-				.toArray(new String[this.fieldNameManager.size()]);
-
-			resourceInitializer.initFieldNames(this.fieldNameManager.getArrayVar(), fieldNames);
 
 			QName[] xmlNames = this.xmlNameManager.getElements()
 				.toArray(new QName[this.xmlNameManager.size()]);
@@ -578,17 +559,13 @@ public class TranslationContext {
 
 		if(name == null){
 			return JExpr._null();
-		}
-
-		ArrayManager<String> fieldNameManager = this.fieldNameManager;
+		} // End if
 
 		if(markActive){
 			this.activeFieldNames.add(name);
 		}
 
-		int index = fieldNameManager.getOrInsert(name);
-
-		return fieldNameManager.getComponent(index);
+		return JExpr.lit(name);
 	}
 
 	public JExpression constantXmlName(QName name){
