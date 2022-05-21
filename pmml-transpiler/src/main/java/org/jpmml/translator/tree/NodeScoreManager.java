@@ -18,7 +18,7 @@
  */
 package org.jpmml.translator.tree;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -65,7 +65,7 @@ public class NodeScoreManager extends ArraySetManager<Number> implements Scorer<
 	}
 
 	public Number[] getValues(){
-		Collection<Number> elements = getElements();
+		List<Number> elements = getElements();
 
 		Number[] result = elements.stream()
 			.toArray(Number[]::new);

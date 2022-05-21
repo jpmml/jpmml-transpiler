@@ -19,7 +19,6 @@
 package org.jpmml.translator.tree;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -124,7 +123,7 @@ public class NodeScoreDistributionManager<V extends Number> extends ArraySetMana
 	}
 
 	public Number[][] getValues(){
-		Collection<List<Number>> elements = getElements();
+		List<List<Number>> elements = getElements();
 
 		Number[][] result = elements.stream()
 			.map(element -> element.toArray(new Number[element.size()]))

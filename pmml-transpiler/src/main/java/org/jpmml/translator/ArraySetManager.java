@@ -18,81 +18,79 @@
  */
 package org.jpmml.translator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import com.sun.codemodel.JArray;
-import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JType;
 
 abstract
-public class ArraySetManager<E> {
-
-	private JType componentType = null;
-
-	private String name = null;
-
-	private JFieldVar arrayVar = null;
-
-	private JArray array = null;
+public class ArraySetManager<E> extends ArrayManager<E> {
 
 	private Map<E, Integer> indices = new LinkedHashMap<>();
 
 
 	public ArraySetManager(JType componentType, String name){
-		setComponentType(componentType);
-		setName(name);
+		super(componentType, name);
 	}
 
 	abstract
 	public JExpression createExpression(E element);
 
-	public void initArrayVar(JDefinedClass owner){
-		JType componentType = getComponentType();
-		String name = getName();
+	@Override
+	public List<E> getElements(){
+		List<E> elements = new ArrayList<>(this.indices.keySet());
 
-		this.arrayVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, componentType.array(), name);
+		return elements;
 	}
 
+	@Override
+	public int size(){
+		return this.indices.size();
+	}
+
+	@Override
 	public void initArray(){
-		JType componentType = getComponentType();
+		super.initArray();
 
-		if(this.arrayVar == null){
-			throw new IllegalStateException();
-		}
-
-		this.array = JExpr.newArray(componentType);
-
-		this.arrayVar.init(this.array);
+		JArray array = getArray();
 
 		Collection<Map.Entry<E, Integer>> entries = this.indices.entrySet();
 		for(Map.Entry<E, Integer> entry : entries){
 			E element = entry.getKey();
 
-			this.array.add(createExpression(element));
+			array.add(createExpression(element));
 		}
 	}
 
-	public int size(){
-		return this.indices.size();
+	public JExpression getComponent(int index){
+		return getComponent(JExpr.lit(index));
 	}
 
-	public Collection<E> getElements(){
-		return this.indices.keySet();
+	public JExpression getComponent(JExpression indexExpr){
+		JFieldVar arrayVar = getArrayVar();
+
+		if(arrayVar == null){
+			throw new IllegalStateException();
+		}
+
+		return arrayVar.component(indexExpr);
 	}
 
 	public int getOrInsert(E element){
 		Integer index = this.indices.get(element);
 
 		if(index == null){
+			JArray array = getArray();
 
-			if(this.array != null){
-				this.array.add(createExpression(element));
+			if(array != null){
+				array.add(createExpression(element));
 			}
 
 			index = this.indices.size();
@@ -101,42 +99,5 @@ public class ArraySetManager<E> {
 		}
 
 		return index;
-	}
-
-	public JExpression getComponent(int index){
-		return getComponent(JExpr.lit(index));
-	}
-
-	public JExpression getComponent(JExpression indexExpr){
-
-		if(this.arrayVar == null){
-			throw new IllegalStateException();
-		}
-
-		return this.arrayVar.component(indexExpr);
-	}
-
-	public JType getComponentType(){
-		return this.componentType;
-	}
-
-	private void setComponentType(JType componentType){
-		this.componentType = Objects.requireNonNull(componentType);
-	}
-
-	public String getName(){
-		return this.name;
-	}
-
-	private void setName(String name){
-		this.name = Objects.requireNonNull(name);
-	}
-
-	public JFieldVar getArrayVar(){
-		return this.arrayVar;
-	}
-
-	public JArray getArray(){
-		return this.array;
 	}
 }
