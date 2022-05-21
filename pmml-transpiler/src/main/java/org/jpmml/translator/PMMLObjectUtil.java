@@ -27,6 +27,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -42,6 +45,7 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFieldRef;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JStatement;
@@ -400,12 +404,34 @@ public class PMMLObjectUtil {
 					Collection<Map.Entry<Value.Property, Collection<Object>>> entries = (discreteValues.asMap()).entrySet();
 					for(Map.Entry<Value.Property, Collection<Object>> entry : entries){
 						Value.Property property = entry.getKey();
-						List<?> arguments = (List<?>)entry.getValue();
+						List<?> values = (List<?>)entry.getValue();
 
-						if(arguments != null && !arguments.isEmpty()){
+						if(values != null && !values.isEmpty()){
+							Set<Class<?>> valueClazzes = values.stream()
+								.map(argument -> argument.getClass())
+								.collect(Collectors.toSet());
+
+							Class<?> valueClazz;
+
+							if(valueClazzes.size() == 1){
+								valueClazz = Iterables.getOnlyElement(valueClazzes);
+							} else
+
+							{
+								valueClazz = Object.class;
+							}
+
 							invocation = invocation.invoke("addValues").arg(createExpression(property, context));
 
-							invocation = initializeArray(Object.class, arguments, invocation, context);
+							if((values.size() > 2) && (Objects.equals(valueClazz, String.class) || Objects.equals(valueClazz, Double.class) || Objects.equals(valueClazz, Float.class))){
+								JFieldRef valuesFieldRef = context.constantValues((Class)valueClazz, IdentifierUtil.create((property.name()).toLowerCase(), field), values);
+
+								invocation = invocation.arg(JExpr.cast(context.ref(Object[].class), valuesFieldRef));
+							} else
+
+							{
+								invocation = initializeArray(valueClazz, values, invocation, context);
+							}
 						}
 					}
 

@@ -23,6 +23,7 @@ import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -128,23 +129,6 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		this.tryBody.add(statement);
 	}
 
-	public void initFieldNames(JFieldVar field, String[] names){
-		TranslationContext context = getContext();
-		JBinaryFile binaryFile = getBinaryFile();
-
-		try(OutputStream os = binaryFile.getDataStore()){
-			DataOutput dataOutput = new DataOutputStream(os);
-
-			ResourceUtil.writeStrings(dataOutput, names);
-		} catch(IOException ioe){
-			throw new RuntimeException(ioe);
-		}
-
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readStrings", this.dataInputVar, names.length);
-
-		this.tryBody.assign(field, invocation);
-	}
-
 	public void initQNames(JFieldVar field, QName[] names){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
@@ -158,6 +142,44 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		}
 
 		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readQNames", this.dataInputVar, names.length);
+
+		this.tryBody.assign(field, invocation);
+	}
+
+	public void initValues(JFieldVar field, Object[] values){
+		TranslationContext context = getContext();
+		JBinaryFile binaryFile = getBinaryFile();
+
+		String readMethod;
+
+		try(OutputStream os = binaryFile.getDataStore()){
+			DataOutput dataOutput = new DataOutputStream(os);
+
+			JClass arrayType = (JClass)field.type();
+			JClass arrayElementType = (JClass)arrayType.elementType();
+
+			String typeName = arrayElementType.fullName();
+			switch(typeName){
+				case "java.lang.String":
+					ResourceUtil.writeStrings(dataOutput, castArray(values, new String[values.length]));
+					readMethod = "readStrings";
+					break;
+				case "java.lang.Double":
+					ResourceUtil.writeDoubles(dataOutput, castArray(values, new Double[values.length]));
+					readMethod = "readDoubles";
+					break;
+				case "java.lang.Float":
+					ResourceUtil.writeFloats(dataOutput, castArray(values, new Float[values.length]));
+					readMethod = "readFloats";
+					break;
+				default:
+					throw new IllegalArgumentException(typeName);
+			}
+		} catch(IOException ioe){
+			throw new RuntimeException(ioe);
+		}
+
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
 
 		this.tryBody.assign(field, invocation);
 	}
@@ -323,6 +345,12 @@ public class JBinaryFileInitializer extends JClassInitializer {
 
 	private void setBinaryFile(JBinaryFile binaryFile){
 		this.binaryFile = binaryFile;
+	}
+
+	static
+	private <E> E[] castArray(Object[] values, E[] newValues){
+		return Arrays.asList(values)
+			.toArray(newValues);
 	}
 
 	static
