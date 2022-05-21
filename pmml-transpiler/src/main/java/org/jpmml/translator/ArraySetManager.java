@@ -31,7 +31,7 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JType;
 
 abstract
-public class ArrayManager<E> {
+public class ArraySetManager<E> {
 
 	private JType componentType = null;
 
@@ -44,7 +44,7 @@ public class ArrayManager<E> {
 	private Map<E, Integer> indices = new LinkedHashMap<>();
 
 
-	public ArrayManager(JType componentType, String name){
+	public ArraySetManager(JType componentType, String name){
 		setComponentType(componentType);
 		setName(name);
 	}

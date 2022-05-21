@@ -33,11 +33,11 @@ import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.ValueMap;
 import org.jpmml.evaluator.ValueUtil;
-import org.jpmml.translator.ArrayManager;
+import org.jpmml.translator.ArraySetManager;
 import org.jpmml.translator.TranslationContext;
 
 abstract
-public class NodeScoreDistributionManager<V extends Number> extends ArrayManager<List<Number>> implements Scorer<List<Number>> {
+public class NodeScoreDistributionManager<V extends Number> extends ArraySetManager<List<Number>> implements Scorer<List<Number>> {
 
 	private Object[] categories = null;
 

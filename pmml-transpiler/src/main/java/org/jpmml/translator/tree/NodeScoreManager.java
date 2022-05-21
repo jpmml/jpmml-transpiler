@@ -24,10 +24,10 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JType;
 import org.dmg.pmml.tree.Node;
-import org.jpmml.translator.ArrayManager;
+import org.jpmml.translator.ArraySetManager;
 import org.jpmml.translator.TranslationContext;
 
-public class NodeScoreManager extends ArrayManager<Number> implements Scorer<Number> {
+public class NodeScoreManager extends ArraySetManager<Number> implements Scorer<Number> {
 
 	public NodeScoreManager(JType componentType, String name){
 		super(componentType, name);

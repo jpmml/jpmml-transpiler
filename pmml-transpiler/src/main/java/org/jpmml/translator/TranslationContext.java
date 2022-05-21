@@ -77,7 +77,7 @@ public class TranslationContext {
 
 	private Deque<Scope> scopes = new ArrayDeque<>();
 
-	private ArrayManager<QName> xmlNameManager = null;
+	private ArraySetManager<QName> xmlNameManager = null;
 
 	private Map<Model, TranslatedModel> translations = new IdentityHashMap<>();
 
@@ -128,7 +128,7 @@ public class TranslationContext {
 	public void pushOwner(JDefinedClass owner){
 
 		if(isSubclass(PMML.class, owner)){
-			this.xmlNameManager = new ArrayManager<QName>(ref(QName.class), "xmlNames"){
+			this.xmlNameManager = new ArraySetManager<QName>(ref(QName.class), "xmlNames"){
 
 				{
 					initArrayVar(owner);
@@ -569,7 +569,7 @@ public class TranslationContext {
 	}
 
 	public JExpression constantXmlName(QName name){
-		ArrayManager<QName> xmlNameManager = this.xmlNameManager;
+		ArraySetManager<QName> xmlNameManager = this.xmlNameManager;
 
 		int index = xmlNameManager.getOrInsert(name);
 
