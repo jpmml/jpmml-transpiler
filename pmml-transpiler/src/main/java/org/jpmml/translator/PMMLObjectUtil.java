@@ -311,11 +311,15 @@ public class PMMLObjectUtil {
 			PMMLObject pmmlObject = (PMMLObject)value;
 
 			if((True.INSTANCE).equals(pmmlObject)){
-				return context.ref(True.class).staticRef("INSTANCE");
+				JClass trueClass = context.ref(True.class);
+
+				return trueClass.staticRef("INSTANCE");
 			} else
 
 			if((False.INSTANCE).equals(pmmlObject)){
-				return context.ref(False.class).staticRef("INSTANCE");
+				JClass falseClass = context.ref(False.class);
+
+				return falseClass.staticRef("INSTANCE");
 			}
 
 			Class<?> pmmlObjectClazz = pmmlObject.getClass();

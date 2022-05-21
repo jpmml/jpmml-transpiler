@@ -428,7 +428,22 @@ public class TranslationContext {
 				block._return(JOp.cond(condExpr, PMMLObjectUtil.createExpression(entry.getValue(), this), PMMLObjectUtil.createExpression(defaultResult, this)));
 			} else
 
-			if(resultMap.size() > 1){
+			if((resultMap.size() == 2) && (resultMap.containsKey(Boolean.TRUE) && resultMap.containsKey(Boolean.FALSE))){
+				V trueValue = resultMap.get(Boolean.TRUE);
+				V falseValue = resultMap.get(Boolean.FALSE);
+
+				JClass booleanClass = ref(Boolean.class);
+
+				JBlock trueBlock = block._if(staticInvoke(Objects.class, "equals", valueExpr, booleanClass.staticRef("TRUE")))._then();
+				trueBlock._return(PMMLObjectUtil.createExpression(trueValue, this));
+
+				JBlock falseBlock = block._if(staticInvoke(Objects.class, "equals", valueExpr, booleanClass.staticRef("FALSE")))._then();
+				falseBlock._return(PMMLObjectUtil.createExpression(falseValue, this));
+
+				block._return(PMMLObjectUtil.createExpression(defaultResult, this));
+			} else
+
+			{
 				JSwitch switchStatement = block._switch(valueExpr);
 
 				JCase identityCase = null;
@@ -478,10 +493,6 @@ public class TranslationContext {
 
 					defaultBlock._return(PMMLObjectUtil.createExpression(defaultResult, this));
 				}
-			} else
-
-			{
-				throw new IllegalArgumentException();
 			}
 		} finally {
 			scope.close();

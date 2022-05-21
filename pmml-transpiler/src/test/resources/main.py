@@ -74,6 +74,7 @@ def load_audit(name):
 	df = df.where((pandas.notnull(df)), None)
 	df["Adjusted"] = df["Adjusted"].astype(int)
 	df["Age"] = df["Age"].astype(pandas.Int64Dtype() if name.endswith("NA") else int)
+	df["Deductions"] = df["Deductions"].astype(pandas.BooleanDtype() if name.endswith("NA") else bool)
 	df["Income"] = df["Income"].astype(float)
 	df["Hours"] = df["Hours"].astype(float)
 	return split_csv(df)
@@ -87,8 +88,6 @@ def build_audit(classifier, name, **pmml_options):
 	else:
 		cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender", "Deductions"]
 		cont_columns = ["Age", "Income", "Hours"]
-	if name in ["LightGBMAuditNA", "XGBoostAuditNA"]:
-		cat_columns.remove("Deductions")
 	if isinstance(classifier, LGBMClassifier):
 		cat_mappings = [([cat_column], [cat_domain(name), label_encoder(name)]) for cat_column in cat_columns]
 	else:
