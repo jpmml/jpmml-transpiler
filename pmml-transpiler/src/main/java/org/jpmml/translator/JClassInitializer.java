@@ -19,13 +19,15 @@
 package org.jpmml.translator;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JStatement;
-import com.sun.codemodel.JType;
 import org.jpmml.evaluator.java.JavaModel;
 
 abstract
@@ -59,10 +61,19 @@ class JClassInitializer {
 	}
 
 	static
-	protected JFieldVar createConstant(String name, JType type, TranslationContext context){
+	protected JFieldVar createListConstant(String name, JClass type, TranslationContext context){
 		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(List.class).narrow(type), name, context._new(ArrayList.class));
+
+		return constant;
+	}
+
+	static
+	protected JFieldVar createMapConstant(String name, JClass keyType, JClass valueType, TranslationContext context){
+		JDefinedClass owner = context.getOwner(JavaModel.class);
+
+		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(Map.class).narrow(keyType, valueType), name, context._new(LinkedHashMap.class));
 
 		return constant;
 	}

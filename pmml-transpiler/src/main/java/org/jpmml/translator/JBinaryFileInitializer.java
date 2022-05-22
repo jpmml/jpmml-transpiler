@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,6 +43,7 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JForEach;
+import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JFormatter;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
@@ -193,7 +195,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
-		JFieldVar constant = createConstant(name, context.ref(TokenizedString.class), context);
+		JFieldVar constant = createListConstant(name, context.ref(TokenizedString.class), context);
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
@@ -214,7 +216,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
-		JFieldVar constant = createConstant(name, context.ref(Number.class), context);
+		JFieldVar constant = createListConstant(name, context.ref(Number.class), context);
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
@@ -244,7 +246,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
-		JFieldVar constant = createConstant(name, context.ref(Number[].class), context);
+		JFieldVar constant = createListConstant(name, context.ref(Number[].class), context);
 
 		JType intType = context._ref(int.class);
 
@@ -296,7 +298,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
-		JFieldVar constant = createConstant(name, context.ref(Number[][].class), context);
+		JFieldVar constant = createListConstant(name, context.ref(Number[][].class), context);
 
 		JType intType = context._ref(int.class);
 
@@ -340,6 +342,97 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		forEach.body().add((constant.invoke("add")).arg(invocation));
 
 		add(JExpr.invoke(initMethod).arg(this.dataInputVar));
+
+		return constant;
+	}
+
+	public JFieldVar initNumbersMap(String name, Map<?, Number> map){
+		TranslationContext context = getContext();
+		JBinaryFile binaryFile = getBinaryFile();
+
+		JDefinedClass owner = context.getOwner();
+
+		JFieldVar constant = createMapConstant(name, context.ref(Object.class), context.ref(Number.class), context);
+
+		String keyReadMethod;
+		String valueReadMethod;
+
+		try(OutputStream os = binaryFile.getDataStore()){
+			DataOutput dataOutput = new DataOutputStream(os);
+
+			Set<?> keys = map.keySet();
+
+			Class<?> keyClazz = getValueClass(keys);
+
+			if(Objects.equals(keyClazz, String.class)){
+				ResourceUtil.writeStrings(dataOutput, keys.toArray(new String[keys.size()]));
+				keyReadMethod = "readStrings";
+			} else
+
+			if(Objects.equals(keyClazz, Float.class)){
+				ResourceUtil.writeFloats(dataOutput, keys.toArray(new Float[keys.size()]));
+				keyReadMethod = "readFloats";
+			} else
+
+			if(Objects.equals(keyClazz, Double.class)){
+				ResourceUtil.writeDoubles(dataOutput, keys.toArray(new Double[keys.size()]));
+				keyReadMethod = "readDoubles";
+			} else
+
+			{
+				throw new IllegalArgumentException();
+			}
+
+			Collection<Number> values = map.values();
+
+			Class<?> valueClazz = getValueClass(values);
+
+			if(Objects.equals(valueClazz, Float.class)){
+				ResourceUtil.writeFloats(dataOutput, values.toArray(new Float[values.size()]));
+				valueReadMethod = "readFloats";
+			} else
+
+			if(Objects.equals(valueClazz, Double.class)){
+				ResourceUtil.writeDoubles(dataOutput, values.toArray(new Double[values.size()]));
+				valueReadMethod = "readDoubles";
+			} else
+
+			{
+				throw new IllegalArgumentException();
+			}
+		} catch(IOException ioe){
+			throw new RuntimeException(ioe);
+		}
+
+		JClass objectArrayClass = context.ref(Object[].class);
+		JClass numberArrayClass = context.ref(Number[].class);
+
+		JMethod putAllMethod = owner.getMethod("putAll", new JType[]{constant.type(), objectArrayClass, numberArrayClass});
+		if(putAllMethod == null){
+			putAllMethod = owner.method(Modifiers.PRIVATE_STATIC_FINAL, void.class, "putAll");
+
+			JVar mapParam = putAllMethod.param(constant.type(), "map");
+
+			JVar keysParam = putAllMethod.param(objectArrayClass, "keys");
+			JVar valuesParam = putAllMethod.param(numberArrayClass, "values");
+
+			JBlock block = putAllMethod.body();
+
+			JForLoop forLoop = block._for();
+
+			JVar loopVar = forLoop.init(context._ref(int.class), "i", JExpr.lit(0));
+			forLoop.test(loopVar.lt(keysParam.ref("length")));
+			forLoop.update(loopVar.incr());
+
+			JBlock forBlock = forLoop.body();
+
+			forBlock.add(JExpr.invoke(mapParam, "put").arg(keysParam.component(loopVar)).arg(valuesParam.component(loopVar)));
+		}
+
+		JInvocation keysInvocation = context.staticInvoke(ResourceUtil.class, keyReadMethod, this.dataInputVar, map.size());
+		JInvocation valuesInvocation = context.staticInvoke(ResourceUtil.class, valueReadMethod, this.dataInputVar, map.size());
+
+		add(JExpr.invoke(putAllMethod).arg(constant).arg(keysInvocation).arg(valuesInvocation));
 
 		return constant;
 	}

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -31,7 +32,6 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JStatement;
-import com.sun.codemodel.JType;
 
 public class JDirectInitializer extends JClassInitializer {
 
@@ -50,10 +50,10 @@ public class JDirectInitializer extends JClassInitializer {
 		init.add(statement);
 	}
 
-	public JFieldVar initLambdas(String name, JType type, List<JMethod> methods){
+	public JFieldVar initLambdas(String name, JClass type, List<JMethod> methods){
 		TranslationContext context = getContext();
 
-		JFieldVar constant = createConstant(name, type, context);
+		JFieldVar constant = createListConstant(name, type, context);
 
 		JMethod initMethod = createMethod(name, context);
 
@@ -73,7 +73,7 @@ public class JDirectInitializer extends JClassInitializer {
 	public JFieldVar initTargetCategories(String name, List<?> categories){
 		TranslationContext context = getContext();
 
-		JFieldVar constant = createConstant(name, context.ref(Object.class), context);
+		JFieldVar constant = createListConstant(name, context.ref(Object.class), context);
 
 		List<JExpression> literals = categories.stream()
 			.map(category -> PMMLObjectUtil.createExpression(category, context))

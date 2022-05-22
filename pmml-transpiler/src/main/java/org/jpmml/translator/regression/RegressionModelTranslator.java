@@ -319,26 +319,44 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JBlock block = context.block();
 
+			JBinaryFileInitializer resourceInitializer = null;
+
 			Collection<Map.Entry<String, List<CategoricalPredictor>>> entries = fieldCategoricalPredictors.entrySet();
 			for(Map.Entry<String, List<CategoricalPredictor>> entry : entries){
-				FieldInfo fieldInfo = fieldInfos.require(entry.getKey());
+				String name = entry.getKey();
+				List<CategoricalPredictor> categoricalPredictors = entry.getValue();
 
-				JMethod evaluateCategoryMethod = createEvaluatorMethod(Number.class, entry.getValue(), false, context);
+				FieldInfo fieldInfo = fieldInfos.require(name);
+
+				JMethod evaluateCategoryMethod = createEvaluatorMethod(Number.class, categoricalPredictors, false, context);
 
 				try {
 					context.pushScope(new MethodScope(evaluateCategoryMethod));
 
 					OperableRef operableRef = context.ensureOperable(fieldInfo, (method) -> true);
 
-					Map<Object, Number> categoryValues = (entry.getValue()).stream()
+					Map<Object, Number> categoryValues = categoricalPredictors.stream()
 						.collect(Collectors.toMap(CategoricalPredictor::requireValue, CategoricalPredictor::requireCoefficient));
 
-					context._return(operableRef.getExpression(), categoryValues, null);
+					if((categoryValues.size() > 16) && JBinaryFileInitializer.isExternalizable(categoryValues.keySet())){
+
+						if(resourceInitializer == null){
+							resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(CategoricalPredictor.class.getSimpleName(), regressionTable) + ".data", context);
+						}
+
+						JFieldVar mapVar = resourceInitializer.initNumbersMap(IdentifierUtil.create("map", regressionTable, name), categoryValues);
+
+						context._return(mapVar.invoke("get").arg(operableRef.getExpression()));
+					} else
+
+					{
+						context._return(operableRef.getExpression(), categoryValues, null);
+					}
 				} finally {
 					context.popScope();
 				}
 
-				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("lookup", entry.getKey()), createEvaluatorMethodInvocation(evaluateCategoryMethod, context));
+				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("lookup", name), createEvaluatorMethodInvocation(evaluateCategoryMethod, context));
 
 				JBlock thenBlock = block._if(categoryValueVar.ne(JExpr._null()))._then();
 
@@ -374,7 +392,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			return;
 		}
 
-		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(RegressionTable.class.getSimpleName(), regressionTable) + ".data", context);
+		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create("TermFrequency", regressionTable) + ".data", context);
 
 		Function<FunctionInvocationPredictor, TextIndex> textIndexFunction = new Function<FunctionInvocationPredictor, TextIndex>(){
 
