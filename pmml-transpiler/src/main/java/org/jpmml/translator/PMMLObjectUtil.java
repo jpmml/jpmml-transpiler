@@ -27,9 +27,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -411,23 +408,11 @@ public class PMMLObjectUtil {
 						List<?> values = (List<?>)entry.getValue();
 
 						if(values != null && !values.isEmpty()){
-							Set<Class<?>> valueClazzes = values.stream()
-								.map(argument -> argument.getClass())
-								.collect(Collectors.toSet());
-
-							Class<?> valueClazz;
-
-							if(valueClazzes.size() == 1){
-								valueClazz = Iterables.getOnlyElement(valueClazzes);
-							} else
-
-							{
-								valueClazz = Object.class;
-							}
+							Class<?> valueClazz = JBinaryFileInitializer.getValueClass(values);
 
 							invocation = invocation.invoke("addValues").arg(createExpression(property, context));
 
-							if((values.size() > 2) && (Objects.equals(valueClazz, String.class) || Objects.equals(valueClazz, Double.class) || Objects.equals(valueClazz, Float.class))){
+							if((values.size() > 2) && JBinaryFileInitializer.isExternalizable(valueClazz)){
 								JFieldRef valuesFieldRef = context.constantValues((Class)valueClazz, IdentifierUtil.create((property.name()).toLowerCase(), field), values);
 
 								invocation = invocation.arg(JExpr.cast(context.ref(Object[].class), valuesFieldRef));

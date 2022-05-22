@@ -24,11 +24,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.xml.namespace.QName;
 
+import com.google.common.collect.Iterables;
 import com.sun.codemodel.JArray;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
@@ -351,6 +356,42 @@ public class JBinaryFileInitializer extends JClassInitializer {
 	private <E> E[] castArray(Object[] values, E[] newValues){
 		return Arrays.asList(values)
 			.toArray(newValues);
+	}
+
+	static
+	public boolean isExternalizable(Class<?> clazz){
+
+		if(Objects.equals(clazz, String.class)){
+			return true;
+		} else
+
+		if(Objects.equals(clazz, Float.class) || Objects.equals(clazz, Double.class)){
+			return true;
+		} else
+
+		{
+			return false;
+		}
+	}
+
+	static
+	public boolean isExternalizable(Collection<?> values){
+		Class<?> valueClazz = getValueClass(values);
+
+		return isExternalizable(valueClazz);
+	}
+
+	static
+	public Class<?> getValueClass(Collection<?> values){
+		Set<Class<?>> valueClazzes = values.stream()
+			.map(value -> value.getClass())
+			.collect(Collectors.toSet());
+
+		if(valueClazzes.size() == 1){
+			return Iterables.getOnlyElement(valueClazzes);
+		}
+
+		return Object.class;
 	}
 
 	static
