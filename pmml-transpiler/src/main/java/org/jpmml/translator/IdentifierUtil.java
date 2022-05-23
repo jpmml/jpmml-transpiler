@@ -19,6 +19,8 @@
 package org.jpmml.translator;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.dmg.pmml.PMMLObject;
 
@@ -29,17 +31,22 @@ public class IdentifierUtil {
 
 	static
 	public String sanitize(String name){
-		StringBuilder sb = new StringBuilder();
+		name = sanitizeWhitespace(name);
+		name = sanitizePunctuation(name);
 
-		char[] chars = name.toCharArray();
+		StringBuffer sb = new StringBuffer();
 
-		for(int i = 0; i < chars.length; i++){
-			char c = chars[i];
+		for(int i = 0, max = name.length(); i < max; i++){
+			char c = name.charAt(i);
 
 			if(sb.length() == 0){
 
 				if(Character.isJavaIdentifierStart(c)){
 					sb.append(Character.toLowerCase(c));
+				} else
+
+				if(Character.isJavaIdentifierPart(c)){
+					sb.append('_').append(c);
 				}
 			} else
 
@@ -51,6 +58,48 @@ public class IdentifierUtil {
 		}
 
 		return sb.toString();
+	}
+
+	static
+	public String sanitizeWhitespace(String name){
+		Pattern pattern = Pattern.compile("\\s+");
+
+		Matcher matcher = pattern.matcher(name);
+
+		return matcher.replaceAll("_");
+	}
+
+	static
+	public String sanitizePunctuation(String name){
+		Pattern pattern = Pattern.compile("\\-+");
+
+		StringBuffer sb = new StringBuffer();
+
+		Matcher matcher = pattern.matcher(name);
+
+		while(matcher.find()){
+			int start = matcher.start();
+			int end = matcher.end();
+
+			if((start > 0 && isLetterOrDigit(name, start - 1)) && (end < name.length() && isLetterOrDigit(name, end))){
+				matcher.appendReplacement(sb, "_");
+			} else
+
+			{
+				matcher.appendReplacement(sb, matcher.group(0));
+			}
+		}
+
+		matcher.appendTail(sb);
+
+		return sb.toString();
+	}
+
+	static
+	private boolean isLetterOrDigit(String string, int index){
+		char c = string.charAt(index);
+
+		return Character.isLetterOrDigit(c);
 	}
 
 	static
