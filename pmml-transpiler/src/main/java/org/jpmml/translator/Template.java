@@ -38,6 +38,7 @@ import jakarta.xml.bind.annotation.XmlTransient;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
+import org.jpmml.evaluator.RichComplexArray;
 import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.model.ReflectionUtil;
 import org.jpmml.model.annotations.Property;
@@ -101,6 +102,10 @@ public class Template {
 
 				this.valueConstructorFields.add(valueConstructorField);
 			}
+		} else
+
+		{
+			this.valueConstructorFields = new ArrayList<>();
 		}
 
 		this.setterMethodFields = new ArrayList<>(fields.values());
@@ -179,6 +184,11 @@ public class Template {
 
 			if((Model.class).isAssignableFrom(clazz)){
 				template = new ModelTemplate(clazz.asSubclass(Model.class));
+			} else
+
+			// XXX
+			if((RichComplexArray.class).isAssignableFrom(clazz)){
+				template = new RichComplexArrayTemplate(clazz.asSubclass(RichComplexArray.class));
 			} else
 
 			{

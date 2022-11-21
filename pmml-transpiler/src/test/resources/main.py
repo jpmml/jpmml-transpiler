@@ -1,18 +1,21 @@
 from lightgbm import LGBMClassifier, LGBMRegressor
 from mlxtend.preprocessing import DenseTransformer
 from pandas import DataFrame, Series
+from sklearn.compose import ColumnTransformer
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.ensemble import AdaBoostRegressor, GradientBoostingClassifier, GradientBoostingRegressor, IsolationForest, RandomForestClassifier, RandomForestRegressor, VotingRegressor
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.feature_selection import f_classif
 from sklearn.feature_selection import SelectKBest
 from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import LabelBinarizer, LabelEncoder
 from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeClassifier, ExtraTreeRegressor
 from sklearn_pandas import DataFrameMapper
 from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.decoration import CategoricalDomain, ContinuousDomain
+from sklearn2pmml.ensemble import SelectFirstClassifier, SelectFirstRegressor
 from sklearn2pmml.feature_extraction.text import Matcher, Splitter
 from sklearn2pmml.pipeline import PMMLPipeline
 from sklearn2pmml.preprocessing import PMMLLabelBinarizer, PMMLLabelEncoder
@@ -57,6 +60,11 @@ def label_binarizer(name):
 def label_encoder(name):
 	return PMMLLabelEncoder() if name.endswith("NA") else LabelEncoder()
 
+def make_column_dropper(drop_cols):
+	return ColumnTransformer([
+		("drop", "drop", drop_cols)
+	], remainder = "passthrough")
+
 datasets = "Audit,Sentiment,Iris,Auto"
 
 if __name__ == "__main__":
@@ -96,7 +104,11 @@ def build_audit(classifier, name, **pmml_options):
 	else:
 		cat_mappings = [([cat_column], [cat_domain(name), label_binarizer(name)]) for cat_column in cat_columns]
 	cont_mappings = [([cont_column], cont_domain(name)) for cont_column in cont_columns]
-	mapper = DataFrameMapper(cat_mappings + cont_mappings)
+	mappings = cat_mappings + cont_mappings
+	if isinstance(classifier, SelectFirstClassifier):
+		mapper = DataFrameMapper(mappings + [(["Employment"], None)], df_out = True)
+	else:
+		mapper = DataFrameMapper(mappings)
 	pipeline = PMMLPipeline([
 		("mapper", mapper),
 		("classifier", classifier)
@@ -125,6 +137,7 @@ if "Audit" in datasets:
 	build_audit(LGBMClassifier(objective = "binary", n_estimators = 71, random_state = 13), "LightGBMAudit")
 	build_audit(LogisticRegression(multi_class = "ovr", solver = "liblinear", random_state = 13), "LogisticRegressionAudit")
 	build_audit(RandomForestClassifier(n_estimators = 17, random_state = 13), "RandomForestAudit", compact = False, flat = False)
+	build_audit(SelectFirstClassifier([("private", make_pipeline(make_column_dropper([-1]), LogisticRegression(random_state = 13)), "X['Employment'] in ['Consultant', 'Private', 'SelfEmp']"), ("public", make_pipeline(make_column_dropper([-1]), LogisticRegression(random_state = 13)), "X['Employment'] in ['PSFederal', 'PSLocal', 'PSState', 'Volunteer']")]), "SelectFirstAudit")
 	build_audit(XGBClassifier(objective = "binary:logistic", ntree_limit = 71, random_state = 13), "XGBoostAudit")
 
 sparsify("Audit")
@@ -251,7 +264,11 @@ def build_auto(regressor, name, **pmml_options):
 	else:
 		cat_mappings = [([cat_column], [cat_domain(name), label_binarizer(name)]) for cat_column in cat_columns]
 	cont_mappings = [([cont_column], [cont_domain(name)]) for cont_column in cont_columns]
-	mapper = DataFrameMapper(cat_mappings + cont_mappings)
+	mappings = cat_mappings + cont_mappings
+	if isinstance(regressor, SelectFirstRegressor):
+		mapper = DataFrameMapper(mappings + [(["cylinders"], None)], df_out = True)
+	else:
+		mapper = DataFrameMapper(mappings)
 	pipeline = PMMLPipeline([
 		("mapper", mapper),
 		("regressor", regressor)
@@ -285,6 +302,7 @@ if "Auto" in datasets:
 	build_auto(LGBMRegressor(objective = "regression", n_estimators = 31, random_state = 13), "LightGBMAuto")
 	build_auto(LinearRegression(), "LinearRegressionAuto")
 	build_auto(RandomForestRegressor(n_estimators = 17, random_state = 13), "RandomForestAuto", compact = False, flat = False)
+	build_auto(SelectFirstRegressor([("small", make_pipeline(make_column_dropper([-1]), LinearRegression()), "X['cylinders'] in [3, 4, 5]"), ("big", make_pipeline(make_column_dropper([-1]), LinearRegression()), "X['cylinders'] in [6, 8]")]), "SelectFirstAuto")
 	build_auto(VotingRegressor(estimators = [("major", DecisionTreeRegressor(max_depth = 8, random_state = 13)), ("minor", ExtraTreeRegressor(max_depth = 5, random_state = 13))], weights = [0.7, 0.3]), "VotingEnsembleAuto")
 	build_auto(XGBRegressor(objective = "reg:squarederror", n_estimators = 31, random_state = 13), "XGBoostAuto")
 

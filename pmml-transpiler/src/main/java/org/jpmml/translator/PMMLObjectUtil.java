@@ -25,8 +25,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -49,6 +51,8 @@ import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import jakarta.xml.bind.JAXBElement;
+import org.dmg.pmml.ComplexArray;
+import org.dmg.pmml.ComplexValue;
 import org.dmg.pmml.DataDictionary;
 import org.dmg.pmml.DefineFunction;
 import org.dmg.pmml.Expression;
@@ -302,6 +306,29 @@ public class PMMLObjectUtil {
 			QName xmlName = (QName)value;
 
 			return context.constantXmlName(xmlName);
+		} else
+
+		if((ComplexValue.class).isAssignableFrom(clazz)){
+
+			if(value instanceof ComplexArray.ListValue){
+				List<?> elements = (List<?>)value;
+
+				JInvocation invocation = context.staticInvoke(Arrays.class, "asList");
+
+				initializeArray(Object.class, elements, invocation, context);
+
+				return invocation;
+			} else
+
+			if(value instanceof ComplexArray.SetValue){
+				Set<?> elements = (Set<?>)value;
+
+				JInvocation invocation = context.staticInvoke(Arrays.class, "asList");
+
+				initializeArray(Object.class, new ArrayList<>(elements), invocation, context);
+
+				return context._new(context.ref(LinkedHashSet.class).narrow(context.ref(Object.class).wildcard()), invocation);
+			}
 		} else
 
 		if((PMMLObject.class).isAssignableFrom(clazz)){

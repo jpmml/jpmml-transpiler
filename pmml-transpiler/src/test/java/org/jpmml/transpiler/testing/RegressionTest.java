@@ -64,6 +64,11 @@ public class RegressionTest extends TranspilerBatchTest implements Algorithms, D
 	}
 
 	@Test
+	public void evaluateSelectFirstAuto() throws Exception {
+		evaluate("SelectFirst", AUTO);
+	}
+
+	@Test
 	public void evaluateVotingEnsembleAuto() throws Exception {
 		evaluate(VOTING_ENSEMBLE, AUTO);
 	}
