@@ -20,7 +20,6 @@ package org.jpmml.transpiler.testing;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
@@ -31,11 +30,6 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.writer.FileCodeWriter;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Visitor;
-import org.jpmml.evaluator.Evaluator;
-import org.jpmml.evaluator.EvaluatorBuilder;
-import org.jpmml.evaluator.FieldNameSet;
-import org.jpmml.evaluator.FunctionNameStack;
-import org.jpmml.evaluator.HasPMML;
 import org.jpmml.evaluator.LoadingModelEvaluatorBuilder;
 import org.jpmml.evaluator.OutputFilters;
 import org.jpmml.evaluator.PMMLTransformer;
@@ -62,51 +56,28 @@ public class TranspilerBatch extends SimpleArchiveBatch {
 	public TranspilerBatchTest getArchiveBatchTest();
 
 	@Override
-	public Evaluator getEvaluator() throws Exception {
-		Evaluator evaluator = super.getEvaluator();
+	protected LoadingModelEvaluatorBuilder createLoadingModelEvaluatorBuilder(){
+		LoadingModelEvaluatorBuilder evaluatorBuilder = super.createLoadingModelEvaluatorBuilder();
 
-		validateEvaluator(evaluator);
-
-		return evaluator;
-	}
-
-	@Override
-	public EvaluatorBuilder getEvaluatorBuilder() throws Exception {
-		TranspilerBatchTest transpilerTest = getArchiveBatchTest();
-
-		LoadingModelEvaluatorBuilder evaluatorBuilder = new LoadingModelEvaluatorBuilder()
-			.setOutputFilter(OutputFilters.KEEP_FINAL_RESULTS);
-
-		// XXX
 		evaluatorBuilder
-			.setDerivedFieldGuard(new FieldNameSet(8))
-			.setFunctionGuard(new FunctionNameStack(4));
-
-		evaluatorBuilder.setVisitors(new ModelTranslatorVisitorBattery());
-
-		try(InputStream is = open(getPmmlPath())){
-			evaluatorBuilder.load(is);
-		}
-
-		PMML xmlPmml = evaluatorBuilder.getPMML();
-
-		List<PMMLTransformer<?>> transformers = getTransformers();
-		for(PMMLTransformer<?> transformer : transformers){
-			evaluatorBuilder.transform(transformer);
-		}
-
-		PMML javaPmml = evaluatorBuilder.getPMML();
-
-		Visitor checker = transpilerTest.getChecker();
-		if(checker != null){
-			checker.applyTo(javaPmml);
-		}
+			.setVisitors(new ModelTranslatorVisitorBattery())
+			.setOutputFilter(OutputFilters.KEEP_FINAL_RESULTS);
 
 		return evaluatorBuilder;
 	}
 
+	@Override
 	protected List<PMMLTransformer<?>> getTransformers(){
 		Transpiler transpiler = new InMemoryTranspiler(null){
+
+			@Override
+			public PMML transpile(PMML xmlPMML) throws IOException {
+				PMML javaPMML = super.transpile(xmlPMML);
+
+				validatePMML(javaPMML);
+
+				return javaPMML;
+			}
 
 			@Override
 			protected JCodeModel translate(PMML pmml) throws IOException {
@@ -151,15 +122,22 @@ public class TranspilerBatch extends SimpleArchiveBatch {
 		return Collections.singletonList(new TranspilerTransformer(transpiler));
 	}
 
-	protected void validateEvaluator(Evaluator evaluator) throws Exception {
-		HasPMML hasPMML = (HasPMML)evaluator;
+	protected void validatePMML(PMML pmml){
+		TranspilerBatchTest transpilerTest = getArchiveBatchTest();
 
-		PMML pmml = hasPMML.getPMML();
+		Visitor checker = transpilerTest.getChecker();
+		if(checker != null){
+			checker.applyTo(pmml);
+		}
 
 		Class<? extends PMML> pmmlClazz = pmml.getClass();
 
 		ClassLoader clazzLoader = pmmlClazz.getClassLoader();
 
-		SerializationUtil.clone(evaluator, clazzLoader);
+		try {
+			SerializationUtil.clone(pmml, clazzLoader);
+		} catch(Exception e){
+			throw new RuntimeException(e);
+		}
 	}
 }

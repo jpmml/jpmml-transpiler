@@ -171,6 +171,10 @@ public class JBinaryFileInitializer extends JClassInitializer {
 					ResourceUtil.writeStrings(dataOutput, castArray(values, new String[values.length]));
 					readMethod = "readStrings";
 					break;
+				case "java.lang.Integer":
+					ResourceUtil.writeIntegers(dataOutput, castArray(values, new Integer[values.length]));
+					readMethod = "readIntegers";
+					break;
 				case "java.lang.Double":
 					ResourceUtil.writeDoubles(dataOutput, castArray(values, new Double[values.length]));
 					readMethod = "readDoubles";
@@ -458,7 +462,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			return true;
 		} else
 
-		if(Objects.equals(clazz, Float.class) || Objects.equals(clazz, Double.class)){
+		if(Objects.equals(clazz, Integer.class) || Objects.equals(clazz, Float.class) || Objects.equals(clazz, Double.class)){
 			return true;
 		} else
 
