@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn library" version="1.7.6"/>
-		<Timestamp>2022-05-18T11:36:48Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.87.1"/>
+		<Timestamp>2022-11-21T09:17:40Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -70,6 +70,7 @@
 		</DataField>
 		<DataField name="Age" optype="continuous" dataType="integer">
 			<Interval closure="closedClosed" leftMargin="17" rightMargin="83"/>
+			<Value value="NaN" property="missing"/>
 		</DataField>
 		<DataField name="Income" optype="continuous" dataType="double">
 			<Interval closure="closedClosed" leftMargin="609.72" rightMargin="481259.5"/>
@@ -173,7 +174,7 @@
 							<FieldRef field="Hours"/>
 						</DerivedField>
 					</LocalTransformations>
-					<Segmentation multipleModelMethod="sum">
+					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 						<Segment id="1">
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn library" version="1.7.6"/>
-		<Timestamp>2022-05-18T11:37:30Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.87.1"/>
+		<Timestamp>2022-11-21T09:18:16Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -73,7 +73,7 @@
 					<Targets>
 						<Target rescaleConstant="0.5"/>
 					</Targets>
-					<Segmentation multipleModelMethod="sum">
+					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 						<Segment id="1">
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
@@ -251,7 +251,7 @@
 							<FieldRef field="Sepal.Width"/>
 						</DerivedField>
 					</LocalTransformations>
-					<Segmentation multipleModelMethod="sum">
+					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 						<Segment id="1">
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
@@ -585,7 +585,7 @@
 					<Targets>
 						<Target rescaleConstant="0.5"/>
 					</Targets>
-					<Segmentation multipleModelMethod="sum">
+					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 						<Segment id="1">
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">

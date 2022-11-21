@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn library" version="1.7.6"/>
-		<Timestamp>2022-05-18T11:36:38Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.87.1"/>
+		<Timestamp>2022-11-21T09:17:29Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -152,24 +152,12 @@
 					<Extension name="minImportance" value="17.0"/>
 					<Extension name="maxImportance" value="1223.0"/>
 					<row>
-						<data:name>Age</data:name>
-						<data:importance>160.0</data:importance>
-					</row>
-					<row>
-						<data:name>Employment</data:name>
-						<data:importance>17.0</data:importance>
-					</row>
-					<row>
-						<data:name>Occupation</data:name>
-						<data:importance>80.0</data:importance>
-					</row>
-					<row>
-						<data:name>Hours</data:name>
-						<data:importance>417.0</data:importance>
-					</row>
-					<row>
 						<data:name>Deductions</data:name>
 						<data:importance>39.0</data:importance>
+					</row>
+					<row>
+						<data:name>Age</data:name>
+						<data:importance>160.0</data:importance>
 					</row>
 					<row>
 						<data:name>Education</data:name>
@@ -180,8 +168,20 @@
 						<data:importance>74.0</data:importance>
 					</row>
 					<row>
+						<data:name>Hours</data:name>
+						<data:importance>417.0</data:importance>
+					</row>
+					<row>
 						<data:name>Income</data:name>
 						<data:importance>1223.0</data:importance>
+					</row>
+					<row>
+						<data:name>Employment</data:name>
+						<data:importance>17.0</data:importance>
+					</row>
+					<row>
+						<data:name>Occupation</data:name>
+						<data:importance>80.0</data:importance>
 					</row>
 					<row>
 						<data:name>Marital</data:name>
@@ -297,7 +297,7 @@
 							<FieldRef field="encoder(Deductions=true)"/>
 						</DerivedField>
 					</LocalTransformations>
-					<Segmentation multipleModelMethod="sum">
+					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 						<Segment id="1">
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction">

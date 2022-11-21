@@ -1,6 +1,6 @@
 from lightgbm import LGBMClassifier, LGBMRegressor
 from mlxtend.preprocessing import DenseTransformer
-from pandas import DataFrame
+from pandas import DataFrame, Series
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.ensemble import AdaBoostRegressor, GradientBoostingClassifier, GradientBoostingRegressor, IsolationForest, RandomForestClassifier, RandomForestRegressor, VotingRegressor
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
@@ -88,6 +88,9 @@ def build_audit(classifier, name, **pmml_options):
 	else:
 		cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender", "Deductions"]
 		cont_columns = ["Age", "Income", "Hours"]
+	# XXX
+	if "Deductions" not in audit_X.columns:
+		cat_columns.remove("Deductions")
 	if isinstance(classifier, LGBMClassifier):
 		cat_mappings = [([cat_column], [cat_domain(name), label_encoder(name)]) for cat_column in cat_columns]
 	else:
@@ -128,6 +131,9 @@ sparsify("Audit")
 
 audit_X, audit_y = load_audit("AuditNA")
 
+# XXX
+audit_X = audit_X.drop(["Deductions"], axis = 1)
+
 if ("Audit" in datasets) or ("AuditNA" in datasets):
 	build_audit(LGBMClassifier(objective = "binary", n_estimators = 71, random_state = 13), "LightGBMAuditNA")
 	build_audit(XGBClassifier(objective = "binary:logistic", ntree_limit = 71, random_state = 13), "XGBoostAuditNA")
@@ -141,8 +147,8 @@ sentiment_X, sentiment_y = load_sentiment("Sentiment")
 def build_sentiment(classifier, transformer, name, with_proba = True, **pmml_options):
 	pipeline = PMMLPipeline([
 		("transformer", transformer),
-		("densifier", DenseTransformer()),
 		("selector", SelectKBest(f_classif, k = 500)),
+		("densifier", DenseTransformer()),
 		("classifier", classifier)
 	])
 	pipeline.fit(sentiment_X, sentiment_y)
@@ -180,7 +186,12 @@ def build_iris(classifier, name, **pmml_options):
 		("mapper", mapper),
 		("classifier", classifier)
 	])
-	pipeline.fit(iris_X, iris_y)
+	if isinstance(classifier, XGBClassifier):
+		classifier._le = LabelEncoder()
+		iris_y_le = Series(classifier._le.fit_transform(iris_y), name = "Species")
+	else:
+		iris_y_le = iris_y
+	pipeline.fit(iris_X, iris_y_le)
 	if isinstance(classifier, XGBClassifier):
 		pipeline.verify(iris_X.sample(n = 3, random_state = 13), precision = 1e-5, zeroThreshold = 1e-5)
 	else:
@@ -194,10 +205,10 @@ def build_iris(classifier, name, **pmml_options):
 if "Iris" in datasets:
 	build_iris(DecisionTreeClassifier(min_samples_leaf = 5, random_state = 13), "DecisionTreeIris", compact = False, flat = True)
 	build_iris(GradientBoostingClassifier(n_estimators = 11, random_state = 13), "GradientBoostingIris")
-	build_iris(LGBMClassifier(objective = "multiclass", solver = "lbfgs", n_estimators = 11, random_state = 13), "LightGBMIris")
-	build_iris(LogisticRegression(multi_class = "multinomial", random_state = 13), "LogisticRegressionIris")
+	build_iris(LGBMClassifier(objective = "multiclass", n_estimators = 11, random_state = 13), "LightGBMIris")
+	build_iris(LogisticRegression(multi_class = "multinomial", solver = "lbfgs", random_state = 13), "LogisticRegressionIris")
 	build_iris(RandomForestClassifier(n_estimators = 5, random_state = 13), "RandomForestIris", compact = False, flat = False)
-	build_iris(XGBClassifier(objective = "multi:softprob", n_estimators = 11, use_label_encoder = True, random_state = 13), "XGBoostIris")
+	build_iris(XGBClassifier(objective = "multi:softprob", n_estimators = 11, random_state = 13), "XGBoostIris")
 
 iris_X, iris_y = load_iris("IrisVec")
 

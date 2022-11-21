@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn library" version="1.7.6"/>
-		<Timestamp>2022-05-18T11:37:25Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.87.1"/>
+		<Timestamp>2022-11-21T09:18:09Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -37,16 +37,16 @@
 						<data:importance>16.0</data:importance>
 					</row>
 					<row>
-						<data:name>Sepal.Length</data:name>
-						<data:importance>10.0</data:importance>
+						<data:name>Petal.Length</data:name>
+						<data:importance>88.0</data:importance>
 					</row>
 					<row>
 						<data:name>Petal.Width</data:name>
 						<data:importance>38.0</data:importance>
 					</row>
 					<row>
-						<data:name>Petal.Length</data:name>
-						<data:importance>88.0</data:importance>
+						<data:name>Sepal.Length</data:name>
+						<data:importance>10.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>
@@ -87,7 +87,7 @@
 					<Output>
 						<OutputField name="lgbmValue(setosa)" optype="continuous" dataType="double" isFinalResult="false"/>
 					</Output>
-					<Segmentation multipleModelMethod="sum">
+					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 						<Segment id="1">
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction">
@@ -375,7 +375,7 @@
 					<Output>
 						<OutputField name="lgbmValue(versicolor)" optype="continuous" dataType="double" isFinalResult="false"/>
 					</Output>
-					<Segmentation multipleModelMethod="sum">
+					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 						<Segment id="1">
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction">
@@ -687,7 +687,7 @@
 					<Output>
 						<OutputField name="lgbmValue(virginica)" optype="continuous" dataType="double" isFinalResult="false"/>
 					</Output>
-					<Segmentation multipleModelMethod="sum">
+					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 						<Segment id="1">
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction">

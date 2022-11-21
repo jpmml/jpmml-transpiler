@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn library" version="1.7.6"/>
-		<Timestamp>2022-05-18T11:37:57Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.87.1"/>
+		<Timestamp>2022-11-21T09:18:46Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -48,6 +48,14 @@
 					<Extension name="minImportance" value="7.0"/>
 					<Extension name="maxImportance" value="105.0"/>
 					<row>
+						<data:name>weight</data:name>
+						<data:importance>97.0</data:importance>
+					</row>
+					<row>
+						<data:name>horsepower</data:name>
+						<data:importance>100.0</data:importance>
+					</row>
+					<row>
 						<data:name>cylinders</data:name>
 						<data:importance>7.0</data:importance>
 					</row>
@@ -56,24 +64,16 @@
 						<data:importance>105.0</data:importance>
 					</row>
 					<row>
-						<data:name>horsepower</data:name>
-						<data:importance>100.0</data:importance>
-					</row>
-					<row>
 						<data:name>model_year</data:name>
 						<data:importance>21.0</data:importance>
 					</row>
 					<row>
-						<data:name>weight</data:name>
-						<data:importance>97.0</data:importance>
+						<data:name>acceleration</data:name>
+						<data:importance>77.0</data:importance>
 					</row>
 					<row>
 						<data:name>origin</data:name>
 						<data:importance>28.0</data:importance>
-					</row>
-					<row>
-						<data:name>acceleration</data:name>
-						<data:importance>77.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>
@@ -86,7 +86,7 @@
 			<MiningField name="weight" importance="97.0" missingValueTreatment="asIs" invalidValueTreatment="asMissing"/>
 			<MiningField name="acceleration" importance="77.0" missingValueTreatment="asIs" invalidValueTreatment="asMissing"/>
 		</MiningSchema>
-		<Segmentation multipleModelMethod="sum">
+		<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 			<Segment id="1">
 				<True/>
 				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction">

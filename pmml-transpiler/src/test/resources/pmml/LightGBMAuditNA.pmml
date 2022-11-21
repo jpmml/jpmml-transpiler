@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn library" version="1.7.6"/>
-		<Timestamp>2022-05-18T11:36:55Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.87.1"/>
+		<Timestamp>2022-11-21T09:38:04Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -150,6 +150,14 @@
 						<data:importance>162.0</data:importance>
 					</row>
 					<row>
+						<data:name>Hours</data:name>
+						<data:importance>505.0</data:importance>
+					</row>
+					<row>
+						<data:name>Age</data:name>
+						<data:importance>122.0</data:importance>
+					</row>
+					<row>
 						<data:name>Employment</data:name>
 						<data:importance>29.0</data:importance>
 					</row>
@@ -164,14 +172,6 @@
 					<row>
 						<data:name>Income</data:name>
 						<data:importance>1081.0</data:importance>
-					</row>
-					<row>
-						<data:name>Age</data:name>
-						<data:importance>122.0</data:importance>
-					</row>
-					<row>
-						<data:name>Hours</data:name>
-						<data:importance>505.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>
@@ -202,7 +202,7 @@
 					<Output>
 						<OutputField name="lgbmValue" optype="continuous" dataType="double" isFinalResult="false"/>
 					</Output>
-					<Segmentation multipleModelMethod="sum">
+					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 						<Segment id="1">
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction">

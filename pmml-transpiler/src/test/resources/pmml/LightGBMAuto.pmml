@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn library" version="1.7.6"/>
-		<Timestamp>2022-05-18T11:37:44Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.87.1"/>
+		<Timestamp>2022-11-21T09:18:35Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -56,8 +56,24 @@
 					<Extension name="minImportance" value="7.0"/>
 					<Extension name="maxImportance" value="153.0"/>
 					<row>
+						<data:name>origin</data:name>
+						<data:importance>20.0</data:importance>
+					</row>
+					<row>
+						<data:name>displacement</data:name>
+						<data:importance>69.0</data:importance>
+					</row>
+					<row>
+						<data:name>horsepower</data:name>
+						<data:importance>82.0</data:importance>
+					</row>
+					<row>
 						<data:name>acceleration</data:name>
 						<data:importance>73.0</data:importance>
+					</row>
+					<row>
+						<data:name>cylinders</data:name>
+						<data:importance>7.0</data:importance>
 					</row>
 					<row>
 						<data:name>weight</data:name>
@@ -66,22 +82,6 @@
 					<row>
 						<data:name>model_year</data:name>
 						<data:importance>34.0</data:importance>
-					</row>
-					<row>
-						<data:name>displacement</data:name>
-						<data:importance>69.0</data:importance>
-					</row>
-					<row>
-						<data:name>cylinders</data:name>
-						<data:importance>7.0</data:importance>
-					</row>
-					<row>
-						<data:name>horsepower</data:name>
-						<data:importance>82.0</data:importance>
-					</row>
-					<row>
-						<data:name>origin</data:name>
-						<data:importance>20.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>
@@ -133,7 +133,7 @@
 				<NumericInfo minimum="8.0" maximum="24.8" mean="15.541326530612244" standardDeviation="2.7553429127509967" median="15.5" interQuartileRange="3.2499999999999982"/>
 			</UnivariateStats>
 		</ModelStats>
-		<Segmentation multipleModelMethod="sum">
+		<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
 			<Segment id="1">
 				<True/>
 				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction">
