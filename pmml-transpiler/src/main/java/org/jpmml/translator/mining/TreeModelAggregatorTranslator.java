@@ -179,7 +179,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		Set<Node> nodes = new LinkedHashSet<>();
 
-		List<Segment> segments = segmentation.getSegments();
+		List<Segment> segments = segmentation.requireSegments();
 		for(Segment segment : segments){
 			TreeModel treeModel = segment.requireModel(TreeModel.class);
 
@@ -206,7 +206,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		MathContext mathContext = miningModel.getMathContext();
 
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.requireMultipleModelMethod();
-		List<Segment> segments = segmentation.getSegments();
+		List<Segment> segments = segmentation.requireSegments();
 
 		FieldInfoMap fieldInfos = getFieldInfos(Collections.singleton(segmentation));
 
@@ -376,7 +376,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		MathContext mathContext = miningModel.getMathContext();
 
 		Segmentation.MultipleModelMethod multipleModelMethod = segmentation.requireMultipleModelMethod();
-		List<Segment> segments = segmentation.getSegments();
+		List<Segment> segments = segmentation.requireSegments();
 
 		FieldInfoMap fieldInfos = getFieldInfos(Collections.singleton(segmentation));
 

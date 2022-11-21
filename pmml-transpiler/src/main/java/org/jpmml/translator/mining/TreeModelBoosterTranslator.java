@@ -279,7 +279,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		Segmentation segmentation = miningModel.requireSegmentation();
 
-		List<Segment> segments = segmentation.getSegments();
+		List<Segment> segments = segmentation.requireSegments();
 		if(!segments.isEmpty()){
 			segments.clear();
 		}
