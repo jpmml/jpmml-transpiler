@@ -7,6 +7,7 @@ from sklearn.ensemble import AdaBoostRegressor, GradientBoostingClassifier, Grad
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.feature_selection import f_classif
 from sklearn.feature_selection import SelectKBest
+from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import LabelBinarizer, LabelEncoder
@@ -257,8 +258,12 @@ def load_auto(name):
 auto_X, auto_y = load_auto("Auto")
 
 def build_auto(regressor, name, **pmml_options):
-	cat_columns = ["cylinders", "model_year", "origin"]
-	cont_columns = ["displacement", "horsepower", "weight", "acceleration"]
+	if isinstance(regressor, IsotonicRegression):
+		cat_columns = []
+		cont_columns = ["acceleration"]
+	else:
+		cat_columns = ["cylinders", "model_year", "origin"]
+		cont_columns = ["displacement", "horsepower", "weight", "acceleration"]
 	if isinstance(regressor, LGBMRegressor):
 		cat_mappings = [([cat_column], [cat_domain(name), label_encoder(name)]) for cat_column in cat_columns]
 	else:
@@ -300,6 +305,7 @@ if "Auto" in datasets:
 	build_auto(GradientBoostingRegressor(n_estimators = 31, random_state = 13), "GradientBoostingAuto")
 	build_auto(IsolationForest(n_estimators = 31, random_state = 13), "IsolationForestAuto")
 	build_auto(LGBMRegressor(objective = "regression", n_estimators = 31, random_state = 13), "LightGBMAuto")
+	build_auto(IsotonicRegression(out_of_bounds = "clip"), "IsotonicRegressionAuto")
 	build_auto(LinearRegression(), "LinearRegressionAuto")
 	build_auto(RandomForestRegressor(n_estimators = 17, random_state = 13), "RandomForestAuto", compact = False, flat = False)
 	build_auto(SelectFirstRegressor([("small", make_pipeline(make_column_dropper([-1]), LinearRegression()), "X['cylinders'] in [3, 4, 5]"), ("big", make_pipeline(make_column_dropper([-1]), LinearRegression()), "X['cylinders'] in [6, 8]")]), "SelectFirstAuto")

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="SkLearn2PMML package" version="0.87.1"/>
+		<Timestamp>2022-11-22T07:35:22Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="mpg" optype="continuous" dataType="double"/>
+		<DataField name="acceleration" optype="continuous" dataType="double">
+			<Interval closure="closedClosed" leftMargin="8.0" rightMargin="24.8"/>
+		</DataField>
+	</DataDictionary>
+	<RegressionModel functionName="regression" algorithmName="sklearn.isotonic.IsotonicRegression">
+		<MiningSchema>
+			<MiningField name="mpg" usageType="target"/>
+			<MiningField name="acceleration" missingValueTreatment="asIs"/>
+		</MiningSchema>
+		<ModelStats>
+			<UnivariateStats field="acceleration">
+				<Counts totalFreq="392" missingFreq="0" invalidFreq="0"/>
+				<NumericInfo minimum="8.0" maximum="24.8" mean="15.541326530612244" standardDeviation="2.7553429127509967" median="15.5" interQuartileRange="3.2499999999999982"/>
+			</UnivariateStats>
+		</ModelStats>
+		<LocalTransformations>
+			<DerivedField name="isotonicRegression(acceleration)" optype="continuous" dataType="double">
+				<NormContinuous field="acceleration" outliers="asExtremeValues">
+					<LinearNorm orig="8.0" norm="14.0"/>
+					<LinearNorm orig="8.5" norm="14.235294117647058"/>
+					<LinearNorm orig="11.0" norm="14.235294117647058"/>
+					<LinearNorm orig="11.1" norm="16.0"/>
+					<LinearNorm orig="11.2" norm="16.678260869565214"/>
+					<LinearNorm orig="12.1" norm="16.678260869565214"/>
+					<LinearNorm orig="12.2" norm="17.919999999999998"/>
+					<LinearNorm orig="12.5" norm="17.919999999999998"/>
+					<LinearNorm orig="12.6" norm="18.892857142857142"/>
+					<LinearNorm orig="13.5" norm="18.892857142857142"/>
+					<LinearNorm orig="13.6" norm="19.125"/>
+					<LinearNorm orig="13.7" norm="19.125"/>
+					<LinearNorm orig="13.8" norm="21.81"/>
+					<LinearNorm orig="14.0" norm="21.81"/>
+					<LinearNorm orig="14.1" norm="24.675806451612903"/>
+					<LinearNorm orig="16.0" norm="24.675806451612903"/>
+					<LinearNorm orig="16.1" norm="26.081415929203537"/>
+					<LinearNorm orig="19.0" norm="26.081415929203537"/>
+					<LinearNorm orig="19.2" norm="26.592307692307696"/>
+					<LinearNorm orig="21.0" norm="26.592307692307696"/>
+					<LinearNorm orig="21.5" norm="29.6"/>
+					<LinearNorm orig="23.5" norm="29.6"/>
+					<LinearNorm orig="23.7" norm="38.199999999999996"/>
+					<LinearNorm orig="24.8" norm="38.199999999999996"/>
+				</NormContinuous>
+			</DerivedField>
+		</LocalTransformations>
+		<RegressionTable intercept="0.0">
+			<NumericPredictor name="isotonicRegression(acceleration)" coefficient="1.0"/>
+		</RegressionTable>
+		<ModelVerification recordCount="3">
+			<VerificationFields>
+				<VerificationField field="acceleration" column="data:acceleration"/>
+				<VerificationField field="mpg" column="data:mpg" precision="1.0E-13" zeroThreshold="1.0E-13"/>
+			</VerificationFields>
+			<InlineTable>
+				<row>
+					<data:acceleration>13.5</data:acceleration>
+					<data:mpg>18.892857142857142</data:mpg>
+				</row>
+				<row>
+					<data:acceleration>16.0</data:acceleration>
+					<data:mpg>24.675806451612903</data:mpg>
+				</row>
+				<row>
+					<data:acceleration>12.0</data:acceleration>
+					<data:mpg>16.678260869565214</data:mpg>
+				</row>
+			</InlineTable>
+		</ModelVerification>
+	</RegressionModel>
+</PMML>

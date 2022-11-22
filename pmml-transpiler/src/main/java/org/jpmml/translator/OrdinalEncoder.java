@@ -73,7 +73,7 @@ public class OrdinalEncoder implements Encoder {
 
 		Field<?> field = fieldInfo.getField();
 
-		JMethod method = owner.method(Modifiers.PRIVATE_FINAL, context._ref(int.class), IdentifierUtil.create("toOrdinal", field.requireName()));
+		JMethod method = owner.method(Modifiers.PRIVATE_FINAL, int.class, IdentifierUtil.create("toOrdinal", field.requireName()));
 
 		JVar nameParam = method.param(String.class, "name");
 

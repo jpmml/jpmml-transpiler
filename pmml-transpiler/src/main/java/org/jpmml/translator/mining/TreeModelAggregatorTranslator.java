@@ -547,7 +547,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JTypeVar typeVar = definedClazz.generify("T");
 
-		JMethod method = definedClazz.method(Modifiers.PUBLIC_ABSTRACT, context._ref(int.class), "apply");
+		JMethod method = definedClazz.method(Modifiers.PUBLIC_ABSTRACT, int.class, "apply");
 
 		method.param(typeVar, "value");
 

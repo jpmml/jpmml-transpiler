@@ -1,1 +1,2 @@
 org.jpmml.translator.MapValuesTranslator
+org.jpmml.translator.NormContinuousTranslator

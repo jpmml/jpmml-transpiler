@@ -44,6 +44,11 @@ public class RegressionTest extends TranspilerBatchTest implements Algorithms, D
 	}
 
 	@Test
+	public void evaluateIsotonicRegressionAuto() throws Exception {
+		evaluate("IsotonicRegression", AUTO);
+	}
+
+	@Test
 	public void evaluateLightGBMAuto() throws Exception {
 		evaluate(LIGHT_GBM, AUTO);
 	}
