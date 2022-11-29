@@ -43,6 +43,7 @@ import org.dmg.pmml.MathContext;
 import org.dmg.pmml.NormContinuous;
 import org.dmg.pmml.OpType;
 import org.dmg.pmml.OutlierTreatmentMethod;
+import org.dmg.pmml.PMML;
 import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.FieldValueUtil;
 import org.jpmml.model.InvalidElementException;
@@ -160,7 +161,7 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 	}
 
 	private JDefinedClass ensureNormContinuousFuncInterface(TranslationContext context){
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = context.getOwner(PMML.class);
 
 		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "NormContinuousFunction");
 		if(definedClazz != null){
@@ -185,7 +186,7 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 	private JMethod ensureCreateNormContinuousFuncMethod(JDefinedClass normContinuousFuncInterface, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = context.getOwner(PMML.class);
 
 		JType doubleType = context._ref(double.class);
 
