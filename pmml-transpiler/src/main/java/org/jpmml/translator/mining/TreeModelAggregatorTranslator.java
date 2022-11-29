@@ -276,7 +276,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			pullUpDerivedFields(miningModel, treeModel);
 		}
 
-		JDefinedClass treeFunctionInterface = ensureTreeFunction(context);
+		JDefinedClass treeFunctionInterface = ensureTreeModelFuncInterface(context);
 
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
@@ -445,7 +445,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			pullUpDerivedFields(miningModel, treeModel);
 		}
 
-		JDefinedClass treeFunctionInterface = ensureTreeFunction(context);
+		JDefinedClass treeModelFuncInterface = ensureTreeModelFuncInterface(context);
 
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
@@ -465,7 +465,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
-		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), treeFunctionInterface.narrow(ensureArgumentsType(context)), methods);
+		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), treeModelFuncInterface.narrow(ensureArgumentsType(context)), methods);
 
 		JFieldVar categoriesVar = codeInitializer.initTargetCategories("targetCategories", Arrays.asList(categories));
 
@@ -524,16 +524,16 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		context._return(context._new(ProbabilityDistribution.class, valueMapInit));
 	}
 
-	private JDefinedClass ensureTreeFunction(TranslationContext context){
+	private JDefinedClass ensureTreeModelFuncInterface(TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "TreeFunction");
+		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "TreeModelFunction");
 		if(definedClazz != null){
 			return definedClazz;
 		}
 
 		try {
-			definedClazz = owner._interface("TreeFunction");
+			definedClazz = owner._interface("TreeModelFunction");
 		} catch(JClassAlreadyExistsException jcaee){
 			throw new IllegalArgumentException(jcaee);
 		}

@@ -35,6 +35,7 @@ import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JPrimitiveType;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.LinearNorm;
@@ -75,9 +76,9 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 			throw new InvalidElementException(normContinuous);
 		}
 
-		JDefinedClass normalizationFunctionInterface = ensureNormalizationFunction(context);
+		JDefinedClass normContinuousFuncInterface = ensureNormContinuousFuncInterface(context);
 
-		JMethod normalizationFunctionMethod = createNormalizationFunctionMethod(normalizationFunctionInterface, context);
+		JMethod createNormContinuousFuncMethod = ensureCreateNormContinuousFuncMethod(normContinuousFuncInterface, context);
 
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(NormContinuous.class.getSimpleName(), normContinuous), context);
 
@@ -87,7 +88,7 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 
 		JFieldVar linearNormsVar = resourceInitializer.initNumbersList("linearNorms", MathContext.DOUBLE, linearNormValues);
 
-		JVar rangeMapVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(RangeMap.class).narrow(context.ref(Double.class), normalizationFunctionInterface), "rangeMap", context.staticInvoke(TreeRangeMap.class, "create"));
+		JVar rangeMapVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(RangeMap.class).narrow(context.ref(Double.class), normContinuousFuncInterface), "rangeMap", context.staticInvoke(TreeRangeMap.class, "create"));
 
 		JBlock init = owner.init();
 
@@ -109,7 +110,7 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 		JVar origVar = forBlock.decl(doubleType, "orig", JExpr.component(linearNormVar, JExpr.lit(0)).invoke("doubleValue"));
 		JVar normVar = forBlock.decl(doubleType, "norm", JExpr.component(linearNormVar, JExpr.lit(1)).invoke("doubleValue"));
 
-		forBlock.add(rangeMapVar.invoke("put").arg(context.staticInvoke(Range.class, "closed", prevOrigVar, origVar)).arg(JExpr.invoke(normalizationFunctionMethod).arg(prevOrigVar).arg(prevNormVar).arg(origVar.minus(prevOrigVar)).arg(normVar.minus(prevNormVar))));
+		forBlock.add(rangeMapVar.invoke("put").arg(context.staticInvoke(Range.class, "closed", prevOrigVar, origVar)).arg(JExpr.invoke(createNormContinuousFuncMethod).arg(prevOrigVar).arg(prevNormVar).arg(origVar.minus(prevOrigVar)).arg(normVar.minus(prevNormVar))));
 
 		JVar valueVar = context.declare(FieldValue.class, "value", (context.getContextVariable()).evaluate(PMMLObjectUtil.createExpression(normContinuous.requireField(), context)));
 
@@ -146,9 +147,9 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 					throw new UnsupportedAttributeException(normContinuous, outlierTreatment);
 			}
 
-			JVar normalizationFunctionVar = context.declare(normalizationFunctionInterface, "normalizationFunction", rangeMapVar.invoke("get").arg(javaValueVar));
+			JVar normContinuousFuncVar = context.declare(normContinuousFuncInterface, "normContinuousFunction", rangeMapVar.invoke("get").arg(javaValueVar));
 
-			context._return(normalizationFunctionVar.invoke("apply").arg(javaValueVar));
+			context._return(normContinuousFuncVar.invoke("apply").arg(javaValueVar));
 		} finally {
 			context.popScope();
 		}
@@ -158,16 +159,16 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 		context._return(invocation);
 	}
 
-	private JDefinedClass ensureNormalizationFunction(TranslationContext context){
+	private JDefinedClass ensureNormContinuousFuncInterface(TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "NormalizationFunction");
+		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "NormContinuousFunction");
 		if(definedClazz != null){
 			return definedClazz;
 		}
 
 		try {
-			definedClazz = owner._interface("NormalizationFunction");
+			definedClazz = owner._interface("NormContinuousFunction");
 		} catch(JClassAlreadyExistsException jcaee){
 			throw new IllegalArgumentException(jcaee);
 		}
@@ -181,34 +182,41 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 		return definedClazz;
 	}
 
-	private JMethod createNormalizationFunctionMethod(JDefinedClass normalizationFunctionInterface, TranslationContext context){
+	private JMethod ensureCreateNormContinuousFuncMethod(JDefinedClass normContinuousFuncInterface, TranslationContext context){
 		JCodeModel codeModel = context.getCodeModel();
 
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, normalizationFunctionInterface, "createNormalizationFunction");
+		JType doubleType = context._ref(double.class);
 
-		JVar origParam = method.param(double.class, "orig");
-		JVar normParam = method.param(double.class, "norm");
-		JVar origRangeParam = method.param(double.class, "origRange");
-		JVar normRangeParam = method.param(double.class, "normRange");
+		JMethod method = owner.getMethod("createNormContinuousFunction", new JType[]{doubleType, doubleType, doubleType, doubleType});
+		if(method != null){
+			return method;
+		}
+
+		method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, normContinuousFuncInterface, "createNormContinuousFunction");
+
+		JVar origParam = method.param(doubleType, "orig");
+		JVar normParam = method.param(doubleType, "norm");
+		JVar origRangeParam = method.param(doubleType, "origRange");
+		JVar normRangeParam = method.param(doubleType, "normRange");
 
 		try {
 			context.pushScope(new MethodScope(method));
 
-			JDefinedClass normalizationFunctionClazz = codeModel.anonymousClass(normalizationFunctionInterface);
+			JDefinedClass normContinuousFuncClazz = codeModel.anonymousClass(normContinuousFuncInterface);
 
-			JMethod applyMethod = normalizationFunctionClazz.method(Modifiers.PUBLIC, double.class, "apply");
+			JMethod applyMethod = normContinuousFuncClazz.method(Modifiers.PUBLIC, double.class, "apply");
 			applyMethod.annotate(Override.class);
 
 			JVar xParam = applyMethod.param(double.class, "x");
 
 			JBlock block = applyMethod.body();
 
-			// "norm + (x - orig) / origRange * normRange;"
+			// "norm + (x - orig) / origRange * normRange"
 			block._return(normParam.plus((xParam.minus(origParam)).div(origRangeParam).mul(normRangeParam)));
 
-			context._return(JExpr._new(normalizationFunctionClazz));
+			context._return(JExpr._new(normContinuousFuncClazz));
 		} finally {
 			context.popScope();
 		}

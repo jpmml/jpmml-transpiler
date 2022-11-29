@@ -79,12 +79,12 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 
 		JVar valueVar = context.declare(FieldValue.class, "value", (context.getContextVariable()).evaluate(PMMLObjectUtil.createExpression(fieldColumnPair.requireField(), context)));
 
-		JMethod mapValueMethod = owner.method(Modifiers.PUBLIC_FINAL, Object.class, "mapValues");
+		JMethod mapValuesMethod = owner.method(Modifiers.PUBLIC_FINAL, Object.class, "mapValues");
 
-		JVar valueParam = mapValueMethod.param(FieldValue.class, "value");
+		JVar valueParam = mapValuesMethod.param(FieldValue.class, "value");
 
 		try {
-			context.pushScope(new MethodScope(mapValueMethod));
+			context.pushScope(new MethodScope(mapValuesMethod));
 
 			FieldValueRef fieldValueRef = new FieldValueRef(valueParam, inputDataType);
 
@@ -119,7 +119,7 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 			context.popScope();
 		}
 
-		JInvocation invocation = context.staticInvoke(FieldValueUtil.class, "create", PMMLObjectUtil.createExpression(OpType.CATEGORICAL, context), PMMLObjectUtil.createExpression(outputDataType, context), JExpr.invoke(mapValueMethod).arg(valueVar));
+		JInvocation invocation = context.staticInvoke(FieldValueUtil.class, "create", PMMLObjectUtil.createExpression(OpType.CATEGORICAL, context), PMMLObjectUtil.createExpression(outputDataType, context), JExpr.invoke(mapValuesMethod).arg(valueVar));
 
 		context._return(invocation);
 	}
