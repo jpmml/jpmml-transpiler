@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -467,15 +466,12 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	public JDefinedClass ensureArgumentsType(TranslationContext context){
 		JDefinedClass owner = context.getOwner(JavaModel.class);
 
-		for(Iterator<JDefinedClass> it = owner.classes(); it.hasNext(); ){
-			JDefinedClass clazz = it.next();
-
-			if(("Arguments").equals(clazz.name())){
-				return clazz;
-			}
+		JDefinedClass argumentsClazz = JCodeModelUtil.getNestedClass(owner, "Arguments");
+		if(argumentsClazz != null){
+			return argumentsClazz;
 		}
 
-		JDefinedClass argumentsClazz = PMMLObjectUtil.createMemberClass(Modifiers.PUBLIC_STATIC_FINAL, "Arguments", context);
+		argumentsClazz = PMMLObjectUtil.createMemberClass(Modifiers.PUBLIC_STATIC_FINAL, "Arguments", context);
 
 		JFieldVar contextVar = argumentsClazz.field(Modifiers.PRIVATE, EvaluationContext.class, "context");
 

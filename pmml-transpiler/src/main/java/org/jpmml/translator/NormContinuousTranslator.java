@@ -75,7 +75,7 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 			throw new InvalidElementException(normContinuous);
 		}
 
-		JDefinedClass normalizationFunctionInterface = createNormalizationFunction(context);
+		JDefinedClass normalizationFunctionInterface = ensureNormalizationFunction(context);
 
 		JMethod normalizationFunctionMethod = createNormalizationFunctionMethod(normalizationFunctionInterface, context);
 
@@ -158,10 +158,13 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 		context._return(invocation);
 	}
 
-	private JDefinedClass createNormalizationFunction(TranslationContext context){
+	private JDefinedClass ensureNormalizationFunction(TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JDefinedClass definedClazz;
+		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "NormalizationFunction");
+		if(definedClazz != null){
+			return definedClazz;
+		}
 
 		try {
 			definedClazz = owner._interface("NormalizationFunction");

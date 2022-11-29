@@ -21,7 +21,6 @@ package org.jpmml.translator.mining;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,6 +60,7 @@ import org.jpmml.translator.ArrayInfoMap;
 import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
+import org.jpmml.translator.JCodeModelUtil;
 import org.jpmml.translator.JDirectInitializer;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
@@ -527,15 +527,10 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 	private JDefinedClass ensureTreeFunction(TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		for(Iterator<JDefinedClass> it = owner.classes(); it.hasNext(); ){
-			JDefinedClass clazz = it.next();
-
-			if(("TreeFunction").equals(clazz.name())){
-				return clazz;
-			}
+		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "TreeFunction");
+		if(definedClazz != null){
+			return definedClazz;
 		}
-
-		JDefinedClass definedClazz;
 
 		try {
 			definedClazz = owner._interface("TreeFunction");
