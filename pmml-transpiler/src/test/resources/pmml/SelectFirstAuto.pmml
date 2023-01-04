@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.87.1"/>
-		<Timestamp>2022-11-21T18:38:11Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.90.1"/>
+		<Timestamp>2023-01-04T21:11:50Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -99,7 +99,7 @@
 		<Segmentation multipleModelMethod="selectFirst">
 			<Segment id="small">
 				<SimpleSetPredicate field="cylinders" booleanOperator="isIn">
-					<Array type="string">3 4 5</Array>
+					<Array type="int">3 4 5</Array>
 				</SimpleSetPredicate>
 				<RegressionModel functionName="regression" algorithmName="sklearn.linear_model._base.LinearRegression">
 					<MiningSchema>
@@ -143,7 +143,7 @@
 			</Segment>
 			<Segment id="big">
 				<SimpleSetPredicate field="cylinders" booleanOperator="isIn">
-					<Array type="string">6 8</Array>
+					<Array type="int">6 8</Array>
 				</SimpleSetPredicate>
 				<RegressionModel functionName="regression" algorithmName="sklearn.linear_model._base.LinearRegression">
 					<MiningSchema>

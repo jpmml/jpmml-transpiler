@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.87.1"/>
-		<Timestamp>2022-11-21T16:51:02Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.90.1"/>
+		<Timestamp>2023-01-04T21:11:08Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Score" optype="categorical" dataType="integer">

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.87.1"/>
-		<Timestamp>2022-11-21T09:17:29Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.90.1"/>
+		<Timestamp>2023-01-04T21:10:45Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -152,28 +152,24 @@
 					<Extension name="minImportance" value="17.0"/>
 					<Extension name="maxImportance" value="1223.0"/>
 					<row>
-						<data:name>Deductions</data:name>
-						<data:importance>39.0</data:importance>
-					</row>
-					<row>
-						<data:name>Age</data:name>
-						<data:importance>160.0</data:importance>
-					</row>
-					<row>
-						<data:name>Education</data:name>
-						<data:importance>77.0</data:importance>
+						<data:name>Marital</data:name>
+						<data:importance>43.0</data:importance>
 					</row>
 					<row>
 						<data:name>Gender</data:name>
 						<data:importance>74.0</data:importance>
 					</row>
 					<row>
-						<data:name>Hours</data:name>
-						<data:importance>417.0</data:importance>
+						<data:name>Deductions</data:name>
+						<data:importance>39.0</data:importance>
 					</row>
 					<row>
-						<data:name>Income</data:name>
-						<data:importance>1223.0</data:importance>
+						<data:name>Education</data:name>
+						<data:importance>77.0</data:importance>
+					</row>
+					<row>
+						<data:name>Hours</data:name>
+						<data:importance>417.0</data:importance>
 					</row>
 					<row>
 						<data:name>Employment</data:name>
@@ -184,8 +180,12 @@
 						<data:importance>80.0</data:importance>
 					</row>
 					<row>
-						<data:name>Marital</data:name>
-						<data:importance>43.0</data:importance>
+						<data:name>Age</data:name>
+						<data:importance>160.0</data:importance>
+					</row>
+					<row>
+						<data:name>Income</data:name>
+						<data:importance>1223.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>
