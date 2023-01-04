@@ -27,8 +27,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,7 @@ import java.util.function.Function;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Iterables;
+import com.sun.codemodel.JAssignment;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCase;
 import com.sun.codemodel.JClass;
@@ -47,6 +50,7 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldRef;
+import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMods;
@@ -60,6 +64,7 @@ import org.dmg.pmml.DataType;
 import org.dmg.pmml.Field;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
+import org.jpmml.evaluator.JavaExpression;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueMap;
 import org.jpmml.model.PMMLException;
@@ -444,13 +449,63 @@ public class TranslationContext {
 			} else
 
 			{
+				boolean stringKeys = true;
+
+				Map<Object, V> identityResultMap = new LinkedHashMap<>();
+
+				Collection<? extends Map.Entry<?, V>> entries = resultMap.entrySet();
+				for(Map.Entry<?, V> entry : entries){
+					stringKeys &= (entry.getKey() instanceof String);
+
+					if(Objects.equals(entry.getKey(), entry.getValue())){
+						identityResultMap.put(entry.getKey(), entry.getValue());
+					}
+				}
+
+				// XXX
+				identityTransformation:
+				if(stringKeys && identityResultMap.size() >= 16){
+					JDefinedClass owner;
+
+					try {
+						owner = getOwner(JavaExpression.class);
+					} catch(IllegalArgumentException iae){
+						break identityTransformation;
+					}
+
+					JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)) + ".data", this);
+
+					JFieldVar keysField = owner.field(Modifiers.PRIVATE_STATIC_FINAL, String[].class, "keys");
+
+					String[] strings = (identityResultMap.keySet()).stream()
+						.map(String.class::cast)
+						.toArray(String[]::new);
+
+					resourceInitializer.initValues(keysField, strings);
+
+					JFieldVar keySetField = owner.field(Modifiers.PRIVATE_STATIC_FINAL, ref(Set.class).narrow(String.class), "keySet");
+
+					resourceInitializer.add((JAssignment)JExpr.assign(keySetField, _new(ref(HashSet.class).narrow(Collections.emptyList()), staticInvoke(Arrays.class, "asList", keysField))));
+
+					JBlock thenBlock = block._if(keySetField.invoke("contains").arg(valueExpr))._then();
+
+					thenBlock._return(valueExpr);
+
+					(resultMap.keySet()).removeAll(identityResultMap.keySet());
+
+					if(resultMap.isEmpty()){
+						block._return(PMMLObjectUtil.createExpression(defaultResult, this));
+
+						return;
+					}
+				}
+
 				JSwitch switchStatement = block._switch(valueExpr);
 
 				JCase identityCase = null;
 
 				Map<V, JCase> valueCases = new HashMap<>();
 
-				Collection<? extends Map.Entry<?, V>> entries = resultMap.entrySet();
 				for(Map.Entry<?, V> entry : entries){
 					JCase valueCase = switchStatement._case(PMMLObjectUtil.createExpression(entry.getKey(), this));
 

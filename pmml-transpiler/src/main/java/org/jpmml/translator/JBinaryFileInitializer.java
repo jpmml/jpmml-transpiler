@@ -175,13 +175,13 @@ public class JBinaryFileInitializer extends JClassInitializer {
 					ResourceUtil.writeIntegers(dataOutput, castArray(values, new Integer[values.length]));
 					readMethod = "readIntegers";
 					break;
-				case "java.lang.Double":
-					ResourceUtil.writeDoubles(dataOutput, castArray(values, new Double[values.length]));
-					readMethod = "readDoubles";
-					break;
 				case "java.lang.Float":
 					ResourceUtil.writeFloats(dataOutput, castArray(values, new Float[values.length]));
 					readMethod = "readFloats";
+					break;
+				case "java.lang.Double":
+					ResourceUtil.writeDoubles(dataOutput, castArray(values, new Double[values.length]));
+					readMethod = "readDoubles";
 					break;
 				default:
 					throw new IllegalArgumentException(typeName);
@@ -371,6 +371,11 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			if(Objects.equals(keyClazz, String.class)){
 				ResourceUtil.writeStrings(dataOutput, keys.toArray(new String[keys.size()]));
 				keyReadMethod = "readStrings";
+			} else
+
+			if(Objects.equals(keyClazz, Integer.class)){
+				ResourceUtil.writeIntegers(dataOutput, keys.toArray(new Integer[keys.size()]));
+				keyReadMethod = "readIntegers";
 			} else
 
 			if(Objects.equals(keyClazz, Float.class)){
