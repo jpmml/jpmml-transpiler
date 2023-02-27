@@ -74,7 +74,7 @@ import org.dmg.pmml.Value;
 import org.dmg.pmml.mining.Segment;
 import org.dmg.pmml.mining.Segmentation;
 import org.jpmml.evaluator.java.JavaModel;
-import org.jpmml.model.PMMLException;
+import org.jpmml.model.MarkupException;
 import org.jpmml.model.ReflectionUtil;
 import org.w3c.dom.Element;
 
@@ -479,12 +479,16 @@ public class PMMLObjectUtil {
 
 				ModelTranslatorFactory modelTranslatorFactory = ModelTranslatorFactory.getInstance();
 
-				try {
-					ModelTranslator<?> modelTranslator = modelTranslatorFactory.newModelTranslator(pmml, model);
+				ModelTranslator<?> modelTranslator = null;
 
+				try {
+					modelTranslator = modelTranslatorFactory.newModelTranslator(pmml, model);
+				} catch(MarkupException ume){
+					context.addIssue(ume);
+				}
+
+				if(modelTranslator != null){
 					return modelTranslator.translate(context);
-				} catch(PMMLException pe){
-					context.addIssue(pe);
 				}
 
 				JMethod builderMethod = createBuilderMethod(pmmlObject, context);
@@ -497,12 +501,16 @@ public class PMMLObjectUtil {
 
 				ExpressionTranslatorFactory expressionTranslatorFactory = ExpressionTranslatorFactory.getInstance();
 
-				try {
-					ExpressionTranslator<?> expressionTranslator = expressionTranslatorFactory.newExpressionTranslator(expression);
+				ExpressionTranslator<?> expressionTranslator = null;
 
+				try {
+					expressionTranslator = expressionTranslatorFactory.newExpressionTranslator(expression);
+				} catch(MarkupException ume){
+					context.addIssue(ume);
+				}
+
+				if(expressionTranslator != null){
 					return expressionTranslator.translate(context);
-				} catch(PMMLException pe){
-					context.addIssue(pe);
 				}
 
 				return createObject(pmmlObject, context);
