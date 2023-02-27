@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.90.1"/>
-		<Timestamp>2023-01-04T21:11:00Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.91.0"/>
+		<Timestamp>2023-02-27T17:31:03Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -142,36 +142,36 @@
 					<Extension name="minImportance" value="29.0"/>
 					<Extension name="maxImportance" value="1081.0"/>
 					<row>
-						<data:name>Employment</data:name>
-						<data:importance>29.0</data:importance>
-					</row>
-					<row>
-						<data:name>Hours</data:name>
-						<data:importance>505.0</data:importance>
+						<data:name>Occupation</data:name>
+						<data:importance>87.0</data:importance>
 					</row>
 					<row>
 						<data:name>Age</data:name>
 						<data:importance>122.0</data:importance>
 					</row>
 					<row>
-						<data:name>Gender</data:name>
-						<data:importance>162.0</data:importance>
-					</row>
-					<row>
 						<data:name>Marital</data:name>
 						<data:importance>47.0</data:importance>
 					</row>
 					<row>
-						<data:name>Occupation</data:name>
-						<data:importance>87.0</data:importance>
+						<data:name>Gender</data:name>
+						<data:importance>162.0</data:importance>
+					</row>
+					<row>
+						<data:name>Income</data:name>
+						<data:importance>1081.0</data:importance>
+					</row>
+					<row>
+						<data:name>Employment</data:name>
+						<data:importance>29.0</data:importance>
 					</row>
 					<row>
 						<data:name>Education</data:name>
 						<data:importance>97.0</data:importance>
 					</row>
 					<row>
-						<data:name>Income</data:name>
-						<data:importance>1081.0</data:importance>
+						<data:name>Hours</data:name>
+						<data:importance>505.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>
