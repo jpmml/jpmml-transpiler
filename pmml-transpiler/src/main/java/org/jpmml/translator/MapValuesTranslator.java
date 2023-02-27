@@ -21,6 +21,7 @@ package org.jpmml.translator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.google.common.collect.Iterables;
@@ -36,12 +37,10 @@ import org.dmg.pmml.FieldColumnPair;
 import org.dmg.pmml.InlineTable;
 import org.dmg.pmml.MapValues;
 import org.dmg.pmml.OpType;
-import org.dmg.pmml.PMMLAttributes;
 import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.FieldValueUtil;
 import org.jpmml.evaluator.InlineTableUtil;
 import org.jpmml.evaluator.TypeUtil;
-import org.jpmml.model.InvalidAttributeException;
 import org.jpmml.model.InvalidElementException;
 import org.jpmml.model.UnsupportedElementException;
 
@@ -97,14 +96,20 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 			switch(inputDataType){
 				case BOOLEAN:
 					{
-						if(defaultValue != null){
-							throw new InvalidAttributeException(mapValues, PMMLAttributes.MAPVALUES_DEFAULTVALUE, defaultValue);
+						Object trueValue = mapping.getOrDefault(Boolean.TRUE, defaultValue);
+						Object falseValue = mapping.getOrDefault(Boolean.FALSE, defaultValue);
+
+						if(Objects.equals(trueValue, Boolean.TRUE) && Objects.equals(falseValue, Boolean.FALSE)){
+							context._return(fieldValueRef.asBoolean());
+						} else
+
+						if(Objects.equals(trueValue, Boolean.FALSE) && Objects.equals(falseValue, Boolean.TRUE)){
+							context._return((fieldValueRef.asBoolean()).not());
+						} else
+
+						{
+							context._return(JOp.cond(fieldValueRef.asBoolean(), PMMLObjectUtil.createExpression(trueValue, context), PMMLObjectUtil.createExpression(falseValue, context)));
 						}
-
-						Object trueValue = mapping.get(Boolean.TRUE);
-						Object falseValue = mapping.get(Boolean.FALSE);
-
-						context._return(JOp.cond(fieldValueRef.asJavaValue(), PMMLObjectUtil.createExpression(trueValue, context), PMMLObjectUtil.createExpression(falseValue, context)));
 					}
 					break;
 				default:
