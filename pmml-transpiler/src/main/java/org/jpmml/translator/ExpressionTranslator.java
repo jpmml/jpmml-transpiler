@@ -27,6 +27,7 @@ import org.dmg.pmml.Expression;
 import org.jpmml.evaluator.EvaluationContext;
 import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.JavaExpression;
+import org.jpmml.model.PMMLException;
 
 abstract
 public class ExpressionTranslator<E extends Expression> {
@@ -52,6 +53,8 @@ public class ExpressionTranslator<E extends Expression> {
 			context.pushOwner(javaExpressionClazz);
 
 			createEvaluateMethod(context);
+		} catch(PMMLException pe){
+			throw pe.ensureContext(expression);
 		} finally {
 			context.popOwner();
 		}

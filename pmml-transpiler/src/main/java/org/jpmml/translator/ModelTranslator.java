@@ -68,6 +68,7 @@ import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueFactory;
 import org.jpmml.evaluator.ValueFactoryFactory;
 import org.jpmml.evaluator.java.JavaModel;
+import org.jpmml.model.PMMLException;
 import org.jpmml.model.UnsupportedAttributeException;
 import org.jpmml.model.visitors.ActiveFieldFinder;
 import org.jpmml.model.visitors.FieldResolver;
@@ -102,6 +103,8 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 			context.pushOwner(javaModelClazz);
 
 			createEvaluateMethod(context);
+		} catch(PMMLException pe){
+			throw pe.ensureContext(model);
 		} finally {
 			context.popOwner();
 		}
