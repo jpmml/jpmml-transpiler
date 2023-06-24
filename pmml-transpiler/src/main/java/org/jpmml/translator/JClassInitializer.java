@@ -65,7 +65,7 @@ class JClassInitializer {
 	protected JFieldVar createListConstant(String name, JClass type, TranslationContext context){
 		JDefinedClass owner = getOwner(context);
 
-		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(List.class).narrow(type), name, context._new(ArrayList.class));
+		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, type), name, context._new(ArrayList.class));
 
 		return constant;
 	}
@@ -74,7 +74,7 @@ class JClassInitializer {
 	protected JFieldVar createMapConstant(String name, JClass keyType, JClass valueType, TranslationContext context){
 		JDefinedClass owner = getOwner(context);
 
-		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(Map.class).narrow(keyType, valueType), name, context._new(LinkedHashMap.class));
+		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, keyType, valueType), name, context._new(LinkedHashMap.class));
 
 		return constant;
 	}

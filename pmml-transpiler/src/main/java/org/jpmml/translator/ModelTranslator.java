@@ -20,7 +20,6 @@ package org.jpmml.translator;
 
 import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -382,12 +381,12 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	public JMethod createEvaluatorMethod(String name, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JMethod method = owner.method(Modifiers.PUBLIC_FINAL, context.ref(Map.class).narrow(Arrays.asList(context.ref(String.class), context.ref(Object.class).wildcard())), name);
+		JMethod method = owner.method(Modifiers.PUBLIC_FINAL, context.genericRef(Map.class, String.class, context.wildcard()), name);
 		method.annotate(Override.class);
 
 		JTypeVar numberTypeVar = method.generify(MethodScope.TYPEVAR_NUMBER, Number.class);
 
-		method.param(context.ref(ValueFactory.class).narrow(numberTypeVar), Scope.VAR_VALUEFACTORY);
+		method.param(context.genericRef(ValueFactory.class, numberTypeVar), Scope.VAR_VALUEFACTORY);
 		method.param(EvaluationContext.class, Scope.VAR_CONTEXT);
 
 		return method;
@@ -416,14 +415,14 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 			TypeVariable<?>[] typeVariables = type.getTypeParameters();
 			if(typeVariables.length == 1){
-				method.type(context.ref(type).narrow(numberTypeVar));
+				method.type(context.genericRef(type, numberTypeVar));
 			} else
 
 			if(typeVariables.length == 2){
-				method.type(context.ref(type).narrow(context.ref(Object.class), numberTypeVar));
+				method.type(context.genericRef(type, Object.class, numberTypeVar));
 			}
 
-			method.param(context.ref(ValueFactory.class).narrow(numberTypeVar), Scope.VAR_VALUEFACTORY);
+			method.param(context.genericRef(ValueFactory.class, numberTypeVar), Scope.VAR_VALUEFACTORY);
 		}
 
 		method.param(ensureArgumentsType(context), Scope.VAR_ARGUMENTS);

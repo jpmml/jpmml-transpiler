@@ -77,7 +77,7 @@ public class ArrayFpPrimitiveEncoder extends FpPrimitiveEncoder implements Array
 			return method;
 		}
 
-		JFieldVar listField = owner.field(Modifiers.PRIVATE, context.ref(List.class).narrow(Number.class), IdentifierUtil.sanitize(arrayInfo.getName()));
+		JFieldVar listField = owner.field(Modifiers.PRIVATE, context.genericRef(List.class, Number.class), IdentifierUtil.sanitize(arrayInfo.getName()));
 
 		JMethod ensureListMethod = owner.method(Modifiers.PRIVATE_FINAL, listField.type(), IdentifierUtil.sanitize(arrayInfo.getName()));
 

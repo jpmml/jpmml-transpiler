@@ -455,7 +455,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JFieldVar termsVar = resourceInitializer.initTokenizedStringLists(IdentifierUtil.create("terms", regressionTable, name), terms);
 
-			JFieldVar termIndicesVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.ref(Map.class).narrow(Arrays.asList(context.ref(TokenizedString.class), context.ref(Integer.class))), IdentifierUtil.create("termIndices", regressionTable, name), context._new(LinkedHashMap.class));
+			JFieldVar termIndicesVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, TokenizedString.class, Integer.class), IdentifierUtil.create("termIndices", regressionTable, name), context._new(LinkedHashMap.class));
 
 			JForLoop termIndicesForLoop = new JForLoop();
 
@@ -491,7 +491,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JVar termFrequencyTableVar = (JVar)TextIndexUtil.computeTermFrequencyTable(null, localTextIndex, textIndexVar, termIndicesVar.invoke("keySet"), maxLength, context);
 
-			JVar entriesVar = context.declare(context.ref(Collection.class).narrow(context.ref(Map.Entry.class).narrow(((JClass)termFrequencyTableVar.type()).getTypeParameters())), "entries", termFrequencyTableVar.invoke("entrySet"));
+			JVar entriesVar = context.declare(context.genericRef(Collection.class, context.ref(Map.Entry.class).narrow(((JClass)termFrequencyTableVar.type()).getTypeParameters())), "entries", termFrequencyTableVar.invoke("entrySet"));
 
 			JBlock block = context.block();
 

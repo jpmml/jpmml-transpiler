@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.xml.namespace.QName;
 
@@ -103,10 +104,31 @@ public class TranslationContext {
 		return codeModel.ref(type);
 	}
 
+	public JClass genericRef(Class<?> type, Object... typeArgs){
+		List<? extends JClass> arguments = Arrays.stream(typeArgs)
+			.map(typeArg -> {
+
+				if(typeArg instanceof Class){
+					return ref((Class<?>)typeArg);
+				}
+
+				return (JClass)typeArg;
+			})
+			.collect(Collectors.toList());
+
+		return ref(type).narrow(arguments);
+	}
+
 	public JType _ref(Class<?> type){
 		JCodeModel codeModel = getCodeModel();
 
 		return codeModel._ref(type);
+	}
+
+	public JClass wildcard(){
+		JCodeModel codeModel = getCodeModel();
+
+		return codeModel.wildcard();
 	}
 
 	public JDefinedClass getOwner(){
@@ -350,13 +372,13 @@ public class TranslationContext {
 	public JClass getValueType(){
 		JTypeVar numberTypeVar = getNumberTypeVariable();
 
-		return ref(Value.class).narrow(numberTypeVar);
+		return genericRef(Value.class, numberTypeVar);
 	}
 
 	public JClass getValueMapType(){
 		JTypeVar numberTypeVar = getNumberTypeVariable();
 
-		return ref(ValueMap.class).narrow(Arrays.asList(ref(Object.class), numberTypeVar));
+		return genericRef(ValueMap.class, Object.class, numberTypeVar);
 	}
 
 	public JVar declare(Class<?> type, String name, JExpression init){
@@ -483,9 +505,9 @@ public class TranslationContext {
 
 					resourceInitializer.initValues(keysField, strings);
 
-					JFieldVar keySetField = owner.field(Modifiers.PRIVATE_STATIC_FINAL, ref(Set.class).narrow(String.class), "keySet");
+					JFieldVar keySetField = owner.field(Modifiers.PRIVATE_STATIC_FINAL, genericRef(Set.class, String.class), "keySet");
 
-					resourceInitializer.add((JAssignment)JExpr.assign(keySetField, _new(ref(HashSet.class).narrow(Collections.emptyList()), staticInvoke(Arrays.class, "asList", keysField))));
+					resourceInitializer.add((JAssignment)JExpr.assign(keySetField, _new(HashSet.class, staticInvoke(Arrays.class, "asList", keysField))));
 
 					JBlock thenBlock = block._if(keySetField.invoke("contains").arg(valueExpr))._then();
 
@@ -557,7 +579,7 @@ public class TranslationContext {
 	public JInvocation _new(Class<?> type, Object... args){
 		TypeVariable<?>[] typeVariables = type.getTypeParameters();
 		if(typeVariables.length > 0){
-			return _new(ref(type).narrow(Collections.emptyList()), args);
+			return _new(genericRef(type), args);
 		}
 
 		return _new(ref(type), args);

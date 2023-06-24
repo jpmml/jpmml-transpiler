@@ -182,7 +182,7 @@ public class PMMLObjectUtil {
 
 		JBlock block = method.body();
 
-		JVar resultVar = block.decl(context.ref(List.class).narrow(clazz), "result", context._new(ArrayList.class, objects.size()));
+		JVar resultVar = block.decl(context.genericRef(List.class, clazz), "result", context._new(ArrayList.class, objects.size()));
 
 		for(int i = 0; i < objects.size(); i += PMMLObjectUtil.CHUNK_SIZE){
 			List<?> chunk = objects.subList(i, Math.min(i + PMMLObjectUtil.CHUNK_SIZE, objects.size()));
@@ -327,7 +327,7 @@ public class PMMLObjectUtil {
 
 				initializeArray(Object.class, new ArrayList<>(elements), invocation, context);
 
-				return context._new(context.ref(LinkedHashSet.class).narrow(context.ref(Object.class).wildcard()), invocation);
+				return context._new(LinkedHashSet.class, invocation);
 			}
 		} else
 
@@ -527,7 +527,7 @@ public class PMMLObjectUtil {
 
 			Object jaxbValue = jaxbElement.getValue();
 
-			return context._new(context.ref(JAXBElement.class).narrow(jaxbValue.getClass()), jaxbElement.getName(), JExpr.dotclass(context.ref(jaxbValue.getClass())), jaxbValue);
+			return context._new(context.genericRef(JAXBElement.class, jaxbValue.getClass()), jaxbElement.getName(), JExpr.dotclass(context.ref(jaxbValue.getClass())), jaxbValue);
 		} else
 
 		if((Element.class).isAssignableFrom(clazz)){

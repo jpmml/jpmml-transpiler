@@ -18,7 +18,6 @@
  */
 package org.jpmml.translator;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +82,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 		JFieldVar textIndexVar = fields.get(IdentifierUtil.create("textIndex", tf.getTextIndex(), tf.getTextField()));
 		JFieldVar termsVar = fields.get(IdentifierUtil.create("terms", tf.getTextIndex(), tf.getTextField()));
 
-		JFieldVar termFrequencyTableVar = owner.field(Modifiers.PRIVATE, context.ref(Map.class).narrow(Arrays.asList(context.ref(TokenizedString.class), context.ref(Integer.class))), IdentifierUtil.create("termFrequencyTable", tf.getTextField()));
+		JFieldVar termFrequencyTableVar = owner.field(Modifiers.PRIVATE, context.genericRef(Map.class, TokenizedString.class, Integer.class), IdentifierUtil.create("termFrequencyTable", tf.getTextField()));
 
 		JMethod frequencyTableMethod = owner.method(Modifiers.PRIVATE_FINAL, termFrequencyTableVar.type(), termFrequencyTableVar.name());
 

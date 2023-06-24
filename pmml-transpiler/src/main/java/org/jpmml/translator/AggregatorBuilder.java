@@ -35,6 +35,6 @@ public class AggregatorBuilder extends JVarBuilder {
 	public AggregatorBuilder construct(Class<?> type, String name, Object... args){
 		TranslationContext context = getContext();
 
-		return (AggregatorBuilder)construct(context.ref(type).narrow(context.getNumberTypeVariable()), name, args);
+		return (AggregatorBuilder)construct(context.genericRef(type, context.getNumberTypeVariable()), name, args);
 	}
 }

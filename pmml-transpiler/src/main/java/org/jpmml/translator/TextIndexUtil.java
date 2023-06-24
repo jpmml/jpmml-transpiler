@@ -18,7 +18,6 @@
  */
 package org.jpmml.translator;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import com.sun.codemodel.JAssignment;
@@ -89,7 +88,7 @@ public class TextIndexUtil {
 			return termFrequencyTableInvocation;
 		}
 
-		JVar termFrequencyTableVar = context.declare(context.ref(Map.class).narrow(Arrays.asList(context.ref(TokenizedString.class), context.ref(Integer.class))), textVar.name() + "FrequencyTable", termFrequencyTableInvocation);
+		JVar termFrequencyTableVar = context.declare(context.genericRef(Map.class, TokenizedString.class, Integer.class), textVar.name() + "FrequencyTable", termFrequencyTableInvocation);
 
 		return termFrequencyTableVar;
 	}
