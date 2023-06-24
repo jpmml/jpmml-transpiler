@@ -531,7 +531,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 						throw new UnsupportedAttributeException(localTextIndex, localTermWeights);
 				}
 
-				valueBuilder.update("add", factorVars.toArray(new JVar[factorVars.size()]));
+				valueBuilder.update("add", (Object[])factorVars.toArray(new JVar[factorVars.size()]));
 			} finally {
 				context.popScope();
 			}

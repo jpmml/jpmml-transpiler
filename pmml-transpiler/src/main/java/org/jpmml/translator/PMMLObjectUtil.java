@@ -155,7 +155,7 @@ public class PMMLObjectUtil {
 			String simpleName = clazz.getSimpleName();
 
 			if(simpleName.startsWith("Rich")){
-				clazz = (Class<? extends PMMLObject>)clazz.getSuperclass();
+				clazz = (clazz.getSuperclass()).asSubclass(PMMLObject.class);
 
 				continue;
 			}
@@ -366,10 +366,11 @@ public class PMMLObjectUtil {
 			} else
 
 			if(pmmlObject instanceof org.dmg.pmml.Field){
-				org.dmg.pmml.Field field = (org.dmg.pmml.Field)pmmlObject;
+				org.dmg.pmml.Field<?> field = (org.dmg.pmml.Field<?>)pmmlObject;
 
 				ListMultimap<Value.Property, Object> discreteValues = ArrayListMultimap.create();
 
+				List<Value> pmmlValues = null;
 				List<Value> suppressedPmmlValues = null;
 
 				discreteValues:
@@ -377,7 +378,7 @@ public class PMMLObjectUtil {
 					HasDiscreteDomain<?> hasDiscreteDomain = (HasDiscreteDomain<?>)field;
 
 					if(hasDiscreteDomain.hasValues()){
-						List<Value> pmmlValues = hasDiscreteDomain.getValues();
+						pmmlValues = hasDiscreteDomain.getValues();
 
 						for(Value pmmlValue : pmmlValues){
 							String displayName = pmmlValue.getDisplayValue();
@@ -391,9 +392,11 @@ public class PMMLObjectUtil {
 							discreteValues.put(pmmlValue.getProperty(), pmmlValue.requireValue());
 						}
 
+						pmmlValues = ensureEditableValues(field);
+
 						suppressedPmmlValues = new ArrayList<>(pmmlValues);
 
-						ensureEditableValues((org.dmg.pmml.Field & HasDiscreteDomain)field).clear();
+						pmmlValues.clear();
 					}
 				}
 
@@ -403,7 +406,7 @@ public class PMMLObjectUtil {
 					HasDiscreteDomain<?> hasDiscreteDomain = (HasDiscreteDomain<?>)field;
 
 					if(suppressedPmmlValues != null){
-						ensureEditableValues((org.dmg.pmml.Field & HasDiscreteDomain)field).addAll(suppressedPmmlValues);
+						pmmlValues.addAll(suppressedPmmlValues);
 					}
 
 					JBlock body = builderMethod.body();
@@ -415,9 +418,9 @@ public class PMMLObjectUtil {
 					JInvocation invocation;
 
 					try {
-						Class<? extends JStatement> returnClazz = (Class)Class.forName("com.sun.codemodel.JReturn");
+						Class<?> returnClazz = Class.forName("com.sun.codemodel.JReturn");
 
-						_return = returnClazz.cast(Iterables.getLast(body.getContents()));
+						_return = (JStatement)Iterables.getLast(body.getContents());
 
 						returnExprField = returnClazz.getDeclaredField("expr");
 						if(!returnExprField.isAccessible()){
@@ -432,7 +435,7 @@ public class PMMLObjectUtil {
 					Collection<Map.Entry<Value.Property, Collection<Object>>> entries = (discreteValues.asMap()).entrySet();
 					for(Map.Entry<Value.Property, Collection<Object>> entry : entries){
 						Value.Property property = entry.getKey();
-						List<?> values = (List<?>)entry.getValue();
+						List<Object> values = (List<Object>)entry.getValue();
 
 						if(values != null && !values.isEmpty()){
 							Class<?> valueClazz = JBinaryFileInitializer.getValueClass(values);
@@ -440,7 +443,7 @@ public class PMMLObjectUtil {
 							invocation = invocation.invoke("addValues").arg(createExpression(property, context));
 
 							if((values.size() > 2) && JBinaryFileInitializer.isExternalizable(valueClazz)){
-								JFieldRef valuesFieldRef = context.constantValues((Class)valueClazz, IdentifierUtil.create((property.name()).toLowerCase(), field), values);
+								JFieldRef valuesFieldRef = context.constantValues(valueClazz, IdentifierUtil.create((property.name()).toLowerCase(), field), values);
 
 								invocation = invocation.arg(JExpr.cast(context.ref(Object[].class), valuesFieldRef));
 							} else
@@ -654,7 +657,7 @@ public class PMMLObjectUtil {
 	}
 
 	static
-	private <F extends org.dmg.pmml.Field<F> & HasDiscreteDomain<F>> List<Value> ensureEditableValues(F field){
+	private List<Value> ensureEditableValues(org.dmg.pmml.Field<?> field){
 		Field valuesField = ReflectionUtil.getField(field.getClass(), "values");
 
 		List<Value> values = ReflectionUtil.getFieldValue(valuesField, field);

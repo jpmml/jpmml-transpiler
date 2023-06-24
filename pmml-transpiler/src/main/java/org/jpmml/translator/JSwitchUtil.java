@@ -40,7 +40,7 @@ public class JSwitchUtil {
 				casesField.setAccessible(true);
 			}
 
-			cases = (List<JCase>)casesField.get(switchStatement);
+			cases = (List)casesField.get(switchStatement);
 		} catch(ReflectiveOperationException roe){
 			throw new RuntimeException(roe);
 		}
