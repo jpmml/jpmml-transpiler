@@ -42,7 +42,6 @@ import java.util.stream.Collectors;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Iterables;
-import com.sun.codemodel.JAssignment;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCase;
 import com.sun.codemodel.JClass;
@@ -185,7 +184,9 @@ public class TranslationContext {
 			QName[] xmlNames = this.xmlNameManager.getElements()
 				.toArray(new QName[this.xmlNameManager.size()]);
 
-			resourceInitializer.initQNames(this.xmlNameManager.getArrayVar(), xmlNames);
+			JInvocation xmlNamesExpr = resourceInitializer.initQNames(xmlNames);
+
+			resourceInitializer.assign(this.xmlNameManager.getArrayVar(), xmlNamesExpr);
 
 			List<ArrayManager<?>> valueManagers = this.valueManagers;
 			for(ArrayManager<?> valueManager : valueManagers){
@@ -194,7 +195,9 @@ public class TranslationContext {
 				Object[] values = valueManager.getElements()
 					.toArray(new Object[valueManager.size()]);
 
-				resourceInitializer.initValues(valueManager.getArrayVar(), values);
+				JInvocation valuesExpr = resourceInitializer.initValues(valueManager.getComponentType(), values);
+
+				resourceInitializer.assign(valueManager.getArrayVar(), valuesExpr);
 			}
 		}
 
@@ -495,19 +498,17 @@ public class TranslationContext {
 						break identityTransformation;
 					}
 
-					JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)) + ".data", this);
+					JFieldVar keySetField = owner.field(Modifiers.PRIVATE_STATIC_FINAL, genericRef(Set.class, String.class), "keySet");
 
-					JFieldVar keysField = owner.field(Modifiers.PRIVATE_STATIC_FINAL, String[].class, "keys");
+					JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)) + ".data", this);
 
 					String[] strings = (identityResultMap.keySet()).stream()
 						.map(String.class::cast)
 						.toArray(String[]::new);
 
-					resourceInitializer.initValues(keysField, strings);
+					JInvocation valuesExpr = resourceInitializer.initValues(ref(String.class), strings);
 
-					JFieldVar keySetField = owner.field(Modifiers.PRIVATE_STATIC_FINAL, genericRef(Set.class, String.class), "keySet");
-
-					resourceInitializer.add((JAssignment)JExpr.assign(keySetField, _new(HashSet.class, staticInvoke(Arrays.class, "asList", keysField))));
+					resourceInitializer.assign(keySetField, _new(HashSet.class, staticInvoke(Arrays.class, "asList", valuesExpr)));
 
 					JBlock thenBlock = block._if(keySetField.invoke("contains").arg(valueExpr))._then();
 

@@ -136,7 +136,11 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		this.tryBody.add(statement);
 	}
 
-	public void initQNames(JFieldVar field, QName[] names){
+	public void assign(JVar variable, JExpression expr){
+		this.tryBody.assign(variable, expr);
+	}
+
+	public JInvocation initQNames(QName[] names){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
@@ -148,12 +152,10 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readQNames", this.dataInputVar, names.length);
-
-		this.tryBody.assign(field, invocation);
+		return context.staticInvoke(ResourceUtil.class, "readQNames", this.dataInputVar, names.length);
 	}
 
-	public void initValues(JFieldVar field, Object[] values){
+	public JInvocation initValues(JType type, Object[] values){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
@@ -162,10 +164,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
 
-			JClass arrayType = (JClass)field.type();
-			JClass arrayElementType = (JClass)arrayType.elementType();
-
-			String typeName = arrayElementType.fullName();
+			String typeName = type.fullName();
 			switch(typeName){
 				case "java.lang.String":
 					ResourceUtil.writeStrings(dataOutput, castArray(values, new String[values.length]));
@@ -190,9 +189,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
-
-		this.tryBody.assign(field, invocation);
+		return context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
 	}
 
 	public JFieldVar initTokenizedStringLists(String name, TokenizedString[] tokenizedStrings){
