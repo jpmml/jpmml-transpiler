@@ -104,7 +104,7 @@ public class TranslationContext {
 	}
 
 	public JClass genericRef(Class<?> type, Object... typeArgs){
-		List<? extends JClass> arguments = Arrays.stream(typeArgs)
+		List<JClass> safeTypeArgs = Arrays.stream(typeArgs)
 			.map(typeArg -> {
 
 				if(typeArg instanceof Class){
@@ -115,7 +115,11 @@ public class TranslationContext {
 			})
 			.collect(Collectors.toList());
 
-		return ref(type).narrow(arguments);
+		return genericRef(type, safeTypeArgs);
+	}
+
+	public JClass genericRef(Class<?> type, List<JClass> typeArgs){
+		return ref(type).narrow(typeArgs);
 	}
 
 	public JType _ref(Class<?> type){

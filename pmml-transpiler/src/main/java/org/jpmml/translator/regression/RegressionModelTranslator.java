@@ -516,7 +516,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JVar termFrequencyTableVar = (JVar)TextIndexUtil.computeTermFrequencyTable(null, localTextIndex, textIndexVar, termIndicesVar.invoke("keySet"), maxLength, context);
 
-			JVar entriesVar = context.declare(context.genericRef(Collection.class, context.ref(Map.Entry.class).narrow(((JClass)termFrequencyTableVar.type()).getTypeParameters())), "entries", termFrequencyTableVar.invoke("entrySet"));
+			JVar entriesVar = context.declare(context.genericRef(Collection.class, context.genericRef(Map.Entry.class, ((JClass)termFrequencyTableVar.type()).getTypeParameters())), "entries", termFrequencyTableVar.invoke("entrySet"));
 
 			JBlock block = context.block();
 
