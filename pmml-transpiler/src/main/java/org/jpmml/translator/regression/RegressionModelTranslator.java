@@ -36,6 +36,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
+import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -43,6 +44,7 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JForEach;
 import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
@@ -71,6 +73,8 @@ import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
+import org.jpmml.translator.JCodeModelUtil;
+import org.jpmml.translator.JDirectInitializer;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.Modifiers;
@@ -317,7 +321,9 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			Map<String, List<CategoricalPredictor>> fieldCategoricalPredictors = regressionTable.getCategoricalPredictors().stream()
 				.collect(Collectors.groupingBy(categoricalPredictor -> categoricalPredictor.requireField(), Collectors.toList()));
 
-			JBlock block = context.block();
+			JDefinedClass regressionModelFunctionInterface = ensureRegressionModelFuncInterface(context);
+
+			List<JMethod> evaluateCategoryMethods = new ArrayList<>();
 
 			JBinaryFileInitializer resourceInitializer = null;
 
@@ -356,17 +362,39 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					context.popScope();
 				}
 
-				JVar categoryValueVar = context.declare(Number.class, IdentifierUtil.create("lookup", name), createEvaluatorMethodInvocation(evaluateCategoryMethod, context));
+				evaluateCategoryMethods.add(evaluateCategoryMethod);
+			}
 
-				JBlock thenBlock = block._if(categoryValueVar.ne(JExpr._null()))._then();
+			JDirectInitializer codeInitializer = new JDirectInitializer(context);
+
+			JFieldVar categoryMethodsVar = codeInitializer.initLambdas(IdentifierUtil.create("categoryMethods", regressionTable), regressionModelFunctionInterface.narrow(ensureArgumentsType(context)), evaluateCategoryMethods);
+
+			JBlock block = context.block();
+
+			try {
+				JForLoop forLoop = block._for();
+
+				JVar loopVar = forLoop.init(context._ref(int.class), "i", JExpr.lit(0));
+				forLoop.test(loopVar.lt(JExpr.lit(evaluateCategoryMethods.size())));
+				forLoop.update(loopVar.incr());
+
+				JBlock forBlock = forLoop.body();
+
+				context.pushScope(new Scope(forBlock));
+
+				JVar addendVar = context.declare(Number.class, "addend", (categoryMethodsVar.invoke("get").arg(loopVar)).invoke("apply").arg((context.getArgumentsVariable()).getExpression()));
+
+				JBlock thenBlock =  forBlock._if(addendVar.ne(JExpr._null()))._then();
 
 				try {
 					context.pushScope(new Scope(thenBlock));
 
-					valueBuilder.update("add", categoryValueVar);
+					valueBuilder.update("add", addendVar);
 				} finally {
 					context.popScope();
 				}
+			} finally {
+				context.popScope();
 			}
 		} // End if
 
@@ -536,6 +564,32 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				context.popScope();
 			}
 		}
+	}
+
+	static
+	private JDefinedClass ensureRegressionModelFuncInterface(TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "RegressionModelFunction");
+		if(definedClazz != null){
+			return definedClazz;
+		}
+
+		try {
+			definedClazz = owner._interface("RegressionModelFunction");
+		} catch(JClassAlreadyExistsException jcaee){
+			throw new IllegalArgumentException(jcaee);
+		}
+
+		definedClazz.annotate(FunctionalInterface.class);
+
+		JTypeVar typeVar = definedClazz.generify("T");
+
+		JMethod method = definedClazz.method(Modifiers.PUBLIC_ABSTRACT, Number.class, "apply");
+
+		method.param(typeVar, "value");
+
+		return definedClazz;
 	}
 
 	static
