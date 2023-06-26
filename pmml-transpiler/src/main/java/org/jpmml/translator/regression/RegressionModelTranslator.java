@@ -36,7 +36,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
-import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -44,7 +43,6 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JForEach;
 import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
@@ -73,7 +71,6 @@ import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
-import org.jpmml.translator.JCodeModelUtil;
 import org.jpmml.translator.JDirectInitializer;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
@@ -321,7 +318,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			Map<String, List<CategoricalPredictor>> fieldCategoricalPredictors = regressionTable.getCategoricalPredictors().stream()
 				.collect(Collectors.groupingBy(categoricalPredictor -> categoricalPredictor.requireField(), Collectors.toList()));
 
-			JDefinedClass regressionModelFunctionInterface = ensureRegressionModelFuncInterface(context);
+			JDefinedClass modelFuncInterface = ensureFunctionalInterface(Number.class, context);
 
 			List<JMethod> evaluateCategoryMethods = new ArrayList<>();
 
@@ -367,7 +364,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
-			JFieldVar categoryMethodsVar = codeInitializer.initLambdas(IdentifierUtil.create("categoryMethods", regressionTable), regressionModelFunctionInterface.narrow(ensureArgumentsType(context)), evaluateCategoryMethods);
+			JFieldVar categoryMethodsVar = codeInitializer.initLambdas(IdentifierUtil.create("categoryMethods", regressionTable), modelFuncInterface, evaluateCategoryMethods);
 
 			JBlock block = context.block();
 
@@ -564,32 +561,6 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				context.popScope();
 			}
 		}
-	}
-
-	static
-	private JDefinedClass ensureRegressionModelFuncInterface(TranslationContext context){
-		JDefinedClass owner = context.getOwner();
-
-		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "RegressionModelFunction");
-		if(definedClazz != null){
-			return definedClazz;
-		}
-
-		try {
-			definedClazz = owner._interface("RegressionModelFunction");
-		} catch(JClassAlreadyExistsException jcaee){
-			throw new IllegalArgumentException(jcaee);
-		}
-
-		definedClazz.annotate(FunctionalInterface.class);
-
-		JTypeVar typeVar = definedClazz.generify("T");
-
-		JMethod method = definedClazz.method(Modifiers.PUBLIC_ABSTRACT, Number.class, "apply");
-
-		method.param(typeVar, "value");
-
-		return definedClazz;
 	}
 
 	static

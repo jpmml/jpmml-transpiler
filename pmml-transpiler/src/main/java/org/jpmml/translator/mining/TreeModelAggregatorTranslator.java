@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -36,7 +35,6 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
@@ -60,7 +58,6 @@ import org.jpmml.translator.ArrayInfoMap;
 import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
-import org.jpmml.translator.JCodeModelUtil;
 import org.jpmml.translator.JDirectInitializer;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
@@ -276,7 +273,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			pullUpDerivedFields(miningModel, treeModel);
 		}
 
-		JDefinedClass treeFunctionInterface = ensureTreeModelFuncInterface(context);
+		JDefinedClass modelFuncInterface = ensureFunctionalInterface(int.class, context);
 
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
@@ -296,7 +293,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
-		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), treeFunctionInterface.narrow(ensureArgumentsType(context)), methods);
+		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), modelFuncInterface, methods);
 
 		JBlock block = context.block();
 
@@ -445,7 +442,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			pullUpDerivedFields(miningModel, treeModel);
 		}
 
-		JDefinedClass treeModelFuncInterface = ensureTreeModelFuncInterface(context);
+		JDefinedClass modelFuncInterface = ensureFunctionalInterface(int.class, context);
 
 		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
@@ -465,7 +462,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDirectInitializer codeInitializer = new JDirectInitializer(context);
 
-		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), treeModelFuncInterface.narrow(ensureArgumentsType(context)), methods);
+		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), modelFuncInterface, methods);
 
 		JFieldVar categoriesVar = codeInitializer.initTargetCategories("targetCategories", Arrays.asList(categories));
 
@@ -522,31 +519,6 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		}
 
 		context._return(context._new(ProbabilityDistribution.class, valueMapInit));
-	}
-
-	private JDefinedClass ensureTreeModelFuncInterface(TranslationContext context){
-		JDefinedClass owner = context.getOwner();
-
-		JDefinedClass definedClazz = JCodeModelUtil.getNestedClass(owner, "TreeModelFunction");
-		if(definedClazz != null){
-			return definedClazz;
-		}
-
-		try {
-			definedClazz = owner._interface("TreeModelFunction");
-		} catch(JClassAlreadyExistsException jcaee){
-			throw new IllegalArgumentException(jcaee);
-		}
-
-		definedClazz.annotate(FunctionalInterface.class);
-
-		JTypeVar typeVar = definedClazz.generify("T");
-
-		JMethod method = definedClazz.method(Modifiers.PUBLIC_ABSTRACT, int.class, "apply");
-
-		method.param(typeVar, "value");
-
-		return definedClazz;
 	}
 
 	private <S> JMethod createEvaluatorMethod(TreeModel treeModel, Node node, Scorer<S> scorer, FieldInfoMap fieldInfos, TranslationContext context){

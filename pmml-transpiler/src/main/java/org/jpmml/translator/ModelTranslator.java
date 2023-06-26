@@ -33,6 +33,8 @@ import java.util.regex.Pattern;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
+import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -486,6 +488,32 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 		block.assign(JExpr.refthis(contextVar.name()), contextParam);
 
 		return argumentsClazz;
+	}
+
+	static
+	public JDefinedClass ensureFunctionalInterface(Class<?> returnType, TranslationContext context){
+		JDefinedClass owner = context.getOwner(JavaModel.class);
+
+		JDefinedClass funcInterface = JCodeModelUtil.getNestedClass(owner, "JavaModelFunction");
+		if(funcInterface != null){
+			return funcInterface;
+		}
+
+		try {
+			funcInterface = owner._interface("JavaModelFunction");
+		} catch(JClassAlreadyExistsException jcaee){
+			throw new IllegalArgumentException(jcaee);
+		}
+
+		funcInterface.annotate(FunctionalInterface.class);
+
+		JClass argumentsClazz = ensureArgumentsType(context);
+
+		JMethod method = funcInterface.method(Modifiers.PUBLIC_ABSTRACT, returnType, "apply");
+
+		method.param(argumentsClazz, "arguments");
+
+		return funcInterface;
 	}
 
 	static
