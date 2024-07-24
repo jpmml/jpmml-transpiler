@@ -24,16 +24,10 @@
 	</licenses>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.jpmml</groupId>
-			<artifactId>jpmml-codemodel</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jpmml</groupId>
-			<artifactId>pmml-converter</artifactId>
-		</dependency>
-
+		<!--
+		Keep the org.jpmml:pmml-evaluator dependency declaration at the top position
+		in order to inherit its transitive dependencies (esp. Guava).
+		-->
 		<dependency>
 			<groupId>org.jpmml</groupId>
 			<artifactId>pmml-evaluator</artifactId>
@@ -48,8 +42,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
+			<groupId>org.jpmml</groupId>
+			<artifactId>jpmml-codemodel</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>pmml-converter</artifactId>
 		</dependency>
 
 		<dependency>
