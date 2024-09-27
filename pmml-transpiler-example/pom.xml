@@ -44,7 +44,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>3.1.2</version>
+				<version>3.1.3</version>
 				<configuration>
 					<skip>true</skip>
 				</configuration>
@@ -74,7 +74,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>animal-sniffer-maven-plugin</artifactId>
-				<version>1.24</version>
 				<configuration>
 					<skip>true</skip>
 				</configuration>
