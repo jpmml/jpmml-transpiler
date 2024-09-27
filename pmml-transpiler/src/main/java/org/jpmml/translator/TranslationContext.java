@@ -477,6 +477,18 @@ public class TranslationContext {
 				block._return(PMMLObjectUtil.createExpression(defaultResult, this));
 			} else
 
+			if((resultMap.size() > 64) && JBinaryFileInitializer.isExternalizable(resultMap.keySet())){
+				JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)) + ".data", this);
+
+				JFieldVar mapField = resourceInitializer.initNumbersMap("map$" + System.identityHashCode(Collections.singletonList(resultMap)), (Map)resultMap);
+
+				JBlock thenBlock = block._if(mapField.invoke("containsKey").arg(valueExpr))._then();
+
+				thenBlock._return(mapField.invoke("get").arg(valueExpr));
+
+				block._return(PMMLObjectUtil.createExpression(defaultResult, this));
+			} else
+
 			{
 				boolean stringKeys = true;
 
