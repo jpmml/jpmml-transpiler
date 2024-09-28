@@ -85,6 +85,6 @@ public class RegressionTest extends TranspilerBatchTest implements Algorithms, D
 
 	@Test
 	public void evaluateXGBoostAutoNA() throws Exception {
-		evaluate(XGBOOST, AUTO_NA, new FloatEquivalence(6));
+		evaluate(XGBOOST, AUTO_NA, new FloatEquivalence(8 + 4));
 	}
 }

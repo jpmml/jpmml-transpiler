@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.91.0"/>
-		<Timestamp>2023-02-27T17:31:58Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.110.0"/>
+		<Timestamp>2024-09-28T20:33:36Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -33,10 +33,18 @@
 			<Value value="2"/>
 			<Value value="3"/>
 		</DataField>
-		<DataField name="displacement" optype="continuous" dataType="double"/>
-		<DataField name="horsepower" optype="continuous" dataType="double"/>
-		<DataField name="weight" optype="continuous" dataType="double"/>
-		<DataField name="acceleration" optype="continuous" dataType="double"/>
+		<DataField name="displacement" optype="continuous" dataType="double">
+			<Value value="NaN" property="missing"/>
+		</DataField>
+		<DataField name="horsepower" optype="continuous" dataType="double">
+			<Value value="NaN" property="missing"/>
+		</DataField>
+		<DataField name="weight" optype="continuous" dataType="double">
+			<Value value="NaN" property="missing"/>
+		</DataField>
+		<DataField name="acceleration" optype="continuous" dataType="double">
+			<Value value="NaN" property="missing"/>
+		</DataField>
 	</DataDictionary>
 	<MiningModel functionName="regression" algorithmName="LightGBM">
 		<MiningSchema>
@@ -48,12 +56,8 @@
 					<Extension name="minImportance" value="7.0"/>
 					<Extension name="maxImportance" value="105.0"/>
 					<row>
-						<data:name>acceleration</data:name>
-						<data:importance>77.0</data:importance>
-					</row>
-					<row>
-						<data:name>cylinders</data:name>
-						<data:importance>7.0</data:importance>
+						<data:name>model_year</data:name>
+						<data:importance>21.0</data:importance>
 					</row>
 					<row>
 						<data:name>weight</data:name>
@@ -68,8 +72,12 @@
 						<data:importance>100.0</data:importance>
 					</row>
 					<row>
-						<data:name>model_year</data:name>
-						<data:importance>21.0</data:importance>
+						<data:name>cylinders</data:name>
+						<data:importance>7.0</data:importance>
+					</row>
+					<row>
+						<data:name>acceleration</data:name>
+						<data:importance>77.0</data:importance>
 					</row>
 					<row>
 						<data:name>displacement</data:name>

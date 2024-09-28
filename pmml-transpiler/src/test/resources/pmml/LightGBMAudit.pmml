@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.91.0"/>
-		<Timestamp>2023-02-27T17:30:46Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.110.0"/>
+		<Timestamp>2024-09-28T20:32:31Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -137,9 +137,11 @@
 		</DataField>
 		<DataField name="Income" optype="continuous" dataType="double">
 			<Interval closure="closedClosed" leftMargin="609.72" rightMargin="481259.5"/>
+			<Value value="NaN" property="missing"/>
 		</DataField>
 		<DataField name="Hours" optype="continuous" dataType="double">
 			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="99.0"/>
+			<Value value="NaN" property="missing"/>
 		</DataField>
 	</DataDictionary>
 	<MiningModel functionName="classification" algorithmName="LightGBM">
@@ -152,16 +154,8 @@
 					<Extension name="minImportance" value="17.0"/>
 					<Extension name="maxImportance" value="1223.0"/>
 					<row>
-						<data:name>Occupation</data:name>
-						<data:importance>80.0</data:importance>
-					</row>
-					<row>
-						<data:name>Gender</data:name>
-						<data:importance>74.0</data:importance>
-					</row>
-					<row>
-						<data:name>Deductions</data:name>
-						<data:importance>39.0</data:importance>
+						<data:name>Education</data:name>
+						<data:importance>77.0</data:importance>
 					</row>
 					<row>
 						<data:name>Hours</data:name>
@@ -172,6 +166,14 @@
 						<data:importance>43.0</data:importance>
 					</row>
 					<row>
+						<data:name>Income</data:name>
+						<data:importance>1223.0</data:importance>
+					</row>
+					<row>
+						<data:name>Deductions</data:name>
+						<data:importance>39.0</data:importance>
+					</row>
+					<row>
 						<data:name>Age</data:name>
 						<data:importance>160.0</data:importance>
 					</row>
@@ -180,12 +182,12 @@
 						<data:importance>17.0</data:importance>
 					</row>
 					<row>
-						<data:name>Education</data:name>
-						<data:importance>77.0</data:importance>
+						<data:name>Occupation</data:name>
+						<data:importance>80.0</data:importance>
 					</row>
 					<row>
-						<data:name>Income</data:name>
-						<data:importance>1223.0</data:importance>
+						<data:name>Gender</data:name>
+						<data:importance>74.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>

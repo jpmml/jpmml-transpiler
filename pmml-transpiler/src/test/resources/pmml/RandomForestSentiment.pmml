@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.91.0"/>
-		<Timestamp>2023-02-27T17:31:16Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.110.0"/>
+		<Timestamp>2024-09-28T20:32:56Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Score" optype="categorical" dataType="integer">
@@ -558,57 +558,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), the)))" operator="lessOrEqual" value="1.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), excellent)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="0" recordCount="603">
+													<Node score="0" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), sound)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="330"/>
-														<ScoreDistribution value="1" recordCount="273"/>
+														<ScoreDistribution value="0" recordCount="0.5472636815920398"/>
+														<ScoreDistribution value="1" recordCount="0.4527363184079602"/>
 													</Node>
-													<Node score="1" recordCount="14">
+													<Node score="1" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="6"/>
-														<ScoreDistribution value="1" recordCount="8"/>
+														<ScoreDistribution value="0" recordCount="0.42857142857142855"/>
+														<ScoreDistribution value="1" recordCount="0.5714285714285714"/>
 													</Node>
 												</Node>
-												<Node score="1" recordCount="26">
+												<Node score="1" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="1"/>
-													<ScoreDistribution value="1" recordCount="25"/>
+													<ScoreDistribution value="0" recordCount="0.038461538461538464"/>
+													<ScoreDistribution value="1" recordCount="0.9615384615384616"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="106">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="77"/>
-												<ScoreDistribution value="1" recordCount="29"/>
+												<ScoreDistribution value="0" recordCount="0.7264150943396226"/>
+												<ScoreDistribution value="1" recordCount="0.27358490566037735"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="79">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="2"/>
-											<ScoreDistribution value="1" recordCount="77"/>
+											<ScoreDistribution value="0" recordCount="0.02531645569620253"/>
+											<ScoreDistribution value="1" recordCount="0.9746835443037974"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="88">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="24"/>
-										<ScoreDistribution value="1" recordCount="64"/>
+										<ScoreDistribution value="0" recordCount="0.2727272727272727"/>
+										<ScoreDistribution value="1" recordCount="0.7272727272727273"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="26">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="20"/>
-									<ScoreDistribution value="1" recordCount="6"/>
+									<ScoreDistribution value="0" recordCount="0.7692307692307693"/>
+									<ScoreDistribution value="1" recordCount="0.23076923076923078"/>
 								</Node>
 							</Node>
-							<Node score="0" recordCount="22">
+							<Node score="0" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="18"/>
-								<ScoreDistribution value="1" recordCount="4"/>
+								<ScoreDistribution value="0" recordCount="0.8181818181818182"/>
+								<ScoreDistribution value="1" recordCount="0.18181818181818182"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="36">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="36"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -657,61 +657,61 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), don)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), ever)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="1" recordCount="681">
+													<Node score="1" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), in)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="309"/>
-														<ScoreDistribution value="1" recordCount="372"/>
+														<ScoreDistribution value="0" recordCount="0.45374449339207046"/>
+														<ScoreDistribution value="1" recordCount="0.5462555066079295"/>
 													</Node>
-													<Node score="0" recordCount="68">
+													<Node score="0" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="41"/>
-														<ScoreDistribution value="1" recordCount="27"/>
+														<ScoreDistribution value="0" recordCount="0.6029411764705882"/>
+														<ScoreDistribution value="1" recordCount="0.39705882352941174"/>
 													</Node>
 												</Node>
-												<Node score="0" recordCount="18">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="16"/>
-													<ScoreDistribution value="1" recordCount="2"/>
+													<ScoreDistribution value="0" recordCount="0.8888888888888888"/>
+													<ScoreDistribution value="1" recordCount="0.1111111111111111"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="27">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="24"/>
-												<ScoreDistribution value="1" recordCount="3"/>
+												<ScoreDistribution value="0" recordCount="0.8888888888888888"/>
+												<ScoreDistribution value="1" recordCount="0.1111111111111111"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="29">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="10"/>
-											<ScoreDistribution value="1" recordCount="19"/>
+											<ScoreDistribution value="0" recordCount="0.3448275862068966"/>
+											<ScoreDistribution value="1" recordCount="0.6551724137931034"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="36">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="15"/>
-										<ScoreDistribution value="1" recordCount="21"/>
+										<ScoreDistribution value="0" recordCount="0.4166666666666667"/>
+										<ScoreDistribution value="1" recordCount="0.5833333333333334"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="30">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="17"/>
-									<ScoreDistribution value="1" recordCount="13"/>
+									<ScoreDistribution value="0" recordCount="0.5666666666666667"/>
+									<ScoreDistribution value="1" recordCount="0.43333333333333335"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="23">
+							<Node score="1" recordCount="1">
 								<True/>
 								<ScoreDistribution value="0" recordCount="0"/>
-								<ScoreDistribution value="1" recordCount="23"/>
+								<ScoreDistribution value="1" recordCount="1"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="76">
+						<Node score="0" recordCount="1">
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), work)))" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="65"/>
-							<ScoreDistribution value="1" recordCount="11"/>
+							<ScoreDistribution value="0" recordCount="0.8552631578947368"/>
+							<ScoreDistribution value="1" recordCount="0.14473684210526316"/>
 						</Node>
-						<Node score="0" recordCount="12">
+						<Node score="0" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="12"/>
+							<ScoreDistribution value="0" recordCount="1"/>
 							<ScoreDistribution value="1" recordCount="0"/>
 						</Node>
 					</Node>
@@ -760,57 +760,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), if)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="1" recordCount="699">
+													<Node score="1" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), well)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="348"/>
-														<ScoreDistribution value="1" recordCount="351"/>
+														<ScoreDistribution value="0" recordCount="0.4978540772532189"/>
+														<ScoreDistribution value="1" recordCount="0.5021459227467812"/>
 													</Node>
-													<Node score="1" recordCount="19">
+													<Node score="1" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="3"/>
-														<ScoreDistribution value="1" recordCount="16"/>
+														<ScoreDistribution value="0" recordCount="0.15789473684210525"/>
+														<ScoreDistribution value="1" recordCount="0.8421052631578947"/>
 													</Node>
 												</Node>
-												<Node score="1" recordCount="21">
+												<Node score="1" recordCount="1">
 													<True/>
 													<ScoreDistribution value="0" recordCount="0"/>
-													<ScoreDistribution value="1" recordCount="21"/>
+													<ScoreDistribution value="1" recordCount="1"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="24">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="20"/>
-												<ScoreDistribution value="1" recordCount="4"/>
+												<ScoreDistribution value="0" recordCount="0.8333333333333334"/>
+												<ScoreDistribution value="1" recordCount="0.16666666666666666"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="39">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="2"/>
-											<ScoreDistribution value="1" recordCount="37"/>
+											<ScoreDistribution value="0" recordCount="0.05128205128205128"/>
+											<ScoreDistribution value="1" recordCount="0.9487179487179487"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="47">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="1"/>
-										<ScoreDistribution value="1" recordCount="46"/>
+										<ScoreDistribution value="0" recordCount="0.02127659574468085"/>
+										<ScoreDistribution value="1" recordCount="0.9787234042553191"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="13">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="12"/>
-									<ScoreDistribution value="1" recordCount="1"/>
+									<ScoreDistribution value="0" recordCount="0.9230769230769231"/>
+									<ScoreDistribution value="1" recordCount="0.07692307692307693"/>
 								</Node>
 							</Node>
-							<Node score="0" recordCount="105">
+							<Node score="0" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="84"/>
-								<ScoreDistribution value="1" recordCount="21"/>
+								<ScoreDistribution value="0" recordCount="0.8"/>
+								<ScoreDistribution value="1" recordCount="0.2"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="33">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="10"/>
-							<ScoreDistribution value="1" recordCount="23"/>
+							<ScoreDistribution value="0" recordCount="0.30303030303030304"/>
+							<ScoreDistribution value="1" recordCount="0.696969696969697"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -881,62 +881,62 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), ve)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), great)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="0" recordCount="654">
+													<Node score="0" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), well)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="359"/>
-														<ScoreDistribution value="1" recordCount="295"/>
+														<ScoreDistribution value="0" recordCount="0.5489296636085627"/>
+														<ScoreDistribution value="1" recordCount="0.4510703363914373"/>
 													</Node>
-													<Node score="1" recordCount="33">
+													<Node score="1" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="4"/>
-														<ScoreDistribution value="1" recordCount="29"/>
+														<ScoreDistribution value="0" recordCount="0.12121212121212122"/>
+														<ScoreDistribution value="1" recordCount="0.8787878787878788"/>
 													</Node>
 												</Node>
-												<Node score="1" recordCount="81">
+												<Node score="1" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="3"/>
-													<ScoreDistribution value="1" recordCount="78"/>
+													<ScoreDistribution value="0" recordCount="0.037037037037037035"/>
+													<ScoreDistribution value="1" recordCount="0.9629629629629629"/>
 												</Node>
 											</Node>
-											<Node score="1" recordCount="22">
+											<Node score="1" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="3"/>
-												<ScoreDistribution value="1" recordCount="19"/>
+												<ScoreDistribution value="0" recordCount="0.13636363636363635"/>
+												<ScoreDistribution value="1" recordCount="0.8636363636363636"/>
 											</Node>
 										</Node>
-										<Node score="0" recordCount="27">
+										<Node score="0" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="17"/>
-											<ScoreDistribution value="1" recordCount="10"/>
+											<ScoreDistribution value="0" recordCount="0.6296296296296297"/>
+											<ScoreDistribution value="1" recordCount="0.37037037037037035"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="18">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="1"/>
-										<ScoreDistribution value="1" recordCount="17"/>
+										<ScoreDistribution value="0" recordCount="0.05555555555555555"/>
+										<ScoreDistribution value="1" recordCount="0.9444444444444444"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="99">
+								<Node score="0" recordCount="1">
 									<SimplePredicate field="double(float(tf(lowercase(Sentence), does not)))" operator="lessOrEqual" value="0.5"/>
-									<ScoreDistribution value="0" recordCount="90"/>
-									<ScoreDistribution value="1" recordCount="9"/>
+									<ScoreDistribution value="0" recordCount="0.9090909090909091"/>
+									<ScoreDistribution value="1" recordCount="0.09090909090909091"/>
 								</Node>
-								<Node score="0" recordCount="16">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="14"/>
-									<ScoreDistribution value="1" recordCount="2"/>
+									<ScoreDistribution value="0" recordCount="0.875"/>
+									<ScoreDistribution value="1" recordCount="0.125"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="20">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="4"/>
-								<ScoreDistribution value="1" recordCount="16"/>
+								<ScoreDistribution value="0" recordCount="0.2"/>
+								<ScoreDistribution value="1" recordCount="0.8"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="30">
+						<Node score="0" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="23"/>
-							<ScoreDistribution value="1" recordCount="7"/>
+							<ScoreDistribution value="0" recordCount="0.7666666666666667"/>
+							<ScoreDistribution value="1" recordCount="0.23333333333333334"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -975,39 +975,39 @@
 									<SimplePredicate field="double(float(tf(lowercase(Sentence), excellent)))" operator="lessOrEqual" value="0.5"/>
 									<Node>
 										<SimplePredicate field="double(float(tf(lowercase(Sentence), money)))" operator="lessOrEqual" value="0.5"/>
-										<Node score="0" recordCount="842">
+										<Node score="0" recordCount="1">
 											<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
-											<ScoreDistribution value="0" recordCount="459"/>
-											<ScoreDistribution value="1" recordCount="383"/>
+											<ScoreDistribution value="0" recordCount="0.5451306413301663"/>
+											<ScoreDistribution value="1" recordCount="0.45486935866983375"/>
 										</Node>
-										<Node score="1" recordCount="38">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="1"/>
-											<ScoreDistribution value="1" recordCount="37"/>
+											<ScoreDistribution value="0" recordCount="0.02631578947368421"/>
+											<ScoreDistribution value="1" recordCount="0.9736842105263158"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="21">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="21"/>
+										<ScoreDistribution value="0" recordCount="1"/>
 										<ScoreDistribution value="1" recordCount="0"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="29">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="2"/>
-									<ScoreDistribution value="1" recordCount="27"/>
+									<ScoreDistribution value="0" recordCount="0.06896551724137931"/>
+									<ScoreDistribution value="1" recordCount="0.9310344827586207"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="41">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="10"/>
-								<ScoreDistribution value="1" recordCount="31"/>
+								<ScoreDistribution value="0" recordCount="0.24390243902439024"/>
+								<ScoreDistribution value="1" recordCount="0.7560975609756098"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="29">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="5"/>
-							<ScoreDistribution value="1" recordCount="24"/>
+							<ScoreDistribution value="0" recordCount="0.1724137931034483"/>
+							<ScoreDistribution value="1" recordCount="0.8275862068965517"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1052,51 +1052,51 @@
 											<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
 											<Node>
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), after)))" operator="lessOrEqual" value="0.5"/>
-												<Node score="0" recordCount="838">
+												<Node score="0" recordCount="1">
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), first)))" operator="lessOrEqual" value="0.5"/>
-													<ScoreDistribution value="0" recordCount="450"/>
-													<ScoreDistribution value="1" recordCount="388"/>
+													<ScoreDistribution value="0" recordCount="0.5369928400954654"/>
+													<ScoreDistribution value="1" recordCount="0.4630071599045346"/>
 												</Node>
-												<Node score="0" recordCount="13">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="11"/>
-													<ScoreDistribution value="1" recordCount="2"/>
+													<ScoreDistribution value="0" recordCount="0.8461538461538461"/>
+													<ScoreDistribution value="1" recordCount="0.15384615384615385"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="21">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="19"/>
-												<ScoreDistribution value="1" recordCount="2"/>
+												<ScoreDistribution value="0" recordCount="0.9047619047619048"/>
+												<ScoreDistribution value="1" recordCount="0.09523809523809523"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="47">
+										<Node score="1" recordCount="1">
 											<True/>
 											<ScoreDistribution value="0" recordCount="0"/>
-											<ScoreDistribution value="1" recordCount="47"/>
+											<ScoreDistribution value="1" recordCount="1"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="17">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="5"/>
-										<ScoreDistribution value="1" recordCount="12"/>
+										<ScoreDistribution value="0" recordCount="0.29411764705882354"/>
+										<ScoreDistribution value="1" recordCount="0.7058823529411765"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="17">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="17"/>
+									<ScoreDistribution value="0" recordCount="1"/>
 									<ScoreDistribution value="1" recordCount="0"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="15">
+							<Node score="1" recordCount="1">
 								<True/>
 								<ScoreDistribution value="0" recordCount="0"/>
-								<ScoreDistribution value="1" recordCount="15"/>
+								<ScoreDistribution value="1" recordCount="1"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="32">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="32"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1109,15 +1109,15 @@
 					</MiningSchema>
 					<Node>
 						<True/>
-						<Node score="0" recordCount="905">
+						<Node score="0" recordCount="1">
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), great)))" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="504"/>
-							<ScoreDistribution value="1" recordCount="401"/>
+							<ScoreDistribution value="0" recordCount="0.5569060773480663"/>
+							<ScoreDistribution value="1" recordCount="0.4430939226519337"/>
 						</Node>
-						<Node score="1" recordCount="95">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="2"/>
-							<ScoreDistribution value="1" recordCount="93"/>
+							<ScoreDistribution value="0" recordCount="0.021052631578947368"/>
+							<ScoreDistribution value="1" recordCount="0.9789473684210527"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1159,45 +1159,45 @@
 										<SimplePredicate field="double(float(tf(lowercase(Sentence), only)))" operator="lessOrEqual" value="0.5"/>
 										<Node>
 											<SimplePredicate field="double(float(tf(lowercase(Sentence), do)))" operator="lessOrEqual" value="0.5"/>
-											<Node score="0" recordCount="656">
+											<Node score="0" recordCount="1">
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), so)))" operator="lessOrEqual" value="0.5"/>
-												<ScoreDistribution value="0" recordCount="381"/>
-												<ScoreDistribution value="1" recordCount="275"/>
+												<ScoreDistribution value="0" recordCount="0.5807926829268293"/>
+												<ScoreDistribution value="1" recordCount="0.4192073170731707"/>
 											</Node>
-											<Node score="1" recordCount="23">
+											<Node score="1" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="10"/>
-												<ScoreDistribution value="1" recordCount="13"/>
+												<ScoreDistribution value="0" recordCount="0.43478260869565216"/>
+												<ScoreDistribution value="1" recordCount="0.5652173913043478"/>
 											</Node>
 										</Node>
-										<Node score="0" recordCount="16">
+										<Node score="0" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="14"/>
-											<ScoreDistribution value="1" recordCount="2"/>
+											<ScoreDistribution value="0" recordCount="0.875"/>
+											<ScoreDistribution value="1" recordCount="0.125"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="20">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="13"/>
-										<ScoreDistribution value="1" recordCount="7"/>
+										<ScoreDistribution value="0" recordCount="0.65"/>
+										<ScoreDistribution value="1" recordCount="0.35"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="242">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="117"/>
-									<ScoreDistribution value="1" recordCount="125"/>
+									<ScoreDistribution value="0" recordCount="0.4834710743801653"/>
+									<ScoreDistribution value="1" recordCount="0.5165289256198347"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="21">
+							<Node score="1" recordCount="1">
 								<True/>
 								<ScoreDistribution value="0" recordCount="0"/>
-								<ScoreDistribution value="1" recordCount="21"/>
+								<ScoreDistribution value="1" recordCount="1"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="22">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="22"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1256,57 +1256,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="1" recordCount="570">
+													<Node score="1" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), service)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="256"/>
-														<ScoreDistribution value="1" recordCount="314"/>
+														<ScoreDistribution value="0" recordCount="0.44912280701754387"/>
+														<ScoreDistribution value="1" recordCount="0.5508771929824562"/>
 													</Node>
-													<Node score="0" recordCount="18">
+													<Node score="0" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="10"/>
-														<ScoreDistribution value="1" recordCount="8"/>
+														<ScoreDistribution value="0" recordCount="0.5555555555555556"/>
+														<ScoreDistribution value="1" recordCount="0.4444444444444444"/>
 													</Node>
 												</Node>
-												<Node score="0" recordCount="87">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="78"/>
-													<ScoreDistribution value="1" recordCount="9"/>
+													<ScoreDistribution value="0" recordCount="0.896551724137931"/>
+													<ScoreDistribution value="1" recordCount="0.10344827586206896"/>
 												</Node>
 											</Node>
-											<Node score="1" recordCount="23">
+											<Node score="1" recordCount="1">
 												<True/>
 												<ScoreDistribution value="0" recordCount="0"/>
-												<ScoreDistribution value="1" recordCount="23"/>
+												<ScoreDistribution value="1" recordCount="1"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="202">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="75"/>
-											<ScoreDistribution value="1" recordCount="127"/>
+											<ScoreDistribution value="0" recordCount="0.3712871287128713"/>
+											<ScoreDistribution value="1" recordCount="0.6287128712871287"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="35">
+									<Node score="1" recordCount="1">
 										<True/>
 										<ScoreDistribution value="0" recordCount="0"/>
-										<ScoreDistribution value="1" recordCount="35"/>
+										<ScoreDistribution value="1" recordCount="1"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="24">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="23"/>
-									<ScoreDistribution value="1" recordCount="1"/>
+									<ScoreDistribution value="0" recordCount="0.9583333333333334"/>
+									<ScoreDistribution value="1" recordCount="0.041666666666666664"/>
 								</Node>
 							</Node>
-							<Node score="0" recordCount="16">
+							<Node score="0" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="13"/>
-								<ScoreDistribution value="1" recordCount="3"/>
+								<ScoreDistribution value="0" recordCount="0.8125"/>
+								<ScoreDistribution value="1" recordCount="0.1875"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="25">
+						<Node score="0" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="24"/>
-							<ScoreDistribution value="1" recordCount="1"/>
+							<ScoreDistribution value="0" recordCount="0.96"/>
+							<ScoreDistribution value="1" recordCount="0.04"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1348,50 +1348,50 @@
 										<SimplePredicate field="double(float(tf(lowercase(Sentence), after)))" operator="lessOrEqual" value="0.5"/>
 										<Node>
 											<SimplePredicate field="double(float(tf(lowercase(Sentence), and)))" operator="lessOrEqual" value="0.5"/>
-											<Node score="0" recordCount="598">
+											<Node score="0" recordCount="1">
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), was)))" operator="lessOrEqual" value="0.5"/>
-												<ScoreDistribution value="0" recordCount="317"/>
-												<ScoreDistribution value="1" recordCount="281"/>
+												<ScoreDistribution value="0" recordCount="0.5301003344481605"/>
+												<ScoreDistribution value="1" recordCount="0.4698996655518395"/>
 											</Node>
-											<Node score="0" recordCount="41">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="30"/>
-												<ScoreDistribution value="1" recordCount="11"/>
+												<ScoreDistribution value="0" recordCount="0.7317073170731707"/>
+												<ScoreDistribution value="1" recordCount="0.2682926829268293"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="228">
+										<Node score="1" recordCount="1">
 											<SimplePredicate field="double(float(tf(lowercase(Sentence), was)))" operator="lessOrEqual" value="0.5"/>
-											<ScoreDistribution value="0" recordCount="87"/>
-											<ScoreDistribution value="1" recordCount="141"/>
+											<ScoreDistribution value="0" recordCount="0.3815789473684211"/>
+											<ScoreDistribution value="1" recordCount="0.618421052631579"/>
 										</Node>
-										<Node score="0" recordCount="22">
+										<Node score="0" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="12"/>
-											<ScoreDistribution value="1" recordCount="10"/>
+											<ScoreDistribution value="0" recordCount="0.5454545454545454"/>
+											<ScoreDistribution value="1" recordCount="0.45454545454545453"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="27">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="23"/>
-										<ScoreDistribution value="1" recordCount="4"/>
+										<ScoreDistribution value="0" recordCount="0.8518518518518519"/>
+										<ScoreDistribution value="1" recordCount="0.14814814814814814"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="44">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="11"/>
-									<ScoreDistribution value="1" recordCount="33"/>
+									<ScoreDistribution value="0" recordCount="0.25"/>
+									<ScoreDistribution value="1" recordCount="0.75"/>
 								</Node>
 							</Node>
-							<Node score="0" recordCount="17">
+							<Node score="0" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="16"/>
-								<ScoreDistribution value="1" recordCount="1"/>
+								<ScoreDistribution value="0" recordCount="0.9411764705882353"/>
+								<ScoreDistribution value="1" recordCount="0.058823529411764705"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="23">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="23"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1425,57 +1425,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), to)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), ever)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="0" recordCount="523">
+													<Node score="0" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), was)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="266"/>
-														<ScoreDistribution value="1" recordCount="257"/>
+														<ScoreDistribution value="0" recordCount="0.5086042065009561"/>
+														<ScoreDistribution value="1" recordCount="0.491395793499044"/>
 													</Node>
-													<Node score="0" recordCount="56">
+													<Node score="0" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="38"/>
-														<ScoreDistribution value="1" recordCount="18"/>
+														<ScoreDistribution value="0" recordCount="0.6785714285714286"/>
+														<ScoreDistribution value="1" recordCount="0.32142857142857145"/>
 													</Node>
 												</Node>
-												<Node score="0" recordCount="17">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="13"/>
-													<ScoreDistribution value="1" recordCount="4"/>
+													<ScoreDistribution value="0" recordCount="0.7647058823529411"/>
+													<ScoreDistribution value="1" recordCount="0.23529411764705882"/>
 												</Node>
 											</Node>
-											<Node score="1" recordCount="131">
+											<Node score="1" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="59"/>
-												<ScoreDistribution value="1" recordCount="72"/>
+												<ScoreDistribution value="0" recordCount="0.45038167938931295"/>
+												<ScoreDistribution value="1" recordCount="0.549618320610687"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="16">
+										<Node score="1" recordCount="1">
 											<True/>
 											<ScoreDistribution value="0" recordCount="0"/>
-											<ScoreDistribution value="1" recordCount="16"/>
+											<ScoreDistribution value="1" recordCount="1"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="106">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="94"/>
-										<ScoreDistribution value="1" recordCount="12"/>
+										<ScoreDistribution value="0" recordCount="0.8867924528301887"/>
+										<ScoreDistribution value="1" recordCount="0.11320754716981132"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="28">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="26"/>
-									<ScoreDistribution value="1" recordCount="2"/>
+									<ScoreDistribution value="0" recordCount="0.9285714285714286"/>
+									<ScoreDistribution value="1" recordCount="0.07142857142857142"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="83">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="9"/>
-								<ScoreDistribution value="1" recordCount="74"/>
+								<ScoreDistribution value="0" recordCount="0.10843373493975904"/>
+								<ScoreDistribution value="1" recordCount="0.891566265060241"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="40">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="40"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1506,50 +1506,50 @@
 											<SimplePredicate field="double(float(tf(lowercase(Sentence), nice)))" operator="lessOrEqual" value="0.5"/>
 											<Node>
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
-												<Node score="1" recordCount="640">
+												<Node score="1" recordCount="1">
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), after)))" operator="lessOrEqual" value="0.5"/>
-													<ScoreDistribution value="0" recordCount="294"/>
-													<ScoreDistribution value="1" recordCount="346"/>
+													<ScoreDistribution value="0" recordCount="0.459375"/>
+													<ScoreDistribution value="1" recordCount="0.540625"/>
 												</Node>
-												<Node score="0" recordCount="24">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="18"/>
-													<ScoreDistribution value="1" recordCount="6"/>
+													<ScoreDistribution value="0" recordCount="0.75"/>
+													<ScoreDistribution value="1" recordCount="0.25"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="107">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="95"/>
-												<ScoreDistribution value="1" recordCount="12"/>
+												<ScoreDistribution value="0" recordCount="0.8878504672897196"/>
+												<ScoreDistribution value="1" recordCount="0.11214953271028037"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="18">
+										<Node score="1" recordCount="1">
 											<True/>
 											<ScoreDistribution value="0" recordCount="0"/>
-											<ScoreDistribution value="1" recordCount="18"/>
+											<ScoreDistribution value="1" recordCount="1"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="82">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="7"/>
-										<ScoreDistribution value="1" recordCount="75"/>
+										<ScoreDistribution value="0" recordCount="0.08536585365853659"/>
+										<ScoreDistribution value="1" recordCount="0.9146341463414634"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="26">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="15"/>
-									<ScoreDistribution value="1" recordCount="11"/>
+									<ScoreDistribution value="0" recordCount="0.5769230769230769"/>
+									<ScoreDistribution value="1" recordCount="0.4230769230769231"/>
 								</Node>
 							</Node>
-							<Node score="0" recordCount="83">
+							<Node score="0" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="52"/>
-								<ScoreDistribution value="1" recordCount="31"/>
+								<ScoreDistribution value="0" recordCount="0.6265060240963856"/>
+								<ScoreDistribution value="1" recordCount="0.37349397590361444"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="20">
+						<Node score="0" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="20"/>
+							<ScoreDistribution value="0" recordCount="1"/>
 							<ScoreDistribution value="1" recordCount="0"/>
 						</Node>
 					</Node>
@@ -1585,62 +1585,62 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), the)))" operator="lessOrEqual" value="1.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), in)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="1" recordCount="686">
+													<Node score="1" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), money)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="315"/>
-														<ScoreDistribution value="1" recordCount="371"/>
+														<ScoreDistribution value="0" recordCount="0.45918367346938777"/>
+														<ScoreDistribution value="1" recordCount="0.5408163265306123"/>
 													</Node>
-													<Node score="0" recordCount="15">
+													<Node score="0" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="13"/>
-														<ScoreDistribution value="1" recordCount="2"/>
+														<ScoreDistribution value="0" recordCount="0.8666666666666667"/>
+														<ScoreDistribution value="1" recordCount="0.13333333333333333"/>
 													</Node>
 												</Node>
-												<Node score="0" recordCount="44">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="29"/>
-													<ScoreDistribution value="1" recordCount="15"/>
+													<ScoreDistribution value="0" recordCount="0.6590909090909091"/>
+													<ScoreDistribution value="1" recordCount="0.3409090909090909"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="70">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="43"/>
-												<ScoreDistribution value="1" recordCount="27"/>
+												<ScoreDistribution value="0" recordCount="0.6142857142857143"/>
+												<ScoreDistribution value="1" recordCount="0.38571428571428573"/>
 											</Node>
 										</Node>
-										<Node score="0" recordCount="17">
+										<Node score="0" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="14"/>
-											<ScoreDistribution value="1" recordCount="3"/>
+											<ScoreDistribution value="0" recordCount="0.8235294117647058"/>
+											<ScoreDistribution value="1" recordCount="0.17647058823529413"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="25">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="25"/>
+										<ScoreDistribution value="0" recordCount="1"/>
 										<ScoreDistribution value="1" recordCount="0"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="19">
+								<Node score="1" recordCount="1">
 									<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
-									<ScoreDistribution value="0" recordCount="7"/>
-									<ScoreDistribution value="1" recordCount="12"/>
+									<ScoreDistribution value="0" recordCount="0.3684210526315789"/>
+									<ScoreDistribution value="1" recordCount="0.631578947368421"/>
 								</Node>
-								<Node score="0" recordCount="20">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="20"/>
+									<ScoreDistribution value="0" recordCount="1"/>
 									<ScoreDistribution value="1" recordCount="0"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="15">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="1"/>
-								<ScoreDistribution value="1" recordCount="14"/>
+								<ScoreDistribution value="0" recordCount="0.06666666666666667"/>
+								<ScoreDistribution value="1" recordCount="0.9333333333333333"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="89">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="17"/>
-							<ScoreDistribution value="1" recordCount="72"/>
+							<ScoreDistribution value="0" recordCount="0.19101123595505617"/>
+							<ScoreDistribution value="1" recordCount="0.8089887640449438"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1685,66 +1685,66 @@
 										<SimplePredicate field="double(float(tf(lowercase(Sentence), do)))" operator="lessOrEqual" value="0.5"/>
 										<Node>
 											<SimplePredicate field="double(float(tf(lowercase(Sentence), price)))" operator="lessOrEqual" value="0.5"/>
-											<Node score="0" recordCount="592">
+											<Node score="0" recordCount="1">
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), me)))" operator="lessOrEqual" value="0.5"/>
-												<ScoreDistribution value="0" recordCount="327"/>
-												<ScoreDistribution value="1" recordCount="265"/>
+												<ScoreDistribution value="0" recordCount="0.5523648648648649"/>
+												<ScoreDistribution value="1" recordCount="0.44763513513513514"/>
 											</Node>
-											<Node score="0" recordCount="21">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="18"/>
-												<ScoreDistribution value="1" recordCount="3"/>
+												<ScoreDistribution value="0" recordCount="0.8571428571428571"/>
+												<ScoreDistribution value="1" recordCount="0.14285714285714285"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="19">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="2"/>
-											<ScoreDistribution value="1" recordCount="17"/>
+											<ScoreDistribution value="0" recordCount="0.10526315789473684"/>
+											<ScoreDistribution value="1" recordCount="0.8947368421052632"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="21">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="20"/>
-										<ScoreDistribution value="1" recordCount="1"/>
+										<ScoreDistribution value="0" recordCount="0.9523809523809523"/>
+										<ScoreDistribution value="1" recordCount="0.047619047619047616"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="48">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="34"/>
-									<ScoreDistribution value="1" recordCount="14"/>
+									<ScoreDistribution value="0" recordCount="0.7083333333333334"/>
+									<ScoreDistribution value="1" recordCount="0.2916666666666667"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="30">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="1"/>
-								<ScoreDistribution value="1" recordCount="29"/>
+								<ScoreDistribution value="0" recordCount="0.03333333333333333"/>
+								<ScoreDistribution value="1" recordCount="0.9666666666666667"/>
 							</Node>
 						</Node>
 						<Node>
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), is)))" operator="lessOrEqual" value="0.5"/>
 							<Node>
 								<SimplePredicate field="double(float(tf(lowercase(Sentence), to)))" operator="lessOrEqual" value="0.5"/>
-								<Node score="1" recordCount="87">
+								<Node score="1" recordCount="1">
 									<SimplePredicate field="double(float(tf(lowercase(Sentence), with)))" operator="lessOrEqual" value="0.5"/>
-									<ScoreDistribution value="0" recordCount="43"/>
-									<ScoreDistribution value="1" recordCount="44"/>
+									<ScoreDistribution value="0" recordCount="0.4942528735632184"/>
+									<ScoreDistribution value="1" recordCount="0.5057471264367817"/>
 								</Node>
-								<Node score="1" recordCount="25">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="8"/>
-									<ScoreDistribution value="1" recordCount="17"/>
+									<ScoreDistribution value="0" recordCount="0.32"/>
+									<ScoreDistribution value="1" recordCount="0.68"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="61">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="27"/>
-								<ScoreDistribution value="1" recordCount="34"/>
+								<ScoreDistribution value="0" recordCount="0.4426229508196721"/>
+								<ScoreDistribution value="1" recordCount="0.5573770491803278"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="96">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="30"/>
-							<ScoreDistribution value="1" recordCount="66"/>
+							<ScoreDistribution value="0" recordCount="0.3125"/>
+							<ScoreDistribution value="1" recordCount="0.6875"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1757,15 +1757,15 @@
 					</MiningSchema>
 					<Node>
 						<True/>
-						<Node score="1" recordCount="908">
+						<Node score="1" recordCount="1">
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), the)))" operator="lessOrEqual" value="1.5"/>
-							<ScoreDistribution value="0" recordCount="409"/>
-							<ScoreDistribution value="1" recordCount="499"/>
+							<ScoreDistribution value="0" recordCount="0.45044052863436124"/>
+							<ScoreDistribution value="1" recordCount="0.5495594713656388"/>
 						</Node>
-						<Node score="0" recordCount="92">
+						<Node score="0" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="58"/>
-							<ScoreDistribution value="1" recordCount="34"/>
+							<ScoreDistribution value="0" recordCount="0.6304347826086957"/>
+							<ScoreDistribution value="1" recordCount="0.3695652173913043"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1813,57 +1813,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), out)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), of)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="1" recordCount="652">
+													<Node score="1" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), not)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="312"/>
-														<ScoreDistribution value="1" recordCount="340"/>
+														<ScoreDistribution value="0" recordCount="0.4785276073619632"/>
+														<ScoreDistribution value="1" recordCount="0.5214723926380368"/>
 													</Node>
-													<Node score="0" recordCount="83">
+													<Node score="0" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="77"/>
-														<ScoreDistribution value="1" recordCount="6"/>
+														<ScoreDistribution value="0" recordCount="0.927710843373494"/>
+														<ScoreDistribution value="1" recordCount="0.07228915662650602"/>
 													</Node>
 												</Node>
-												<Node score="0" recordCount="80">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="52"/>
-													<ScoreDistribution value="1" recordCount="28"/>
+													<ScoreDistribution value="0" recordCount="0.65"/>
+													<ScoreDistribution value="1" recordCount="0.35"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="18">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="17"/>
-												<ScoreDistribution value="1" recordCount="1"/>
+												<ScoreDistribution value="0" recordCount="0.9444444444444444"/>
+												<ScoreDistribution value="1" recordCount="0.05555555555555555"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="50">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="18"/>
-											<ScoreDistribution value="1" recordCount="32"/>
+											<ScoreDistribution value="0" recordCount="0.36"/>
+											<ScoreDistribution value="1" recordCount="0.64"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="46">
+									<Node score="1" recordCount="1">
 										<True/>
 										<ScoreDistribution value="0" recordCount="0"/>
-										<ScoreDistribution value="1" recordCount="46"/>
+										<ScoreDistribution value="1" recordCount="1"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="28">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="4"/>
-									<ScoreDistribution value="1" recordCount="24"/>
+									<ScoreDistribution value="0" recordCount="0.14285714285714285"/>
+									<ScoreDistribution value="1" recordCount="0.8571428571428571"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="18">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="1"/>
-								<ScoreDistribution value="1" recordCount="17"/>
+								<ScoreDistribution value="0" recordCount="0.05555555555555555"/>
+								<ScoreDistribution value="1" recordCount="0.9444444444444444"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="25">
+						<Node score="0" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="23"/>
-							<ScoreDistribution value="1" recordCount="2"/>
+							<ScoreDistribution value="0" recordCount="0.92"/>
+							<ScoreDistribution value="1" recordCount="0.08"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1876,15 +1876,15 @@
 					</MiningSchema>
 					<Node>
 						<True/>
-						<Node score="0" recordCount="976">
+						<Node score="0" recordCount="1">
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), is great)))" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="520"/>
-							<ScoreDistribution value="1" recordCount="456"/>
+							<ScoreDistribution value="0" recordCount="0.5327868852459017"/>
+							<ScoreDistribution value="1" recordCount="0.4672131147540984"/>
 						</Node>
-						<Node score="1" recordCount="24">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="24"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1897,15 +1897,15 @@
 					</MiningSchema>
 					<Node>
 						<True/>
-						<Node score="0" recordCount="967">
+						<Node score="0" recordCount="1">
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), price)))" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="493"/>
-							<ScoreDistribution value="1" recordCount="474"/>
+							<ScoreDistribution value="0" recordCount="0.5098241985522234"/>
+							<ScoreDistribution value="1" recordCount="0.4901758014477766"/>
 						</Node>
-						<Node score="1" recordCount="33">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="33"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -1986,57 +1986,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), easy to)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), in my)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="0" recordCount="832">
+													<Node score="0" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), at)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="451"/>
-														<ScoreDistribution value="1" recordCount="381"/>
+														<ScoreDistribution value="0" recordCount="0.5420673076923077"/>
+														<ScoreDistribution value="1" recordCount="0.4579326923076923"/>
 													</Node>
-													<Node score="0" recordCount="19">
+													<Node score="0" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="16"/>
-														<ScoreDistribution value="1" recordCount="3"/>
+														<ScoreDistribution value="0" recordCount="0.8421052631578947"/>
+														<ScoreDistribution value="1" recordCount="0.15789473684210525"/>
 													</Node>
 												</Node>
-												<Node score="0" recordCount="16">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="15"/>
-													<ScoreDistribution value="1" recordCount="1"/>
+													<ScoreDistribution value="0" recordCount="0.9375"/>
+													<ScoreDistribution value="1" recordCount="0.0625"/>
 												</Node>
 											</Node>
-											<Node score="1" recordCount="19">
+											<Node score="1" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="2"/>
-												<ScoreDistribution value="1" recordCount="17"/>
+												<ScoreDistribution value="0" recordCount="0.10526315789473684"/>
+												<ScoreDistribution value="1" recordCount="0.8947368421052632"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="37">
+										<Node score="1" recordCount="1">
 											<True/>
 											<ScoreDistribution value="0" recordCount="0"/>
-											<ScoreDistribution value="1" recordCount="37"/>
+											<ScoreDistribution value="1" recordCount="1"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="18">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="1"/>
-										<ScoreDistribution value="1" recordCount="17"/>
+										<ScoreDistribution value="0" recordCount="0.05555555555555555"/>
+										<ScoreDistribution value="1" recordCount="0.9444444444444444"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="16">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="1"/>
-									<ScoreDistribution value="1" recordCount="15"/>
+									<ScoreDistribution value="0" recordCount="0.0625"/>
+									<ScoreDistribution value="1" recordCount="0.9375"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="21">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="5"/>
-								<ScoreDistribution value="1" recordCount="16"/>
+								<ScoreDistribution value="0" recordCount="0.23809523809523808"/>
+								<ScoreDistribution value="1" recordCount="0.7619047619047619"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="22">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="22"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2071,62 +2071,62 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), excellent)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), was)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="0" recordCount="712">
+													<Node score="0" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="392"/>
-														<ScoreDistribution value="1" recordCount="320"/>
+														<ScoreDistribution value="0" recordCount="0.550561797752809"/>
+														<ScoreDistribution value="1" recordCount="0.449438202247191"/>
 													</Node>
-													<Node score="1" recordCount="27">
+													<Node score="1" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="1"/>
-														<ScoreDistribution value="1" recordCount="26"/>
+														<ScoreDistribution value="0" recordCount="0.037037037037037035"/>
+														<ScoreDistribution value="1" recordCount="0.9629629629629629"/>
 													</Node>
 												</Node>
-												<Node score="0" recordCount="51">
+												<Node score="0" recordCount="1">
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), to)))" operator="lessOrEqual" value="0.5"/>
-													<ScoreDistribution value="0" recordCount="37"/>
-													<ScoreDistribution value="1" recordCount="14"/>
+													<ScoreDistribution value="0" recordCount="0.7254901960784313"/>
+													<ScoreDistribution value="1" recordCount="0.27450980392156865"/>
 												</Node>
-												<Node score="0" recordCount="14">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="7"/>
-													<ScoreDistribution value="1" recordCount="7"/>
+													<ScoreDistribution value="0" recordCount="0.5"/>
+													<ScoreDistribution value="1" recordCount="0.5"/>
 												</Node>
 											</Node>
-											<Node score="1" recordCount="25">
+											<Node score="1" recordCount="1">
 												<True/>
 												<ScoreDistribution value="0" recordCount="0"/>
-												<ScoreDistribution value="1" recordCount="25"/>
+												<ScoreDistribution value="1" recordCount="1"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="33">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="6"/>
-											<ScoreDistribution value="1" recordCount="27"/>
+											<ScoreDistribution value="0" recordCount="0.18181818181818182"/>
+											<ScoreDistribution value="1" recordCount="0.8181818181818182"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="16">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="1"/>
-										<ScoreDistribution value="1" recordCount="15"/>
+										<ScoreDistribution value="0" recordCount="0.0625"/>
+										<ScoreDistribution value="1" recordCount="0.9375"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="15">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="15"/>
+									<ScoreDistribution value="0" recordCount="1"/>
 									<ScoreDistribution value="1" recordCount="0"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="23">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="5"/>
-								<ScoreDistribution value="1" recordCount="18"/>
+								<ScoreDistribution value="0" recordCount="0.21739130434782608"/>
+								<ScoreDistribution value="1" recordCount="0.782608695652174"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="84">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="13"/>
-							<ScoreDistribution value="1" recordCount="71"/>
+							<ScoreDistribution value="0" recordCount="0.15476190476190477"/>
+							<ScoreDistribution value="1" recordCount="0.8452380952380952"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2142,21 +2142,21 @@
 						<True/>
 						<Node>
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), very)))" operator="lessOrEqual" value="0.5"/>
-							<Node score="0" recordCount="884">
+							<Node score="0" recordCount="1">
 								<SimplePredicate field="double(float(tf(lowercase(Sentence), sound)))" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="477"/>
-								<ScoreDistribution value="1" recordCount="407"/>
+								<ScoreDistribution value="0" recordCount="0.5395927601809954"/>
+								<ScoreDistribution value="1" recordCount="0.4604072398190045"/>
 							</Node>
-							<Node score="1" recordCount="23">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="9"/>
-								<ScoreDistribution value="1" recordCount="14"/>
+								<ScoreDistribution value="0" recordCount="0.391304347826087"/>
+								<ScoreDistribution value="1" recordCount="0.6086956521739131"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="93">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="26"/>
-							<ScoreDistribution value="1" recordCount="67"/>
+							<ScoreDistribution value="0" recordCount="0.27956989247311825"/>
+							<ScoreDistribution value="1" recordCount="0.7204301075268817"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2181,39 +2181,39 @@
 									<SimplePredicate field="double(float(tf(lowercase(Sentence), great)))" operator="lessOrEqual" value="0.5"/>
 									<Node>
 										<SimplePredicate field="double(float(tf(lowercase(Sentence), the phone)))" operator="lessOrEqual" value="0.5"/>
-										<Node score="0" recordCount="806">
+										<Node score="0" recordCount="1">
 											<SimplePredicate field="double(float(tf(lowercase(Sentence), does not)))" operator="lessOrEqual" value="0.5"/>
-											<ScoreDistribution value="0" recordCount="412"/>
-											<ScoreDistribution value="1" recordCount="394"/>
+											<ScoreDistribution value="0" recordCount="0.511166253101737"/>
+											<ScoreDistribution value="1" recordCount="0.48883374689826303"/>
 										</Node>
-										<Node score="0" recordCount="19">
+										<Node score="0" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="18"/>
-											<ScoreDistribution value="1" recordCount="1"/>
+											<ScoreDistribution value="0" recordCount="0.9473684210526315"/>
+											<ScoreDistribution value="1" recordCount="0.05263157894736842"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="30">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="21"/>
-										<ScoreDistribution value="1" recordCount="9"/>
+										<ScoreDistribution value="0" recordCount="0.7"/>
+										<ScoreDistribution value="1" recordCount="0.3"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="90">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="9"/>
-									<ScoreDistribution value="1" recordCount="81"/>
+									<ScoreDistribution value="0" recordCount="0.1"/>
+									<ScoreDistribution value="1" recordCount="0.9"/>
 								</Node>
 							</Node>
-							<Node score="0" recordCount="28">
+							<Node score="0" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="22"/>
-								<ScoreDistribution value="1" recordCount="6"/>
+								<ScoreDistribution value="0" recordCount="0.7857142857142857"/>
+								<ScoreDistribution value="1" recordCount="0.21428571428571427"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="27">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="27"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2258,51 +2258,51 @@
 											<SimplePredicate field="double(float(tf(lowercase(Sentence), nice)))" operator="lessOrEqual" value="0.5"/>
 											<Node>
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), don)))" operator="lessOrEqual" value="0.5"/>
-												<Node score="1" recordCount="827">
+												<Node score="1" recordCount="1">
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), easy)))" operator="lessOrEqual" value="0.5"/>
-													<ScoreDistribution value="0" recordCount="412"/>
-													<ScoreDistribution value="1" recordCount="415"/>
+													<ScoreDistribution value="0" recordCount="0.49818621523579204"/>
+													<ScoreDistribution value="1" recordCount="0.501813784764208"/>
 												</Node>
-												<Node score="1" recordCount="24">
+												<Node score="1" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="5"/>
-													<ScoreDistribution value="1" recordCount="19"/>
+													<ScoreDistribution value="0" recordCount="0.20833333333333334"/>
+													<ScoreDistribution value="1" recordCount="0.7916666666666666"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="35">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="29"/>
-												<ScoreDistribution value="1" recordCount="6"/>
+												<ScoreDistribution value="0" recordCount="0.8285714285714286"/>
+												<ScoreDistribution value="1" recordCount="0.17142857142857143"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="15">
+										<Node score="1" recordCount="1">
 											<True/>
 											<ScoreDistribution value="0" recordCount="0"/>
-											<ScoreDistribution value="1" recordCount="15"/>
+											<ScoreDistribution value="1" recordCount="1"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="25">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="17"/>
-										<ScoreDistribution value="1" recordCount="8"/>
+										<ScoreDistribution value="0" recordCount="0.68"/>
+										<ScoreDistribution value="1" recordCount="0.32"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="33">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="2"/>
-									<ScoreDistribution value="1" recordCount="31"/>
+									<ScoreDistribution value="0" recordCount="0.06060606060606061"/>
+									<ScoreDistribution value="1" recordCount="0.9393939393939394"/>
 								</Node>
 							</Node>
-							<Node score="0" recordCount="22">
+							<Node score="0" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="17"/>
-								<ScoreDistribution value="1" recordCount="5"/>
+								<ScoreDistribution value="0" recordCount="0.7727272727272727"/>
+								<ScoreDistribution value="1" recordCount="0.22727272727272727"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="19">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="1"/>
-							<ScoreDistribution value="1" recordCount="18"/>
+							<ScoreDistribution value="0" recordCount="0.05263157894736842"/>
+							<ScoreDistribution value="1" recordCount="0.9473684210526315"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2338,33 +2338,33 @@
 								<SimplePredicate field="double(float(tf(lowercase(Sentence), great)))" operator="lessOrEqual" value="0.5"/>
 								<Node>
 									<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
-									<Node score="0" recordCount="849">
+									<Node score="0" recordCount="1">
 										<SimplePredicate field="double(float(tf(lowercase(Sentence), and it)))" operator="lessOrEqual" value="0.5"/>
-										<ScoreDistribution value="0" recordCount="517"/>
-										<ScoreDistribution value="1" recordCount="332"/>
+										<ScoreDistribution value="0" recordCount="0.6089517078916372"/>
+										<ScoreDistribution value="1" recordCount="0.3910482921083628"/>
 									</Node>
-									<Node score="1" recordCount="19">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="9"/>
-										<ScoreDistribution value="1" recordCount="10"/>
+										<ScoreDistribution value="0" recordCount="0.47368421052631576"/>
+										<ScoreDistribution value="1" recordCount="0.5263157894736842"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="21">
+								<Node score="1" recordCount="1">
 									<True/>
 									<ScoreDistribution value="0" recordCount="0"/>
-									<ScoreDistribution value="1" recordCount="21"/>
+									<ScoreDistribution value="1" recordCount="1"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="92">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="2"/>
-								<ScoreDistribution value="1" recordCount="90"/>
+								<ScoreDistribution value="0" recordCount="0.021739130434782608"/>
+								<ScoreDistribution value="1" recordCount="0.9782608695652174"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="19">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="4"/>
-							<ScoreDistribution value="1" recordCount="15"/>
+							<ScoreDistribution value="0" recordCount="0.21052631578947367"/>
+							<ScoreDistribution value="1" recordCount="0.7894736842105263"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2412,57 +2412,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), me)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), very)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="1" recordCount="658">
+													<Node score="1" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), doesn)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="323"/>
-														<ScoreDistribution value="1" recordCount="335"/>
+														<ScoreDistribution value="0" recordCount="0.4908814589665654"/>
+														<ScoreDistribution value="1" recordCount="0.5091185410334347"/>
 													</Node>
-													<Node score="0" recordCount="14">
+													<Node score="0" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="14"/>
+														<ScoreDistribution value="0" recordCount="1"/>
 														<ScoreDistribution value="1" recordCount="0"/>
 													</Node>
 												</Node>
-												<Node score="1" recordCount="74">
+												<Node score="1" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="18"/>
-													<ScoreDistribution value="1" recordCount="56"/>
+													<ScoreDistribution value="0" recordCount="0.24324324324324326"/>
+													<ScoreDistribution value="1" recordCount="0.7567567567567568"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="16">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="11"/>
-												<ScoreDistribution value="1" recordCount="5"/>
+												<ScoreDistribution value="0" recordCount="0.6875"/>
+												<ScoreDistribution value="1" recordCount="0.3125"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="20">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="1"/>
-											<ScoreDistribution value="1" recordCount="19"/>
+											<ScoreDistribution value="0" recordCount="0.05"/>
+											<ScoreDistribution value="1" recordCount="0.95"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="117">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="108"/>
-										<ScoreDistribution value="1" recordCount="9"/>
+										<ScoreDistribution value="0" recordCount="0.9230769230769231"/>
+										<ScoreDistribution value="1" recordCount="0.07692307692307693"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="59">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="16"/>
-									<ScoreDistribution value="1" recordCount="43"/>
+									<ScoreDistribution value="0" recordCount="0.2711864406779661"/>
+									<ScoreDistribution value="1" recordCount="0.7288135593220338"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="26">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="3"/>
-								<ScoreDistribution value="1" recordCount="23"/>
+								<ScoreDistribution value="0" recordCount="0.11538461538461539"/>
+								<ScoreDistribution value="1" recordCount="0.8846153846153846"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="16">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="1"/>
-							<ScoreDistribution value="1" recordCount="15"/>
+							<ScoreDistribution value="0" recordCount="0.0625"/>
+							<ScoreDistribution value="1" recordCount="0.9375"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2510,57 +2510,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), love)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), first)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="1" recordCount="738">
+													<Node score="1" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="361"/>
-														<ScoreDistribution value="1" recordCount="377"/>
+														<ScoreDistribution value="0" recordCount="0.489159891598916"/>
+														<ScoreDistribution value="1" recordCount="0.510840108401084"/>
 													</Node>
-													<Node score="1" recordCount="50">
+													<Node score="1" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="1"/>
-														<ScoreDistribution value="1" recordCount="49"/>
+														<ScoreDistribution value="0" recordCount="0.02"/>
+														<ScoreDistribution value="1" recordCount="0.98"/>
 													</Node>
 												</Node>
-												<Node score="0" recordCount="14">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="12"/>
-													<ScoreDistribution value="1" recordCount="2"/>
+													<ScoreDistribution value="0" recordCount="0.8571428571428571"/>
+													<ScoreDistribution value="1" recordCount="0.14285714285714285"/>
 												</Node>
 											</Node>
-											<Node score="1" recordCount="15">
+											<Node score="1" recordCount="1">
 												<True/>
 												<ScoreDistribution value="0" recordCount="0"/>
-												<ScoreDistribution value="1" recordCount="15"/>
+												<ScoreDistribution value="1" recordCount="1"/>
 											</Node>
 										</Node>
-										<Node score="0" recordCount="99">
+										<Node score="0" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="86"/>
-											<ScoreDistribution value="1" recordCount="13"/>
+											<ScoreDistribution value="0" recordCount="0.8686868686868687"/>
+											<ScoreDistribution value="1" recordCount="0.13131313131313133"/>
 										</Node>
 									</Node>
-									<Node score="0" recordCount="23">
+									<Node score="0" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="17"/>
-										<ScoreDistribution value="1" recordCount="6"/>
+										<ScoreDistribution value="0" recordCount="0.7391304347826086"/>
+										<ScoreDistribution value="1" recordCount="0.2608695652173913"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="24">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="6"/>
-									<ScoreDistribution value="1" recordCount="18"/>
+									<ScoreDistribution value="0" recordCount="0.25"/>
+									<ScoreDistribution value="1" recordCount="0.75"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="13">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="3"/>
-								<ScoreDistribution value="1" recordCount="10"/>
+								<ScoreDistribution value="0" recordCount="0.23076923076923078"/>
+								<ScoreDistribution value="1" recordCount="0.7692307692307693"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="24">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="2"/>
-							<ScoreDistribution value="1" recordCount="22"/>
+							<ScoreDistribution value="0" recordCount="0.08333333333333333"/>
+							<ScoreDistribution value="1" recordCount="0.9166666666666666"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2619,57 +2619,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), good)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), first)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="0" recordCount="739">
+													<Node score="0" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), will)))" operator="lessOrEqual" value="0.5"/>
-														<ScoreDistribution value="0" recordCount="410"/>
-														<ScoreDistribution value="1" recordCount="329"/>
+														<ScoreDistribution value="0" recordCount="0.5548037889039242"/>
+														<ScoreDistribution value="1" recordCount="0.44519621109607577"/>
 													</Node>
-													<Node score="0" recordCount="14">
+													<Node score="0" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="12"/>
-														<ScoreDistribution value="1" recordCount="2"/>
+														<ScoreDistribution value="0" recordCount="0.8571428571428571"/>
+														<ScoreDistribution value="1" recordCount="0.14285714285714285"/>
 													</Node>
 												</Node>
-												<Node score="0" recordCount="14">
+												<Node score="0" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="14"/>
+													<ScoreDistribution value="0" recordCount="1"/>
 													<ScoreDistribution value="1" recordCount="0"/>
 												</Node>
 											</Node>
-											<Node score="1" recordCount="45">
+											<Node score="1" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="18"/>
-												<ScoreDistribution value="1" recordCount="27"/>
+												<ScoreDistribution value="0" recordCount="0.4"/>
+												<ScoreDistribution value="1" recordCount="0.6"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="26">
+										<Node score="1" recordCount="1">
 											<True/>
 											<ScoreDistribution value="0" recordCount="0"/>
-											<ScoreDistribution value="1" recordCount="26"/>
+											<ScoreDistribution value="1" recordCount="1"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="96">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="36"/>
-										<ScoreDistribution value="1" recordCount="60"/>
+										<ScoreDistribution value="0" recordCount="0.375"/>
+										<ScoreDistribution value="1" recordCount="0.625"/>
 									</Node>
 								</Node>
-								<Node score="1" recordCount="16">
+								<Node score="1" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="2"/>
-									<ScoreDistribution value="1" recordCount="14"/>
+									<ScoreDistribution value="0" recordCount="0.125"/>
+									<ScoreDistribution value="1" recordCount="0.875"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="30">
+							<Node score="1" recordCount="1">
 								<True/>
 								<ScoreDistribution value="0" recordCount="0"/>
-								<ScoreDistribution value="1" recordCount="30"/>
+								<ScoreDistribution value="1" recordCount="1"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="20">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="20"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2704,37 +2704,37 @@
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), works)))" operator="lessOrEqual" value="0.5"/>
 							<Node>
 								<SimplePredicate field="double(float(tf(lowercase(Sentence), is)))" operator="lessOrEqual" value="0.5"/>
-								<Node score="0" recordCount="730">
+								<Node score="0" recordCount="1">
 									<SimplePredicate field="double(float(tf(lowercase(Sentence), ever)))" operator="lessOrEqual" value="0.5"/>
-									<ScoreDistribution value="0" recordCount="397"/>
-									<ScoreDistribution value="1" recordCount="333"/>
+									<ScoreDistribution value="0" recordCount="0.5438356164383562"/>
+									<ScoreDistribution value="1" recordCount="0.45616438356164385"/>
 								</Node>
-								<Node score="0" recordCount="15">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="12"/>
-									<ScoreDistribution value="1" recordCount="3"/>
+									<ScoreDistribution value="0" recordCount="0.8"/>
+									<ScoreDistribution value="1" recordCount="0.2"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="167">
+							<Node score="1" recordCount="1">
 								<SimplePredicate field="double(float(tf(lowercase(Sentence), that)))" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="59"/>
-								<ScoreDistribution value="1" recordCount="108"/>
+								<ScoreDistribution value="0" recordCount="0.3532934131736527"/>
+								<ScoreDistribution value="1" recordCount="0.6467065868263473"/>
 							</Node>
-							<Node score="0" recordCount="37">
+							<Node score="0" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="21"/>
-								<ScoreDistribution value="1" recordCount="16"/>
+								<ScoreDistribution value="0" recordCount="0.5675675675675675"/>
+								<ScoreDistribution value="1" recordCount="0.43243243243243246"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="34">
+						<Node score="1" recordCount="1">
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), works great)))" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="1"/>
-							<ScoreDistribution value="1" recordCount="33"/>
+							<ScoreDistribution value="0" recordCount="0.029411764705882353"/>
+							<ScoreDistribution value="1" recordCount="0.9705882352941176"/>
 						</Node>
-						<Node score="1" recordCount="17">
+						<Node score="1" recordCount="1">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="17"/>
+							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2750,21 +2750,21 @@
 						<True/>
 						<Node>
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), very)))" operator="lessOrEqual" value="0.5"/>
-							<Node score="1" recordCount="864">
+							<Node score="1" recordCount="1">
 								<SimplePredicate field="double(float(tf(lowercase(Sentence), at)))" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="429"/>
-								<ScoreDistribution value="1" recordCount="435"/>
+								<ScoreDistribution value="0" recordCount="0.4965277777777778"/>
+								<ScoreDistribution value="1" recordCount="0.5034722222222222"/>
 							</Node>
-							<Node score="0" recordCount="23">
+							<Node score="0" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="17"/>
-								<ScoreDistribution value="1" recordCount="6"/>
+								<ScoreDistribution value="0" recordCount="0.7391304347826086"/>
+								<ScoreDistribution value="1" recordCount="0.2608695652173913"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="113">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="32"/>
-							<ScoreDistribution value="1" recordCount="81"/>
+							<ScoreDistribution value="0" recordCount="0.2831858407079646"/>
+							<ScoreDistribution value="1" recordCount="0.7168141592920354"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2823,57 +2823,57 @@
 												<SimplePredicate field="double(float(tf(lowercase(Sentence), then)))" operator="lessOrEqual" value="0.5"/>
 												<Node>
 													<SimplePredicate field="double(float(tf(lowercase(Sentence), easy)))" operator="lessOrEqual" value="0.5"/>
-													<Node score="0" recordCount="628">
+													<Node score="0" recordCount="1">
 														<SimplePredicate field="double(float(tf(lowercase(Sentence), the)))" operator="lessOrEqual" value="1.5"/>
-														<ScoreDistribution value="0" recordCount="320"/>
-														<ScoreDistribution value="1" recordCount="308"/>
+														<ScoreDistribution value="0" recordCount="0.5095541401273885"/>
+														<ScoreDistribution value="1" recordCount="0.49044585987261147"/>
 													</Node>
-													<Node score="0" recordCount="53">
+													<Node score="0" recordCount="1">
 														<True/>
-														<ScoreDistribution value="0" recordCount="36"/>
-														<ScoreDistribution value="1" recordCount="17"/>
+														<ScoreDistribution value="0" recordCount="0.6792452830188679"/>
+														<ScoreDistribution value="1" recordCount="0.32075471698113206"/>
 													</Node>
 												</Node>
-												<Node score="1" recordCount="13">
+												<Node score="1" recordCount="1">
 													<True/>
-													<ScoreDistribution value="0" recordCount="3"/>
-													<ScoreDistribution value="1" recordCount="10"/>
+													<ScoreDistribution value="0" recordCount="0.23076923076923078"/>
+													<ScoreDistribution value="1" recordCount="0.7692307692307693"/>
 												</Node>
 											</Node>
-											<Node score="0" recordCount="25">
+											<Node score="0" recordCount="1">
 												<True/>
-												<ScoreDistribution value="0" recordCount="21"/>
-												<ScoreDistribution value="1" recordCount="4"/>
+												<ScoreDistribution value="0" recordCount="0.84"/>
+												<ScoreDistribution value="1" recordCount="0.16"/>
 											</Node>
 										</Node>
-										<Node score="1" recordCount="28">
+										<Node score="1" recordCount="1">
 											<True/>
-											<ScoreDistribution value="0" recordCount="2"/>
-											<ScoreDistribution value="1" recordCount="26"/>
+											<ScoreDistribution value="0" recordCount="0.07142857142857142"/>
+											<ScoreDistribution value="1" recordCount="0.9285714285714286"/>
 										</Node>
 									</Node>
-									<Node score="1" recordCount="176">
+									<Node score="1" recordCount="1">
 										<True/>
-										<ScoreDistribution value="0" recordCount="85"/>
-										<ScoreDistribution value="1" recordCount="91"/>
+										<ScoreDistribution value="0" recordCount="0.48295454545454547"/>
+										<ScoreDistribution value="1" recordCount="0.5170454545454546"/>
 									</Node>
 								</Node>
-								<Node score="0" recordCount="22">
+								<Node score="0" recordCount="1">
 									<True/>
-									<ScoreDistribution value="0" recordCount="15"/>
-									<ScoreDistribution value="1" recordCount="7"/>
+									<ScoreDistribution value="0" recordCount="0.6818181818181818"/>
+									<ScoreDistribution value="1" recordCount="0.3181818181818182"/>
 								</Node>
 							</Node>
-							<Node score="1" recordCount="25">
+							<Node score="1" recordCount="1">
 								<True/>
-								<ScoreDistribution value="0" recordCount="2"/>
-								<ScoreDistribution value="1" recordCount="23"/>
+								<ScoreDistribution value="0" recordCount="0.08"/>
+								<ScoreDistribution value="1" recordCount="0.92"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="30">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="10"/>
-							<ScoreDistribution value="1" recordCount="20"/>
+							<ScoreDistribution value="0" recordCount="0.3333333333333333"/>
+							<ScoreDistribution value="1" recordCount="0.6666666666666666"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -2886,15 +2886,15 @@
 					</MiningSchema>
 					<Node>
 						<True/>
-						<Node score="0" recordCount="972">
+						<Node score="0" recordCount="1">
 							<SimplePredicate field="double(float(tf(lowercase(Sentence), and the)))" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="519"/>
-							<ScoreDistribution value="1" recordCount="453"/>
+							<ScoreDistribution value="0" recordCount="0.5339506172839507"/>
+							<ScoreDistribution value="1" recordCount="0.4660493827160494"/>
 						</Node>
-						<Node score="1" recordCount="28">
+						<Node score="1" recordCount="1">
 							<True/>
-							<ScoreDistribution value="0" recordCount="9"/>
-							<ScoreDistribution value="1" recordCount="19"/>
+							<ScoreDistribution value="0" recordCount="0.32142857142857145"/>
+							<ScoreDistribution value="1" recordCount="0.6785714285714286"/>
 						</Node>
 					</Node>
 				</TreeModel>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.91.0"/>
-		<Timestamp>2023-02-27T17:31:25Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.110.0"/>
+		<Timestamp>2024-09-28T20:33:04Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -12,15 +12,19 @@
 		</DataField>
 		<DataField name="Sepal.Length" optype="continuous" dataType="double">
 			<Interval closure="closedClosed" leftMargin="4.3" rightMargin="7.9"/>
+			<Value value="NaN" property="missing"/>
 		</DataField>
 		<DataField name="Sepal.Width" optype="continuous" dataType="double">
 			<Interval closure="closedClosed" leftMargin="2.0" rightMargin="4.4"/>
+			<Value value="NaN" property="missing"/>
 		</DataField>
 		<DataField name="Petal.Length" optype="continuous" dataType="double">
 			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="6.9"/>
+			<Value value="NaN" property="missing"/>
 		</DataField>
 		<DataField name="Petal.Width" optype="continuous" dataType="double">
 			<Interval closure="closedClosed" leftMargin="0.1" rightMargin="2.5"/>
+			<Value value="NaN" property="missing"/>
 		</DataField>
 	</DataDictionary>
 	<MiningModel functionName="classification" algorithmName="LightGBM">
@@ -33,20 +37,20 @@
 					<Extension name="minImportance" value="10.0"/>
 					<Extension name="maxImportance" value="88.0"/>
 					<row>
-						<data:name>Sepal.Width</data:name>
-						<data:importance>16.0</data:importance>
-					</row>
-					<row>
-						<data:name>Petal.Length</data:name>
-						<data:importance>88.0</data:importance>
+						<data:name>Sepal.Length</data:name>
+						<data:importance>10.0</data:importance>
 					</row>
 					<row>
 						<data:name>Petal.Width</data:name>
 						<data:importance>38.0</data:importance>
 					</row>
 					<row>
-						<data:name>Sepal.Length</data:name>
-						<data:importance>10.0</data:importance>
+						<data:name>Sepal.Width</data:name>
+						<data:importance>16.0</data:importance>
+					</row>
+					<row>
+						<data:name>Petal.Length</data:name>
+						<data:importance>88.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>

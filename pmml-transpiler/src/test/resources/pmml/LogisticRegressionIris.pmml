@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.91.0"/>
-		<Timestamp>2023-02-27T17:31:27Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.110.0"/>
+		<Timestamp>2024-09-28T20:33:06Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -54,23 +54,23 @@
 				<NumericInfo minimum="0.1" maximum="2.5" mean="1.1993333333333336" standardDeviation="0.7596926279021594" median="1.3" interQuartileRange="1.5"/>
 			</UnivariateStats>
 		</ModelStats>
-		<RegressionTable intercept="9.839221908530092" targetCategory="setosa">
-			<NumericPredictor name="Sepal.Length" coefficient="-0.4181592630379402"/>
-			<NumericPredictor name="Sepal.Width" coefficient="0.966418242400629"/>
-			<NumericPredictor name="Petal.Length" coefficient="-2.5214309550129035"/>
-			<NumericPredictor name="Petal.Width" coefficient="-1.0840237516431144"/>
+		<RegressionTable intercept="9.85090999631672" targetCategory="setosa">
+			<NumericPredictor name="Sepal.Length" coefficient="-0.4201445151028004"/>
+			<NumericPredictor name="Sepal.Width" coefficient="0.9656696836622515"/>
+			<NumericPredictor name="Petal.Length" coefficient="-2.5198383247675795"/>
+			<NumericPredictor name="Petal.Width" coefficient="-1.0842557228214986"/>
 		</RegressionTable>
-		<RegressionTable intercept="2.2146247664265823" targetCategory="versicolor">
-			<NumericPredictor name="Sepal.Length" coefficient="0.5310385822496908"/>
-			<NumericPredictor name="Sepal.Width" coefficient="-0.31447380482144743"/>
-			<NumericPredictor name="Petal.Length" coefficient="-0.1992547558267967"/>
-			<NumericPredictor name="Petal.Width" coefficient="-0.9491901539045878"/>
+		<RegressionTable intercept="2.231194800970757" targetCategory="versicolor">
+			<NumericPredictor name="Sepal.Length" coefficient="0.5287401697758572"/>
+			<NumericPredictor name="Sepal.Width" coefficient="-0.3143713701801123"/>
+			<NumericPredictor name="Petal.Length" coefficient="-0.2012586314439976"/>
+			<NumericPredictor name="Petal.Width" coefficient="-0.9455003450192949"/>
 		</RegressionTable>
-		<RegressionTable intercept="-12.053846674956834" targetCategory="virginica">
-			<NumericPredictor name="Sepal.Length" coefficient="-0.11287931921171585"/>
-			<NumericPredictor name="Sepal.Width" coefficient="-0.6519444375791921"/>
-			<NumericPredictor name="Petal.Length" coefficient="2.720685710839764"/>
-			<NumericPredictor name="Petal.Width" coefficient="2.0332139055477025"/>
+		<RegressionTable intercept="-12.082104797287675" targetCategory="virginica">
+			<NumericPredictor name="Sepal.Length" coefficient="-0.10859565467310923"/>
+			<NumericPredictor name="Sepal.Width" coefficient="-0.6512983134821407"/>
+			<NumericPredictor name="Petal.Length" coefficient="2.7210969562115572"/>
+			<NumericPredictor name="Petal.Width" coefficient="2.029756067840797"/>
 		</RegressionTable>
 		<ModelVerification recordCount="3">
 			<VerificationFields>
@@ -88,27 +88,27 @@
 					<data:Sepal.Width>2.8</data:Sepal.Width>
 					<data:Petal.Length>4.5</data:Petal.Length>
 					<data:Petal.Width>1.3</data:Petal.Width>
-					<data:probability_setosa>0.006907815022365392</data:probability_setosa>
-					<data:probability_versicolor>0.8601121604150249</data:probability_versicolor>
-					<data:probability_virginica>0.13298002456260977</data:probability_virginica>
+					<data:probability_setosa>0.006950265422485722</data:probability_setosa>
+					<data:probability_versicolor>0.8605597227381012</data:probability_versicolor>
+					<data:probability_virginica>0.1324900118394131</data:probability_virginica>
 				</row>
 				<row>
 					<data:Sepal.Length>5.6</data:Sepal.Length>
 					<data:Sepal.Width>2.9</data:Sepal.Width>
 					<data:Petal.Length>3.6</data:Petal.Length>
 					<data:Petal.Width>1.3</data:Petal.Width>
-					<data:probability_setosa>0.07426897904241814</data:probability_setosa>
-					<data:probability_versicolor>0.9151932120661878</data:probability_versicolor>
-					<data:probability_virginica>0.010537808891394135</data:probability_virginica>
+					<data:probability_setosa>0.07442948876326866</data:probability_setosa>
+					<data:probability_versicolor>0.9151070826035552</data:probability_versicolor>
+					<data:probability_virginica>0.010463428633176204</data:probability_virginica>
 				</row>
 				<row>
 					<data:Sepal.Length>5.1</data:Sepal.Length>
 					<data:Sepal.Width>3.7</data:Sepal.Width>
 					<data:Petal.Length>1.5</data:Petal.Length>
 					<data:Petal.Width>0.4</data:Petal.Width>
-					<data:probability_setosa>0.9817610614112271</data:probability_setosa>
-					<data:probability_versicolor>0.01823890577508325</data:probability_versicolor>
-					<data:probability_virginica>3.2813689599326786E-8</data:probability_virginica>
+					<data:probability_setosa>0.981714313124678</data:probability_setosa>
+					<data:probability_versicolor>0.018285654255460727</data:probability_versicolor>
+					<data:probability_virginica>3.2619861240932496E-8</data:probability_virginica>
 				</row>
 			</InlineTable>
 		</ModelVerification>

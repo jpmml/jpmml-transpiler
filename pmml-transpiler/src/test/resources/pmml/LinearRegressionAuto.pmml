@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.91.0"/>
-		<Timestamp>2023-02-27T17:31:48Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.110.0"/>
+		<Timestamp>2024-09-28T20:33:27Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -96,32 +96,32 @@
 				<NumericInfo minimum="8.0" maximum="24.8" mean="15.541326530612244" standardDeviation="2.7553429127509967" median="15.5" interQuartileRange="3.2499999999999982"/>
 			</UnivariateStats>
 		</ModelStats>
-		<RegressionTable intercept="39.99390503752615">
-			<NumericPredictor name="displacement" coefficient="0.011824591874187163"/>
-			<NumericPredictor name="horsepower" coefficient="-0.039232281550604486"/>
+		<RegressionTable intercept="39.99390503752605">
+			<NumericPredictor name="displacement" coefficient="0.011824591874188162"/>
+			<NumericPredictor name="horsepower" coefficient="-0.03923228155060618"/>
 			<NumericPredictor name="weight" coefficient="-0.0051801793614632"/>
-			<NumericPredictor name="acceleration" coefficient="0.0036079828590064224"/>
-			<CategoricalPredictor name="cylinders" value="3" coefficient="-4.848355877607463"/>
-			<CategoricalPredictor name="cylinders" value="4" coefficient="2.091565682312324"/>
-			<CategoricalPredictor name="cylinders" value="5" coefficient="1.78937511484452"/>
-			<CategoricalPredictor name="cylinders" value="6" coefficient="-0.551041971655245"/>
-			<CategoricalPredictor name="cylinders" value="8" coefficient="1.51845705210605"/>
-			<CategoricalPredictor name="model_year" value="70" coefficient="-2.8999703004586985"/>
-			<CategoricalPredictor name="model_year" value="71" coefficient="-1.9895417871952654"/>
-			<CategoricalPredictor name="model_year" value="72" coefficient="-3.3902764546988493"/>
-			<CategoricalPredictor name="model_year" value="73" coefficient="-3.4528636913507538"/>
-			<CategoricalPredictor name="model_year" value="74" coefficient="-1.6579727068156762"/>
-			<CategoricalPredictor name="model_year" value="75" coefficient="-2.029568722725099"/>
-			<CategoricalPredictor name="model_year" value="76" coefficient="-1.403310515298292"/>
-			<CategoricalPredictor name="model_year" value="77" coefficient="0.09872644481618696"/>
-			<CategoricalPredictor name="model_year" value="78" coefficient="0.07380804893941778"/>
-			<CategoricalPredictor name="model_year" value="79" coefficient="1.99620602799813"/>
-			<CategoricalPredictor name="model_year" value="80" coefficient="6.15896126722052"/>
-			<CategoricalPredictor name="model_year" value="81" coefficient="3.558187732214281"/>
-			<CategoricalPredictor name="model_year" value="82" coefficient="4.9376146573541115"/>
-			<CategoricalPredictor name="origin" value="1" coefficient="-1.3287373704783703"/>
-			<CategoricalPredictor name="origin" value="2" coefficient="0.3645479632873153"/>
-			<CategoricalPredictor name="origin" value="3" coefficient="0.9641894071910394"/>
+			<NumericPredictor name="acceleration" coefficient="0.003607982859005158"/>
+			<CategoricalPredictor name="cylinders" value="3" coefficient="-4.848355877607308"/>
+			<CategoricalPredictor name="cylinders" value="4" coefficient="2.0915656823126407"/>
+			<CategoricalPredictor name="cylinders" value="5" coefficient="1.78937511484441"/>
+			<CategoricalPredictor name="cylinders" value="6" coefficient="-0.5510419716552242"/>
+			<CategoricalPredictor name="cylinders" value="8" coefficient="1.5184570521058587"/>
+			<CategoricalPredictor name="model_year" value="70" coefficient="-2.8999703004586785"/>
+			<CategoricalPredictor name="model_year" value="71" coefficient="-1.9895417871952898"/>
+			<CategoricalPredictor name="model_year" value="72" coefficient="-3.3902764546988426"/>
+			<CategoricalPredictor name="model_year" value="73" coefficient="-3.4528636913507484"/>
+			<CategoricalPredictor name="model_year" value="74" coefficient="-1.657972706815678"/>
+			<CategoricalPredictor name="model_year" value="75" coefficient="-2.0295687227251626"/>
+			<CategoricalPredictor name="model_year" value="76" coefficient="-1.4033105152983156"/>
+			<CategoricalPredictor name="model_year" value="77" coefficient="0.09872644481620739"/>
+			<CategoricalPredictor name="model_year" value="78" coefficient="0.07380804893944075"/>
+			<CategoricalPredictor name="model_year" value="79" coefficient="1.996206027998133"/>
+			<CategoricalPredictor name="model_year" value="80" coefficient="6.158961267220523"/>
+			<CategoricalPredictor name="model_year" value="81" coefficient="3.5581877322142716"/>
+			<CategoricalPredictor name="model_year" value="82" coefficient="4.93761465735414"/>
+			<CategoricalPredictor name="origin" value="1" coefficient="-1.3287373704783927"/>
+			<CategoricalPredictor name="origin" value="2" coefficient="0.3645479632873147"/>
+			<CategoricalPredictor name="origin" value="3" coefficient="0.9641894071910782"/>
 		</RegressionTable>
 		<ModelVerification recordCount="3">
 			<VerificationFields>
@@ -143,7 +143,7 @@
 					<data:acceleration>13.5</data:acceleration>
 					<data:model_year>71.0</data:model_year>
 					<data:origin>1.0</data:origin>
-					<data:mpg>19.56479414111365</data:mpg>
+					<data:mpg>19.56479414111358</data:mpg>
 				</row>
 				<row>
 					<data:cylinders>6.0</data:cylinders>
@@ -153,7 +153,7 @@
 					<data:acceleration>16.0</data:acceleration>
 					<data:model_year>73.0</data:model_year>
 					<data:origin>1.0</data:origin>
-					<data:mpg>18.289951307878383</data:mpg>
+					<data:mpg>18.289951307878304</data:mpg>
 				</row>
 				<row>
 					<data:cylinders>8.0</data:cylinders>
@@ -163,7 +163,7 @@
 					<data:acceleration>12.0</data:acceleration>
 					<data:model_year>71.0</data:model_year>
 					<data:origin>1.0</data:origin>
-					<data:mpg>14.099284493983795</data:mpg>
+					<data:mpg>14.099284493983518</data:mpg>
 				</row>
 			</InlineTable>
 		</ModelVerification>

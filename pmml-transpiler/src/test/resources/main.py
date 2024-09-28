@@ -9,6 +9,7 @@ from sklearn.feature_selection import f_classif
 from sklearn.feature_selection import SelectKBest
 from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.multiclass import OneVsRestClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import LabelBinarizer, LabelEncoder
 from sklearn.svm import LinearSVC
@@ -19,7 +20,7 @@ from sklearn2pmml.decoration import CategoricalDomain, ContinuousDomain
 from sklearn2pmml.ensemble import SelectFirstClassifier, SelectFirstRegressor
 from sklearn2pmml.feature_extraction.text import Matcher, Splitter
 from sklearn2pmml.pipeline import PMMLPipeline
-from sklearn2pmml.preprocessing import PMMLLabelBinarizer, PMMLLabelEncoder
+from sklearn2pmml.preprocessing import CastTransformer, PMMLLabelBinarizer, PMMLLabelEncoder
 from xgboost.sklearn import XGBClassifier, XGBRegressor
 
 import numpy
@@ -50,10 +51,10 @@ def store_pmml(pipeline, name):
 	sklearn2pmml(pipeline, "pmml/" + name + ".pmml")
 
 def cat_domain(name):
-	return CategoricalDomain(invalid_value_treatment = "as_missing", with_data = False, with_statistics = False) if name.endswith("NA") else CategoricalDomain()
+	return CategoricalDomain(invalid_value_treatment = "as_missing", with_data = False, with_statistics = False) if name.endswith("NA") else CategoricalDomain(with_statistics = True)
 
 def cont_domain(name):
-	return ContinuousDomain(invalid_value_treatment = "as_missing", with_data = False, with_statistics = False) if name.endswith("NA") else ContinuousDomain()
+	return ContinuousDomain(invalid_value_treatment = "as_missing", with_data = False, with_statistics = False) if name.endswith("NA") else ContinuousDomain(with_statistics = True)
 
 def label_binarizer(name):
 	return PMMLLabelBinarizer() if name.endswith("NA") else LabelBinarizer()
@@ -91,23 +92,26 @@ def load_audit(name):
 audit_X, audit_y = load_audit("Audit")
 
 def build_audit(classifier, name, **pmml_options):
+	cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender", "Deductions"]
+	cont_columns = ["Age", "Income", "Hours"]
 	if isinstance(classifier, LGBMClassifier):
-		cat_columns = ["Age", "Employment", "Education", "Marital", "Occupation", "Gender", "Deductions"]
-		cont_columns = ["Income", "Hours"]
-	else:
-		cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender", "Deductions"]
-		cont_columns = ["Age", "Income", "Hours"]
+		cat_columns.insert(0, "Age")
+		cont_columns.remove("Age")
 	# XXX
 	if "Deductions" not in audit_X.columns:
 		cat_columns.remove("Deductions")
 	if isinstance(classifier, LGBMClassifier):
 		cat_mappings = [([cat_column], [cat_domain(name), label_encoder(name)]) for cat_column in cat_columns]
+	elif isinstance(classifier, XGBClassifier):
+		cat_mappings = [([cat_column], [cat_domain(name), CastTransformer("category")]) for cat_column in cat_columns]
 	else:
 		cat_mappings = [([cat_column], [cat_domain(name), label_binarizer(name)]) for cat_column in cat_columns]
 	cont_mappings = [([cont_column], cont_domain(name)) for cont_column in cont_columns]
 	mappings = cat_mappings + cont_mappings
 	if isinstance(classifier, SelectFirstClassifier):
 		mapper = DataFrameMapper(mappings + [(["Employment"], None)], df_out = True)
+	elif isinstance(classifier, XGBClassifier):
+		mapper = DataFrameMapper(mappings, input_df = True, df_out = True)
 	else:
 		mapper = DataFrameMapper(mappings)
 	pipeline = PMMLPipeline([
@@ -116,10 +120,6 @@ def build_audit(classifier, name, **pmml_options):
 	])
 	if isinstance(classifier, LGBMClassifier):
 		pipeline.fit(audit_X, audit_y, classifier__categorical_feature = [0, 1, 2, 3, 4, 5])
-	elif isinstance(classifier, XGBClassifier):
-		if name == "XGBoostAuditNA":
-			audit_X["Age"] = audit_X["Age"].astype(float)
-		pipeline.fit(audit_X, audit_y)
 	else:
 		pipeline.fit(audit_X, audit_y)
 	if isinstance(classifier, XGBClassifier):
@@ -136,10 +136,10 @@ if "Audit" in datasets:
 	build_audit(DecisionTreeClassifier(min_samples_leaf = 7, random_state = 13), "DecisionTreeAudit", compact = False, flat = True)
 	build_audit(GradientBoostingClassifier(n_estimators = 71, random_state = 13), "GradientBoostingAudit")
 	build_audit(LGBMClassifier(objective = "binary", n_estimators = 71, random_state = 13), "LightGBMAudit")
-	build_audit(LogisticRegression(multi_class = "ovr", solver = "liblinear", random_state = 13), "LogisticRegressionAudit")
+	build_audit(OneVsRestClassifier(LogisticRegression(solver = "liblinear", random_state = 13)), "LogisticRegressionAudit")
 	build_audit(RandomForestClassifier(n_estimators = 17, random_state = 13), "RandomForestAudit", compact = False, flat = False)
 	build_audit(SelectFirstClassifier([("private", make_pipeline(make_column_dropper([-1]), LogisticRegression(random_state = 13)), "X['Employment'] in ['Consultant', 'Private', 'SelfEmp']"), ("public", make_pipeline(make_column_dropper([-1]), LogisticRegression(random_state = 13)), "X['Employment'] in ['PSFederal', 'PSLocal', 'PSState', 'Volunteer']")]), "SelectFirstAudit")
-	build_audit(XGBClassifier(objective = "binary:logistic", ntree_limit = 71, random_state = 13), "XGBoostAudit")
+	build_audit(XGBClassifier(objective = "binary:logistic", n_estimators = 71, enable_categorical = True, random_state = 13), "XGBoostAudit", compact = True)
 
 sparsify("Audit")
 
@@ -150,7 +150,7 @@ audit_X = audit_X.drop(["Deductions"], axis = 1)
 
 if ("Audit" in datasets) or ("AuditNA" in datasets):
 	build_audit(LGBMClassifier(objective = "binary", n_estimators = 71, random_state = 13), "LightGBMAuditNA")
-	build_audit(XGBClassifier(objective = "binary:logistic", ntree_limit = 71, random_state = 13), "XGBoostAuditNA")
+	build_audit(XGBClassifier(objective = "binary:logistic", n_estimators = 71, enable_categorical = True, random_state = 13), "XGBoostAuditNA", compact = True)
 
 def load_sentiment(name):
 	df = load_csv(name)
@@ -178,9 +178,9 @@ if "Sentiment" in datasets:
 	pmml_textindex_args = dict(analyzer = "word", preprocessor = None, strip_accents = None, dtype = numpy.float64)
 	build_sentiment(LinearDiscriminantAnalysis(), TfidfVectorizer(tokenizer = Splitter(), ngram_range = (1, 3), norm = None, **pmml_textindex_args), "LinearDiscriminantAnalysisSentiment")
 	build_sentiment(LinearSVC(random_state = 13), CountVectorizer(tokenizer = Splitter(), ngram_range = (1, 2), **pmml_textindex_args), "LinearSVCSentiment", with_proba = False)
-	build_sentiment(LogisticRegression(multi_class = "ovr"), TfidfVectorizer(stop_words = "english", tokenizer = Matcher(), ngram_range = (1, 3), binary = True, norm = None, **pmml_textindex_args), "LogisticRegressionSentiment")
+	build_sentiment(OneVsRestClassifier(LogisticRegression()), TfidfVectorizer(stop_words = "english", tokenizer = Matcher(), ngram_range = (1, 3), binary = True, norm = None, **pmml_textindex_args), "LogisticRegressionSentiment")
 	build_sentiment(RandomForestClassifier(max_depth = 8, min_samples_leaf = 10, n_estimators = 31, random_state = 13), CountVectorizer(ngram_range = (1, 2), **pmml_textindex_args), "RandomForestSentiment")
-	build_sentiment(XGBClassifier(objective = "binary:logistic", ntree_limit = 31, random_state = 13), CountVectorizer(tokenizer = Matcher(), **pmml_textindex_args), "XGBoostSentiment")
+	build_sentiment(XGBClassifier(objective = "binary:logistic", n_estimators = 31, random_state = 13), CountVectorizer(tokenizer = Matcher(), **pmml_textindex_args), "XGBoostSentiment")
 
 #
 # Multi-class classification
@@ -194,7 +194,7 @@ iris_X, iris_y = load_iris("Iris")
 
 def build_iris(classifier, name, **pmml_options):
 	cont_columns = ["Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"]
-	cont_mappings = [([cont_column], ContinuousDomain()) for cont_column in cont_columns]
+	cont_mappings = [([cont_column], cont_domain(name)) for cont_column in cont_columns]
 	mapper = DataFrameMapper(cont_mappings)
 	pipeline = PMMLPipeline([
 		("mapper", mapper),
@@ -213,6 +213,8 @@ def build_iris(classifier, name, **pmml_options):
 	pipeline.configure(**pmml_options)
 	store_pmml(pipeline, name)
 	species = DataFrame(pipeline.predict(iris_X), columns = ["Species"])
+	if isinstance(classifier, XGBClassifier):
+		species["Species"] = classifier._le.inverse_transform(species["Species"])
 	species_proba = DataFrame(pipeline.predict_proba(iris_X), columns = ["probability(setosa)", "probability(versicolor)", "probability(virginica)"])
 	store_csv(pandas.concat((species, species_proba), axis = 1), name)
 
@@ -220,7 +222,7 @@ if "Iris" in datasets:
 	build_iris(DecisionTreeClassifier(min_samples_leaf = 5, random_state = 13), "DecisionTreeIris", compact = False, flat = True)
 	build_iris(GradientBoostingClassifier(n_estimators = 11, random_state = 13), "GradientBoostingIris")
 	build_iris(LGBMClassifier(objective = "multiclass", n_estimators = 11, random_state = 13), "LightGBMIris")
-	build_iris(LogisticRegression(multi_class = "multinomial", solver = "lbfgs", random_state = 13), "LogisticRegressionIris")
+	build_iris(LogisticRegression(solver = "lbfgs", random_state = 13), "LogisticRegressionIris")
 	build_iris(RandomForestClassifier(n_estimators = 5, random_state = 13), "RandomForestIris", compact = False, flat = False)
 	build_iris(XGBClassifier(objective = "multi:softprob", n_estimators = 11, random_state = 13), "XGBoostIris")
 
@@ -266,12 +268,16 @@ def build_auto(regressor, name, **pmml_options):
 		cont_columns = ["displacement", "horsepower", "weight", "acceleration"]
 	if isinstance(regressor, LGBMRegressor):
 		cat_mappings = [([cat_column], [cat_domain(name), label_encoder(name)]) for cat_column in cat_columns]
+	elif isinstance(regressor, XGBRegressor):
+		cat_mappings = [([cat_column], [cat_domain(name), CastTransformer("category")]) for cat_column in cat_columns]
 	else:
 		cat_mappings = [([cat_column], [cat_domain(name), label_binarizer(name)]) for cat_column in cat_columns]
 	cont_mappings = [([cont_column], [cont_domain(name)]) for cont_column in cont_columns]
 	mappings = cat_mappings + cont_mappings
 	if isinstance(regressor, SelectFirstRegressor):
 		mapper = DataFrameMapper(mappings + [(["cylinders"], None)], df_out = True)
+	elif isinstance(regressor, XGBRegressor):
+		mapper = DataFrameMapper(mappings, input_df = True, df_out = True)
 	else:
 		mapper = DataFrameMapper(mappings)
 	pipeline = PMMLPipeline([
@@ -310,7 +316,7 @@ if "Auto" in datasets:
 	build_auto(RandomForestRegressor(n_estimators = 17, random_state = 13), "RandomForestAuto", compact = False, flat = False)
 	build_auto(SelectFirstRegressor([("small", make_pipeline(make_column_dropper([-1]), LinearRegression()), "X['cylinders'] in [3, 4, 5]"), ("big", make_pipeline(make_column_dropper([-1]), LinearRegression()), "X['cylinders'] in [6, 8]")]), "SelectFirstAuto")
 	build_auto(VotingRegressor(estimators = [("major", DecisionTreeRegressor(max_depth = 8, random_state = 13)), ("minor", ExtraTreeRegressor(max_depth = 5, random_state = 13))], weights = [0.7, 0.3]), "VotingEnsembleAuto")
-	build_auto(XGBRegressor(objective = "reg:squarederror", n_estimators = 31, random_state = 13), "XGBoostAuto")
+	build_auto(XGBRegressor(objective = "reg:squarederror", n_estimators = 31, enable_categorical = True, random_state = 13), "XGBoostAuto", compact = True)
 
 sparsify("Auto")
 
@@ -318,4 +324,4 @@ auto_X, auto_y = load_auto("AutoNA")
 
 if ("Auto" in datasets) or ("AutoNA" in datasets):
 	build_auto(LGBMRegressor(objective = "regression", n_estimators = 31, random_state = 13), "LightGBMAutoNA")
-	build_auto(XGBRegressor(objective = "reg:squarederror", n_estimators = 31, random_state = 13), "XGBoostAutoNA")
+	build_auto(XGBRegressor(objective = "reg:squarederror", n_estimators = 31, enable_categorical = True, random_state = 13), "XGBoostAutoNA", compact = True)

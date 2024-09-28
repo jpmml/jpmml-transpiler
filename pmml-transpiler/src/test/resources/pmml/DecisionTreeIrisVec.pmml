@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.91.0"/>
-		<Timestamp>2023-02-27T17:31:33Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.110.0"/>
+		<Timestamp>2024-09-28T20:33:11Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -39,9 +39,9 @@
 		</LocalTransformations>
 		<Node>
 			<True/>
-			<Node score="setosa" recordCount="50">
+			<Node score="setosa" recordCount="1">
 				<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="0.800000011920929"/>
-				<ScoreDistribution value="setosa" recordCount="50"/>
+				<ScoreDistribution value="setosa" recordCount="1"/>
 				<ScoreDistribution value="versicolor" recordCount="0"/>
 				<ScoreDistribution value="virginica" recordCount="0"/>
 			</Node>
@@ -49,37 +49,37 @@
 				<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="1.75"/>
 				<Node>
 					<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.950000047683716"/>
-					<Node score="versicolor" recordCount="5">
+					<Node score="versicolor" recordCount="1">
 						<SimplePredicate field="double(x_0)" operator="lessOrEqual" value="5.1499998569488525"/>
 						<ScoreDistribution value="setosa" recordCount="0"/>
-						<ScoreDistribution value="versicolor" recordCount="4"/>
-						<ScoreDistribution value="virginica" recordCount="1"/>
+						<ScoreDistribution value="versicolor" recordCount="0.8"/>
+						<ScoreDistribution value="virginica" recordCount="0.2"/>
 					</Node>
-					<Node score="versicolor" recordCount="43">
+					<Node score="versicolor" recordCount="1">
 						<True/>
 						<ScoreDistribution value="setosa" recordCount="0"/>
-						<ScoreDistribution value="versicolor" recordCount="43"/>
+						<ScoreDistribution value="versicolor" recordCount="1"/>
 						<ScoreDistribution value="virginica" recordCount="0"/>
 					</Node>
 				</Node>
-				<Node score="virginica" recordCount="6">
+				<Node score="virginica" recordCount="1">
 					<True/>
 					<ScoreDistribution value="setosa" recordCount="0"/>
-					<ScoreDistribution value="versicolor" recordCount="2"/>
-					<ScoreDistribution value="virginica" recordCount="4"/>
+					<ScoreDistribution value="versicolor" recordCount="0.3333333333333333"/>
+					<ScoreDistribution value="virginica" recordCount="0.6666666666666666"/>
 				</Node>
 			</Node>
-			<Node score="virginica" recordCount="6">
+			<Node score="virginica" recordCount="1">
 				<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.950000047683716"/>
 				<ScoreDistribution value="setosa" recordCount="0"/>
-				<ScoreDistribution value="versicolor" recordCount="1"/>
-				<ScoreDistribution value="virginica" recordCount="5"/>
+				<ScoreDistribution value="versicolor" recordCount="0.16666666666666666"/>
+				<ScoreDistribution value="virginica" recordCount="0.8333333333333334"/>
 			</Node>
-			<Node score="virginica" recordCount="40">
+			<Node score="virginica" recordCount="1">
 				<True/>
 				<ScoreDistribution value="setosa" recordCount="0"/>
 				<ScoreDistribution value="versicolor" recordCount="0"/>
-				<ScoreDistribution value="virginica" recordCount="40"/>
+				<ScoreDistribution value="virginica" recordCount="1"/>
 			</Node>
 		</Node>
 	</TreeModel>
