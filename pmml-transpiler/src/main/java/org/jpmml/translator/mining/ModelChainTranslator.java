@@ -32,6 +32,7 @@ import org.dmg.pmml.Output;
 import org.dmg.pmml.OutputField;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.ResultFeature;
+import org.dmg.pmml.Target;
 import org.dmg.pmml.True;
 import org.dmg.pmml.mining.MiningModel;
 import org.dmg.pmml.mining.Segment;
@@ -40,6 +41,7 @@ import org.dmg.pmml.regression.NumericPredictor;
 import org.dmg.pmml.regression.RegressionModel;
 import org.dmg.pmml.regression.RegressionTable;
 import org.jpmml.evaluator.Classification;
+import org.jpmml.evaluator.TargetField;
 import org.jpmml.model.InvalidElementException;
 import org.jpmml.model.MissingElementException;
 import org.jpmml.model.UnsupportedAttributeException;
@@ -50,6 +52,7 @@ import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.PMMLObjectUtil;
 import org.jpmml.translator.TranslationContext;
+import org.jpmml.translator.ValueBuilder;
 import org.jpmml.translator.ValueFactoryRef;
 import org.jpmml.translator.ValueMapBuilder;
 import org.jpmml.translator.regression.RegressionModelTranslator;
@@ -209,11 +212,19 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 			ModelTranslator<?> modelTranslator = newModelTranslator(model);
 
+			TargetField targetField = modelTranslator.getTargetField();
+
 			JMethod evaluateMethod = modelTranslator.translateRegressor(context);
 
 			JInvocation methodInvocation = createEvaluatorMethodInvocation(evaluateMethod, context);
 
-			context.declare(context.getValueType(), IdentifierUtil.create("value", outputField.requireName()), methodInvocation);
+			ValueBuilder valueBuilder = new ValueBuilder(context)
+				.declare(IdentifierUtil.create("value", outputField.requireName()), methodInvocation);
+
+			Target target = targetField.getTarget();
+			if(target != null){
+				translateRegressorTarget(target, valueBuilder);
+			}
 
 			pullUpDerivedFields(miningModel, model);
 		}

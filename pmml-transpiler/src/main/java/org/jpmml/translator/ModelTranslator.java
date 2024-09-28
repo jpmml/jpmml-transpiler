@@ -361,7 +361,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	}
 
 	static
-	private void translateRegressorTarget(Target target, ValueBuilder valueBuilder){
+	public void translateRegressorTarget(Target target, ValueBuilder valueBuilder){
 		Number rescaleFactor = target.getRescaleFactor();
 
 		if(rescaleFactor != null && rescaleFactor.doubleValue() != 1d){

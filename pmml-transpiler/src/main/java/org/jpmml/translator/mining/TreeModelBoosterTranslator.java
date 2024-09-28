@@ -65,7 +65,6 @@ import org.jpmml.model.visitors.NodeFilterer;
 import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.JCompoundAssignment;
 import org.jpmml.translator.JExprUtil;
-import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.TranslationContext;
@@ -239,33 +238,12 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 			TreeModelTranslator.translateNode(treeModel, root, scorer, fieldInfos, context);
 
-			JVarBuilder valueBuilder = new ValueBuilder(context)
+			ValueBuilder valueBuilder = new ValueBuilder(context)
 				.declare("resultValue", context.getValueFactoryVariable().newValue(resultVar));
 
-			Number intercept = target.getRescaleConstant();
+			translateRegressorTarget(target, valueBuilder);
 
-			switch(mathContext){
-				case FLOAT:
-					{
-						double floatAsDoubleValue = floatAsDouble(intercept);
-
-						valueBuilder.update("add", JExprUtil.directNoPara(toFloatString(floatAsDoubleValue) + "D"));
-					}
-					break;
-				case DOUBLE:
-					{
-						double doubleValue = intercept.doubleValue();
-
-						valueBuilder.update("add", JExpr.lit(doubleValue));
-					}
-					break;
-				default:
-					throw new UnsupportedAttributeException(miningModel, mathContext);
-			}
-
-			JVar resultValueVar = valueBuilder.getVariable();
-
-			context._return(resultValueVar);
+			context._return(valueBuilder.getVariable());
 		} finally {
 			context.popScope();
 		}
