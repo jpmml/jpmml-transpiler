@@ -65,7 +65,7 @@ public class ClassificationTest extends TranspilerBatchTest implements Algorithm
 
 	@Test
 	public void evaluateXGBoostAudit() throws Exception {
-		evaluate(XGBOOST, AUDIT, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(32 + 16));
+		evaluate(XGBOOST, AUDIT, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(32 + 48));
 	}
 
 	@Test

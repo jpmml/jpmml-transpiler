@@ -353,17 +353,19 @@ public class JBinaryFileInitializer extends JClassInitializer {
 
 		JDefinedClass owner = context.getOwner();
 
-		JFieldVar constant = createMapConstant(name, context.ref(Object.class), context.ref(Number.class), context);
+		Set<?> keys = map.keySet();
+		Collection<Number> values = map.values();
+
+		Class<?> keyClazz = getValueClass(keys);
+		Class<?> valueClazz = getValueClass(values);
+
+		JFieldVar constant = createMapConstant(name, context.ref(keyClazz), context.ref(valueClazz), context);
 
 		String keyReadMethod;
 		String valueReadMethod;
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
-
-			Set<?> keys = map.keySet();
-
-			Class<?> keyClazz = getValueClass(keys);
 
 			if(Objects.equals(keyClazz, String.class)){
 				ResourceUtil.writeStrings(dataOutput, keys.toArray(new String[keys.size()]));
@@ -387,11 +389,12 @@ public class JBinaryFileInitializer extends JClassInitializer {
 
 			{
 				throw new IllegalArgumentException();
-			}
+			} // End if
 
-			Collection<Number> values = map.values();
-
-			Class<?> valueClazz = getValueClass(values);
+			if(Objects.equals(valueClazz, Integer.class)){
+				ResourceUtil.writeIntegers(dataOutput, values.toArray(new Integer[values.size()]));
+				valueReadMethod = "readIntegers";
+			} else
 
 			if(Objects.equals(valueClazz, Float.class)){
 				ResourceUtil.writeFloats(dataOutput, values.toArray(new Float[values.size()]));
@@ -410,17 +413,17 @@ public class JBinaryFileInitializer extends JClassInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JClass objectArrayClass = context.ref(Object[].class);
-		JClass numberArrayClass = context.ref(Number[].class);
+		JClass keysArrayClazz = (context.ref(keyClazz)).array();
+		JClass valuesArrayClazz = (context.ref(valueClazz)).array();
 
-		JMethod putAllMethod = owner.getMethod("putAll", new JType[]{constant.type(), objectArrayClass, numberArrayClass});
+		JMethod putAllMethod = owner.getMethod("putAll", new JType[]{constant.type(), keysArrayClazz, valuesArrayClazz});
 		if(putAllMethod == null){
 			putAllMethod = owner.method(Modifiers.PRIVATE_STATIC_FINAL, void.class, "putAll");
 
 			JVar mapParam = putAllMethod.param(constant.type(), "map");
 
-			JVar keysParam = putAllMethod.param(objectArrayClass, "keys");
-			JVar valuesParam = putAllMethod.param(numberArrayClass, "values");
+			JVar keysParam = putAllMethod.param(keysArrayClazz, "keys");
+			JVar valuesParam = putAllMethod.param(valuesArrayClazz, "values");
 
 			JBlock block = putAllMethod.body();
 

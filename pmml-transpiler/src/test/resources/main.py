@@ -94,7 +94,7 @@ audit_X, audit_y = load_audit("Audit")
 def build_audit(classifier, name, **pmml_options):
 	cat_columns = ["Employment", "Education", "Marital", "Occupation", "Gender", "Deductions"]
 	cont_columns = ["Age", "Income", "Hours"]
-	if isinstance(classifier, LGBMClassifier):
+	if isinstance(classifier, (LGBMClassifier, XGBClassifier)):
 		cat_columns.insert(0, "Age")
 		cont_columns.remove("Age")
 	# XXX
