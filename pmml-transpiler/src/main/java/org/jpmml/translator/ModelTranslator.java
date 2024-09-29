@@ -176,7 +176,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 			Target target = targetField.getTarget();
 			if(target != null){
-				translateRegressorTarget(target, valueBuilder);
+				translateRegressorTarget(model, target, valueBuilder);
 
 				// XXX
 				model.setTargets(null);
@@ -361,9 +361,10 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	}
 
 	static
-	public void translateRegressorTarget(Target target, ValueBuilder valueBuilder){
-		Number rescaleFactor = target.getRescaleFactor();
+	public void translateRegressorTarget(Model model, Target target, ValueBuilder valueBuilder){
+		MathContext mathContext = model.getMathContext();
 
+		Number rescaleFactor = target.getRescaleFactor();
 		if(rescaleFactor != null && rescaleFactor.doubleValue() != 1d){
 			valueBuilder.update("multiply", rescaleFactor);
 		}

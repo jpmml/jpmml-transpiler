@@ -18,9 +18,6 @@
  */
 package org.jpmml.translator.mining;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +53,7 @@ import org.dmg.pmml.mining.Segmentation;
 import org.dmg.pmml.tree.ComplexNode;
 import org.dmg.pmml.tree.Node;
 import org.dmg.pmml.tree.TreeModel;
+import org.jpmml.converter.ValueUtil;
 import org.jpmml.evaluator.Value;
 import org.jpmml.model.PMMLObjectKey;
 import org.jpmml.model.UnsupportedAttributeException;
@@ -64,7 +62,6 @@ import org.jpmml.model.visitors.AbstractVisitor;
 import org.jpmml.model.visitors.NodeFilterer;
 import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.JCompoundAssignment;
-import org.jpmml.translator.JExprUtil;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.TranslationContext;
@@ -176,8 +173,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 			switch(mathContext){
 				case FLOAT:
-					// Use a double accumulator (instead of a float one) for improved numerical stability
-					resultVar = context.declare(double.class, "result", JExprUtil.directNoPara(toFloatString(floatAsDouble(0f)) + "D"));
+					resultVar = context.declare(float.class, "result", JExpr.lit(0f));
 					break;
 				case DOUBLE:
 					resultVar = context.declare(double.class, "result", JExpr.lit(0d));
@@ -220,9 +216,9 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 					switch(mathContext){
 						case FLOAT:
 							{
-								double floatAsDoubleValue = floatAsDouble(value);
+								float floatValue = value.floatValue();
 
-								return new JCompoundAssignment(resultVar, JExprUtil.directNoPara(toFloatString(Math.abs(floatAsDoubleValue)) + "D"), floatAsDoubleValue >= 0d ? "+=" : "-=");
+								return new JCompoundAssignment(resultVar, JExpr.lit(Math.abs(floatValue)), floatValue >= 0f ? "+=" : "-=");
 							}
 						case DOUBLE:
 							{
@@ -241,7 +237,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			ValueBuilder valueBuilder = new ValueBuilder(context)
 				.declare("resultValue", context.getValueFactoryVariable().newValue(resultVar));
 
-			translateRegressorTarget(target, valueBuilder);
+			translateRegressorTarget(treeModel, target, valueBuilder);
 
 			context._return(valueBuilder.getVariable());
 		} finally {
@@ -288,7 +284,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		switch(mathContext){
 			case FLOAT:
-				zero = floatAsDouble(0f);
+				zero = 0f;
 				break;
 			case DOUBLE:
 				zero = 0d;
@@ -350,7 +346,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 				Number score = (Number)root.requireScore();
 
-				target.setRescaleConstant(add(mathContext, target.getRescaleConstant(), score));
+				target.setRescaleConstant(ValueUtil.add(mathContext, target.getRescaleConstant(), score));
 
 				updateNodeScores(root, score);
 
@@ -360,7 +356,7 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 			private void updateNodeScores(Node node, Number adjustment){
 				Number score = (Number)node.requireScore();
 
-				node.setScore(subtract(mathContext, score, adjustment));
+				node.setScore(ValueUtil.subtract(mathContext, score, adjustment));
 
 				if(node.hasNodes()){
 					List<Node> children = node.getNodes();
@@ -544,86 +540,13 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 						throw new IllegalArgumentException();
 					}
 
-					leftNode.setScore(add(mathContext, (Number)leftNode.requireScore(), (Number)rightNode.requireScore()));
+					leftNode.setScore(ValueUtil.add(mathContext, (Number)leftNode.requireScore(), (Number)rightNode.requireScore()));
 				}
 			}
 		};
 		nodeGroupMerger.applyTo(treeModel);
 
 		return treeModel;
-	}
-
-	static
-	private Number add(MathContext mathContext, Number left, Number right){
-
-		switch(mathContext){
-			case FLOAT:
-				return (floatAsDouble(left) + floatAsDouble(right));
-			case DOUBLE:
-				return (left.doubleValue() + right.doubleValue());
-			default:
-				throw new IllegalArgumentException();
-		}
-	}
-
-	static
-	private Number subtract(MathContext mathContext, Number left, Number right){
-
-		switch(mathContext){
-			case FLOAT:
-				return (floatAsDouble(left) - floatAsDouble(right));
-			case DOUBLE:
-				return (left.doubleValue() - right.doubleValue());
-			default:
-				throw new IllegalArgumentException();
-		}
-	}
-
-	static
-	private double floatAsDouble(Number value){
-
-		if(value instanceof Float){
-			Float floatValue = (Float)value;
-
-			return Double.parseDouble(floatValue.toString());
-		} else
-
-		if(value instanceof Double){
-			Double doubleValue = (Double)value;
-
-			return doubleValue.doubleValue();
-		} else
-
-		{
-			throw new IllegalArgumentException();
-		}
-	}
-
-	static
-	private String toFloatString(Number value){
-		DecimalFormat formatter = TreeModelBoosterTranslator.FORMAT_DECIMAL32;
-
-		synchronized(formatter){
-			return formatter.format(value);
-		}
-	}
-
-	/**
-	 * @see java.math.MathContext#DECIMAL32
-	 */
-	private static final DecimalFormat FORMAT_DECIMAL32;
-
-	static {
-		// Add one extra decimal place
-		String pattern = "0.#######" + "E0";
-
-		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-		symbols.setDecimalSeparator('.');
-		symbols.setMinusSign('-');
-		symbols.setExponentSeparator("E");
-
-		FORMAT_DECIMAL32 = new DecimalFormat(pattern, symbols);
-		FORMAT_DECIMAL32.setRoundingMode(RoundingMode.HALF_EVEN);
 	}
 
 	public static final int NODE_COUNT_LIMIT = Integer.getInteger(TreeModelBoosterTranslator.class.getName() + "#" + "NODE_COUNT_LIMIT", 1000);

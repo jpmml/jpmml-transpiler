@@ -223,7 +223,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 			Target target = targetField.getTarget();
 			if(target != null){
-				translateRegressorTarget(target, valueBuilder);
+				translateRegressorTarget(model, target, valueBuilder);
 			}
 
 			pullUpDerivedFields(miningModel, model);
