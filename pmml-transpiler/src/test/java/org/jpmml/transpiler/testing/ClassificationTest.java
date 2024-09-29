@@ -65,12 +65,12 @@ public class ClassificationTest extends TranspilerBatchTest implements Algorithm
 
 	@Test
 	public void evaluateXGBoostAudit() throws Exception {
-		evaluate(XGBOOST, AUDIT, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(32 + 48));
+		evaluate(XGBOOST, AUDIT, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(8 + 4));
 	}
 
 	@Test
 	public void evaluateXGBoostAuditNA() throws Exception {
-		evaluate(XGBOOST, AUDIT_NA, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(32 + 48));
+		evaluate(XGBOOST, AUDIT_NA, excludeFields(AUDIT_PROBABILITY_FALSE), new FloatEquivalence(8 + 4));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class ClassificationTest extends TranspilerBatchTest implements Algorithm
 
 	@Test
 	public void evaluateXGBoostSentiment() throws Exception {
-		evaluate(XGBOOST, SENTIMENT, excludeFields(SENTIMENT_PROBABILITY_FALSE), new FloatEquivalence(24));
+		evaluate(XGBOOST, SENTIMENT, excludeFields(SENTIMENT_PROBABILITY_FALSE), new FloatEquivalence(8 + 4));
 	}
 
 	@Test
@@ -125,6 +125,6 @@ public class ClassificationTest extends TranspilerBatchTest implements Algorithm
 
 	@Test
 	public void evaluateXGBoostIris() throws Exception {
-		evaluate(XGBOOST, IRIS, new FloatEquivalence(10));
+		evaluate(XGBOOST, IRIS, new FloatEquivalence(8 + 2));
 	}
 }

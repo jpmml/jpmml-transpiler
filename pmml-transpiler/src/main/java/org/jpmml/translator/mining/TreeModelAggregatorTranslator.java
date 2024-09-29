@@ -40,6 +40,7 @@ import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
+import org.dmg.pmml.Target;
 import org.dmg.pmml.True;
 import org.dmg.pmml.mining.MiningModel;
 import org.dmg.pmml.mining.Segment;
@@ -49,6 +50,7 @@ import org.dmg.pmml.tree.TreeModel;
 import org.jpmml.evaluator.Classification;
 import org.jpmml.evaluator.ProbabilityAggregator;
 import org.jpmml.evaluator.ProbabilityDistribution;
+import org.jpmml.evaluator.TargetField;
 import org.jpmml.evaluator.Value;
 import org.jpmml.evaluator.ValueAggregator;
 import org.jpmml.evaluator.ValueFactory;
@@ -59,14 +61,12 @@ import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
 import org.jpmml.translator.JDirectInitializer;
-import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.Modifiers;
 import org.jpmml.translator.PMMLObjectUtil;
 import org.jpmml.translator.Scope;
 import org.jpmml.translator.TranslationContext;
-import org.jpmml.translator.ValueBuilder;
 import org.jpmml.translator.ValueFactoryRef;
 import org.jpmml.translator.tree.NodeScoreDistributionManager;
 import org.jpmml.translator.tree.NodeScoreManager;
@@ -295,6 +295,25 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JFieldVar methodsVar = codeInitializer.initLambdas(IdentifierUtil.create("methods", segmentation), modelFuncInterface, methods);
 
+		switch(multipleModelMethod){
+			case SUM:
+				{
+					TargetField targetField = getTargetField();
+
+					Target target = targetField.getTarget();
+					if(target != null){
+						Number intercept = extractIntercept(target);
+
+						if(intercept != null){
+							aggregatorBuilder.update("add", intercept);
+						}
+					}
+				}
+				break;
+			default:
+				break;
+		}
+
 		JBlock block = context.block();
 
 		try {
@@ -361,10 +380,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 				throw new UnsupportedAttributeException(segmentation, multipleModelMethod);
 		}
 
-		JVarBuilder resultBuilder = new ValueBuilder(context)
-			.declare(context.getValueType(), "result", valueInit);
-
-		context._return(resultBuilder.getVariable());
+		context._return(valueInit);
 	}
 
 	private void translateProbabilityAggregatorSegmentation(Segmentation segmentation, TranslationContext context){

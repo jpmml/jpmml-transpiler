@@ -27,6 +27,7 @@ import org.dmg.pmml.MiningSchema;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.Output;
 import org.dmg.pmml.PMML;
+import org.dmg.pmml.Target;
 import org.dmg.pmml.Targets;
 import org.dmg.pmml.mining.MiningModel;
 import org.dmg.pmml.mining.Segment;
@@ -64,6 +65,21 @@ public class MiningModelTranslator extends ModelTranslator<MiningModel> {
 		ModelTranslatorFactory modelTranslatorFactory = ModelTranslatorFactory.getInstance();
 
 		return modelTranslatorFactory.newModelTranslator(pmml, model);
+	}
+
+	static
+	public Number extractIntercept(Target target){
+		Number rescaleFactor = target.getRescaleFactor();
+		Number rescaleConstant = target.getRescaleConstant();
+
+		if(rescaleFactor.doubleValue() == 1d && rescaleConstant.doubleValue() != 0d){
+			// XXX
+			target.setRescaleConstant(null);
+
+			return rescaleConstant;
+		}
+
+		return null;
 	}
 
 	static

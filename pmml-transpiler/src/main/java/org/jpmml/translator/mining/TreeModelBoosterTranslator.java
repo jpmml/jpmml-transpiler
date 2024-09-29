@@ -158,6 +158,11 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 		Target target = Iterables.getOnlyElement(targets);
 
+		Number intercept = extractIntercept(target);
+		if(intercept == null){
+			intercept = 0;
+		}
+
 		ModelTranslator<?> modelTranslator = new TreeModelTranslator(pmml, treeModel);
 
 		Node root = treeModel.getNode();
@@ -173,10 +178,10 @@ public class TreeModelBoosterTranslator extends MiningModelTranslator {
 
 			switch(mathContext){
 				case FLOAT:
-					resultVar = context.declare(float.class, "result", JExpr.lit(0f));
+					resultVar = context.declare(float.class, "result", JExpr.lit(intercept.floatValue()));
 					break;
 				case DOUBLE:
-					resultVar = context.declare(double.class, "result", JExpr.lit(0d));
+					resultVar = context.declare(double.class, "result", JExpr.lit(intercept.doubleValue()));
 					break;
 				default:
 					throw new UnsupportedAttributeException(miningModel, mathContext);
