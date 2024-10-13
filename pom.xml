@@ -49,6 +49,9 @@
 	</issueManagement>
 
 	<properties>
+		<jpmml-converter.version>1.5.7</jpmml-converter.version>
+		<jpmml-evaluator.version>1.6.5</jpmml-evaluator.version>
+		<jpmml-model.version>1.6.5</jpmml-model.version>
 		<project.build.outputTimestamp>2024-09-29T11:02:17Z</project.build.outputTimestamp>
 	</properties>
 
@@ -74,7 +77,7 @@
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-converter</artifactId>
-				<version>1.5.7</version>
+				<version>${jpmml-converter.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>org.slf4j</groupId>
@@ -86,28 +89,28 @@
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-evaluator</artifactId>
-				<version>1.6.5</version>
+				<version>${jpmml-evaluator.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-evaluator-metro</artifactId>
-				<version>1.6.5</version>
+				<version>${jpmml-evaluator.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-evaluator-moxy</artifactId>
-				<version>1.6.5</version>
+				<version>${jpmml-evaluator.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-evaluator-testing</artifactId>
-				<version>1.6.5</version>
+				<version>${jpmml-evaluator.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-model</artifactId>
-				<version>1.6.5</version>
+				<version>${jpmml-model.version}</version>
 				<classifier>tests</classifier>
 			</dependency>
 
@@ -190,7 +193,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.10.0</version>
+				<version>3.10.1</version>
 				<configuration>
 					<javadocVersion>1.8</javadocVersion>
 					<sourcepath>${basedir}/src/main/java</sourcepath>
@@ -214,7 +217,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.0</version>
+				<version>3.5.1</version>
 				<configuration>
 					<argLine>${jacoco.agent}</argLine>
 					<trimStackTrace>false</trimStackTrace>
