@@ -50,8 +50,8 @@
 
 	<properties>
 		<jpmml-converter.version>1.5.11</jpmml-converter.version>
-		<jpmml-evaluator.version>1.6.9</jpmml-evaluator.version>
-		<jpmml-model.version>1.6.9</jpmml-model.version>
+		<jpmml-evaluator.version>1.6.11</jpmml-evaluator.version>
+		<jpmml-model.version>1.6.11</jpmml-model.version>
 		<project.build.outputTimestamp>2024-12-31T21:40:45Z</project.build.outputTimestamp>
 	</properties>
 
