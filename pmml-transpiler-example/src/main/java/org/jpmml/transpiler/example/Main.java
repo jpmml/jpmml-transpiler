@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.beust.jcommander.DefaultUsageFormatter;
+import com.beust.jcommander.IUsageFormatter;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
@@ -36,31 +38,35 @@ import org.jpmml.transpiler.TranspilerUtil;
 public class Main {
 
 	@Parameter (
-		names = {"--help"},
-		description = "Show the list of configuration options and exit",
-		help = true
-	)
-	private boolean help = false;
-
-	@Parameter (
 		names = {"--input", "--pmml-input", "--xml-input"},
 		description = "PMML XML input file",
-		required = true
+		required = true,
+		order = 0
 	)
 	private File input = null;
 
 	@Parameter (
 		names = {"--output", "--jar-output"},
-		description = "PMML service provider JAR output file"
+		description = "PMML service provider JAR output file",
+		order = 1
 	)
 	private File output = null;
 
 	@Parameter (
 		names = {"--class-name"},
 		description = "The fully qualified name of the transpiled PMML class",
-		required = false
+		required = false,
+		order = 2
 	)
 	private String className = null;
+
+	@Parameter (
+		names = {"--help"},
+		description = "Show the list of configuration options and exit",
+		help = true,
+		order = Integer.MAX_VALUE
+	)
+	private boolean help = false;
 
 
 	static
@@ -70,6 +76,8 @@ public class Main {
 		JCommander commander = new JCommander(main);
 		commander.setProgramName(Main.class.getName());
 
+		IUsageFormatter usageFormatter = new DefaultUsageFormatter(commander);
+
 		try {
 			commander.parse(args);
 		} catch(ParameterException pe){
@@ -78,7 +86,7 @@ public class Main {
 			sb.append(pe.toString());
 			sb.append("\n");
 
-			commander.usage(sb);
+			usageFormatter.usage(sb);
 
 			System.err.println(sb.toString());
 
@@ -88,7 +96,7 @@ public class Main {
 		if(main.help){
 			StringBuilder sb = new StringBuilder();
 
-			commander.usage(sb);
+			usageFormatter.usage(sb);
 
 			System.out.println(sb.toString());
 
