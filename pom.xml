@@ -49,6 +49,7 @@
 	</issueManagement>
 
 	<properties>
+		<jdk.version>11</jdk.version>
 		<jpmml-converter.version>1.5.12</jpmml-converter.version>
 		<jpmml-evaluator.version>1.6.11</jpmml-evaluator.version>
 		<jpmml-model.version>1.6.11</jpmml-model.version>
@@ -151,8 +152,8 @@
 					-->
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -167,6 +168,9 @@
 						</goals>
 						<configuration>
 							<rules>
+								<requireJavaVersion>
+									<version>[11,)</version>
+								</requireJavaVersion>
 								<requireMavenVersion>
 									<version>3.6.3</version>
 								</requireMavenVersion>
@@ -195,7 +199,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.11.1</version>
 				<configuration>
-					<javadocVersion>1.8</javadocVersion>
+					<release>${jdk.version}</release>
 					<sourcepath>${basedir}/src/main/java</sourcepath>
 				</configuration>
 			</plugin>
