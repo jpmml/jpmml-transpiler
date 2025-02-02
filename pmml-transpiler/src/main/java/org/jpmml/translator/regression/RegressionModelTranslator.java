@@ -482,7 +482,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JFieldVar termIndicesVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, TokenizedString.class, Integer.class), IdentifierUtil.create("termIndices", regressionTable, name), context._new(LinkedHashMap.class));
 
-			JForLoop termIndicesForLoop = new JForLoop();
+			JForLoop termIndicesForLoop = resourceInitializer.addFor();
 
 			JVar termIndicesLoopVar = termIndicesForLoop.init(context._ref(int.class), "i", JExpr.lit(0));
 			termIndicesForLoop.test(termIndicesLoopVar.lt(JExpr.lit(terms.length)));
@@ -491,8 +491,6 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			JBlock termIndicesForBlock = termIndicesForLoop.body();
 
 			termIndicesForBlock.add(termIndicesVar.invoke("put").arg(termsVar.invoke("get").arg(termIndicesLoopVar)).arg(termIndicesLoopVar));
-
-			resourceInitializer.add(termIndicesForLoop);
 
 			Number[] coefficients = predictors.stream()
 				.map(coefficientFunction)

@@ -131,6 +131,10 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		init.add(tryWithResources);
 	}
 
+	public JForLoop addFor(){
+		return this.tryBody._for();
+	}
+
 	@Override
 	public void add(JStatement statement){
 		this.tryBody.add(statement);
