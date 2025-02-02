@@ -20,7 +20,7 @@ package org.jpmml.transpiler.testing;
 
 import org.jpmml.evaluator.testing.FloatEquivalence;
 import org.jpmml.evaluator.testing.PMMLEquivalence;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RegressionTest extends TranspilerBatchTest implements Algorithms, Datasets {
 

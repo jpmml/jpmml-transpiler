@@ -19,7 +19,7 @@
 package org.jpmml.transpiler.testing;
 
 import org.jpmml.evaluator.testing.PMMLEquivalence;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AnomalyDetectionTest extends TranspilerBatchTest implements Algorithms, Datasets {
 

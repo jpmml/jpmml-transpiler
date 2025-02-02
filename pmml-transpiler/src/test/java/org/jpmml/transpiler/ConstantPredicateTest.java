@@ -25,9 +25,7 @@ import org.dmg.pmml.Visitor;
 import org.jpmml.model.PMMLUtil;
 import org.jpmml.model.ResourceUtil;
 import org.jpmml.model.visitors.PredicateInterner;
-import org.jpmml.transpiler.InMemoryTranspiler;
-import org.jpmml.transpiler.Transpiler;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ConstantPredicateTest {
 

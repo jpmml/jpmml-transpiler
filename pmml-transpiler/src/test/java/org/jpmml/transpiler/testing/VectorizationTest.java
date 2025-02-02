@@ -30,7 +30,7 @@ import org.jpmml.evaluator.ResultField;
 import org.jpmml.evaluator.Table;
 import org.jpmml.evaluator.TableCollector;
 import org.jpmml.evaluator.testing.PMMLEquivalence;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class VectorizationTest extends TranspilerBatchTest implements Algorithms, Datasets {
 
