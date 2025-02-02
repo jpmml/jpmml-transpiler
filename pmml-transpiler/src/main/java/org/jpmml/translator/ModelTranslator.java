@@ -285,7 +285,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 		List<InputField> inputFields = getInputFields();
 		for(InputField inputField : inputFields){
-			String name = inputField.getFieldName();
+			String name = inputField.getName();
 
 			if(matcher == null){
 				matcher = pattern.matcher(name);

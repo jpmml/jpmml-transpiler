@@ -28,7 +28,7 @@ JPMML-Transpiler traverses an `org.dmg.pmml.PMML` class model object, and "trans
 
 # Prerequisites #
 
-* JPMML-Evaluator 1.6.4 or newer.
+* JPMML-Evaluator 1.7.1 or newer.
 
 # Installation #
 

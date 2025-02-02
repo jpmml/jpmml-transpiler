@@ -24,10 +24,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import com.google.common.base.Equivalence;
 import org.jpmml.evaluator.ResultField;
+import org.jpmml.evaluator.Table;
+import org.jpmml.evaluator.TableCollector;
 import org.jpmml.evaluator.testing.PMMLEquivalence;
 import org.junit.Test;
 
@@ -47,12 +48,12 @@ public class VectorizationTest extends TranspilerBatchTest implements Algorithms
 			}
 
 			@Override
-			public List<Map<String, List<Number>>> getInput() throws IOException {
-				List<? extends Map<String, ?>> input = super.getInput();
+			public Table getInput() throws IOException {
+				Table input = super.getInput();
 
 				return input.stream()
 					.map(row -> collectCells(row, "x"))
-					.collect(Collectors.toList());
+					.collect(new TableCollector());
 			}
 
 			private Map<String, List<Number>> collectCells(Map<String, ?> row, String name){
