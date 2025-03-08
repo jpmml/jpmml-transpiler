@@ -20,7 +20,6 @@ package org.jpmml.transpiler.testing;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
@@ -36,8 +35,8 @@ import org.jpmml.evaluator.OutputFilters;
 import org.jpmml.evaluator.PMMLTransformer;
 import org.jpmml.evaluator.ResultField;
 import org.jpmml.evaluator.testing.SimpleArchiveBatch;
-import org.jpmml.model.DirectByteArrayOutputStream;
 import org.jpmml.model.JavaSerializer;
+import org.jpmml.model.SerializationUtil;
 import org.jpmml.translator.visitors.ModelTranslatorVisitorBattery;
 import org.jpmml.transpiler.InMemoryTranspiler;
 import org.jpmml.transpiler.Transpiler;
@@ -138,15 +137,11 @@ public class TranspilerBatch extends SimpleArchiveBatch {
 
 		JavaSerializer serializer = new JavaSerializer(clazzLoader);
 
-		DirectByteArrayOutputStream buffer = new DirectByteArrayOutputStream(10 * 1024);
-
-		serializer.serialize(pmml, buffer);
-
-		try(InputStream is = buffer.getInputStream()){
+		try {
 			@SuppressWarnings("unused")
-			PMML clonedPmml = (PMML)serializer.deserialize(is);
-		} catch(ClassNotFoundException cnfe){
-			throw new RuntimeException(cnfe);
+			PMML clonedPMML = SerializationUtil.clone(serializer, pmml);
+		} catch(Exception e){
+			throw new RuntimeException(e);
 		}
 	}
 }

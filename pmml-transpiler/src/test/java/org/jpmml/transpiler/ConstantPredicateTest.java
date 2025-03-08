@@ -23,7 +23,7 @@ import java.io.InputStream;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.Visitor;
 import org.jpmml.model.PMMLUtil;
-import org.jpmml.model.ResourceUtil;
+import org.jpmml.model.resources.ResourceUtil;
 import org.jpmml.model.visitors.PredicateInterner;
 import org.junit.jupiter.api.Test;
 
