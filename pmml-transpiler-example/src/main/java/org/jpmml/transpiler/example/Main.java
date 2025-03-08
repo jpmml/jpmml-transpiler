@@ -41,14 +41,14 @@ public class Main {
 		names = {"--input", "--pmml-input", "--xml-input"},
 		description = "PMML XML input file",
 		required = true,
-		order = 0
+		order = 1
 	)
 	private File input = null;
 
 	@Parameter (
 		names = {"--output", "--jar-output"},
 		description = "PMML service provider JAR output file",
-		order = 1
+		order = 2
 	)
 	private File output = null;
 
@@ -56,7 +56,7 @@ public class Main {
 		names = {"--class-name"},
 		description = "The fully qualified name of the transpiled PMML class",
 		required = false,
-		order = 2
+		order = 3
 	)
 	private String className = null;
 
