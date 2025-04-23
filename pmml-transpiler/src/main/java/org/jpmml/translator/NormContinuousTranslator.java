@@ -54,7 +54,7 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 	public NormContinuousTranslator(NormContinuous normContinuous){
 		super(normContinuous);
 
-		OutlierTreatmentMethod outlierTreatment = normContinuous.getOutliers();
+		OutlierTreatmentMethod outlierTreatment = normContinuous.getOutlierTreatment();
 		switch(outlierTreatment){
 			case AS_MISSING_VALUES:
 			case AS_EXTREME_VALUES:
@@ -70,7 +70,7 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 
 		NormContinuous normContinuous = getExpression();
 
-		OutlierTreatmentMethod outlierTreatment = normContinuous.getOutliers();
+		OutlierTreatmentMethod outlierTreatment = normContinuous.getOutlierTreatment();
 
 		List<LinearNorm> linearNorms = normContinuous.requireLinearNorms();
 		if(linearNorms.size() < 2){

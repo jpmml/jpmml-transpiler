@@ -47,10 +47,6 @@ public class NodeUtil {
 
 	static
 	public void addExtension(Node node, String name, String value){
-		Extension extension = new Extension()
-			.setName(name)
-			.setValue(value);
-
-		node.addExtensions(extension);
+		node.addExtensions(new Extension(name, value));
 	}
 }
