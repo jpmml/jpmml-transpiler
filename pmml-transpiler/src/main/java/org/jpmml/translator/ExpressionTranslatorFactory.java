@@ -39,6 +39,10 @@ public class ExpressionTranslatorFactory extends ServiceFactory<Expression, Expr
 	public ExpressionTranslator<?> newExpressionTranslator(Expression expression){
 		Objects.requireNonNull(expression);
 
+		if(!ExpressionTranslatorFactory.ENABLED){
+			throw new UnsupportedElementException(expression);
+		}
+
 		try {
 			List<? extends Class<? extends ExpressionTranslator<?>>> expressionTranslatorClazzes = getServiceProviderClasses(expression.getClass());
 
@@ -93,6 +97,8 @@ public class ExpressionTranslatorFactory extends ServiceFactory<Expression, Expr
 
 		throw new NoSuchMethodException();
 	}
+
+	private static final boolean ENABLED = Boolean.parseBoolean(System.getProperty(ExpressionTranslatorFactory.class.getName() + "#ENABLED", "true"));
 
 	private static final ExpressionTranslatorFactory INSTANCE = new ExpressionTranslatorFactory();
 }

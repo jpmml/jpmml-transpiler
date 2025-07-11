@@ -33,6 +33,7 @@ import com.beust.jcommander.ParameterException;
 import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
 import org.jpmml.model.PMMLUtil;
+import org.jpmml.translator.ExpressionTranslatorFactory;
 import org.jpmml.transpiler.TranspilerUtil;
 
 public class Main {
@@ -59,6 +60,14 @@ public class Main {
 		order = 3
 	)
 	private String className = null;
+
+	@Parameter (
+		names = {"--translate-expressions"},
+		description = "Translate PMML expressions to Java",
+		arity = 1,
+		order = 4
+	)
+	private Boolean translateExpressions = null;
 
 	@Parameter (
 		names = {"--help"},
@@ -119,6 +128,10 @@ public class Main {
 		}
 
 		String className = getClassName();
+
+		if(this.translateExpressions != null){
+			System.setProperty(ExpressionTranslatorFactory.class.getName() + "#ENABLED", this.translateExpressions.toString());
+		}
 
 		JCodeModel codeModel;
 
