@@ -486,8 +486,8 @@ public class PMMLObjectUtil {
 
 				try {
 					modelTranslator = modelTranslatorFactory.newModelTranslator(pmml, model);
-				} catch(MarkupException ume){
-					context.addIssue(ume);
+				} catch(MarkupException me){
+					context.addIssue(me);
 				}
 
 				if(modelTranslator != null){
@@ -508,8 +508,8 @@ public class PMMLObjectUtil {
 
 				try {
 					expressionTranslator = expressionTranslatorFactory.newExpressionTranslator(expression);
-				} catch(MarkupException ume){
-					context.addIssue(ume);
+				} catch(MarkupException me){
+					context.addIssue(me);
 				}
 
 				if(expressionTranslator != null){
