@@ -72,6 +72,7 @@ import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
 import org.jpmml.translator.JDirectInitializer;
+import org.jpmml.translator.JResourceInitializer;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.Modifiers;
@@ -322,7 +323,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			List<JMethod> evaluateCategoryMethods = new ArrayList<>();
 
-			JBinaryFileInitializer resourceInitializer = null;
+			JResourceInitializer resourceInitializer = null;
 
 			Collection<Map.Entry<String, List<CategoricalPredictor>>> entries = fieldCategoricalPredictors.entrySet();
 			for(Map.Entry<String, List<CategoricalPredictor>> entry : entries){
@@ -417,7 +418,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			return;
 		}
 
-		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create("TermFrequency", regressionTable) + ".data", context);
+		JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create("TermFrequency", regressionTable) + ".data", context);
 
 		Function<FunctionInvocationPredictor, TextIndex> textIndexFunction = new Function<FunctionInvocationPredictor, TextIndex>(){
 
@@ -482,7 +483,10 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JFieldVar termIndicesVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, TokenizedString.class, Integer.class), IdentifierUtil.create("termIndices", regressionTable, name), context._new(LinkedHashMap.class));
 
-			JForLoop termIndicesForLoop = resourceInitializer.addFor();
+			JForLoop termIndicesForLoop = new JForLoop(){
+			};
+
+			resourceInitializer.add(termIndicesForLoop);
 
 			JVar termIndicesLoopVar = termIndicesForLoop.init(context._ref(int.class), "i", JExpr.lit(0));
 			termIndicesForLoop.test(termIndicesLoopVar.lt(JExpr.lit(terms.length)));

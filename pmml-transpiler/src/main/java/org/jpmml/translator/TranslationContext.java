@@ -183,7 +183,7 @@ public class TranslationContext {
 		if(isSubclass(PMML.class, owner)){
 			PMML pmml = getPMML();
 
-			JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(PMML.class.getSimpleName(), pmml) + ".data", 0, this);
+			JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(PMML.class.getSimpleName(), pmml) + ".data", 0, this);
 
 			QName[] xmlNames = this.xmlNameManager.getElements()
 				.toArray(new QName[this.xmlNameManager.size()]);
@@ -477,8 +477,8 @@ public class TranslationContext {
 				block._return(PMMLObjectUtil.createExpression(defaultResult, this));
 			} else
 
-			if((resultMap.size() > 64) && JBinaryFileInitializer.isExternalizable(resultMap.keySet())){
-				JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)) + ".data", this);
+			if((resultMap.size() > 64) && JResourceInitializer.isExternalizable(resultMap.keySet())){
+				JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)) + ".data", this);
 
 				JFieldVar mapField = resourceInitializer.initNumbersMap("map$" + System.identityHashCode(Collections.singletonList(resultMap)), (Map)resultMap);
 

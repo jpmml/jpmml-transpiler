@@ -30,11 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.xml.namespace.QName;
 
-import com.google.common.collect.Iterables;
 import com.sun.codemodel.JArray;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
@@ -56,7 +54,7 @@ import org.dmg.pmml.MathContext;
 import org.jpmml.evaluator.ResourceUtil;
 import org.jpmml.evaluator.TokenizedString;
 
-public class JBinaryFileInitializer extends JClassInitializer {
+public class JBinaryFileInitializer extends JResourceInitializer {
 
 	private JBinaryFile binaryFile = null;
 
@@ -131,19 +129,17 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		init.add(tryWithResources);
 	}
 
-	public JForLoop addFor(){
-		return this.tryBody._for();
-	}
-
 	@Override
 	public void add(JStatement statement){
 		this.tryBody.add(statement);
 	}
 
+	@Override
 	public void assign(JVar variable, JExpression expr){
 		this.tryBody.assign(variable, expr);
 	}
 
+	@Override
 	public JInvocation initQNames(QName[] names){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
@@ -159,6 +155,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		return context.staticInvoke(ResourceUtil.class, "readQNames", this.dataInputVar, names.length);
 	}
 
+	@Override
 	public JInvocation initValues(JType type, Object[] values){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
@@ -196,6 +193,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		return context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
 	}
 
+	@Override
 	public JFieldVar initTokenizedStringLists(String name, TokenizedString[] tokenizedStrings){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
@@ -217,6 +215,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		return constant;
 	}
 
+	@Override
 	public JFieldVar initNumbers(String name, MathContext mathContext, Number[] values){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
@@ -247,6 +246,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		return constant;
 	}
 
+	@Override
 	public JFieldVar initNumbersList(String name, MathContext mathContext, List<Number[]> elements){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
@@ -299,6 +299,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		return constant;
 	}
 
+	@Override
 	public JFieldVar initNumberArraysList(String name, MathContext mathContext, List<Number[][]> elements, int length){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
@@ -351,6 +352,7 @@ public class JBinaryFileInitializer extends JClassInitializer {
 		return constant;
 	}
 
+	@Override
 	public JFieldVar initNumbersMap(String name, Map<?, Number> map){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
@@ -462,42 +464,6 @@ public class JBinaryFileInitializer extends JClassInitializer {
 	private <E> E[] castArray(Object[] values, E[] newValues){
 		return Arrays.asList(values)
 			.toArray(newValues);
-	}
-
-	static
-	public boolean isExternalizable(Class<?> clazz){
-
-		if(Objects.equals(clazz, String.class)){
-			return true;
-		} else
-
-		if(Objects.equals(clazz, Integer.class) || Objects.equals(clazz, Float.class) || Objects.equals(clazz, Double.class)){
-			return true;
-		} else
-
-		{
-			return false;
-		}
-	}
-
-	static
-	public boolean isExternalizable(Collection<?> values){
-		Class<?> valueClazz = getValueClass(values);
-
-		return isExternalizable(valueClazz);
-	}
-
-	static
-	public Class<?> getValueClass(Collection<?> values){
-		Set<Class<?>> valueClazzes = values.stream()
-			.map(value -> value.getClass())
-			.collect(Collectors.toSet());
-
-		if(valueClazzes.size() == 1){
-			return Iterables.getOnlyElement(valueClazzes);
-		}
-
-		return Object.class;
 	}
 
 	static

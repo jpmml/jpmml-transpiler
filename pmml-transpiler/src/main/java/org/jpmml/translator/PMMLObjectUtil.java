@@ -438,11 +438,11 @@ public class PMMLObjectUtil {
 						List<Object> values = (List<Object>)entry.getValue();
 
 						if(values != null && !values.isEmpty()){
-							Class<?> valueClazz = JBinaryFileInitializer.getValueClass(values);
+							Class<?> valueClazz = JResourceInitializer.getValueClass(values);
 
 							invocation = invocation.invoke("addValues").arg(createExpression(property, context));
 
-							if((values.size() > 2) && JBinaryFileInitializer.isExternalizable(valueClazz)){
+							if((values.size() > 2) && JResourceInitializer.isExternalizable(valueClazz)){
 								JFieldRef valuesFieldRef = context.constantValues(valueClazz, IdentifierUtil.create((property.name()).toLowerCase(), field), values);
 
 								invocation = invocation.arg(JExpr.cast(context.ref(Object[].class), valuesFieldRef));

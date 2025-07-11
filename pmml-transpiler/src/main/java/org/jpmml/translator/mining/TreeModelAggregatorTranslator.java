@@ -61,6 +61,7 @@ import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
 import org.jpmml.translator.JDirectInitializer;
+import org.jpmml.translator.JResourceInitializer;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.Modifiers;
@@ -275,7 +276,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDefinedClass modelFuncInterface = ensureFunctionalInterface(int.class, context);
 
-		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
+		JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
 		List<Number[]> scoreValues = scoreManagers.stream()
 			.map(scoreManager -> scoreManager.getValues())
@@ -460,7 +461,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDefinedClass modelFuncInterface = ensureFunctionalInterface(int.class, context);
 
-		JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
+		JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
 
 		List<Number[][]> scoreValues = scoreDistributionManagers.stream()
 			.map(scoreDistributionManager -> scoreDistributionManager.getValues())
