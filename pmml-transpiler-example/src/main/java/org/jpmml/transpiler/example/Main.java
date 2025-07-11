@@ -34,6 +34,7 @@ import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
 import org.jpmml.model.PMMLUtil;
 import org.jpmml.translator.ExpressionTranslatorFactory;
+import org.jpmml.translator.ModelTranslatorFactory;
 import org.jpmml.transpiler.TranspilerUtil;
 
 public class Main {
@@ -62,10 +63,18 @@ public class Main {
 	private String className = null;
 
 	@Parameter (
+		names = {"--translate-models"},
+		description = "Translate PMML models to Java",
+		arity = 1,
+		order = 4
+	)
+	private Boolean translateModels = null;
+
+	@Parameter (
 		names = {"--translate-expressions"},
 		description = "Translate PMML expressions to Java",
 		arity = 1,
-		order = 4
+		order = 5
 	)
 	private Boolean translateExpressions = null;
 
@@ -128,6 +137,10 @@ public class Main {
 		}
 
 		String className = getClassName();
+
+		if(this.translateModels != null){
+			System.setProperty(ModelTranslatorFactory.class.getName() + "#ENABLED", this.translateModels.toString());
+		} // End if
 
 		if(this.translateExpressions != null){
 			System.setProperty(ExpressionTranslatorFactory.class.getName() + "#ENABLED", this.translateExpressions.toString());

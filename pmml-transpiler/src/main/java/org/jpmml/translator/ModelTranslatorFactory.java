@@ -18,12 +18,14 @@
  */
 package org.jpmml.translator;
 
+import java.util.Objects;
 import java.util.Set;
 
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.ResultFeature;
 import org.jpmml.evaluator.ModelManagerFactory;
+import org.jpmml.model.UnsupportedElementException;
 
 public class ModelTranslatorFactory extends ModelManagerFactory<ModelTranslator<?>> {
 
@@ -39,10 +41,24 @@ public class ModelTranslatorFactory extends ModelManagerFactory<ModelTranslator<
 		return newModelManager(pmml, model, extraResultFeature);
 	}
 
+	@Override
+	public ModelTranslator<?> newModelManager(PMML pmml, Model model, Set<ResultFeature> extraResultFeatures){
+		Objects.requireNonNull(pmml);
+		Objects.requireNonNull(model);
+
+		if(!ModelTranslatorFactory.ENABLED){
+			throw new UnsupportedElementException(model);
+		}
+
+		return super.newModelManager(pmml, model, extraResultFeatures);
+	}
+
 	static
 	public ModelTranslatorFactory getInstance(){
 		return ModelTranslatorFactory.INSTANCE;
 	}
+
+	private static final boolean ENABLED = Boolean.parseBoolean(System.getProperty(ModelTranslatorFactory.class.getName() + "#ENABLED", "true"));
 
 	private static final ModelTranslatorFactory INSTANCE = new ModelTranslatorFactory();
 }
