@@ -18,14 +18,16 @@
  */
 package org.jpmml.translator;
 
+import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -39,7 +41,6 @@ import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JForEach;
 import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JFormatter;
@@ -194,11 +195,9 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	@Override
-	public JFieldVar initTokenizedStringLists(String name, TokenizedString[] tokenizedStrings){
+	public JInvocation initTokenizedStringLists(TokenizedString[] tokenizedStrings){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
-
-		JFieldVar constant = createListConstant(name, context.ref(TokenizedString.class), context);
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
@@ -210,17 +209,13 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readTokenizedStrings", this.dataInputVar, tokenizedStrings.length);
 
-		add(context.staticInvoke(Collections.class, "addAll", constant, invocation));
-
-		return constant;
+		return context.staticInvoke(Arrays.class, "asList").arg(invocation);
 	}
 
 	@Override
-	public JFieldVar initNumbers(String name, MathContext mathContext, Number[] values){
+	public JInvocation initNumbers(MathContext mathContext, Number[] values){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
-
-		JFieldVar constant = createListConstant(name, context.ref(Number.class), context);
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
@@ -241,21 +236,15 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumbers(mathContext), this.dataInputVar, values.length);
 
-		add(context.staticInvoke(Collections.class, "addAll", constant, invocation));
-
-		return constant;
+		return context.staticInvoke(Arrays.class, "asList").arg(invocation);
 	}
 
 	@Override
-	public JFieldVar initNumbersList(String name, MathContext mathContext, List<Number[]> elements){
+	public JInvocation initNumbersList(MathContext mathContext, List<Number[]> elements){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
-		JFieldVar constant = createListConstant(name, context.ref(Number[].class), context);
-
-		JType intType = context._ref(int.class);
-
-		JArray countArray = JExpr.newArray(intType);
+		JArray countArray = JExpr.newArray(context._ref(int.class));
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
@@ -279,36 +268,17 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JMethod initMethod = createMethod(name, context)
-			._throws(IOException.class);
+		JMethod initMethod = ensureReadNumbersListMethod(readNumbers(mathContext), context);
 
-		JVar dataInputParam = initMethod.param(DataInputStream.class, "dataInput");
-
-		JBlock block = initMethod.body();
-
-		JVar countsVar = block.decl(intType.array(), "counts", countArray);
-
-		JForEach forEach = block.forEach(intType, "count", countsVar);
-
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumbers(mathContext), dataInputParam, forEach.var());
-
-		forEach.body().add((constant.invoke("add")).arg(invocation));
-
-		add(JExpr.invoke(initMethod).arg(this.dataInputVar));
-
-		return constant;
+		return JExpr.invoke(initMethod).arg(this.dataInputVar).arg(countArray);
 	}
 
 	@Override
-	public JFieldVar initNumberArraysList(String name, MathContext mathContext, List<Number[][]> elements, int length){
+	public JInvocation initNumberArraysList(MathContext mathContext, List<Number[][]> elements, int length){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
-		JFieldVar constant = createListConstant(name, context.ref(Number[][].class), context);
-
-		JType intType = context._ref(int.class);
-
-		JArray countArray = JExpr.newArray(intType);
+		JArray countArray = JExpr.newArray(context._ref(int.class));
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
@@ -332,40 +302,21 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JMethod initMethod = createMethod(name, context).
-			_throws(IOException.class);
+		JMethod initMethod = ensureReadNumberArraysListMethod(readNumberArrays(mathContext), context);
 
-		JVar dataInputParam = initMethod.param(DataInputStream.class, "dataInput");
-
-		JBlock block = initMethod.body();
-
-		JVar countsVar = block.decl(intType.array(), "counts", countArray);
-
-		JForEach forEach = block.forEach(intType, "count", countsVar);
-
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumberArrays(mathContext), dataInputParam, forEach.var(), length);
-
-		forEach.body().add((constant.invoke("add")).arg(invocation));
-
-		add(JExpr.invoke(initMethod).arg(this.dataInputVar));
-
-		return constant;
+		return JExpr.invoke(initMethod).arg(this.dataInputVar).arg(countArray).arg(JExpr.lit(length));
 	}
 
 	@Override
-	public JFieldVar initNumbersMap(String name, Map<?, Number> map){
+	public JInvocation initNumbersMap(Map<?, Number> map){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
-
-		JDefinedClass owner = context.getOwner();
 
 		Set<?> keys = map.keySet();
 		Collection<Number> values = map.values();
 
 		Class<?> keyClazz = getValueClass(keys);
 		Class<?> valueClazz = getValueClass(values);
-
-		JFieldVar constant = createMapConstant(name, context.ref(keyClazz), context.ref(valueClazz), context);
 
 		String keyReadMethod;
 		String valueReadMethod;
@@ -419,37 +370,9 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JClass keysArrayClazz = (context.ref(keyClazz)).array();
-		JClass valuesArrayClazz = (context.ref(valueClazz)).array();
+		JMethod initMethod = ensureReadNumbersMapMethod(keyReadMethod, valueReadMethod, context);
 
-		JMethod putAllMethod = owner.getMethod("putAll", new JType[]{constant.type(), keysArrayClazz, valuesArrayClazz});
-		if(putAllMethod == null){
-			putAllMethod = owner.method(Modifiers.PRIVATE_STATIC_FINAL, void.class, "putAll");
-
-			JVar mapParam = putAllMethod.param(constant.type(), "map");
-
-			JVar keysParam = putAllMethod.param(keysArrayClazz, "keys");
-			JVar valuesParam = putAllMethod.param(valuesArrayClazz, "values");
-
-			JBlock block = putAllMethod.body();
-
-			JForLoop forLoop = block._for();
-
-			JVar loopVar = forLoop.init(context._ref(int.class), "i", JExpr.lit(0));
-			forLoop.test(loopVar.lt(keysParam.ref("length")));
-			forLoop.update(loopVar.incr());
-
-			JBlock forBlock = forLoop.body();
-
-			forBlock.add(JExpr.invoke(mapParam, "put").arg(keysParam.component(loopVar)).arg(valuesParam.component(loopVar)));
-		}
-
-		JInvocation keysInvocation = context.staticInvoke(ResourceUtil.class, keyReadMethod, this.dataInputVar, map.size());
-		JInvocation valuesInvocation = context.staticInvoke(ResourceUtil.class, valueReadMethod, this.dataInputVar, map.size());
-
-		add(JExpr.invoke(putAllMethod).arg(constant).arg(keysInvocation).arg(valuesInvocation));
-
-		return constant;
+		return JExpr.invoke(initMethod).arg(this.dataInputVar).arg(JExpr.lit(map.size()));
 	}
 
 	public JBinaryFile getBinaryFile(){
@@ -464,6 +387,118 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	private <E> E[] castArray(Object[] values, E[] newValues){
 		return Arrays.asList(values)
 			.toArray(newValues);
+	}
+
+	static
+	private JMethod ensureReadNumbersListMethod(String readMethod, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		String name = readMethod + "List";
+
+		JType dataInputClazz = context.ref(DataInput.class);
+		JType intClazz = context._ref(int.class);
+		JType intArrayClazz = intClazz.array();
+
+		JMethod method = owner.getMethod(name, new JType[]{dataInputClazz, intArrayClazz});
+		if(method == null){
+			method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, context.ref(Number[].class)), name)
+				._throws(IOException.class);
+
+			JVar dataInputParam = method.param(dataInputClazz, "dataInput");
+			JVar countsParam = method.param(intArrayClazz, "counts");
+
+			JBlock block = method.body();
+
+			JVar resultVar = block.decl(method.type(), "result", context._new(ArrayList.class));
+
+			JForEach forEach = block.forEach(intClazz, "count", countsParam);
+
+			JInvocation invocation = context.staticInvoke(ResourceUtil.class, readMethod, dataInputParam, forEach.var());
+
+			forEach.body().add((resultVar.invoke("add")).arg(invocation));
+
+			block._return(resultVar);
+		}
+
+		return method;
+	}
+
+	static
+	private JMethod ensureReadNumberArraysListMethod(String readMethod, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		String name = readMethod + "List";
+
+		JType dataInputClazz = context.ref(DataInput.class);
+		JType intClazz = context._ref(int.class);
+		JType intArrayClazz = intClazz.array();
+
+		JMethod method = owner.getMethod(name, new JType[]{dataInputClazz, intArrayClazz, intClazz});
+		if(method == null){
+			method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, context.ref(Number[][].class)), name).
+				_throws(IOException.class);
+
+			JVar dataInputParam = method.param(DataInput.class, "dataInput");
+			JVar countsParam = method.param(intArrayClazz, "counts");
+			JVar lengthParam = method.param(intClazz, "length");
+
+			JBlock block = method.body();
+
+			JVar resultVar = block.decl(method.type(), "result", context._new(ArrayList.class));
+
+			JForEach forEach = block.forEach(intClazz, "count", countsParam);
+
+			JInvocation invocation = context.staticInvoke(ResourceUtil.class, readMethod, dataInputParam, forEach.var(), lengthParam);
+
+			forEach.body().add((resultVar.invoke("add")).arg(invocation));
+
+			block._return(resultVar);
+		}
+
+		return method;
+	}
+
+	static
+	private JMethod ensureReadNumbersMapMethod(String keyReadMethod, String valueReadMethod, TranslationContext context){
+		JDefinedClass owner = context.getOwner();
+
+		String name = keyReadMethod + valueReadMethod.replace("read", "") + "Map";
+
+		JType dataInputClazz = context.ref(DataInput.class);
+		JType intClazz = context._ref(int.class);
+
+		JMethod method = owner.getMethod(name, new JType[]{dataInputClazz, intClazz});
+		if(method == null){
+			method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, context.ref(Object.class), context.ref(Number.class)), name)
+				._throws(IOException.class);
+
+			JVar dataInputParam = method.param(DataInput.class, "dataInput");
+			JVar sizeParam = method.param(intClazz, "size");
+
+			JBlock block = method.body();
+
+			JVar resultVar = block.decl(method.type(), "result", context._new(LinkedHashMap.class));
+
+			JInvocation keysInvocation = context.staticInvoke(ResourceUtil.class, keyReadMethod, dataInputParam, sizeParam);
+			JInvocation valuesInvocation = context.staticInvoke(ResourceUtil.class, valueReadMethod, dataInputParam, sizeParam);
+
+			JVar keysVar = block.decl(context.ref(Object.class).array(), "keys", keysInvocation);
+			JVar valuesVar = block.decl(context.ref(Number.class).array(), "values", valuesInvocation);
+
+			JForLoop forLoop = block._for();
+
+			JVar loopVar = forLoop.init(intClazz, "i", JExpr.lit(0));
+			forLoop.test(loopVar.lt(sizeParam));
+			forLoop.update(loopVar.incr());
+
+			JBlock forBlock = forLoop.body();
+
+			forBlock.add(JExpr.invoke(resultVar, "put").arg(keysVar.component(loopVar)).arg(valuesVar.component(loopVar)));
+
+			block._return(resultVar);
+		}
+
+		return method;
 	}
 
 	static

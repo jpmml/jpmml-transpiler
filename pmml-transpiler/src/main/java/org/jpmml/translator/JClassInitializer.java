@@ -18,15 +18,12 @@
  */
 package org.jpmml.translator;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JFieldVar;
-import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JStatement;
 import org.jpmml.evaluator.JavaExpression;
 import org.jpmml.evaluator.java.JavaModel;
@@ -53,19 +50,10 @@ class JClassInitializer {
 	}
 
 	static
-	protected JMethod createMethod(String name, TranslationContext context){
+	protected JFieldVar createListConstant(String name, JClass elementType, TranslationContext context){
 		JDefinedClass owner = getOwner(context);
 
-		JMethod method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, void.class, "init" + (name.substring(0, 1)).toUpperCase() + name.substring(1));
-
-		return method;
-	}
-
-	static
-	protected JFieldVar createListConstant(String name, JClass type, TranslationContext context){
-		JDefinedClass owner = getOwner(context);
-
-		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, type), name, context._new(ArrayList.class));
+		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, elementType), name);
 
 		return constant;
 	}
@@ -74,7 +62,7 @@ class JClassInitializer {
 	protected JFieldVar createMapConstant(String name, JClass keyType, JClass valueType, TranslationContext context){
 		JDefinedClass owner = getOwner(context);
 
-		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, keyType, valueType), name, context._new(LinkedHashMap.class));
+		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, keyType, valueType), name);
 
 		return constant;
 	}

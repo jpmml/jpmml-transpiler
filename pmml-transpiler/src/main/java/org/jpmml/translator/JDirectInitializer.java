@@ -19,9 +19,8 @@
 package org.jpmml.translator;
 
 import java.lang.reflect.Field;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
@@ -29,7 +28,6 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
-import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JStatement;
 
@@ -55,17 +53,11 @@ public class JDirectInitializer extends JClassInitializer {
 
 		JFieldVar constant = createListConstant(name, type, context);
 
-		JMethod initMethod = createMethod(name, context);
-
-		List<JExpression> lambdas = methods.stream()
+		JExpression[] lambdas = methods.stream()
 			.map(method -> JExpr.direct(formatLambda(method)))
-			.collect(Collectors.toList());
+			.toArray(JExpression[]::new);
 
-		JInvocation invocation = populateConstant(constant, lambdas, context);
-
-		initMethod.body().add(invocation);
-
-		add(JExpr.invoke(initMethod));
+		constant.init(context.staticInvoke(Arrays.class, "asList", lambdas));
 
 		return constant;
 	}
@@ -75,13 +67,11 @@ public class JDirectInitializer extends JClassInitializer {
 
 		JFieldVar constant = createListConstant(name, context.ref(Object.class), context);
 
-		List<JExpression> literals = categories.stream()
+		JExpression[] literals = categories.stream()
 			.map(category -> PMMLObjectUtil.createExpression(category, context))
-			.collect(Collectors.toList());
+			.toArray(JExpression[]::new);
 
-		JInvocation invocation = populateConstant(constant, literals, context);
-
-		add(invocation);
+		constant.init(context.staticInvoke(Arrays.class, "asList", literals));
 
 		return constant;
 	}
@@ -102,16 +92,5 @@ public class JDirectInitializer extends JClassInitializer {
 		}
 
 		return outer.name() + "::" + method.name();
-	}
-
-	static
-	private JInvocation populateConstant(JFieldVar constant, List<JExpression> exprs, TranslationContext context){
-		JInvocation invocation = context.staticInvoke(Collections.class, "addAll", constant);
-
-		for(JExpression expr : exprs){
-			invocation = invocation.arg(expr);
-		}
-
-		return invocation;
 	}
 }

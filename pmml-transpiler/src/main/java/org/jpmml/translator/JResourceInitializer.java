@@ -53,19 +53,69 @@ public class JResourceInitializer extends JClassInitializer {
 	public JInvocation initValues(JType type, Object[] values);
 
 	abstract
-	public JFieldVar initTokenizedStringLists(String name, TokenizedString[] tokenizedStrings);
+	public JInvocation initTokenizedStringLists(TokenizedString[] tokenizedStrings);
 
 	abstract
-	public JFieldVar initNumbers(String name, MathContext mathContext, Number[] values);
+	public JInvocation initNumbers(MathContext mathContext, Number[] values);
 
 	abstract
-	public JFieldVar initNumbersList(String name, MathContext mathContext, List<Number[]> elements);
+	public JInvocation initNumbersList(MathContext mathContext, List<Number[]> elements);
 
 	abstract
-	public JFieldVar initNumberArraysList(String name, MathContext mathContext, List<Number[][]> elements, int length);
+	public JInvocation initNumberArraysList(MathContext mathContext, List<Number[][]> elements, int length);
 
 	abstract
-	public JFieldVar initNumbersMap(String name, Map<?, Number> map);
+	public JInvocation initNumbersMap(Map<?, Number> map);
+
+	public JFieldVar initTokenizedStringLists(String name, TokenizedString[] tokenizedStrings){
+		TranslationContext context = getContext();
+
+		JFieldVar constant = createListConstant(name, context.ref(TokenizedString.class), context);
+
+		assign(constant, initTokenizedStringLists(tokenizedStrings));
+
+		return constant;
+	}
+
+	public JFieldVar initNumbers(String name, MathContext mathContext, Number[] values){
+		TranslationContext context = getContext();
+
+		JFieldVar constant = createListConstant(name, context.ref(Number.class), context);
+
+		assign(constant, initNumbers(mathContext, values));
+
+		return constant;
+	}
+
+	public JFieldVar initNumbersList(String name, MathContext mathContext, List<Number[]> elements){
+		TranslationContext context = getContext();
+
+		JFieldVar constant = createListConstant(name, context.ref(Number[].class), context);
+
+		assign(constant, initNumbersList(mathContext, elements));
+
+		return constant;
+	}
+
+	public JFieldVar initNumberArraysList(String name, MathContext mathContext, List<Number[][]> elements, int length){
+		TranslationContext context = getContext();
+
+		JFieldVar constant = createListConstant(name, context.ref(Number[][].class), context);
+
+		assign(constant, initNumberArraysList(mathContext, elements, length));
+
+		return constant;
+	}
+
+	public JFieldVar initNumbersMap(String name, Map<?, Number> map){
+		TranslationContext context = getContext();
+
+		JFieldVar constant = createMapConstant(name, context.wildcard(), context.ref(Number.class), context);
+
+		assign(constant, initNumbersMap(map));
+
+		return constant;
+	}
 
 	static
 	public boolean isExternalizable(Class<?> clazz){
