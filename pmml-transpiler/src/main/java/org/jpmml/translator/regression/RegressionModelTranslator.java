@@ -44,7 +44,6 @@ import com.sun.codemodel.JForEach;
 import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.MathContext;
 import org.dmg.pmml.MiningFunction;
 import org.dmg.pmml.Output;
 import org.dmg.pmml.OutputField;
@@ -500,7 +499,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				.map(coefficientFunction)
 				.toArray(Number[]::new);
 
-			JFieldVar coefficientsVar = resourceInitializer.initNumbers(IdentifierUtil.create("coefficients", regressionTable, name), MathContext.DOUBLE, coefficients);
+			JFieldVar coefficientsVar = resourceInitializer.initNumbers(IdentifierUtil.create("coefficients", regressionTable, name), coefficients);
 
 			Number[] weights = predictors.stream()
 				.map(weightFunction)
@@ -509,7 +508,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			JFieldVar weightsVar = null;
 
 			if((Arrays.stream(weights)).anyMatch(weight -> (weights != null && weight.doubleValue() != 1d))){
-				weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", regressionTable, name), MathContext.DOUBLE, weights);
+				weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", regressionTable, name), weights);
 			}
 
 			int maxLength = Arrays.stream(terms)

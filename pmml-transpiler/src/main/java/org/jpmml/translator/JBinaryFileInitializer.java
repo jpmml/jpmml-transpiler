@@ -24,13 +24,13 @@ import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -51,7 +51,6 @@ import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.codemodel.fmt.JBinaryFile;
-import org.dmg.pmml.MathContext;
 import org.jpmml.evaluator.ResourceUtil;
 import org.jpmml.evaluator.TokenizedString;
 
@@ -172,32 +171,14 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
 
-			String typeName = type.fullName();
-			switch(typeName){
-				case "java.lang.String":
-					ResourceUtil.writeStrings(dataOutput, castArray(values, new String[values.length]));
-					readMethod = "readStrings";
-					break;
-				case "java.lang.Integer":
-					ResourceUtil.writeIntegers(dataOutput, castArray(values, new Integer[values.length]));
-					readMethod = "readIntegers";
-					break;
-				case "java.lang.Float":
-					ResourceUtil.writeFloats(dataOutput, castArray(values, new Float[values.length]));
-					readMethod = "readFloats";
-					break;
-				case "java.lang.Double":
-					ResourceUtil.writeDoubles(dataOutput, castArray(values, new Double[values.length]));
-					readMethod = "readDoubles";
-					break;
-				default:
-					throw new IllegalArgumentException(typeName);
-			}
+			readMethod = recordValues(dataOutput, type, values);
 		} catch(IOException ioe){
 			throw new RuntimeException(ioe);
 		}
 
-		return context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
+
+		return invocation;
 	}
 
 	@Override
@@ -219,36 +200,31 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	@Override
-	public JInvocation initNumbers(MathContext mathContext, Number[] values){
+	public JInvocation initNumbers(JType type, Number[] values){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
+
+		String readMethod;
 
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
 
-			switch(mathContext){
-				case FLOAT:
-					ResourceUtil.writeFloats(dataOutput, values);
-					break;
-				case DOUBLE:
-					ResourceUtil.writeDoubles(dataOutput, values);
-					break;
-				default:
-					throw new IllegalArgumentException();
-			}
+			readMethod = recordValues(dataOutput, type, values);
 		} catch(IOException ioe){
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readNumbers(mathContext), this.dataInputVar, values.length);
+		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
 
 		return context.staticInvoke(Arrays.class, "asList").arg(invocation);
 	}
 
 	@Override
-	public JInvocation initNumbersList(MathContext mathContext, List<Number[]> elements){
+	public JInvocation initNumbersList(JType type, List<Number[]> elements){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
+
+		String readMethod = null;
 
 		JArray countArray = JExpr.newArray(context._ref(int.class));
 
@@ -256,17 +232,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			DataOutput dataOutput = new DataOutputStream(os);
 
 			for(Number[] element : elements){
-
-				switch(mathContext){
-					case FLOAT:
-						ResourceUtil.writeFloats(dataOutput, element);
-						break;
-					case DOUBLE:
-						ResourceUtil.writeDoubles(dataOutput, element);
-						break;
-					default:
-						throw new IllegalArgumentException();
-				}
+				readMethod = recordValues(dataOutput, type.elementType(), element);
 
 				countArray.add(JExpr.lit(element.length));
 			}
@@ -274,15 +240,17 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JMethod initMethod = ensureReadNumbersListMethod(readNumbers(mathContext), context);
+		JMethod readNumbersListMethod = ensureReadNumbersListMethod(type, readMethod, context);
 
-		return JExpr.invoke(initMethod).arg(this.dataInputVar).arg(countArray);
+		return JExpr.invoke(readNumbersListMethod).arg(this.dataInputVar).arg(countArray);
 	}
 
 	@Override
-	public JInvocation initNumberArraysList(MathContext mathContext, List<Number[][]> elements, int length){
+	public JInvocation initNumberArraysList(JType type, List<Number[][]> elements, int length){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
+
+		String readArraysMethod = null;
 
 		JArray countArray = JExpr.newArray(context._ref(int.class));
 
@@ -290,17 +258,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			DataOutput dataOutput = new DataOutputStream(os);
 
 			for(Number[][] element : elements){
-
-				switch(mathContext){
-					case FLOAT:
-						ResourceUtil.writeFloatArrays(dataOutput, element);
-						break;
-					case DOUBLE:
-						ResourceUtil.writeDoubleArrays(dataOutput, element);
-						break;
-					default:
-						throw new IllegalArgumentException();
-				}
+				readArraysMethod = recordArrayValues(dataOutput, type.elementType(), element);
 
 				countArray.add(JExpr.lit(element.length));
 			}
@@ -308,21 +266,21 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JMethod initMethod = ensureReadNumberArraysListMethod(readNumberArrays(mathContext), context);
+		JMethod readNumberArraysListMethod = ensureReadNumberArraysListMethod(type, readArraysMethod, context);
 
-		return JExpr.invoke(initMethod).arg(this.dataInputVar).arg(countArray).arg(JExpr.lit(length));
+		return JExpr.invoke(readNumberArraysListMethod).arg(this.dataInputVar).arg(countArray).arg(JExpr.lit(length));
 	}
 
 	@Override
-	public JInvocation initNumbersMap(Map<?, Number> map){
+	public JInvocation initNumbersMap(JType keyType, JType valueType, Map<?, Number> map){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
 		Set<?> keys = map.keySet();
 		Collection<Number> values = map.values();
 
-		Class<?> keyClazz = getValueClass(keys);
-		Class<?> valueClazz = getValueClass(values);
+		Class<?> keysClazz = getValueClass(keys);
+		Class<?> valuesClazz = getValueClass(values, Number.class);
 
 		String keyReadMethod;
 		String valueReadMethod;
@@ -330,55 +288,51 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 		try(OutputStream os = binaryFile.getDataStore()){
 			DataOutput dataOutput = new DataOutputStream(os);
 
-			if(Objects.equals(keyClazz, String.class)){
-				ResourceUtil.writeStrings(dataOutput, keys.toArray(new String[keys.size()]));
-				keyReadMethod = "readStrings";
-			} else
-
-			if(Objects.equals(keyClazz, Integer.class)){
-				ResourceUtil.writeIntegers(dataOutput, keys.toArray(new Integer[keys.size()]));
-				keyReadMethod = "readIntegers";
-			} else
-
-			if(Objects.equals(keyClazz, Float.class)){
-				ResourceUtil.writeFloats(dataOutput, keys.toArray(new Float[keys.size()]));
-				keyReadMethod = "readFloats";
-			} else
-
-			if(Objects.equals(keyClazz, Double.class)){
-				ResourceUtil.writeDoubles(dataOutput, keys.toArray(new Double[keys.size()]));
-				keyReadMethod = "readDoubles";
-			} else
-
-			{
-				throw new IllegalArgumentException();
-			} // End if
-
-			if(Objects.equals(valueClazz, Integer.class)){
-				ResourceUtil.writeIntegers(dataOutput, values.toArray(new Integer[values.size()]));
-				valueReadMethod = "readIntegers";
-			} else
-
-			if(Objects.equals(valueClazz, Float.class)){
-				ResourceUtil.writeFloats(dataOutput, values.toArray(new Float[values.size()]));
-				valueReadMethod = "readFloats";
-			} else
-
-			if(Objects.equals(valueClazz, Double.class)){
-				ResourceUtil.writeDoubles(dataOutput, values.toArray(new Double[values.size()]));
-				valueReadMethod = "readDoubles";
-			} else
-
-			{
-				throw new IllegalArgumentException();
-			}
+			keyReadMethod = recordValues(dataOutput, keyType, toArray(keys, keysClazz));
+			valueReadMethod = recordValues(dataOutput, valueType, toArray(values, valuesClazz));
 		} catch(IOException ioe){
 			throw new RuntimeException(ioe);
 		}
 
-		JMethod initMethod = ensureReadNumbersMapMethod(keyReadMethod, valueReadMethod, context);
+		JMethod readNumbersMapMethod = ensureReadNumbersMapMethod(keyType, valueType, keyReadMethod, valueReadMethod, context);
 
-		return JExpr.invoke(initMethod).arg(this.dataInputVar).arg(JExpr.lit(map.size()));
+		return JExpr.invoke(readNumbersMapMethod).arg(this.dataInputVar).arg(JExpr.lit(map.size()));
+	}
+
+	private String recordValues(DataOutput dataOutput, JType type, Object[] values) throws IOException {
+		String typeName = type.fullName();
+
+		switch(typeName){
+			case "java.lang.String":
+				ResourceUtil.writeStrings(dataOutput, castArray(values, new String[values.length]));
+				return "readStrings";
+			case "java.lang.Integer":
+				ResourceUtil.writeIntegers(dataOutput, castArray(values, new Integer[values.length]));
+				return "readIntegers";
+			case "java.lang.Float":
+				ResourceUtil.writeFloats(dataOutput, castArray(values, new Float[values.length]));
+				return "readFloats";
+			case "java.lang.Double":
+				ResourceUtil.writeDoubles(dataOutput, castArray(values, new Double[values.length]));
+				return "readDoubles";
+			default:
+				throw new IllegalArgumentException(typeName);
+		}
+	}
+
+	private String recordArrayValues(DataOutput dataOutput, JType type, Number[][] values) throws IOException {
+		String typeName = type.fullName();
+
+		switch(typeName){
+			case "java.lang.Float[]":
+				ResourceUtil.writeFloatArrays(dataOutput, values);
+				return "readFloatArrays";
+			case "java.lang.Double[]":
+				ResourceUtil.writeDoubleArrays(dataOutput, values);
+				return "readDoubleArrays";
+			default:
+				throw new IllegalArgumentException(typeName);
+		}
 	}
 
 	public JBinaryFile getBinaryFile(){
@@ -390,13 +344,18 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	static
+	private <E> E[] toArray(Collection<?> values, Class<? extends E> clazz){
+		return values.toArray(size -> (E[])Array.newInstance(clazz, size));
+	}
+
+	static
 	private <E> E[] castArray(Object[] values, E[] newValues){
 		return Arrays.asList(values)
 			.toArray(newValues);
 	}
 
 	static
-	private JMethod ensureReadNumbersListMethod(String readMethod, TranslationContext context){
+	private JMethod ensureReadNumbersListMethod(JType type, String readMethod, TranslationContext context){
 		JDefinedClass owner = getResourceOwner(context);
 
 		String name = readMethod + "List";
@@ -407,7 +366,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		JMethod method = owner.getMethod(name, new JType[]{dataInputClazz, intArrayClazz});
 		if(method == null){
-			method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, context.ref(Number[].class)), name)
+			method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, type), name)
 				._throws(IOException.class);
 
 			JVar dataInputParam = method.param(dataInputClazz, "dataInput");
@@ -430,10 +389,10 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	static
-	private JMethod ensureReadNumberArraysListMethod(String readMethod, TranslationContext context){
+	private JMethod ensureReadNumberArraysListMethod(JType type, String readArraysMethod, TranslationContext context){
 		JDefinedClass owner = getResourceOwner(context);
 
-		String name = readMethod + "List";
+		String name = readArraysMethod + "List";
 
 		JType dataInputClazz = context.ref(DataInput.class);
 		JType intClazz = context._ref(int.class);
@@ -441,7 +400,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		JMethod method = owner.getMethod(name, new JType[]{dataInputClazz, intArrayClazz, intClazz});
 		if(method == null){
-			method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, context.ref(Number[][].class)), name).
+			method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, type), name).
 				_throws(IOException.class);
 
 			JVar dataInputParam = method.param(DataInput.class, "dataInput");
@@ -454,7 +413,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 			JForEach forEach = block.forEach(intClazz, "count", countsParam);
 
-			JInvocation invocation = context.staticInvoke(ResourceUtil.class, readMethod, dataInputParam, forEach.var(), lengthParam);
+			JInvocation invocation = context.staticInvoke(ResourceUtil.class, readArraysMethod, dataInputParam, forEach.var(), lengthParam);
 
 			forEach.body().add((resultVar.invoke("add")).arg(invocation));
 
@@ -465,7 +424,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	static
-	private JMethod ensureReadNumbersMapMethod(String keyReadMethod, String valueReadMethod, TranslationContext context){
+	private JMethod ensureReadNumbersMapMethod(JType keyType, JType valueType, String keyReadMethod, String valueReadMethod, TranslationContext context){
 		JDefinedClass owner = getResourceOwner(context);
 
 		String name = keyReadMethod + valueReadMethod.replace("read", "") + "Map";
@@ -475,7 +434,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		JMethod method = owner.getMethod(name, new JType[]{dataInputClazz, intClazz});
 		if(method == null){
-			method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, context.ref(Object.class), context.ref(Number.class)), name)
+			method = owner.method(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, keyType, valueType), name)
 				._throws(IOException.class);
 
 			JVar dataInputParam = method.param(DataInput.class, "dataInput");
@@ -488,8 +447,8 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			JInvocation keysInvocation = context.staticInvoke(ResourceUtil.class, keyReadMethod, dataInputParam, sizeParam);
 			JInvocation valuesInvocation = context.staticInvoke(ResourceUtil.class, valueReadMethod, dataInputParam, sizeParam);
 
-			JVar keysVar = block.decl(context.ref(Object.class).array(), "keys", keysInvocation);
-			JVar valuesVar = block.decl(context.ref(Number.class).array(), "values", valuesInvocation);
+			JVar keysVar = block.decl(keyType.array(), "keys", keysInvocation);
+			JVar valuesVar = block.decl(valueType.array(), "values", valuesInvocation);
 
 			JForLoop forLoop = block._for();
 
@@ -505,31 +464,5 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 		}
 
 		return method;
-	}
-
-	static
-	private String readNumbers(MathContext mathContext){
-
-		switch(mathContext){
-			case FLOAT:
-				return "readFloats";
-			case DOUBLE:
-				return "readDoubles";
-			default:
-				throw new IllegalArgumentException();
-		}
-	}
-
-	static
-	private String readNumberArrays(MathContext mathContext){
-
-		switch(mathContext){
-			case FLOAT:
-				return "readFloatArrays";
-			case DOUBLE:
-				return "readDoubleArrays";
-			default:
-				throw new IllegalArgumentException();
-		}
 	}
 }

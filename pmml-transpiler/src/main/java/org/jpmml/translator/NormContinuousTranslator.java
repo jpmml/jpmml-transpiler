@@ -39,7 +39,6 @@ import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataType;
 import org.dmg.pmml.LinearNorm;
-import org.dmg.pmml.MathContext;
 import org.dmg.pmml.NormContinuous;
 import org.dmg.pmml.OpType;
 import org.dmg.pmml.OutlierTreatmentMethod;
@@ -87,7 +86,7 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 			.map(linearNorm -> new Number[]{linearNorm.requireOrig(), linearNorm.requireNorm()})
 			.collect(Collectors.toList());
 
-		JFieldVar linearNormsVar = resourceInitializer.initNumbersList("linearNorms", MathContext.DOUBLE, linearNormValues);
+		JFieldVar linearNormsVar = resourceInitializer.initNumbersList("linearNorms", linearNormValues);
 
 		JVar rangeMapVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(RangeMap.class, Double.class, normContinuousFuncInterface), "rangeMap", context.staticInvoke(TreeRangeMap.class, "create"));
 

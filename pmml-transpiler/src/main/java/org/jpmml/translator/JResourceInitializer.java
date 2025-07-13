@@ -18,6 +18,7 @@
  */
 package org.jpmml.translator;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +29,12 @@ import java.util.stream.Collectors;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Iterables;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import org.dmg.pmml.MathContext;
 import org.jpmml.evaluator.TokenizedString;
 
 abstract
@@ -56,16 +57,16 @@ public class JResourceInitializer extends JClassInitializer {
 	public JInvocation initTokenizedStringLists(TokenizedString[] tokenizedStrings);
 
 	abstract
-	public JInvocation initNumbers(MathContext mathContext, Number[] values);
+	public JInvocation initNumbers(JType type, Number[] values);
 
 	abstract
-	public JInvocation initNumbersList(MathContext mathContext, List<Number[]> elements);
+	public JInvocation initNumbersList(JType type, List<Number[]> elements);
 
 	abstract
-	public JInvocation initNumberArraysList(MathContext mathContext, List<Number[][]> elements, int length);
+	public JInvocation initNumberArraysList(JType type, List<Number[][]> elements, int length);
 
 	abstract
-	public JInvocation initNumbersMap(Map<?, Number> map);
+	public JInvocation initNumbersMap(JType keyType, JType valueType, Map<?, Number> map);
 
 	public JFieldVar initTokenizedStringLists(String name, TokenizedString[] tokenizedStrings){
 		TranslationContext context = getContext();
@@ -77,32 +78,53 @@ public class JResourceInitializer extends JClassInitializer {
 		return constant;
 	}
 
-	public JFieldVar initNumbers(String name, MathContext mathContext, Number[] values){
+	public JFieldVar initNumbers(String name, Number[] values){
 		TranslationContext context = getContext();
 
-		JFieldVar constant = createListConstant(name, context.ref(Number.class), context);
+		Class<?> valueClazz = getValueClass(Arrays.asList(values), Number.class);
 
-		assign(constant, initNumbers(mathContext, values));
+		JClass type = context.ref(valueClazz);
+
+		JFieldVar constant = createListConstant(name, type, context);
+
+		assign(constant, initNumbers(type, values));
 
 		return constant;
 	}
 
-	public JFieldVar initNumbersList(String name, MathContext mathContext, List<Number[]> elements){
+	public JFieldVar initNumbersList(String name, List<Number[]> elements){
 		TranslationContext context = getContext();
 
-		JFieldVar constant = createListConstant(name, context.ref(Number[].class), context);
+		Collection<Number> values = elements.stream()
+			.flatMap(Arrays::stream)
+			.collect(Collectors.toList());
 
-		assign(constant, initNumbersList(mathContext, elements));
+		Class<?> valueClazz = getValueClass(values, Number.class);
+
+		JClass type = (context.ref(valueClazz)).array();
+
+		JFieldVar constant = createListConstant(name, type, context);
+
+		assign(constant, initNumbersList(type, elements));
 
 		return constant;
 	}
 
-	public JFieldVar initNumberArraysList(String name, MathContext mathContext, List<Number[][]> elements, int length){
+	public JFieldVar initNumberArraysList(String name, List<Number[][]> elements, int length){
 		TranslationContext context = getContext();
 
-		JFieldVar constant = createListConstant(name, context.ref(Number[][].class), context);
+		Collection<Number> values = elements.stream()
+			.flatMap(Arrays::stream)
+			.flatMap(Arrays::stream)
+			.collect(Collectors.toList());
 
-		assign(constant, initNumberArraysList(mathContext, elements, length));
+		Class<?> valuesClazz = getValueClass(values, Number.class);
+
+		JClass type = (context.ref(valuesClazz)).array().array();
+
+		JFieldVar constant = createListConstant(name, type, context);
+
+		assign(constant, initNumberArraysList(type, elements, length));
 
 		return constant;
 	}
@@ -110,9 +132,18 @@ public class JResourceInitializer extends JClassInitializer {
 	public JFieldVar initNumbersMap(String name, Map<?, Number> map){
 		TranslationContext context = getContext();
 
-		JFieldVar constant = createMapConstant(name, context.wildcard(), context.ref(Number.class), context);
+		Collection<?> keys = map.keySet();
+		Collection<Number> values = map.values();
 
-		assign(constant, initNumbersMap(map));
+		Class<?> keysClazz = getValueClass(keys);
+		Class<?> valuesClazz = getValueClass(values, Number.class);
+
+		JClass keyType = context.ref(keysClazz);
+		JClass valueType = context.ref(valuesClazz);
+
+		JFieldVar constant = createMapConstant(name, keyType, valueType, context);
+
+		assign(constant, initNumbersMap(keyType, valueType, map));
 
 		return constant;
 	}
@@ -142,6 +173,11 @@ public class JResourceInitializer extends JClassInitializer {
 
 	static
 	public Class<?> getValueClass(Collection<?> values){
+		return getValueClass(values, Object.class);
+	}
+
+	static
+	public Class<?> getValueClass(Collection<?> values, Class<?> defaultClazz){
 		Set<Class<?>> valueClazzes = values.stream()
 			.map(value -> value.getClass())
 			.collect(Collectors.toSet());
@@ -150,6 +186,6 @@ public class JResourceInitializer extends JClassInitializer {
 			return Iterables.getOnlyElement(valueClazzes);
 		}
 
-		return Object.class;
+		return defaultClazz;
 	}
 }
