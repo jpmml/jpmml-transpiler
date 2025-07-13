@@ -57,7 +57,7 @@ public class JDirectInitializer extends JClassInitializer {
 			.map(method -> JExpr.direct(formatLambda(method)))
 			.toArray(JExpression[]::new);
 
-		constant.init(context.staticInvoke(Arrays.class, "asList", lambdas));
+		constant.init(context.staticInvoke(Arrays.class, "asList", (Object[])lambdas));
 
 		return constant;
 	}
@@ -71,7 +71,7 @@ public class JDirectInitializer extends JClassInitializer {
 			.map(category -> PMMLObjectUtil.createExpression(category, context))
 			.toArray(JExpression[]::new);
 
-		constant.init(context.staticInvoke(Arrays.class, "asList", literals));
+		constant.init(context.staticInvoke(Arrays.class, "asList", (Object[])literals));
 
 		return constant;
 	}
