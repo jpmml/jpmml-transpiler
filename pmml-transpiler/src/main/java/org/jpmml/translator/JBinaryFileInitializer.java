@@ -79,7 +79,13 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		setBinaryFile(binaryFile);
 
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner;
+
+		try {
+			owner = getResourceOwner(context);
+		} catch(IllegalArgumentException iae){
+			owner = context.getOwner();
+		}
 
 		JPackage _package = owner.getPackage();
 
@@ -391,7 +397,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 	static
 	private JMethod ensureReadNumbersListMethod(String readMethod, TranslationContext context){
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = getResourceOwner(context);
 
 		String name = readMethod + "List";
 
@@ -425,7 +431,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 	static
 	private JMethod ensureReadNumberArraysListMethod(String readMethod, TranslationContext context){
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = getResourceOwner(context);
 
 		String name = readMethod + "List";
 
@@ -460,7 +466,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 	static
 	private JMethod ensureReadNumbersMapMethod(String keyReadMethod, String valueReadMethod, TranslationContext context){
-		JDefinedClass owner = context.getOwner();
+		JDefinedClass owner = getResourceOwner(context);
 
 		String name = keyReadMethod + valueReadMethod.replace("read", "") + "Map";
 

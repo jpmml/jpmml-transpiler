@@ -51,7 +51,7 @@ class JClassInitializer {
 
 	static
 	protected JFieldVar createListConstant(String name, JClass elementType, TranslationContext context){
-		JDefinedClass owner = getOwner(context);
+		JDefinedClass owner = getResourceOwner(context);
 
 		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, elementType), name);
 
@@ -60,7 +60,7 @@ class JClassInitializer {
 
 	static
 	protected JFieldVar createMapConstant(String name, JClass keyType, JClass valueType, TranslationContext context){
-		JDefinedClass owner = getOwner(context);
+		JDefinedClass owner = getResourceOwner(context);
 
 		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, keyType, valueType), name);
 
@@ -68,7 +68,7 @@ class JClassInitializer {
 	}
 
 	static
-	private JDefinedClass getOwner(TranslationContext context){
+	protected JDefinedClass getResourceOwner(TranslationContext context){
 
 		try {
 			return context.getOwner(JavaExpression.class);
