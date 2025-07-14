@@ -33,6 +33,7 @@
 	</developers>
 
 	<modules>
+		<module>pmml-translator</module>
 		<module>pmml-transpiler</module>
 		<module>pmml-transpiler-example</module>
 	</modules>
@@ -59,6 +60,11 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.jpmml</groupId>
+				<artifactId>pmml-translator</artifactId>
+				<version>1.5-SNAPSHOT</version>
+			</dependency>
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-transpiler</artifactId>

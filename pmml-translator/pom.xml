@@ -9,11 +9,11 @@
 	</parent>
 
 	<groupId>org.jpmml</groupId>
-	<artifactId>pmml-transpiler</artifactId>
+	<artifactId>pmml-translator</artifactId>
 	<packaging>jar</packaging>
 
-	<name>JPMML transpiler</name>
-	<description>JPMML class model transpiler</description>
+	<name>JPMML translator</name>
+	<description>JPMML class model translator</description>
 
 	<licenses>
 		<license>
@@ -24,9 +24,31 @@
 	</licenses>
 
 	<dependencies>
+		<!--
+		Keep the org.jpmml:pmml-evaluator dependency declaration at the top position
+		in order to inherit its transitive dependencies (esp. Guava).
+		-->
 		<dependency>
 			<groupId>org.jpmml</groupId>
-			<artifactId>pmml-translator</artifactId>
+			<artifactId>pmml-evaluator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>pmml-evaluator-metro</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>pmml-evaluator-testing</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>jpmml-codemodel</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jpmml</groupId>
+			<artifactId>pmml-converter</artifactId>
 		</dependency>
 
 		<dependency>
