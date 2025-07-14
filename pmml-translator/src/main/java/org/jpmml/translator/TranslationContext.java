@@ -482,11 +482,7 @@ public class TranslationContext {
 
 				JFieldVar mapField = resourceInitializer.initNumbersMap("map$" + System.identityHashCode(Collections.singletonList(resultMap)), (Map)resultMap);
 
-				JBlock thenBlock = block._if(mapField.invoke("containsKey").arg(valueExpr))._then();
-
-				thenBlock._return(mapField.invoke("get").arg(valueExpr));
-
-				block._return(PMMLObjectUtil.createExpression(defaultResult, this));
+				block._return(mapField.invoke("getOrDefault").arg(valueExpr).arg(PMMLObjectUtil.createExpression(defaultResult, this)));
 			} else
 
 			{
