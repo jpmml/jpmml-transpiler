@@ -101,16 +101,6 @@
 			</dependency>
 			<dependency>
 				<groupId>org.jpmml</groupId>
-				<artifactId>pmml-evaluator-metro</artifactId>
-				<version>${jpmml-evaluator.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jpmml</groupId>
-				<artifactId>pmml-evaluator-moxy</artifactId>
-				<version>${jpmml-evaluator.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-evaluator-testing</artifactId>
 				<version>${jpmml-evaluator.version}</version>
 			</dependency>
