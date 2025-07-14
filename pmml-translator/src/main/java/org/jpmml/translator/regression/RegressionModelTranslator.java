@@ -72,6 +72,7 @@ import org.jpmml.translator.IdentifierUtil;
 import org.jpmml.translator.JBinaryFileInitializer;
 import org.jpmml.translator.JDirectInitializer;
 import org.jpmml.translator.JResourceInitializer;
+import org.jpmml.translator.JResourceInitializerFactory;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.Modifiers;
@@ -322,6 +323,8 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			List<JMethod> evaluateCategoryMethods = new ArrayList<>();
 
+			JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
+
 			JResourceInitializer resourceInitializer = null;
 
 			Collection<Map.Entry<String, List<CategoricalPredictor>>> entries = fieldCategoricalPredictors.entrySet();
@@ -344,7 +347,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					if((categoryValues.size() > 16) && JBinaryFileInitializer.isExternalizable(categoryValues.keySet())){
 
 						if(resourceInitializer == null){
-							resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(CategoricalPredictor.class.getSimpleName(), regressionTable) + ".data", context);
+							resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(CategoricalPredictor.class.getSimpleName(), regressionTable), context);
 						}
 
 						JFieldVar mapVar = resourceInitializer.initNumbersMap(IdentifierUtil.create("map", regressionTable, name), categoryValues);
@@ -417,7 +420,9 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			return;
 		}
 
-		JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create("TermFrequency", regressionTable) + ".data", context);
+		JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
+
+		JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create("TermFrequency", regressionTable), context);
 
 		Function<FunctionInvocationPredictor, TextIndex> textIndexFunction = new Function<FunctionInvocationPredictor, TextIndex>(){
 

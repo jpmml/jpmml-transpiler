@@ -20,6 +20,7 @@ package org.jpmml.translator;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
@@ -46,7 +47,7 @@ class JClassInitializer {
 	}
 
 	private void setContext(TranslationContext context){
-		this.context = context;
+		this.context = Objects.requireNonNull(context);
 	}
 
 	static

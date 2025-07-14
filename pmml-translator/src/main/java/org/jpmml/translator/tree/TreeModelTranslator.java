@@ -77,9 +77,9 @@ import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.FpPrimitiveEncoder;
 import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
-import org.jpmml.translator.JBinaryFileInitializer;
 import org.jpmml.translator.JIfStatement;
 import org.jpmml.translator.JResourceInitializer;
+import org.jpmml.translator.JResourceInitializerFactory;
 import org.jpmml.translator.JVarBuilder;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
@@ -666,7 +666,9 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 
 		JFieldVar textIndexVar = (owner.fields()).get(textIndexName);
 		if(textIndexVar == null){
-			JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(TextIndex.class.getSimpleName(), textIndex) + ".data", context);
+			JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
+
+			JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(TextIndex.class.getSimpleName(), textIndex), context);
 
 			TextIndex localTextIndex = TextIndexUtil.toLocalTextIndex(textIndex, name);
 

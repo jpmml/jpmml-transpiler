@@ -80,7 +80,9 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 
 		JMethod createNormContinuousFuncMethod = ensureCreateNormContinuousFuncMethod(normContinuousFuncInterface, context);
 
-		JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(NormContinuous.class.getSimpleName(), normContinuous) + ".data", context);
+		JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
+
+		JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(NormContinuous.class.getSimpleName(), normContinuous), context);
 
 		List<Number[]> linearNormValues = linearNorms.stream()
 			.map(linearNorm -> new Number[]{linearNorm.requireOrig(), linearNorm.requireNorm()})

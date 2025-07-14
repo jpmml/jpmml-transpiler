@@ -67,12 +67,11 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	private JBlock catchBody = new JBlock();
 
 
-	public JBinaryFileInitializer(String name, TranslationContext context){
-		this(name, -1, context);
-	}
-
 	public JBinaryFileInitializer(String name, int pos, TranslationContext context){
 		super(context);
+
+		// XXX
+		name = name + ".data";
 
 		JBinaryFile binaryFile = new JBinaryFile(name);
 

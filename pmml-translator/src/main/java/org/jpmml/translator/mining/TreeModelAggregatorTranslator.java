@@ -59,9 +59,9 @@ import org.jpmml.translator.AggregatorBuilder;
 import org.jpmml.translator.ArrayInfoMap;
 import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.IdentifierUtil;
-import org.jpmml.translator.JBinaryFileInitializer;
 import org.jpmml.translator.JDirectInitializer;
 import org.jpmml.translator.JResourceInitializer;
+import org.jpmml.translator.JResourceInitializerFactory;
 import org.jpmml.translator.MethodScope;
 import org.jpmml.translator.ModelTranslator;
 import org.jpmml.translator.Modifiers;
@@ -276,7 +276,9 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDefinedClass modelFuncInterface = ensureFunctionalInterface(int.class, context);
 
-		JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
+		JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
+
+		JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation), context);
 
 		List<Number[]> scoreValues = scoreManagers.stream()
 			.map(scoreManager -> scoreManager.getValues())
@@ -461,7 +463,9 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 
 		JDefinedClass modelFuncInterface = ensureFunctionalInterface(int.class, context);
 
-		JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation) + ".data", context);
+		JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
+
+		JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(Segmentation.class.getSimpleName(), segmentation), context);
 
 		List<Number[][]> scoreValues = scoreDistributionManagers.stream()
 			.map(scoreDistributionManager -> scoreDistributionManager.getValues())

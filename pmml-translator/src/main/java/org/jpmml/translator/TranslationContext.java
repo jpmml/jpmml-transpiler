@@ -183,7 +183,9 @@ public class TranslationContext {
 		if(isSubclass(PMML.class, owner)){
 			PMML pmml = getPMML();
 
-			JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(PMML.class.getSimpleName(), pmml) + ".data", 0, this);
+			JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
+
+			JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(PMML.class.getSimpleName(), pmml), 0, this);
 
 			QName[] xmlNames = this.xmlNameManager.getElements()
 				.toArray(new QName[this.xmlNameManager.size()]);
@@ -478,7 +480,9 @@ public class TranslationContext {
 			} else
 
 			if((resultMap.size() > 64) && JResourceInitializer.isExternalizable(resultMap.keySet())){
-				JResourceInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)) + ".data", this);
+				JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
+
+				JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)), this);
 
 				JFieldVar mapField = resourceInitializer.initNumbersMap("map$" + System.identityHashCode(Collections.singletonList(resultMap)), (Map)resultMap);
 
@@ -512,7 +516,9 @@ public class TranslationContext {
 
 					JFieldVar keySetField = owner.field(Modifiers.PRIVATE_STATIC_FINAL, genericRef(Set.class, String.class), "keySet");
 
-					JBinaryFileInitializer resourceInitializer = new JBinaryFileInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)) + ".data", this);
+					JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
+
+					JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)), this);
 
 					String[] strings = (identityResultMap.keySet()).stream()
 						.map(String.class::cast)
