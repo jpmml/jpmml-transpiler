@@ -67,7 +67,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	private JBlock catchBody = new JBlock();
 
 
-	public JBinaryFileInitializer(String name, int pos, TranslationContext context){
+	public JBinaryFileInitializer(String name, TranslationContext context){
 		super(context);
 
 		// XXX
@@ -126,10 +126,6 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 		};
 
 		JBlock init = owner.init();
-
-		if(pos > -1){
-			init.pos(pos);
-		}
 
 		init.add(tryWithResources);
 	}

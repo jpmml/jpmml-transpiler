@@ -69,7 +69,6 @@ import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.FunctionInvocation;
 import org.jpmml.translator.IdentifierUtil;
-import org.jpmml.translator.JBinaryFileInitializer;
 import org.jpmml.translator.JDirectInitializer;
 import org.jpmml.translator.JResourceInitializer;
 import org.jpmml.translator.JResourceInitializerFactory;
@@ -344,7 +343,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 					Map<Object, Number> categoryValues = categoricalPredictors.stream()
 						.collect(Collectors.toMap(CategoricalPredictor::requireValue, CategoricalPredictor::requireCoefficient));
 
-					if((categoryValues.size() > 16) && JBinaryFileInitializer.isExternalizable(categoryValues.keySet())){
+					if((categoryValues.size() > 16) && JResourceInitializer.isExternalizable(categoryValues.keySet())){
 
 						if(resourceInitializer == null){
 							resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(CategoricalPredictor.class.getSimpleName(), regressionTable), context);

@@ -183,9 +183,14 @@ public class TranslationContext {
 		if(isSubclass(PMML.class, owner)){
 			PMML pmml = getPMML();
 
+			JBlock init = owner.init();
+
+			// Ensure that resource initialization happens before invoking the "ensureLoaded" method chain
+			init.pos(0);
+
 			JResourceInitializerFactory resourceInitializerFactory = JResourceInitializerFactory.getInstance();
 
-			JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(PMML.class.getSimpleName(), pmml), 0, this);
+			JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(PMML.class.getSimpleName(), pmml), this);
 
 			QName[] xmlNames = this.xmlNameManager.getElements()
 				.toArray(new QName[this.xmlNameManager.size()]);
@@ -496,10 +501,13 @@ public class TranslationContext {
 
 				Collection<? extends Map.Entry<?, V>> entries = resultMap.entrySet();
 				for(Map.Entry<?, V> entry : entries){
-					stringKeys &= (entry.getKey() instanceof String);
+					Object key = entry.getKey();
+					V value = entry.getValue();
 
-					if(Objects.equals(entry.getKey(), entry.getValue())){
-						identityResultMap.put(entry.getKey(), entry.getValue());
+					stringKeys &= (key instanceof String);
+
+					if(Objects.equals(key, value)){
+						identityResultMap.put(key, value);
 					}
 				}
 

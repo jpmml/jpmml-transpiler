@@ -24,11 +24,7 @@ public class JResourceInitializerFactory {
 	}
 
 	public JResourceInitializer newResourceInitializer(String name, TranslationContext context){
-		return newResourceInitializer(name, -1, context);
-	}
-
-	public JResourceInitializer newResourceInitializer(String name, int pos, TranslationContext context){
-		return new JBinaryFileInitializer(name, pos, context);
+		return new JBinaryFileInitializer(name, context);
 	}
 
 	static
