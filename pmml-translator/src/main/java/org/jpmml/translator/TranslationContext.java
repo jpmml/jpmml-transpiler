@@ -94,6 +94,12 @@ public class TranslationContext {
 		setCodeModel(codeModel);
 	}
 
+	public JClass ref(String className){
+		JCodeModel codeModel = getCodeModel();
+
+		return codeModel.ref(className);
+	}
+
 	public JClass ref(Class<?> type){
 		JCodeModel codeModel = getCodeModel();
 

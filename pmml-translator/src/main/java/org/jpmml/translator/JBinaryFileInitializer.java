@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -73,10 +74,6 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 		// XXX
 		name = name + ".data";
 
-		JBinaryFile binaryFile = new JBinaryFile(name);
-
-		setBinaryFile(binaryFile);
-
 		JDefinedClass owner;
 
 		try {
@@ -84,6 +81,12 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 		} catch(IllegalArgumentException iae){
 			owner = context.getOwner();
 		}
+
+		JBlock init = owner.init();
+
+		JBinaryFile binaryFile = new JBinaryFile(name);
+
+		setBinaryFile(binaryFile);
 
 		JPackage _package = owner.getPackage();
 
@@ -124,8 +127,6 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 				formatter.nl();
 			}
 		};
-
-		JBlock init = owner.init();
 
 		init.add(tryWithResources);
 	}
@@ -311,7 +312,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	private void setBinaryFile(JBinaryFile binaryFile){
-		this.binaryFile = binaryFile;
+		this.binaryFile = Objects.requireNonNull(binaryFile);
 	}
 
 	static
@@ -435,15 +436,5 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 		}
 
 		return method;
-	}
-
-	static
-	private String toSingular(String string){
-
-		if(string.endsWith("s")){
-			string = string.substring(0, string.length() - "s".length());
-		}
-
-		return string;
 	}
 }

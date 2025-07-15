@@ -191,4 +191,14 @@ public class JResourceInitializer extends JClassInitializer {
 
 		return defaultClazz;
 	}
+
+	static
+	protected String toSingular(String string){
+
+		if(string.endsWith("s")){
+			string = string.substring(0, string.length() - "s".length());
+		}
+
+		return string;
+	}
 }
