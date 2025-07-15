@@ -44,7 +44,6 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JFieldRef;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JStatement;
@@ -442,15 +441,7 @@ public class PMMLObjectUtil {
 
 							invocation = invocation.invoke("addValues").arg(createExpression(property, context));
 
-							if((values.size() > 2) && JResourceInitializer.isExternalizable(valueClazz)){
-								JFieldRef valuesFieldRef = context.constantValues(valueClazz, IdentifierUtil.create((property.name()).toLowerCase(), field), values);
-
-								invocation = invocation.arg(JExpr.cast(context.ref(Object[].class), valuesFieldRef));
-							} else
-
-							{
-								invocation = initializeArray(valueClazz, values, invocation, context);
-							}
+							invocation = initializeArray(valueClazz, values, invocation, context);
 						}
 					}
 

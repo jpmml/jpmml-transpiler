@@ -49,7 +49,6 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JFieldRef;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
@@ -84,8 +83,6 @@ public class TranslationContext {
 	private Deque<Scope> scopes = new ArrayDeque<>();
 
 	private ArraySetManager<QName> xmlNameManager = null;
-
-	private List<ArrayManager<?>> valueManagers = new ArrayList<>();
 
 	private Map<Model, TranslatedModel> translations = new IdentityHashMap<>();
 
@@ -198,18 +195,6 @@ public class TranslationContext {
 			JInvocation xmlNamesExpr = resourceInitializer.initQNames(xmlNames);
 
 			resourceInitializer.assign(this.xmlNameManager.getArrayVar(), xmlNamesExpr);
-
-			List<ArrayManager<?>> valueManagers = this.valueManagers;
-			for(ArrayManager<?> valueManager : valueManagers){
-				valueManager.initArrayVar(owner);
-
-				Object[] values = valueManager.getElements()
-					.toArray(new Object[valueManager.size()]);
-
-				JInvocation valuesExpr = resourceInitializer.initValues(valueManager.getComponentType(), values);
-
-				resourceInitializer.assign(valueManager.getArrayVar(), valuesExpr);
-			}
 		}
 
 		this.owners.removeFirst();
@@ -702,22 +687,6 @@ public class TranslationContext {
 		int index = xmlNameManager.getOrInsert(name);
 
 		return xmlNameManager.getComponent(index);
-	}
-
-	public <E> JFieldRef constantValues(Class<? extends E> componentType, String name, List<E> values){
-		JDefinedClass owner = getOwner();
-
-		ArrayManager<E> valueManager = new ArrayManager<E>(ref(componentType), name){
-
-			@Override
-			public List<E> getElements(){
-				return values;
-			}
-		};
-
-		this.valueManagers.add(valueManager);
-
-		return owner.staticRef(name);
 	}
 
 	public void addIssue(PMMLException issue){
