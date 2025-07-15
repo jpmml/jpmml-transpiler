@@ -48,6 +48,12 @@ public class ArrayManager<E> {
 	abstract
 	public List<E> getElements();
 
+	public boolean isEmpty(){
+		Collection<E> elements = getElements();
+
+		return elements.isEmpty();
+	}
+
 	public int size(){
 		Collection<E> elements = getElements();
 

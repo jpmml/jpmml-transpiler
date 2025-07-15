@@ -51,6 +51,11 @@ public class ArraySetManager<E> extends ArrayManager<E> {
 	}
 
 	@Override
+	public boolean isEmpty(){
+		return this.indices.isEmpty();
+	}
+
+	@Override
 	public int size(){
 		return this.indices.size();
 	}

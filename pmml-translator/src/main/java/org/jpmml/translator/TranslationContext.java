@@ -177,8 +177,17 @@ public class TranslationContext {
 	public void popOwner(){
 		JDefinedClass owner = this.owners.peekFirst();
 
+		initializer:
 		if(isSubclass(PMML.class, owner)){
 			PMML pmml = getPMML();
+
+			if(this.xmlNameManager.isEmpty()){
+				JFieldVar xmlNamesField = this.xmlNameManager.getArrayVar();
+
+				xmlNamesField.init(JExpr._null());
+
+				break initializer;
+			}
 
 			JBlock init = owner.init();
 
