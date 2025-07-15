@@ -201,7 +201,7 @@ public class TranslationContext {
 			QName[] xmlNames = this.xmlNameManager.getElements()
 				.toArray(new QName[this.xmlNameManager.size()]);
 
-			JInvocation xmlNamesExpr = resourceInitializer.initQNames(xmlNames);
+			JInvocation xmlNamesExpr = resourceInitializer.initQNameArray(xmlNames);
 
 			resourceInitializer.assign(this.xmlNameManager.getArrayVar(), xmlNamesExpr);
 		}
@@ -483,7 +483,7 @@ public class TranslationContext {
 
 				JResourceInitializer resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(Map.class.getSimpleName(), Collections.singletonList(resultMap)), this);
 
-				JFieldVar mapField = resourceInitializer.initNumbersMap("map$" + System.identityHashCode(Collections.singletonList(resultMap)), (Map)resultMap);
+				JFieldVar mapField = resourceInitializer.initNumberMap("map$" + System.identityHashCode(Collections.singletonList(resultMap)), (Map)resultMap);
 
 				block._return(mapField.invoke("getOrDefault").arg(valueExpr).arg(PMMLObjectUtil.createExpression(defaultResult, this)));
 			} else
@@ -526,7 +526,7 @@ public class TranslationContext {
 						.map(String.class::cast)
 						.toArray(String[]::new);
 
-					JInvocation valuesExpr = resourceInitializer.initValues(ref(String.class), strings);
+					JInvocation valuesExpr = resourceInitializer.initObjectArray(ref(String.class), strings);
 
 					resourceInitializer.assign(keySetField, _new(HashSet.class, staticInvoke(Arrays.class, "asList", valuesExpr)));
 

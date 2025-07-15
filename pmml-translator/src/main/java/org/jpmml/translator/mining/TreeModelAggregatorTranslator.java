@@ -284,14 +284,12 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			.map(scoreManager -> scoreManager.getValues())
 			.collect(Collectors.toList());
 
-		JFieldVar scoresVar = resourceInitializer.initNumbersList(IdentifierUtil.create("scores", segmentation), scoreValues);
+		JFieldVar scoresVar = resourceInitializer.initNumberArrayList(IdentifierUtil.create("scores", segmentation), scoreValues);
 
 		JFieldVar weightsVar = null;
 
 		if(weights != null){
-			Number[] weightValues = weights.toArray(new Number[weights.size()]);
-
-			weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", segmentation), weightValues);
+			weightsVar = resourceInitializer.initNumberList(IdentifierUtil.create("weights", segmentation), weights);
 		}
 
 		JDirectInitializer codeInitializer = new JDirectInitializer(context);
@@ -471,14 +469,12 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 			.map(scoreDistributionManager -> scoreDistributionManager.getValues())
 			.collect(Collectors.toList());
 
-		JFieldVar scoresVar = resourceInitializer.initNumberArraysList(IdentifierUtil.create("scores", segmentation), scoreValues, categories.length);
+		JFieldVar scoresVar = resourceInitializer.initNumberMatrixList(IdentifierUtil.create("scores", segmentation), scoreValues, categories.length);
 
 		JFieldVar weightsVar = null;
 
 		if(weights != null){
-			Number[] weightValues = weights.toArray(new Number[weights.size()]);
-
-			weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", segmentation), weightValues);
+			weightsVar = resourceInitializer.initNumberList(IdentifierUtil.create("weights", segmentation), weights);
 		}
 
 		JDirectInitializer codeInitializer = new JDirectInitializer(context);

@@ -677,7 +677,7 @@ public class TreeModelTranslator extends ModelTranslator<TreeModel> {
 			TokenizedString[] terms = (encoder.getVocabulary()).stream()
 				.toArray(TokenizedString[]::new);
 
-			JFieldVar termsVar = resourceInitializer.initTokenizedStringLists(IdentifierUtil.create("terms", textIndex, name), terms);
+			JFieldVar termsVar = resourceInitializer.initTokenizedStringArray(IdentifierUtil.create("terms", textIndex, name), terms);
 		}
 	}
 

@@ -349,7 +349,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 							resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(CategoricalPredictor.class.getSimpleName(), regressionTable), context);
 						}
 
-						JFieldVar mapVar = resourceInitializer.initNumbersMap(IdentifierUtil.create("map", regressionTable, name), categoryValues);
+						JFieldVar mapVar = resourceInitializer.initNumberMap(IdentifierUtil.create("map", regressionTable, name), categoryValues);
 
 						context._return(mapVar.invoke("get").arg(operableRef.getExpression()));
 					} else
@@ -482,7 +482,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				.map(termFunction)
 				.toArray(TokenizedString[]::new);
 
-			JFieldVar termsVar = resourceInitializer.initTokenizedStringLists(IdentifierUtil.create("terms", regressionTable, name), terms);
+			JFieldVar termsVar = resourceInitializer.initTokenizedStringArray(IdentifierUtil.create("terms", regressionTable, name), terms);
 
 			JFieldVar termIndicesVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, TokenizedString.class, Integer.class), IdentifierUtil.create("termIndices", regressionTable, name), context._new(LinkedHashMap.class));
 
@@ -497,22 +497,22 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 
 			JBlock termIndicesForBlock = termIndicesForLoop.body();
 
-			termIndicesForBlock.add(termIndicesVar.invoke("put").arg(termsVar.invoke("get").arg(termIndicesLoopVar)).arg(termIndicesLoopVar));
+			termIndicesForBlock.add(termIndicesVar.invoke("put").arg(termsVar.component(termIndicesLoopVar)).arg(termIndicesLoopVar));
 
-			Number[] coefficients = predictors.stream()
+			List<Number> coefficients = predictors.stream()
 				.map(coefficientFunction)
-				.toArray(Number[]::new);
+				.collect(Collectors.toList());
 
-			JFieldVar coefficientsVar = resourceInitializer.initNumbers(IdentifierUtil.create("coefficients", regressionTable, name), coefficients);
+			JFieldVar coefficientsVar = resourceInitializer.initNumberList(IdentifierUtil.create("coefficients", regressionTable, name), coefficients);
 
-			Number[] weights = predictors.stream()
+			List<Number> weights = predictors.stream()
 				.map(weightFunction)
-				.toArray(Number[]::new);
+				.collect(Collectors.toList());
 
 			JFieldVar weightsVar = null;
 
-			if((Arrays.stream(weights)).anyMatch(weight -> (weights != null && weight.doubleValue() != 1d))){
-				weightsVar = resourceInitializer.initNumbers(IdentifierUtil.create("weights", regressionTable, name), weights);
+			if((weights.stream()).anyMatch(weight -> (weights != null && weight.doubleValue() != 1d))){
+				weightsVar = resourceInitializer.initNumberList(IdentifierUtil.create("weights", regressionTable, name), weights);
 			}
 
 			int maxLength = Arrays.stream(terms)

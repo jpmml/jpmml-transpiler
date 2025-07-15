@@ -51,21 +51,24 @@ class JClassInitializer {
 	}
 
 	static
+	protected JFieldVar createConstant(String name, JClass type, TranslationContext context){
+		JDefinedClass owner = getResourceOwner(context);
+
+		return owner.field(Modifiers.PRIVATE_STATIC_FINAL, type, name);
+	}
+
+	static
 	protected JFieldVar createListConstant(String name, JClass elementType, TranslationContext context){
 		JDefinedClass owner = getResourceOwner(context);
 
-		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, elementType), name);
-
-		return constant;
+		return owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(List.class, elementType), name);
 	}
 
 	static
 	protected JFieldVar createMapConstant(String name, JClass keyType, JClass valueType, TranslationContext context){
 		JDefinedClass owner = getResourceOwner(context);
 
-		JFieldVar constant = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, keyType, valueType), name);
-
-		return constant;
+		return owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(Map.class, keyType, valueType), name);
 	}
 
 	static

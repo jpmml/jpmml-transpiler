@@ -48,51 +48,54 @@ public class JResourceInitializer extends JClassInitializer {
 	public void assign(JVar variable, JExpression expr);
 
 	abstract
-	public JInvocation initQNames(QName[] names);
+	public JInvocation initQNameArray(QName[] names);
 
 	abstract
-	public JInvocation initValues(JType type, Object[] values);
+	public JInvocation initTokenizedStringArray(TokenizedString[] tokenizedStrings);
 
 	abstract
-	public JInvocation initTokenizedStringLists(TokenizedString[] tokenizedStrings);
+	public JInvocation initObjectArray(JType type, Object[] values);
 
 	abstract
-	public JInvocation initNumbers(JType type, Number[] values);
+	public JInvocation initNumberArrayList(JType type, List<Number[]> elements);
 
 	abstract
-	public JInvocation initNumbersList(JType type, List<Number[]> elements);
+	public JInvocation initNumberMatrixList(JType type, List<Number[][]> elements, int length);
 
 	abstract
-	public JInvocation initNumberArraysList(JType type, List<Number[][]> elements, int length);
+	public JInvocation initNumberMap(JType keyType, JType valueType, Map<?, Number> map);
 
-	abstract
-	public JInvocation initNumbersMap(JType keyType, JType valueType, Map<?, Number> map);
-
-	public JFieldVar initTokenizedStringLists(String name, TokenizedString[] tokenizedStrings){
+	public JFieldVar initTokenizedStringArray(String name, TokenizedString[] tokenizedStrings){
 		TranslationContext context = getContext();
 
-		JFieldVar constant = createListConstant(name, context.ref(TokenizedString.class), context);
+		JClass tokenizedStringClazz = context.ref(TokenizedString.class);
 
-		assign(constant, initTokenizedStringLists(tokenizedStrings));
+		JFieldVar constant = createConstant(name, tokenizedStringClazz.array(), context);
+
+		assign(constant, initTokenizedStringArray(tokenizedStrings));
 
 		return constant;
 	}
 
-	public JFieldVar initNumbers(String name, Number[] values){
+	public JFieldVar initNumberList(String name, List<Number> values){
 		TranslationContext context = getContext();
 
-		Class<?> valueClazz = getValueClass(Arrays.asList(values), Number.class);
+		Class<?> valueClazz = getValueClass(values, Number.class);
 
 		JClass type = context.ref(valueClazz);
 
 		JFieldVar constant = createListConstant(name, type, context);
 
-		assign(constant, initNumbers(type, values));
+		JInvocation invocation = initObjectArray(type, values.toArray(new Number[values.size()]));
+
+		invocation = context.staticInvoke(Arrays.class, "asList", invocation);
+
+		assign(constant, invocation);
 
 		return constant;
 	}
 
-	public JFieldVar initNumbersList(String name, List<Number[]> elements){
+	public JFieldVar initNumberArrayList(String name, List<Number[]> elements){
 		TranslationContext context = getContext();
 
 		Collection<Number> values = elements.stream()
@@ -105,12 +108,12 @@ public class JResourceInitializer extends JClassInitializer {
 
 		JFieldVar constant = createListConstant(name, type, context);
 
-		assign(constant, initNumbersList(type, elements));
+		assign(constant, initNumberArrayList(type, elements));
 
 		return constant;
 	}
 
-	public JFieldVar initNumberArraysList(String name, List<Number[][]> elements, int length){
+	public JFieldVar initNumberMatrixList(String name, List<Number[][]> elements, int length){
 		TranslationContext context = getContext();
 
 		Collection<Number> values = elements.stream()
@@ -124,12 +127,12 @@ public class JResourceInitializer extends JClassInitializer {
 
 		JFieldVar constant = createListConstant(name, type, context);
 
-		assign(constant, initNumberArraysList(type, elements, length));
+		assign(constant, initNumberMatrixList(type, elements, length));
 
 		return constant;
 	}
 
-	public JFieldVar initNumbersMap(String name, Map<?, Number> map){
+	public JFieldVar initNumberMap(String name, Map<?, Number> map){
 		TranslationContext context = getContext();
 
 		Collection<?> keys = map.keySet();
@@ -143,7 +146,7 @@ public class JResourceInitializer extends JClassInitializer {
 
 		JFieldVar constant = createMapConstant(name, keyType, valueType, context);
 
-		assign(constant, initNumbersMap(keyType, valueType, map));
+		assign(constant, initNumberMap(keyType, valueType, map));
 
 		return constant;
 	}

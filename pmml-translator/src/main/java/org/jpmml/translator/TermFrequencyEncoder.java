@@ -18,6 +18,7 @@
  */
 package org.jpmml.translator;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 					.mapToInt(TokenizedString::size)
 					.max().orElseThrow(NoSuchElementException::new);
 
-				TextIndexUtil.computeTermFrequencyTable(termFrequencyTableVar, localTextIndex, textIndexVar, context._new(HashSet.class, termsVar), maxLength, context);
+				TextIndexUtil.computeTermFrequencyTable(termFrequencyTableVar, localTextIndex, textIndexVar, context._new(HashSet.class, context.staticInvoke(Arrays.class, "asList", termsVar)), maxLength, context);
 			} finally {
 				context.popScope();
 			}
@@ -119,7 +120,7 @@ public class TermFrequencyEncoder extends FpPrimitiveEncoder implements ArrayEnc
 		try {
 			context.pushScope(new MethodScope(method));
 
-			JVar frequencyVar = context.declare(Integer.class, "frequency", JExpr.invoke(frequencyTableMethod).invoke("get").arg(termsVar.invoke("get").arg(indexParam)));
+			JVar frequencyVar = context.declare(Integer.class, "frequency", JExpr.invoke(frequencyTableMethod).invoke("get").arg(termsVar.component(indexParam)));
 
 			JExpression nanExpr = JExpr.lit(0);
 			JExpression javaValueExpr;

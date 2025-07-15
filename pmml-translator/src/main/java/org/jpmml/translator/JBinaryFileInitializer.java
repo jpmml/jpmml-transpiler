@@ -141,7 +141,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	@Override
-	public JInvocation initQNames(QName[] names){
+	public JInvocation initQNameArray(QName[] names){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
@@ -157,27 +157,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	@Override
-	public JInvocation initValues(JType type, Object[] values){
-		TranslationContext context = getContext();
-		JBinaryFile binaryFile = getBinaryFile();
-
-		String readMethod;
-
-		try(OutputStream os = binaryFile.getDataStore()){
-			DataOutput dataOutput = new DataOutputStream(os);
-
-			readMethod = recordValues(dataOutput, type, values);
-		} catch(IOException ioe){
-			throw new RuntimeException(ioe);
-		}
-
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
-
-		return invocation;
-	}
-
-	@Override
-	public JInvocation initTokenizedStringLists(TokenizedString[] tokenizedStrings){
+	public JInvocation initTokenizedStringArray(TokenizedString[] tokenizedStrings){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
@@ -189,13 +169,11 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, "readTokenizedStrings", this.dataInputVar, tokenizedStrings.length);
-
-		return context.staticInvoke(Arrays.class, "asList").arg(invocation);
+		return context.staticInvoke(ResourceUtil.class, "readTokenizedStrings", this.dataInputVar, tokenizedStrings.length);
 	}
 
 	@Override
-	public JInvocation initNumbers(JType type, Number[] values){
+	public JInvocation initObjectArray(JType type, Object[] values){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
@@ -209,13 +187,11 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JInvocation invocation = context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
-
-		return context.staticInvoke(Arrays.class, "asList").arg(invocation);
+		return context.staticInvoke(ResourceUtil.class, readMethod, this.dataInputVar, values.length);
 	}
 
 	@Override
-	public JInvocation initNumbersList(JType type, List<Number[]> elements){
+	public JInvocation initNumberArrayList(JType type, List<Number[]> elements){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
@@ -235,13 +211,13 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JMethod readNumbersListMethod = ensureReadNumbersListMethod(type, readMethod, context);
+		JMethod method = ensureReadNumberArrayListMethod(type, readMethod, context);
 
-		return JExpr.invoke(readNumbersListMethod).arg(this.dataInputVar).arg(countArray);
+		return JExpr.invoke(method).arg(this.dataInputVar).arg(countArray);
 	}
 
 	@Override
-	public JInvocation initNumberArraysList(JType type, List<Number[][]> elements, int length){
+	public JInvocation initNumberMatrixList(JType type, List<Number[][]> elements, int length){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
@@ -261,13 +237,13 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JMethod readNumberArraysListMethod = ensureReadNumberArraysListMethod(type, readArraysMethod, context);
+		JMethod method = ensureReadNumberMatrixListMethod(type, readArraysMethod, context);
 
-		return JExpr.invoke(readNumberArraysListMethod).arg(this.dataInputVar).arg(countArray).arg(JExpr.lit(length));
+		return JExpr.invoke(method).arg(this.dataInputVar).arg(countArray).arg(JExpr.lit(length));
 	}
 
 	@Override
-	public JInvocation initNumbersMap(JType keyType, JType valueType, Map<?, Number> map){
+	public JInvocation initNumberMap(JType keyType, JType valueType, Map<?, Number> map){
 		TranslationContext context = getContext();
 		JBinaryFile binaryFile = getBinaryFile();
 
@@ -289,9 +265,9 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 			throw new RuntimeException(ioe);
 		}
 
-		JMethod readNumbersMapMethod = ensureReadNumbersMapMethod(keyType, valueType, keyReadMethod, valueReadMethod, context);
+		JMethod method = ensureReadNumberMapMethod(keyType, valueType, keyReadMethod, valueReadMethod, context);
 
-		return JExpr.invoke(readNumbersMapMethod).arg(this.dataInputVar).arg(JExpr.lit(map.size()));
+		return JExpr.invoke(method).arg(this.dataInputVar).arg(JExpr.lit(map.size()));
 	}
 
 	private String recordValues(DataOutput dataOutput, JType type, Object[] values) throws IOException {
@@ -350,10 +326,10 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	static
-	private JMethod ensureReadNumbersListMethod(JType type, String readMethod, TranslationContext context){
+	private JMethod ensureReadNumberArrayListMethod(JType type, String readMethod, TranslationContext context){
 		JDefinedClass owner = getResourceOwner(context);
 
-		String name = readMethod + "List";
+		String name = toSingular(readMethod) + "ArrayList";
 
 		JType dataInputClazz = context.ref(DataInput.class);
 		JType intClazz = context._ref(int.class);
@@ -384,10 +360,10 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	static
-	private JMethod ensureReadNumberArraysListMethod(JType type, String readArraysMethod, TranslationContext context){
+	private JMethod ensureReadNumberMatrixListMethod(JType type, String readArraysMethod, TranslationContext context){
 		JDefinedClass owner = getResourceOwner(context);
 
-		String name = readArraysMethod + "List";
+		String name = readArraysMethod.replace("Arrays", "Matrix") + "List";
 
 		JType dataInputClazz = context.ref(DataInput.class);
 		JType intClazz = context._ref(int.class);
@@ -419,10 +395,10 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 	}
 
 	static
-	private JMethod ensureReadNumbersMapMethod(JType keyType, JType valueType, String keyReadMethod, String valueReadMethod, TranslationContext context){
+	private JMethod ensureReadNumberMapMethod(JType keyType, JType valueType, String keyReadMethod, String valueReadMethod, TranslationContext context){
 		JDefinedClass owner = getResourceOwner(context);
 
-		String name = keyReadMethod + valueReadMethod.replace("read", "") + "Map";
+		String name = toSingular(keyReadMethod) + toSingular(valueReadMethod.replace("read", "")) + "Map";
 
 		JType dataInputClazz = context.ref(DataInput.class);
 		JType intClazz = context._ref(int.class);
@@ -459,5 +435,15 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 		}
 
 		return method;
+	}
+
+	static
+	private String toSingular(String string){
+
+		if(string.endsWith("s")){
+			string = string.substring(0, string.length() - "s".length());
+		}
+
+		return string;
 	}
 }
