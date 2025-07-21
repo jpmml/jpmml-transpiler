@@ -44,7 +44,6 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JForEach;
 import com.sun.codemodel.JForLoop;
-import com.sun.codemodel.JFormatter;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JPackage;
@@ -61,12 +60,6 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 	private JVar dataInputVar = null;
 
-	private JBlock tryBody = new JBlock();
-
-	private JVar ioeVar = null;
-
-	private JBlock catchBody = new JBlock();
-
 
 	public JBinaryFileInitializer(String name, TranslationContext context){
 		super(context);
@@ -81,8 +74,6 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 		} catch(IllegalArgumentException iae){
 			owner = context.getOwner();
 		}
-
-		JBlock init = owner.init();
 
 		JBinaryFile binaryFile = new JBinaryFile(name);
 
@@ -100,45 +91,11 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		this.dataInputVar = resourceStmt.decl(dataInputStreamClazz, "dataInput", context._new(dataInputStreamClazz, isExpr));
 
-		JBlock catchStmt = new JBlock(false, false);
+		JBlock init = owner.init();
 
-		this.ioeVar = catchStmt.decl(context.ref(IOException.class), "ioe");
-
-		this.catchBody._throw(context._new(ExceptionInInitializerError.class, this.ioeVar));
-
-		JStatement tryWithResources = new JStatement(){
-
-			@Override
-			public void state(JFormatter formatter){
-				formatter
-					.p("try(")
-					.b(JBinaryFileInitializer.this.dataInputVar)
-					.p(")");
-
-				formatter.g(JBinaryFileInitializer.this.tryBody);
-
-				formatter
-					.p("catch(")
-					.b(JBinaryFileInitializer.this.ioeVar)
-					.p(")");
-
-				formatter.g(JBinaryFileInitializer.this.catchBody);
-
-				formatter.nl();
-			}
-		};
+		JStatement tryWithResources = createTryWithResources(this.dataInputVar);
 
 		init.add(tryWithResources);
-	}
-
-	@Override
-	public void add(JStatement statement){
-		this.tryBody.add(statement);
-	}
-
-	@Override
-	public void assign(JVar variable, JExpression expr){
-		this.tryBody.assign(variable, expr);
 	}
 
 	@Override

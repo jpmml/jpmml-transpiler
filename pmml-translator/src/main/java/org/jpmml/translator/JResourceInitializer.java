@@ -18,6 +18,7 @@
  */
 package org.jpmml.translator;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -29,10 +30,13 @@ import java.util.stream.Collectors;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Iterables;
+import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JFormatter;
 import com.sun.codemodel.JInvocation;
+import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.jpmml.evaluator.TokenizedString;
@@ -40,12 +44,16 @@ import org.jpmml.evaluator.TokenizedString;
 abstract
 public class JResourceInitializer extends JClassInitializer {
 
+	private JBlock tryBody = new JBlock();
+
+	private JVar ioeVar = null;
+
+	private JBlock catchBody = new JBlock();
+
+
 	public JResourceInitializer(TranslationContext context){
 		super(context);
 	}
-
-	abstract
-	public void assign(JVar variable, JExpression expr);
 
 	abstract
 	public JInvocation initQNameArray(QName[] names);
@@ -64,6 +72,49 @@ public class JResourceInitializer extends JClassInitializer {
 
 	abstract
 	public JInvocation initNumberMap(JType keyType, JType valueType, Map<?, Number> map);
+
+	@Override
+	public void add(JStatement statement){
+		this.tryBody.add(statement);
+	}
+
+	public void assign(JVar variable, JExpression expr){
+		this.tryBody.assign(variable, expr);
+	}
+
+	public JStatement createTryWithResources(JVar resourceVar){
+		TranslationContext context = getContext();
+
+		JBlock catchStmt = new JBlock(false, false);
+
+		this.ioeVar = catchStmt.decl(context.ref(IOException.class), "ioe");
+
+		this.catchBody._throw(context._new(RuntimeException.class, this.ioeVar));
+
+		JStatement tryWithResources = new JStatement(){
+
+			@Override
+			public void state(JFormatter formatter){
+				formatter
+					.p("try(")
+					.b(resourceVar)
+					.p(")");
+
+				formatter.g(JResourceInitializer.this.tryBody);
+
+				formatter
+					.p("catch(")
+					.b(JResourceInitializer.this.ioeVar)
+					.p(")");
+
+				formatter.g(JResourceInitializer.this.catchBody);
+
+				formatter.nl();
+			}
+		};
+
+		return tryWithResources;
+	}
 
 	public JFieldVar initTokenizedStringArray(String name, TokenizedString[] tokenizedStrings){
 		TranslationContext context = getContext();

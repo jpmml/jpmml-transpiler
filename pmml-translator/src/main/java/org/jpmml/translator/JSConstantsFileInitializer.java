@@ -29,7 +29,6 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
-import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JPackage;
 import com.sun.codemodel.JStatement;
@@ -43,8 +42,6 @@ public class JSConstantsFileInitializer extends JResourceInitializer {
 
 	private JVar dataLoaderVar = null;
 
-	private JBlock block = null;
-
 
 	public JSConstantsFileInitializer(String name, TranslationContext context){
 		super(context);
@@ -57,29 +54,23 @@ public class JSConstantsFileInitializer extends JResourceInitializer {
 			owner = context.getOwner();
 		}
 
-		JBlock init = owner.init();
-
 		JSConstantsFile constantsFile = JSConstantsFileInitializer.ensureJSConstantsFile(context);
 
 		this.objects = new ArrayList<>();
 
 		constantsFile.put(name, this.objects);
 
+		JBlock resourceStmt = new JBlock(false, false);
+
 		JClass dataLoaderClazz = context.ref("org.jpmml.teavm.DataLoader");
 
-		this.dataLoaderVar = init.decl(dataLoaderClazz, "dataLoader", context._new(dataLoaderClazz, name));
+		this.dataLoaderVar = resourceStmt.decl(dataLoaderClazz, "dataLoader", context._new(dataLoaderClazz, name));
 
-		this.block = init;
-	}
+		JBlock init = owner.init();
 
-	@Override
-	public void add(JStatement statement){
-		this.block.add(statement);
-	}
+		JStatement tryWithResources = createTryWithResources(this.dataLoaderVar);
 
-	@Override
-	public void assign(JVar variable, JExpression expr){
-		this.block.assign(variable, expr);
+		init.add(tryWithResources);
 	}
 
 	@Override
