@@ -34,6 +34,10 @@ import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
 import org.jpmml.model.PMMLUtil;
 import org.jpmml.translator.ExpressionTranslatorFactory;
+import org.jpmml.translator.JBinaryFileInitializer;
+import org.jpmml.translator.JResourceInitializer;
+import org.jpmml.translator.JResourceInitializerFactory;
+import org.jpmml.translator.JSConstantsFileInitializer;
 import org.jpmml.translator.ModelTranslatorFactory;
 import org.jpmml.transpiler.TranspilerUtil;
 
@@ -77,6 +81,12 @@ public class Main {
 		order = 5
 	)
 	private Boolean translateExpressions = null;
+
+	@Parameter (
+		names = {"--resource-initializer"},
+		order = 6
+	)
+	private String resourceInitializer = null;
 
 	@Parameter (
 		names = {"--help"},
@@ -144,6 +154,23 @@ public class Main {
 
 		if(this.translateExpressions != null){
 			System.setProperty(ExpressionTranslatorFactory.class.getName() + "#ENABLED", this.translateExpressions.toString());
+		} // End if
+
+		if(this.resourceInitializer != null){
+			Class<? extends JResourceInitializer> clazz;
+
+			switch(this.resourceInitializer){
+				case "binary":
+					clazz = JBinaryFileInitializer.class;
+					break;
+				case "js":
+					clazz = JSConstantsFileInitializer.class;
+					break;
+				default:
+					throw new IllegalArgumentException(this.resourceInitializer);
+			}
+
+			System.setProperty(JResourceInitializerFactory.class.getName() + "#IMPLEMENTATION_CLASS", clazz.getName());
 		}
 
 		JCodeModel codeModel;

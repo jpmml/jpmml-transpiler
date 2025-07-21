@@ -18,19 +18,32 @@
  */
 package org.jpmml.translator;
 
+import java.lang.reflect.Constructor;
+
 public class JResourceInitializerFactory {
 
 	protected JResourceInitializerFactory(){
 	}
 
 	public JResourceInitializer newResourceInitializer(String name, TranslationContext context){
-		return new JBinaryFileInitializer(name, context);
+
+		try {
+			Class<?> clazz = Class.forName(JResourceInitializerFactory.IMPLEMENTATION_CLASS);
+
+			Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, TranslationContext.class);
+
+			return (JResourceInitializer)constructor.newInstance(name, context);
+		} catch(ReflectiveOperationException roe){
+			throw new RuntimeException(roe);
+		}
 	}
 
 	static
 	public JResourceInitializerFactory getInstance(){
 		return JResourceInitializerFactory.INSTANCE;
 	}
+
+	private static final String IMPLEMENTATION_CLASS = System.getProperty(JResourceInitializerFactory.class.getName() + "#IMPLEMENTATION_CLASS", JBinaryFileInitializer.class.getName());
 
 	private static final JResourceInitializerFactory INSTANCE = new JResourceInitializerFactory();
 }
