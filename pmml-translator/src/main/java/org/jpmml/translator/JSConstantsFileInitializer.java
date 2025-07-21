@@ -99,7 +99,7 @@ public class JSConstantsFileInitializer extends JResourceInitializer {
 	public JInvocation initObjectArray(JType type, Object[] values){
 		this.objects.add(values);
 
-		return this.dataLoaderVar.invoke("read" + (type.elementType()).name() + "s");
+		return this.dataLoaderVar.invoke("read" + type.name() + "s");
 	}
 
 	@Override
