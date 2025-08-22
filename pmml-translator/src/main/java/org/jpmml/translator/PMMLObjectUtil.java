@@ -19,6 +19,7 @@
 package org.jpmml.translator;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -586,7 +587,9 @@ public class PMMLObjectUtil {
 				return invocation;
 			}
 
-			invocation = JExpr.invoke(invocation, formatSetterName("add", setterMethodField));
+			Method appenderMethod = ReflectionUtil.getAppenderMethod(setterMethodField);
+
+			invocation = JExpr.invoke(invocation, appenderMethod.getName());
 
 			initializeArray(setterMethodField, elements, invocation, context);
 		} else
@@ -598,7 +601,9 @@ public class PMMLObjectUtil {
 				return invocation;
 			}
 
-			invocation = JExpr.invoke(invocation, formatSetterName("set", setterMethodField));
+			Method setterMethod = ReflectionUtil.getSetterMethod(setterMethodField);
+
+			invocation = JExpr.invoke(invocation, setterMethod.getName());
 
 			invocation.arg(createExpression(value, context));
 		}
@@ -638,13 +643,6 @@ public class PMMLObjectUtil {
 		}
 
 		return invocation;
-	}
-
-	static
-	private String formatSetterName(String prefix, Field field){
-		String name = field.getName();
-
-		return prefix + (name.substring(0, 1)).toUpperCase() + name.substring(1);
 	}
 
 	static
