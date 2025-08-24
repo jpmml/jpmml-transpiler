@@ -64,10 +64,17 @@ public class Main {
 	private String className = null;
 
 	@Parameter (
+		names = {"--resource-initializer"},
+		description = "The resource initializer implementation. One of \"binary\" or \"jsconstants\"",
+		order = 4
+	)
+	private String resourceInitializer = null;
+
+	@Parameter (
 		names = {"--translate-models"},
 		description = "Translate PMML models to Java",
 		arity = 1,
-		order = 4
+		order = 5
 	)
 	private Boolean translateModels = null;
 
@@ -75,15 +82,9 @@ public class Main {
 		names = {"--translate-expressions"},
 		description = "Translate PMML expressions to Java",
 		arity = 1,
-		order = 5
-	)
-	private Boolean translateExpressions = null;
-
-	@Parameter (
-		names = {"--resource-initializer"},
 		order = 6
 	)
-	private String resourceInitializer = null;
+	private Boolean translateExpressions = null;
 
 	@Parameter (
 		names = {"--help"},
@@ -145,16 +146,16 @@ public class Main {
 
 		String className = getClassName();
 
+		if(this.resourceInitializer != null){
+			JResourceInitializerFactory.setImplementationClass(this.resourceInitializer);
+		} // End if
+
 		if(this.translateModels != null){
 			ModelTranslatorFactory.setEnabled(this.translateModels);
 		} // End if
 
 		if(this.translateExpressions != null){
 			ExpressionTranslatorFactory.setEnabled(this.translateExpressions);
-		} // End if
-
-		if(this.resourceInitializer != null){
-			JResourceInitializerFactory.setImplementationClass(this.resourceInitializer);
 		}
 
 		JCodeModel codeModel;
