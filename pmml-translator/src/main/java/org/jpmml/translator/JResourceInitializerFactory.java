@@ -28,22 +28,50 @@ public class JResourceInitializerFactory {
 	public JResourceInitializer newResourceInitializer(String name, TranslationContext context){
 
 		try {
-			Class<?> clazz = Class.forName(JResourceInitializerFactory.IMPLEMENTATION_CLASS);
+			Class<? extends JResourceInitializer> clazz = getImplementationClass();
 
-			Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, TranslationContext.class);
+			Constructor<? extends JResourceInitializer> constructor = clazz.getDeclaredConstructor(String.class, TranslationContext.class);
 
-			return (JResourceInitializer)constructor.newInstance(name, context);
+			return constructor.newInstance(name, context);
 		} catch(ReflectiveOperationException roe){
 			throw new RuntimeException(roe);
 		}
 	}
 
 	static
+	public Class<? extends JResourceInitializer> getImplementationClass() throws ClassNotFoundException {
+		String implementationClassProperty = System.getProperty(JResourceInitializerFactory.class.getName() + "#IMPLEMENTATION_CLASS", JBinaryFileInitializer.class.getName());
+
+		return (Class)Class.forName(implementationClassProperty);
+	}
+
+	static
+	public void setImplementationClass(String implementation){
+
+		switch(implementation){
+			case "binary":
+				setImplementationClass(JBinaryFileInitializer.class);
+				break;
+			case "js":
+			case "jsconstants":
+				setImplementationClass(JSConstantsFileInitializer.class);
+				break;
+			default:
+				throw new IllegalArgumentException(implementation);
+		}
+	}
+
+	static
+	public void setImplementationClass(Class<? extends JResourceInitializer> implementationClazz){
+		String implementationClassProperty = implementationClazz != null ? implementationClazz.getName() : null;
+
+		System.setProperty(JResourceInitializerFactory.class.getName() + "#IMPLEMENTATION_CLASS", implementationClassProperty);
+	}
+
+	static
 	public JResourceInitializerFactory getInstance(){
 		return JResourceInitializerFactory.INSTANCE;
 	}
-
-	private static final String IMPLEMENTATION_CLASS = System.getProperty(JResourceInitializerFactory.class.getName() + "#IMPLEMENTATION_CLASS", JBinaryFileInitializer.class.getName());
 
 	private static final JResourceInitializerFactory INSTANCE = new JResourceInitializerFactory();
 }

@@ -34,10 +34,7 @@ import com.sun.codemodel.JCodeModel;
 import org.dmg.pmml.PMML;
 import org.jpmml.model.PMMLUtil;
 import org.jpmml.translator.ExpressionTranslatorFactory;
-import org.jpmml.translator.JBinaryFileInitializer;
-import org.jpmml.translator.JResourceInitializer;
 import org.jpmml.translator.JResourceInitializerFactory;
-import org.jpmml.translator.JSConstantsFileInitializer;
 import org.jpmml.translator.ModelTranslatorFactory;
 import org.jpmml.transpiler.TranspilerUtil;
 
@@ -149,28 +146,15 @@ public class Main {
 		String className = getClassName();
 
 		if(this.translateModels != null){
-			System.setProperty(ModelTranslatorFactory.class.getName() + "#ENABLED", this.translateModels.toString());
+			ModelTranslatorFactory.setEnabled(this.translateModels);
 		} // End if
 
 		if(this.translateExpressions != null){
-			System.setProperty(ExpressionTranslatorFactory.class.getName() + "#ENABLED", this.translateExpressions.toString());
+			ExpressionTranslatorFactory.setEnabled(this.translateExpressions);
 		} // End if
 
 		if(this.resourceInitializer != null){
-			Class<? extends JResourceInitializer> clazz;
-
-			switch(this.resourceInitializer){
-				case "binary":
-					clazz = JBinaryFileInitializer.class;
-					break;
-				case "js":
-					clazz = JSConstantsFileInitializer.class;
-					break;
-				default:
-					throw new IllegalArgumentException(this.resourceInitializer);
-			}
-
-			System.setProperty(JResourceInitializerFactory.class.getName() + "#IMPLEMENTATION_CLASS", clazz.getName());
+			JResourceInitializerFactory.setImplementationClass(this.resourceInitializer);
 		}
 
 		JCodeModel codeModel;

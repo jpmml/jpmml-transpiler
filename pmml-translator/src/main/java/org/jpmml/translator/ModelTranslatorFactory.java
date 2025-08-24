@@ -46,7 +46,7 @@ public class ModelTranslatorFactory extends ModelManagerFactory<ModelTranslator<
 		Objects.requireNonNull(pmml);
 		Objects.requireNonNull(model);
 
-		if(!ModelTranslatorFactory.ENABLED){
+		if(!ModelTranslatorFactory.isEnabled()){
 			throw new UnsupportedElementException(model);
 		}
 
@@ -54,11 +54,23 @@ public class ModelTranslatorFactory extends ModelManagerFactory<ModelTranslator<
 	}
 
 	static
+	public boolean isEnabled(){
+		String enabledProperty = System.getProperty(ModelTranslatorFactory.class.getName() + "#ENABLED", "true");
+
+		return Boolean.parseBoolean(enabledProperty);
+	}
+
+	static
+	public void setEnabled(Boolean enabled){
+		String enabledProperty = enabled != null ? enabled.toString() : null;
+
+		System.setProperty(ModelTranslatorFactory.class.getName() + "#ENABLED", enabledProperty);
+	}
+
+	static
 	public ModelTranslatorFactory getInstance(){
 		return ModelTranslatorFactory.INSTANCE;
 	}
-
-	private static final boolean ENABLED = Boolean.parseBoolean(System.getProperty(ModelTranslatorFactory.class.getName() + "#ENABLED", "true"));
 
 	private static final ModelTranslatorFactory INSTANCE = new ModelTranslatorFactory();
 }

@@ -39,7 +39,7 @@ public class ExpressionTranslatorFactory extends ServiceFactory<Expression, Expr
 	public ExpressionTranslator<?> newExpressionTranslator(Expression expression){
 		Objects.requireNonNull(expression);
 
-		if(!ExpressionTranslatorFactory.ENABLED){
+		if(!ExpressionTranslatorFactory.isEnabled()){
 			throw new UnsupportedElementException(expression);
 		}
 
@@ -75,6 +75,20 @@ public class ExpressionTranslatorFactory extends ServiceFactory<Expression, Expr
 	}
 
 	static
+	public boolean isEnabled(){
+		String enabledProperty = System.getProperty(ExpressionTranslatorFactory.class.getName() + "#ENABLED", "true");
+
+		return Boolean.parseBoolean(enabledProperty);
+	}
+
+	static
+	public void setEnabled(Boolean enabled){
+		String enabledProperty = enabled != null ? enabled.toString() : null;
+
+		System.setProperty(ExpressionTranslatorFactory.class.getName() + "#ENABLED", enabledProperty);
+	}
+
+	static
 	public ExpressionTranslatorFactory getInstance(){
 		return ExpressionTranslatorFactory.INSTANCE;
 	}
@@ -97,8 +111,6 @@ public class ExpressionTranslatorFactory extends ServiceFactory<Expression, Expr
 
 		throw new NoSuchMethodException();
 	}
-
-	private static final boolean ENABLED = Boolean.parseBoolean(System.getProperty(ExpressionTranslatorFactory.class.getName() + "#ENABLED", "true"));
 
 	private static final ExpressionTranslatorFactory INSTANCE = new ExpressionTranslatorFactory();
 }
