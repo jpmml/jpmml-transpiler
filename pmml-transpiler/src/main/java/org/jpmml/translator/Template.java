@@ -188,7 +188,7 @@ public class Template {
 
 			// XXX
 			if((RichComplexArray.class).isAssignableFrom(clazz)){
-				template = new RichComplexArrayTemplate(clazz.asSubclass(RichComplexArray.class));
+				template = new RichPMMLObjectTemplate(clazz.asSubclass(RichComplexArray.class));
 			} else
 
 			{
