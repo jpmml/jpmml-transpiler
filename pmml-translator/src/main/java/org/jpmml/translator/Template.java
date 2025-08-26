@@ -39,7 +39,9 @@ import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
 import org.jpmml.evaluator.RichComplexArray;
+import org.jpmml.evaluator.general_regression.RichBaseCumHazardTables;
 import org.jpmml.evaluator.java.JavaModel;
+import org.jpmml.evaluator.naive_bayes.RichBayesInput;
 import org.jpmml.model.ReflectionUtil;
 import org.jpmml.model.annotations.Property;
 import org.jpmml.model.annotations.ValueConstructor;
@@ -186,9 +188,14 @@ public class Template {
 				template = new ModelTemplate(clazz.asSubclass(Model.class));
 			} else
 
-			// XXX
+			// SetHolder implementations
 			if((RichComplexArray.class).isAssignableFrom(clazz)){
-				template = new RichComplexArrayTemplate(clazz.asSubclass(RichComplexArray.class));
+				template = new RichPMMLObjectTemplate(clazz.asSubclass(PMMLObject.class));
+			} else
+
+			// MapHolder implementations
+			if((RichBaseCumHazardTables.class).isAssignableFrom(clazz) || (RichBayesInput.class).isAssignableFrom(clazz)){
+				template = new RichPMMLObjectTemplate(clazz.asSubclass(PMMLObject.class));
 			} else
 
 			{

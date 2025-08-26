@@ -21,11 +21,17 @@ package org.jpmml.translator;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.jpmml.evaluator.RichComplexArray;
+import org.dmg.pmml.PMMLObject;
+import org.jpmml.evaluator.MapHolder;
+import org.jpmml.evaluator.SetHolder;
 
-public class RichComplexArrayTemplate extends Template {
+/**
+ * @see SetHolder
+ * @see MapHolder
+ */
+public class RichPMMLObjectTemplate extends Template {
 
-	RichComplexArrayTemplate(Class<? extends RichComplexArray> clazz){
+	RichPMMLObjectTemplate(Class<? extends PMMLObject> clazz){
 		super(clazz);
 
 		Field dataTypeField;
