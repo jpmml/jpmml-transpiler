@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +34,8 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.sun.codemodel.JArray;
@@ -313,7 +314,7 @@ public class PMMLObjectUtil {
 			if(value instanceof ComplexArray.ListValue){
 				List<?> elements = (List<?>)value;
 
-				JInvocation invocation = context.staticInvoke(Arrays.class, "asList");
+				JInvocation invocation = context.staticInvoke(ImmutableList.class, "of");
 
 				initializeArray(Object.class, elements, invocation, context);
 
@@ -323,11 +324,11 @@ public class PMMLObjectUtil {
 			if(value instanceof ComplexArray.SetValue){
 				Set<?> elements = (Set<?>)value;
 
-				JInvocation invocation = context.staticInvoke(Arrays.class, "asList");
+				JInvocation invocation = context.staticInvoke(ImmutableSet.class, "of");
 
 				initializeArray(Object.class, new ArrayList<>(elements), invocation, context);
 
-				return context._new(LinkedHashSet.class, invocation);
+				return invocation;
 			}
 		} else
 
