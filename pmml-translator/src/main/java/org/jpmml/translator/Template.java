@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Iterables;
 import com.sun.codemodel.JInvocation;
 import jakarta.xml.bind.annotation.XmlTransient;
 import org.dmg.pmml.Model;
@@ -86,12 +85,14 @@ public class Template {
 
 		List<Constructor<?>> valueConstructors = Arrays.stream(constructors)
 			.filter(constructor -> constructor.getAnnotation(ValueConstructor.class) != null)
+			// XXX
+			.sorted((left, right) -> Integer.compare(right.getParameterCount(), left.getParameterCount()))
 			.collect(Collectors.toList());
 
 		if(!valueConstructors.isEmpty()){
 			this.valueConstructorFields = new ArrayList<>();
 
-			Constructor<?> valueConstructor = Iterables.getOnlyElement(valueConstructors);
+			Constructor<?> valueConstructor = valueConstructors.get(0);
 
 			Annotation[][] parameterAnnotations = valueConstructor.getParameterAnnotations();
 			for(int i = 0; i < parameterAnnotations.length; i++){

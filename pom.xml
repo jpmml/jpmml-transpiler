@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jpmml</groupId>
 		<artifactId>jpmml-parent</artifactId>
-		<version>1.0.8</version>
+		<version>1.0.10</version>
 	</parent>
 
 	<groupId>org.jpmml</groupId>
@@ -51,11 +51,11 @@
 
 	<properties>
 		<jpmml-codemodel.version>1.2.0</jpmml-codemodel.version>
-		<jpmml-converter.version>1.6.3</jpmml-converter.version>
-		<jpmml-evaluator.version>1.7.4</jpmml-evaluator.version>
-		<jpmml-model.version>1.7.4</jpmml-model.version>
+		<jpmml-converter.version>1.6.4</jpmml-converter.version>
+		<jpmml-evaluator.version>1.7.5</jpmml-evaluator.version>
+		<jpmml-model.version>1.7.5</jpmml-model.version>
 		<jcommander.version>1.82</jcommander.version>
-		<project.build.outputTimestamp>2025-08-26T06:34:47Z</project.build.outputTimestamp>
+		<project.build.outputTimestamp>2025-10-20T10:14:17Z</project.build.outputTimestamp>
 	</properties>
 
 	<dependencyManagement>
