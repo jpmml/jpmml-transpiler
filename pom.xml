@@ -15,7 +15,7 @@
 
 	<name>JPMML-Transpiler</name>
 	<description>Java transpiler (translator + compiler) API for Predictive Model Markup Language (PMML)</description>
-	<url>http://www.jpmml.org</url>
+	<url>https://github.com/jpmml/jpmml-transpiler</url>
 	
 	<licenses>
 		<license>

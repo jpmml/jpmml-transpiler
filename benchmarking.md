@@ -68,11 +68,11 @@ In the current case, the transpilation has reduced the median evaluation time fr
 
 # Results #
 
-The project includes a [benchmarking script](https://github.com/jpmml/jpmml-transpiler/tree/master/pmml-transpiler/src/test/resources/benchmark.sh), which executes a number Scikit-Learn, LightGBM and XGBoost models first in "interpreted mode" (JPMML-Evaluator alone) and then in "transpiled mode" (JPMML-Transpiler on top of JPMML-Evaluator).
+The project includes a [benchmarking script](https://github.com/jpmml/jpmml-transpiler/tree/1.4.X/pmml-transpiler/src/test/resources/benchmark.sh), which executes a number Scikit-Learn, LightGBM and XGBoost models first in "interpreted mode" (JPMML-Evaluator alone) and then in "transpiled mode" (JPMML-Transpiler on top of JPMML-Evaluator).
 
 The reported metric is the median batch prediction time. Absolute timings are rather meaningless. What matters is the ratio between the timings for interpreted mode and transpiled mode, which is called "speed-up factor" in the tables below.
 
-All the benchmarked model PMML documents are available in the [PMML test resources directory](https://github.com/jpmml/jpmml-transpiler/tree/master/pmml-transpiler/src/test/resources/pmml/).
+All the benchmarked model PMML documents are available in the [PMML test resources directory](https://github.com/jpmml/jpmml-transpiler/tree/1.4.X/pmml-transpiler/src/test/resources/pmml/).
 
 ### Audit dataset
 
