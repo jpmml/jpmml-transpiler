@@ -49,7 +49,7 @@
 	</issueManagement>
 
 	<properties>
-		<jpmml-codemodel.version>1.2.0</jpmml-codemodel.version>
+		<jpmml-codemodel.version>1.2.1</jpmml-codemodel.version>
 		<jpmml-converter.version>1.6.5</jpmml-converter.version>
 		<jpmml-evaluator.version>1.7.6</jpmml-evaluator.version>
 		<jpmml-model.version>1.7.6</jpmml-model.version>
