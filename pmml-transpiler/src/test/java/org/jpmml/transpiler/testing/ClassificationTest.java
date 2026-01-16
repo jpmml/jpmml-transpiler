@@ -75,7 +75,7 @@ public class ClassificationTest extends TranspilerBatchTest implements Algorithm
 
 	@Test
 	public void evaluateLinearDiscriminantAnalysisSentiment() throws Exception {
-		evaluate(LINEAR_DISCRIMINANT_ANALYSIS, SENTIMENT);
+		evaluate(LINEAR_DISCRIMINANT_ANALYSIS, SENTIMENT, new PMMLEquivalence(3e-13, 3e-13));
 	}
 
 	@Test

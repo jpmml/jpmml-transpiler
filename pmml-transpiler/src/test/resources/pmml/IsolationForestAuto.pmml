@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.110.0"/>
-		<Timestamp>2024-09-28T20:33:21Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.126.0"/>
+		<Timestamp>2026-01-16T20:26:20Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="cylinders" optype="categorical" dataType="integer">
@@ -69,7 +69,7 @@
 					<Apply function="pow">
 						<Constant dataType="double">2.0</Constant>
 						<Apply function="*">
-							<Constant dataType="double">-1.0</Constant>
+							<Constant dataType="integer">-1</Constant>
 							<FieldRef field="normalizedAnomalyScore"/>
 						</Apply>
 					</Apply>

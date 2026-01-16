@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.110.0"/>
-		<Timestamp>2024-09-28T20:32:56Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.126.0"/>
+		<Timestamp>2026-01-16T20:26:03Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Score" optype="categorical" dataType="integer">
@@ -41,17 +41,11 @@
 					<Constant dataType="string">after</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), after))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), after)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), and)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">and</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), and))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), and)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), and the)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -59,17 +53,11 @@
 					<Constant dataType="string">and the</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), and the))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), and the)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), at)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">at</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), at))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), at)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), best)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -77,17 +65,11 @@
 					<Constant dataType="string">best</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), best))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), best)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), comfortable)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">comfortable</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), comfortable))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), comfortable)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), do)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -95,17 +77,11 @@
 					<Constant dataType="string">do</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), do))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), do)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), does not)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">does not</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), does not))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), does not)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), doesn)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -113,17 +89,11 @@
 					<Constant dataType="string">doesn</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), doesn))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), doesn)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), don)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">don</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), don))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), don)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), easy)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -131,17 +101,11 @@
 					<Constant dataType="string">easy</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), easy))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), easy)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), ever)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">ever</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), ever))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), ever)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), excellent)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -149,17 +113,11 @@
 					<Constant dataType="string">excellent</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), excellent))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), excellent)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), first)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">first</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), first))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), first)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), good)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -167,17 +125,11 @@
 					<Constant dataType="string">good</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), good))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), good)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), great)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">great</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), great))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), great)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), in)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -185,17 +137,11 @@
 					<Constant dataType="string">in</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), in))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), in)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), is)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">is</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), is))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), is)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), is great)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -203,17 +149,11 @@
 					<Constant dataType="string">is great</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), is great))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), is great)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), love)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">love</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), love))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), love)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), me)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -221,17 +161,11 @@
 					<Constant dataType="string">me</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), me))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), me)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), money)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">money</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), money))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), money)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), nice)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -239,17 +173,11 @@
 					<Constant dataType="string">nice</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), nice))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), nice)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), not)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">not</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), not))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), not)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), out)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -257,17 +185,11 @@
 					<Constant dataType="string">out</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), out))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), out)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), price)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">price</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), price))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), price)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), quality)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -275,17 +197,11 @@
 					<Constant dataType="string">quality</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), quality))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), quality)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), recommend)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">recommend</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), recommend))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), recommend)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), so)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -293,17 +209,11 @@
 					<Constant dataType="string">so</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), so))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), so)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), sound)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">sound</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), sound))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), sound)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), the)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -311,17 +221,11 @@
 					<Constant dataType="string">the</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), the))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), the)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), the best)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">the best</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), the best))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), the best)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), the phone)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -329,17 +233,11 @@
 					<Constant dataType="string">the phone</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), the phone))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), the phone)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), to)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">to</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), to))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), to)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), very)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -347,17 +245,11 @@
 					<Constant dataType="string">very</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), very))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), very)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), was)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">was</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), was))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), was)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), waste)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -365,17 +257,11 @@
 					<Constant dataType="string">waste</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), waste))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), waste)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), well)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">well</Constant>
 				</Apply>
-			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), well))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), well)"/>
 			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), work)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
@@ -383,23 +269,137 @@
 					<Constant dataType="string">work</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), work))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), work)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), works)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">works</Constant>
 				</Apply>
 			</DerivedField>
-			<DerivedField name="float(tf(lowercase(Sentence), works))" optype="continuous" dataType="float">
-				<FieldRef field="tf(lowercase(Sentence), works)"/>
-			</DerivedField>
 			<DerivedField name="tf(lowercase(Sentence), works great)" optype="continuous" dataType="double">
 				<Apply function="tf(lowercase(Sentence))">
 					<FieldRef field="lowercase(Sentence)"/>
 					<Constant dataType="string">works great</Constant>
 				</Apply>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), after))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), after)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), and))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), and)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), and the))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), and the)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), at))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), at)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), best))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), best)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), comfortable))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), comfortable)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), do))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), do)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), does not))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), does not)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), doesn))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), doesn)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), don))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), don)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), easy))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), easy)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), ever))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), ever)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), excellent))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), excellent)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), first))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), first)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), good))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), good)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), great))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), great)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), in))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), in)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), is))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), is)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), is great))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), is great)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), love))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), love)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), me))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), me)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), money))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), money)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), nice))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), nice)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), not))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), not)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), out))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), out)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), price))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), price)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), quality))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), quality)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), recommend))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), recommend)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), so))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), so)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), sound))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), sound)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), the))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), the)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), the best))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), the best)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), the phone))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), the phone)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), to))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), to)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), very))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), very)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), was))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), was)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), waste))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), waste)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), well))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), well)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), work))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), work)"/>
+			</DerivedField>
+			<DerivedField name="float(tf(lowercase(Sentence), works))" optype="continuous" dataType="float">
+				<FieldRef field="tf(lowercase(Sentence), works)"/>
 			</DerivedField>
 			<DerivedField name="float(tf(lowercase(Sentence), works great))" optype="continuous" dataType="float">
 				<FieldRef field="tf(lowercase(Sentence), works great)"/>
@@ -834,23 +834,23 @@
 								<Constant dataType="string">be</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), be))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), be)"/>
-						</DerivedField>
 						<DerivedField name="tf(lowercase(Sentence), bluetooth)" optype="continuous" dataType="double">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">bluetooth</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), bluetooth))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), bluetooth)"/>
-						</DerivedField>
 						<DerivedField name="tf(lowercase(Sentence), ve)" optype="continuous" dataType="double">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">ve</Constant>
 							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), be))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), be)"/>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), bluetooth))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), bluetooth)"/>
 						</DerivedField>
 						<DerivedField name="float(tf(lowercase(Sentence), ve))" optype="continuous" dataType="float">
 							<FieldRef field="tf(lowercase(Sentence), ve)"/>
@@ -1221,14 +1221,14 @@
 								<Constant dataType="string">service</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), service))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), service)"/>
-						</DerivedField>
 						<DerivedField name="tf(lowercase(Sentence), still)" optype="continuous" dataType="double">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">still</Constant>
 							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), service))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), service)"/>
 						</DerivedField>
 						<DerivedField name="float(tf(lowercase(Sentence), still))" optype="continuous" dataType="float">
 							<FieldRef field="tf(lowercase(Sentence), still)"/>
@@ -1927,17 +1927,11 @@
 								<Constant dataType="string">easy to</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), easy to))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), easy to)"/>
-						</DerivedField>
 						<DerivedField name="tf(lowercase(Sentence), happy)" optype="continuous" dataType="double">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">happy</Constant>
 							</Apply>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), happy))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), happy)"/>
 						</DerivedField>
 						<DerivedField name="tf(lowercase(Sentence), in my)" optype="continuous" dataType="double">
 							<Apply function="tf(lowercase(Sentence))">
@@ -1945,14 +1939,20 @@
 								<Constant dataType="string">in my</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), in my))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), in my)"/>
-						</DerivedField>
 						<DerivedField name="tf(lowercase(Sentence), the price)" optype="continuous" dataType="double">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">the price</Constant>
 							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), easy to))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), easy to)"/>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), happy))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), happy)"/>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), in my))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), in my)"/>
 						</DerivedField>
 						<DerivedField name="float(tf(lowercase(Sentence), the price))" optype="continuous" dataType="float">
 							<FieldRef field="tf(lowercase(Sentence), the price)"/>
@@ -2584,14 +2584,14 @@
 								<Constant dataType="string">sound quality</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), sound quality))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), sound quality)"/>
-						</DerivedField>
 						<DerivedField name="tf(lowercase(Sentence), will)" optype="continuous" dataType="double">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">will</Constant>
 							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), sound quality))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), sound quality)"/>
 						</DerivedField>
 						<DerivedField name="float(tf(lowercase(Sentence), will))" optype="continuous" dataType="float">
 							<FieldRef field="tf(lowercase(Sentence), will)"/>
@@ -2788,14 +2788,14 @@
 								<Constant dataType="string">then</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), then))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), then)"/>
-						</DerivedField>
 						<DerivedField name="tf(lowercase(Sentence), this is)" optype="continuous" dataType="double">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">this is</Constant>
 							</Apply>
+						</DerivedField>
+						<DerivedField name="float(tf(lowercase(Sentence), then))" optype="continuous" dataType="float">
+							<FieldRef field="tf(lowercase(Sentence), then)"/>
 						</DerivedField>
 						<DerivedField name="float(tf(lowercase(Sentence), this is))" optype="continuous" dataType="float">
 							<FieldRef field="tf(lowercase(Sentence), this is)"/>

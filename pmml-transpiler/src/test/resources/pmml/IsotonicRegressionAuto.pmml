@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.110.0"/>
-		<Timestamp>2024-09-28T20:33:25Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.126.0"/>
+		<Timestamp>2026-01-16T20:26:23Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -42,10 +42,10 @@
 					<LinearNorm orig="16.0" norm="24.675806451612903"/>
 					<LinearNorm orig="16.1" norm="26.081415929203537"/>
 					<LinearNorm orig="19.0" norm="26.081415929203537"/>
-					<LinearNorm orig="19.2" norm="26.592307692307696"/>
-					<LinearNorm orig="21.0" norm="26.592307692307696"/>
-					<LinearNorm orig="21.5" norm="29.6"/>
-					<LinearNorm orig="23.5" norm="29.6"/>
+					<LinearNorm orig="19.2" norm="26.592307692307692"/>
+					<LinearNorm orig="21.0" norm="26.592307692307692"/>
+					<LinearNorm orig="21.5" norm="29.599999999999998"/>
+					<LinearNorm orig="23.5" norm="29.599999999999998"/>
 					<LinearNorm orig="23.7" norm="38.199999999999996"/>
 					<LinearNorm orig="24.8" norm="38.199999999999996"/>
 				</NormContinuous>
