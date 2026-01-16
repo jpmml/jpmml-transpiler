@@ -10,7 +10,7 @@
 
 	<groupId>org.jpmml</groupId>
 	<artifactId>jpmml-transpiler</artifactId>
-	<version>1.5.0</version>
+	<version>1.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>JPMML-Transpiler</name>
@@ -42,7 +42,7 @@
 		<connection>scm:git:git@github.com:jpmml/jpmml-transpiler.git</connection>
 		<developerConnection>scm:git:git@github.com:jpmml/jpmml-transpiler.git</developerConnection>
 		<url>git://github.com/jpmml/jpmml-transpiler.git</url>
-		<tag>1.5.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<issueManagement>
 		<system>GitHub</system>
@@ -55,7 +55,7 @@
 		<jpmml-evaluator.version>1.7.6</jpmml-evaluator.version>
 		<jpmml-model.version>1.7.6</jpmml-model.version>
 		<jcommander.version>1.82</jcommander.version>
-		<project.build.outputTimestamp>2026-01-16T20:47:36Z</project.build.outputTimestamp>
+		<project.build.outputTimestamp>2026-01-16T20:48:21Z</project.build.outputTimestamp>
 	</properties>
 
 	<dependencyManagement>
@@ -63,17 +63,17 @@
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-translator</artifactId>
-				<version>1.5.0</version>
+				<version>1.5-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-transpiler</artifactId>
-				<version>1.5.0</version>
+				<version>1.5-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-transpiler-example</artifactId>
-				<version>1.5.0</version>
+				<version>1.5-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
