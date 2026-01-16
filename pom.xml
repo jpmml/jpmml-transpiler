@@ -50,12 +50,12 @@
 	</issueManagement>
 
 	<properties>
-		<jpmml-codemodel.version>1.2.0</jpmml-codemodel.version>
-		<jpmml-converter.version>1.6.5</jpmml-converter.version>
+		<jpmml-codemodel.version>1.2.1</jpmml-codemodel.version>
+		<jpmml-converter.version>1.6.8</jpmml-converter.version>
 		<jpmml-evaluator.version>1.7.6</jpmml-evaluator.version>
 		<jpmml-model.version>1.7.6</jpmml-model.version>
 		<jcommander.version>1.82</jcommander.version>
-		<project.build.outputTimestamp>2025-12-06T13:16:54Z</project.build.outputTimestamp>
+		<project.build.outputTimestamp>2026-01-16T08:27:00Z</project.build.outputTimestamp>
 	</properties>
 
 	<dependencyManagement>
