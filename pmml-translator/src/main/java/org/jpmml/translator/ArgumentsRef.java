@@ -185,12 +185,12 @@ public class ArgumentsRef extends JVarRef {
 	private JMethod createEncoderMethod(Field<?> field, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JType stringClazz = context.ref(String.class);
+		JClass stringClazz = context.ref(String.class);
 
 		DataType dataType = field.requireDataType();
 
 		String name;
-		JType returnType;
+		JClass returnType;
 
 		switch(dataType){
 			case STRING:

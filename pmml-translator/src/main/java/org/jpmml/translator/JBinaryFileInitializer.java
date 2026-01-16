@@ -289,9 +289,9 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		String name = toSingular(readMethod) + "ArrayList";
 
-		JType dataInputClazz = context.ref(DataInput.class);
+		JClass dataInputClazz = context.ref(DataInput.class);
 		JType intClazz = context._ref(int.class);
-		JType intArrayClazz = intClazz.array();
+		JClass intArrayClazz = intClazz.array();
 
 		JMethod method = owner.getMethod(name, new JType[]{dataInputClazz, intArrayClazz});
 		if(method == null){
@@ -323,9 +323,9 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		String name = readArraysMethod.replace("Arrays", "Matrix") + "List";
 
-		JType dataInputClazz = context.ref(DataInput.class);
+		JClass dataInputClazz = context.ref(DataInput.class);
 		JType intClazz = context._ref(int.class);
-		JType intArrayClazz = intClazz.array();
+		JClass intArrayClazz = intClazz.array();
 
 		JMethod method = owner.getMethod(name, new JType[]{dataInputClazz, intArrayClazz, intClazz});
 		if(method == null){
@@ -358,7 +358,7 @@ public class JBinaryFileInitializer extends JResourceInitializer {
 
 		String name = toSingular(keyReadMethod) + toSingular(valueReadMethod.replace("read", "")) + "Map";
 
-		JType dataInputClazz = context.ref(DataInput.class);
+		JClass dataInputClazz = context.ref(DataInput.class);
 		JType intClazz = context._ref(int.class);
 
 		JMethod method = owner.getMethod(name, new JType[]{dataInputClazz, intClazz});

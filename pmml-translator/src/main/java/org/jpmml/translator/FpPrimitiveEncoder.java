@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -150,7 +151,7 @@ public class FpPrimitiveEncoder implements Encoder {
 	public JMethod createEncoderMethod(FieldInfo fieldInfo, JPrimitiveType returnType, String name, List<JPrimitiveType> castSequenceTypes, DataType dataType, TranslationContext context){
 		JDefinedClass owner = context.getOwner();
 
-		JType stringClazz = context.ref(String.class);
+		JClass stringClazz = context.ref(String.class);
 
 		JMethod method = owner.getMethod(name, new JType[]{stringClazz});
 		if(method != null){

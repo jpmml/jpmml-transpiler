@@ -41,7 +41,6 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JType;
 import com.sun.codemodel.JTypeVar;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.DataDictionary;
@@ -165,7 +164,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 
 			JInvocation methodInvocation = createEvaluatorMethodInvocation(evaluateMethod, context);
 
-			JType valueClazz = context.ref(Value.class);
+			JClass valueClazz = context.ref(Value.class);
 
 			if(!((evaluateMethod.type()).erasure()).equals(valueClazz)){
 				methodInvocation = context.getValueFactoryVariable().newValue(methodInvocation);
