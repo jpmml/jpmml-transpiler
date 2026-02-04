@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.126.0"/>
-		<Timestamp>2026-01-16T20:25:40Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.127.1"/>
+		<Timestamp>2026-02-04T09:34:03Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -94,10 +94,6 @@
 						<data:importance>83.0</data:importance>
 					</row>
 					<row>
-						<data:name>Hours</data:name>
-						<data:importance>299.0</data:importance>
-					</row>
-					<row>
 						<data:name>Education</data:name>
 						<data:importance>101.0</data:importance>
 					</row>
@@ -116,6 +112,10 @@
 					<row>
 						<data:name>Gender</data:name>
 						<data:importance>48.0</data:importance>
+					</row>
+					<row>
+						<data:name>Hours</data:name>
+						<data:importance>299.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>

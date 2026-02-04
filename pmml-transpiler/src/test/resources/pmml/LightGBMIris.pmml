@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.126.0"/>
-		<Timestamp>2026-01-16T20:26:10Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.127.1"/>
+		<Timestamp>2026-02-04T09:27:13Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -37,12 +37,12 @@
 					<Extension name="minImportance" value="10.0"/>
 					<Extension name="maxImportance" value="88.0"/>
 					<row>
-						<data:name>Sepal.Length</data:name>
-						<data:importance>10.0</data:importance>
-					</row>
-					<row>
 						<data:name>Sepal.Width</data:name>
 						<data:importance>16.0</data:importance>
+					</row>
+					<row>
+						<data:name>Sepal.Length</data:name>
+						<data:importance>10.0</data:importance>
 					</row>
 					<row>
 						<data:name>Petal.Width</data:name>

@@ -103,7 +103,7 @@ def build_audit(classifier, name, **pmml_options):
 	if isinstance(classifier, (LGBMClassifier, XGBClassifier)):
 		cat_mappings = [([cat_column], cat_domain(name, dtype = "category")) for cat_column in cat_columns]
 	else:
-		cat_mappings = [([cat_column], [cat_domain(name), OneHotEncoder()]) for cat_column in cat_columns]
+		cat_mappings = [([cat_column], [cat_domain(name), OneHotEncoder(sparse_output = False)]) for cat_column in cat_columns]
 	cont_mappings = [([cont_column], cont_domain(name)) for cont_column in cont_columns]
 	mappings = cat_mappings + cont_mappings
 	if isinstance(classifier, (LGBMClassifier, XGBClassifier)):
@@ -117,9 +117,7 @@ def build_audit(classifier, name, **pmml_options):
 		("classifier", classifier)
 	])
 	pipeline.fit(audit_X, audit_y)
-	if isinstance(classifier, SelectFirstClassifier):
-		pass
-	elif isinstance(classifier, XGBClassifier):
+	if isinstance(classifier, XGBClassifier):
 		pipeline.verify(audit_X.sample(n = 3, random_state = 13), precision = 1e-5, zeroThreshold = 1e-5)
 	else:
 		pipeline.verify(audit_X.sample(n = 3, random_state = 13))
@@ -266,7 +264,7 @@ def build_auto(regressor, name, **pmml_options):
 	if isinstance(regressor, (LGBMRegressor, XGBRegressor)):
 		cat_mappings = [([cat_column], cat_domain(name, dtype = "category")) for cat_column in cat_columns]
 	else:
-		cat_mappings = [([cat_column], [cat_domain(name), OneHotEncoder()]) for cat_column in cat_columns]
+		cat_mappings = [([cat_column], [cat_domain(name), OneHotEncoder(sparse_output = False)]) for cat_column in cat_columns]
 	cont_mappings = [([cont_column], [cont_domain(name)]) for cont_column in cont_columns]
 	mappings = cat_mappings + cont_mappings
 	if isinstance(regressor, (LGBMRegressor, XGBRegressor)):
@@ -285,9 +283,7 @@ def build_auto(regressor, name, **pmml_options):
 		pipeline.fit(auto_X)
 	else:
 		pipeline.fit(auto_X, auto_y)
-	if isinstance(regressor, SelectFirstRegressor):
-		pass
-	elif isinstance(regressor, XGBRegressor):
+	if isinstance(regressor, XGBRegressor):
 		pipeline.verify(auto_X.sample(n = 3, random_state = 13), precision = 1e-5, zeroThreshold = 1e-5)
 	else:
 		pipeline.verify(auto_X.sample(n = 3, random_state = 13))
