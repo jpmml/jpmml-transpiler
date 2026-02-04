@@ -37,10 +37,10 @@ import jakarta.xml.bind.annotation.XmlTransient;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.PMMLObject;
-import org.jpmml.evaluator.RichComplexArray;
-import org.jpmml.evaluator.general_regression.RichBaseCumHazardTables;
+import org.jpmml.evaluator.ParsedComplexArray;
+import org.jpmml.evaluator.general_regression.ParsedBaseCumHazardTables;
 import org.jpmml.evaluator.java.JavaModel;
-import org.jpmml.evaluator.naive_bayes.RichBayesInput;
+import org.jpmml.evaluator.naive_bayes.ParsedBayesInput;
 import org.jpmml.model.ReflectionUtil;
 import org.jpmml.model.annotations.Property;
 import org.jpmml.model.annotations.ValueConstructor;
@@ -190,13 +190,13 @@ public class Template {
 			} else
 
 			// SetHolder implementations
-			if((RichComplexArray.class).isAssignableFrom(clazz)){
-				template = new RichPMMLObjectTemplate(clazz.asSubclass(PMMLObject.class));
+			if((ParsedComplexArray.class).isAssignableFrom(clazz)){
+				template = new ParsedPMMLObjectTemplate(clazz.asSubclass(PMMLObject.class));
 			} else
 
 			// MapHolder implementations
-			if((RichBaseCumHazardTables.class).isAssignableFrom(clazz) || (RichBayesInput.class).isAssignableFrom(clazz)){
-				template = new RichPMMLObjectTemplate(clazz.asSubclass(PMMLObject.class));
+			if((ParsedBaseCumHazardTables.class).isAssignableFrom(clazz) || (ParsedBayesInput.class).isAssignableFrom(clazz)){
+				template = new ParsedPMMLObjectTemplate(clazz.asSubclass(PMMLObject.class));
 			} else
 
 			{

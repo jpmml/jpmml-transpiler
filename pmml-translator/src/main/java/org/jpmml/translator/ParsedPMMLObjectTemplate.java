@@ -29,9 +29,9 @@ import org.jpmml.evaluator.SetHolder;
  * @see SetHolder
  * @see MapHolder
  */
-public class RichPMMLObjectTemplate extends Template {
+public class ParsedPMMLObjectTemplate extends Template {
 
-	RichPMMLObjectTemplate(Class<? extends PMMLObject> clazz){
+	ParsedPMMLObjectTemplate(Class<? extends PMMLObject> clazz){
 		super(clazz);
 
 		Field dataTypeField;

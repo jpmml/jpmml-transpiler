@@ -155,7 +155,7 @@ public class PMMLObjectUtil {
 		while(clazz != null){
 			String simpleName = clazz.getSimpleName();
 
-			if(simpleName.startsWith("Rich")){
+			if(simpleName.startsWith("Parsed")){
 				clazz = (clazz.getSuperclass()).asSubclass(PMMLObject.class);
 
 				continue;
