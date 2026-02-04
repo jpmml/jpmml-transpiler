@@ -8,9 +8,7 @@
 		<version>1.5-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.jpmml</groupId>
 	<artifactId>pmml-translator</artifactId>
-	<packaging>jar</packaging>
 
 	<name>JPMML translator</name>
 	<description>JPMML class model translator</description>

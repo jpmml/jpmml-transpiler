@@ -8,9 +8,7 @@
 		<version>1.5-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.jpmml</groupId>
 	<artifactId>pmml-transpiler</artifactId>
-	<packaging>jar</packaging>
 
 	<name>JPMML transpiler</name>
 	<description>JPMML class model transpiler</description>
