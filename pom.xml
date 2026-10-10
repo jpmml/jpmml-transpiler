@@ -4,8 +4,8 @@
 
 	<parent>
 		<groupId>org.jpmml</groupId>
-		<artifactId>jpmml-parent</artifactId>
-		<version>1.0.21</version>
+		<artifactId>jpmml-evaluator-parent</artifactId>
+		<version>1.0.1</version>
 	</parent>
 
 	<artifactId>jpmml-transpiler</artifactId>
@@ -16,13 +16,6 @@
 	<description>Java transpiler (translator + compiler) API for Predictive Model Markup Language (PMML)</description>
 	<url>https://github.com/jpmml/jpmml-transpiler</url>
 	
-	<licenses>
-		<license>
-			<name>GNU Affero General Public License (AGPL) version 3.0</name>
-			<url>http://www.gnu.org/licenses/agpl-3.0.html</url>
-		</license>
-	</licenses>
-
 	<modules>
 		<module>pmml-translator</module>
 		<module>pmml-transpiler</module>
@@ -49,7 +42,6 @@
 		<jpmml-converter.version>1.6.11</jpmml-converter.version>
 		<jpmml-evaluator.version>1.7.8</jpmml-evaluator.version>
 		<jpmml-model.version>1.7.8</jpmml-model.version>
-		<jcommander.version>2.0</jcommander.version>
 		<project.build.outputTimestamp>2026-02-04T09:45:09Z</project.build.outputTimestamp>
 	</properties>
 
@@ -111,12 +103,6 @@
 				<version>${jpmml-model.version}</version>
 				<classifier>tests</classifier>
 			</dependency>
-
-			<dependency>
-				<groupId>org.jcommander</groupId>
-				<artifactId>jcommander</artifactId>
-				<version>${jcommander.version}</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -158,19 +144,6 @@
 			<plugin>
 				<groupId>de.jutzig</groupId>
 				<artifactId>github-release-plugin</artifactId>
-				<version>1.2.0</version>
-				<executions>
-					<execution>
-						<id>default-cli</id>
-						<configuration>
-							<artifact>${project.build.directory}/${project.artifactId}-executable-${project.version}.${project.packaging}</artifact>
-							<description>https://github.com/jpmml/jpmml-transpiler</description>
-							<releaseName>${project.version}</releaseName>
-							<repositoryId>jpmml/jpmml-transpiler</repositoryId>
-							<tag>${project.version}</tag>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
