@@ -227,11 +227,11 @@ public class JResourceInitializer extends JClassInitializer {
 	static
 	public boolean isExternalizable(Class<?> clazz){
 
-		if(Objects.equals(clazz, String.class)){
+		if(Objects.equals(String.class, clazz)){
 			return true;
 		} else
 
-		if(Objects.equals(clazz, Integer.class) || Objects.equals(clazz, Float.class) || Objects.equals(clazz, Double.class)){
+		if(Objects.equals(Integer.class, clazz) || Objects.equals(Float.class, clazz) || Objects.equals(Double.class, clazz)){
 			return true;
 		} else
 

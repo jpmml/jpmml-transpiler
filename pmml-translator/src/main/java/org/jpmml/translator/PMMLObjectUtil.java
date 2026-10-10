@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.xml.XMLConstants;
@@ -275,19 +276,19 @@ public class PMMLObjectUtil {
 
 		if(ReflectionUtil.isPrimitiveWrapper(clazz)){
 
-			if((Integer.class).equals(clazz)){
+			if(Objects.equals(Integer.class, clazz)){
 				return JExpr.lit((Integer)value);
 			} else
 
-			if((Float.class).equals(clazz)){
+			if(Objects.equals(Float.class, clazz)){
 				return JExpr.lit((Float)value);
 			} else
 
-			if((Double.class).equals(clazz)){
+			if(Objects.equals(Double.class, clazz)){
 				return JExpr.lit((Double)value);
 			} else
 
-			if((Boolean.class).equals(clazz)){
+			if(Objects.equals(Boolean.class, clazz)){
 				return JExpr.lit((Boolean)value);
 			}
 		} else
@@ -616,7 +617,7 @@ public class PMMLObjectUtil {
 	private JInvocation initializeArray(Field field, List<?> elements, JInvocation invocation, TranslationContext context){
 		Class<?> listClazz = field.getType();
 
-		if(!(List.class).equals(listClazz)){
+		if(!Objects.equals(List.class, listClazz)){
 			throw new IllegalArgumentException();
 		}
 

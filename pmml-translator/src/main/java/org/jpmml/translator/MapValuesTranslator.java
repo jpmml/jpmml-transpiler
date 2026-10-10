@@ -99,11 +99,11 @@ public class MapValuesTranslator extends ExpressionTranslator<MapValues> {
 						Object trueValue = mapping.getOrDefault(Boolean.TRUE, defaultValue);
 						Object falseValue = mapping.getOrDefault(Boolean.FALSE, defaultValue);
 
-						if(Objects.equals(trueValue, Boolean.TRUE) && Objects.equals(falseValue, Boolean.FALSE)){
+						if(Objects.equals(Boolean.TRUE, trueValue) && Objects.equals(Boolean.FALSE, falseValue)){
 							context._return(fieldValueRef.asBoolean());
 						} else
 
-						if(Objects.equals(trueValue, Boolean.FALSE) && Objects.equals(falseValue, Boolean.TRUE)){
+						if(Objects.equals(Boolean.FALSE, trueValue) && Objects.equals(Boolean.TRUE, falseValue)){
 							context._return((fieldValueRef.asBoolean()).not());
 						} else
 
