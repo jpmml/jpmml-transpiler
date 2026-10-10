@@ -121,7 +121,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 		try {
 			context.pushScope(new MethodScope(evaluateMethod));
 
-			ValueBuilder valueBuilder = translateRegressionTable(regressionTable, fieldInfos, context);
+			ValueBuilder valueBuilder = translateRegressionTable(regressionModel, regressionTable, fieldInfos, context);
 
 			computeValue(valueBuilder, regressionModel, context);
 		} finally {
@@ -153,7 +153,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				try {
 					context.pushScope(new MethodScope(evaluateMethod));
 
-					ValueBuilder valueBuilder = translateRegressionTable(regressionTable, fieldInfos, context);
+					ValueBuilder valueBuilder = translateRegressionTable(regressionModel, regressionTable, fieldInfos, context);
 
 					context._return(valueBuilder.getVariable());
 				} finally {
@@ -236,7 +236,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	}
 
 	static
-	public ValueBuilder translateRegressionTable(RegressionTable regressionTable, FieldInfoMap fieldInfos, TranslationContext context){
+	public ValueBuilder translateRegressionTable(RegressionModel regressionModel, RegressionTable regressionTable, FieldInfoMap fieldInfos, TranslationContext context){
 		ValueBuilder valueBuilder = new ValueBuilder(context)
 			.declare(IdentifierUtil.create("result", regressionTable), context.getValueFactoryVariable().newValue());
 
@@ -280,7 +280,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				}
 			}
 
-			addTermFrequencies(regressionTable, valueBuilder, Multimaps.asMap(tfTerms), fieldInfos, context);
+			addTermFrequencies(regressionModel, regressionTable, valueBuilder, Multimaps.asMap(tfTerms), fieldInfos, context);
 		} // End if
 
 		if(regressionTable.hasCategoricalPredictors()){
@@ -318,7 +318,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 							resourceInitializer = resourceInitializerFactory.newResourceInitializer(IdentifierUtil.create(CategoricalPredictor.class.getSimpleName(), regressionTable), context);
 						}
 
-						JFieldVar mapVar = resourceInitializer.initNumberMap(IdentifierUtil.create("map", regressionTable, name), categoryValues);
+						JFieldVar mapVar = resourceInitializer.initNumberMap(IdentifierUtil.create("map", regressionTable, name), ModelTranslator.getJavaType(regressionModel), categoryValues);
 
 						context._return(mapVar.invoke("get").arg(operableRef.getExpression()));
 					} else
@@ -381,7 +381,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	}
 
 	static
-	private void addTermFrequencies(RegressionTable regressionTable, ValueBuilder valueBuilder, Map<String, List<FunctionInvocationPredictor>> tfTerms, FieldInfoMap fieldInfos, TranslationContext context){
+	private void addTermFrequencies(RegressionModel regressionModel, RegressionTable regressionTable, ValueBuilder valueBuilder, Map<String, List<FunctionInvocationPredictor>> tfTerms, FieldInfoMap fieldInfos, TranslationContext context){
 		JDefinedClass owner = context.getOwner(JavaModel.class);
 
 		if(tfTerms.isEmpty()){
@@ -472,7 +472,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 				.map(coefficientFunction)
 				.collect(Collectors.toList());
 
-			JFieldVar coefficientsVar = resourceInitializer.initNumberList(IdentifierUtil.create("coefficients", regressionTable, name), coefficients);
+			JFieldVar coefficientsVar = resourceInitializer.initNumberList(IdentifierUtil.create("coefficients", regressionTable, name), ModelTranslator.getJavaType(regressionModel), coefficients);
 
 			List<Number> weights = predictors.stream()
 				.map(weightFunction)
@@ -481,7 +481,7 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			JFieldVar weightsVar = null;
 
 			if((weights.stream()).anyMatch(weight -> (weights != null && weight.doubleValue() != 1d))){
-				weightsVar = resourceInitializer.initNumberList(IdentifierUtil.create("weights", regressionTable, name), weights);
+				weightsVar = resourceInitializer.initNumberList(IdentifierUtil.create("weights", regressionTable, name), ModelTranslator.getJavaType(regressionModel), weights);
 			}
 
 			int maxLength = Arrays.stream(terms)

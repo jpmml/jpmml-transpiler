@@ -88,7 +88,7 @@ public class NormContinuousTranslator extends ExpressionTranslator<NormContinuou
 			.map(linearNorm -> new Number[]{linearNorm.requireOrig(), linearNorm.requireNorm()})
 			.collect(Collectors.toList());
 
-		JFieldVar linearNormsVar = resourceInitializer.initNumberArrayList("linearNorms", linearNormValues);
+		JFieldVar linearNormsVar = resourceInitializer.initNumberArrayList("linearNorms", Double.class, linearNormValues);
 
 		JVar rangeMapVar = owner.field(Modifiers.PRIVATE_STATIC_FINAL, context.genericRef(RangeMap.class, Double.class, normContinuousFuncInterface), "rangeMap", context.staticInvoke(TreeRangeMap.class, "create"));
 

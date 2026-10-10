@@ -21,6 +21,7 @@ package org.jpmml.translator;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -128,16 +129,14 @@ public class JResourceInitializer extends JClassInitializer {
 		return constant;
 	}
 
-	public JFieldVar initNumberList(String name, List<Number> values){
+	public JFieldVar initNumberList(String name, Class<? extends Number> clazz, List<? extends Number> values){
 		TranslationContext context = getContext();
 
-		Class<?> valueClazz = getValueClass(values, Number.class);
-
-		JClass type = context.ref(valueClazz);
+		JClass type = context.ref(clazz);
 
 		JFieldVar constant = createListConstant(name, type, context);
 
-		JInvocation invocation = initObjectArray(type, values.toArray(new Number[values.size()]));
+		JInvocation invocation = initObjectArray(type, toNumbers(clazz, values.toArray(new Number[values.size()])));
 
 		invocation = context.staticInvoke(Arrays.class, "asList", invocation);
 
@@ -146,39 +145,62 @@ public class JResourceInitializer extends JClassInitializer {
 		return constant;
 	}
 
-	public JFieldVar initNumberArrayList(String name, List<Number[]> elements){
+	public JFieldVar initNumberArrayList(String name, Class<? extends Number> clazz, List<Number[]> elements){
 		TranslationContext context = getContext();
 
-		Collection<Number> values = elements.stream()
-			.flatMap(Arrays::stream)
-			.collect(Collectors.toList());
-
-		Class<?> valueClazz = getValueClass(values, Number.class);
-
-		JClass type = (context.ref(valueClazz)).array();
+		JClass type = (context.ref(clazz)).array();
 
 		JFieldVar constant = createListConstant(name, type, context);
+
+		elements = elements.stream()
+			.map(element -> toNumbers(clazz, element))
+			.collect(Collectors.toList());
 
 		assign(constant, initNumberArrayList(type, elements));
 
 		return constant;
 	}
 
-	public JFieldVar initNumberMatrixList(String name, List<Number[][]> elements, int length){
+	public JFieldVar initNumberMatrixList(String name, Class<? extends Number> clazz, List<Number[][]> elements, int length){
 		TranslationContext context = getContext();
 
-		Collection<Number> values = elements.stream()
-			.flatMap(Arrays::stream)
-			.flatMap(Arrays::stream)
-			.collect(Collectors.toList());
-
-		Class<?> valuesClazz = getValueClass(values, Number.class);
-
-		JClass type = (context.ref(valuesClazz)).array().array();
+		JClass type = (context.ref(clazz)).array().array();
 
 		JFieldVar constant = createListConstant(name, type, context);
 
+		elements = elements.stream()
+			.map(element -> {
+				return Arrays.stream(element)
+					.map(row -> toNumbers(clazz, row))
+					.toArray(Number[][]::new);
+			})
+			.collect(Collectors.toList());
+
 		assign(constant, initNumberMatrixList(type, elements, length));
+
+		return constant;
+	}
+
+	public JFieldVar initNumberMap(String name, Class<? extends Number> valueClazz, Map<?, ? extends Number> map){
+		TranslationContext context = getContext();
+
+		Collection<?> keys = map.keySet();
+
+		Class<?> keysClazz = getValueClass(keys);
+
+		JClass keyType = context.ref(keysClazz);
+		JClass valueType = context.ref(valueClazz);
+
+		JFieldVar constant = createMapConstant(name, keyType, valueType, context);
+
+		Map<Object, Number> numberMap = new LinkedHashMap<>();
+
+		Collection<? extends Map.Entry<?, ? extends Number>> entries = map.entrySet();
+		for(Map.Entry<?, ? extends Number> entry : entries){
+			numberMap.put(entry.getKey(), toNumber(valueClazz, entry.getValue()));
+		}
+
+		assign(constant, initNumberMap(keyType, valueType, numberMap));
 
 		return constant;
 	}
@@ -241,6 +263,33 @@ public class JResourceInitializer extends JClassInitializer {
 		}
 
 		return defaultClazz;
+	}
+
+	static
+	private Number[] toNumbers(Class<? extends Number> clazz, Number[] values){
+		return Arrays.stream(values)
+			.map(value -> toNumber(clazz, value))
+			.toArray(Number[]::new);
+	}
+
+	static
+	private Number toNumber(Class<? extends Number> clazz, Number value){
+
+		if(Objects.equals(Integer.class, clazz)){
+			return value.intValue();
+		} else
+
+		if(Objects.equals(Float.class, clazz)){
+			return value.floatValue();
+		} else
+
+		if(Objects.equals(Double.class, clazz)){
+			return value.doubleValue();
+		} else
+
+		{
+			throw new IllegalArgumentException();
+		}
 	}
 
 	static

@@ -360,6 +360,20 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	}
 
 	static
+	public Class<? extends Number> getJavaType(Model model){
+		MathContext mathContext = model.getMathContext();
+
+		switch(mathContext){
+			case FLOAT:
+				return Float.class;
+			case DOUBLE:
+				return Double.class;
+			default:
+				throw new UnsupportedAttributeException(model, mathContext);
+		}
+	}
+
+	static
 	public void translateRegressorTarget(Model model, Target target, ValueBuilder valueBuilder){
 		MathContext mathContext = model.getMathContext();
 
