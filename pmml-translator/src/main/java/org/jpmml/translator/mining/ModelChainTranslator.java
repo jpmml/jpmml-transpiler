@@ -212,7 +212,7 @@ public class ModelChainTranslator extends MiningModelTranslator {
 
 			ModelTranslator<?> modelTranslator = newModelTranslator(model);
 
-			TargetField targetField = modelTranslator.getTargetField();
+			TargetField targetField = modelTranslator.getSoleTargetField();
 
 			JMethod evaluateMethod = modelTranslator.translateRegressor(context);
 

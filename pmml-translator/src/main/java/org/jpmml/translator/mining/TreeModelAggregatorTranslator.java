@@ -299,7 +299,7 @@ public class TreeModelAggregatorTranslator extends MiningModelTranslator {
 		switch(multipleModelMethod){
 			case SUM:
 				{
-					TargetField targetField = getTargetField();
+					TargetField targetField = getSoleTargetField();
 
 					Target target = targetField.getTarget();
 					if(target != null){

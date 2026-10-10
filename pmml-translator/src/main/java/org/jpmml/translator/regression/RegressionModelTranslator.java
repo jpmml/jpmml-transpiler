@@ -45,10 +45,7 @@ import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JVar;
 import org.dmg.pmml.MiningFunction;
-import org.dmg.pmml.Output;
-import org.dmg.pmml.OutputField;
 import org.dmg.pmml.PMML;
-import org.dmg.pmml.ResultFeature;
 import org.dmg.pmml.TextIndex;
 import org.dmg.pmml.regression.CategoricalPredictor;
 import org.dmg.pmml.regression.NumericPredictor;
@@ -56,15 +53,16 @@ import org.dmg.pmml.regression.PredictorTerm;
 import org.dmg.pmml.regression.RegressionModel;
 import org.dmg.pmml.regression.RegressionTable;
 import org.jpmml.evaluator.Classification;
-import org.jpmml.evaluator.ProbabilityDistribution;
+import org.jpmml.evaluator.ClassificationUtil;
+import org.jpmml.evaluator.ModelEvaluationContext;
 import org.jpmml.evaluator.TokenizedString;
 import org.jpmml.evaluator.Value;
-import org.jpmml.evaluator.VoteDistribution;
 import org.jpmml.evaluator.java.JavaModel;
 import org.jpmml.evaluator.regression.RegressionModelUtil;
 import org.jpmml.model.InvalidElementException;
 import org.jpmml.model.UnsupportedAttributeException;
 import org.jpmml.model.UnsupportedElementListException;
+import org.jpmml.translator.ArgumentsRef;
 import org.jpmml.translator.FieldInfo;
 import org.jpmml.translator.FieldInfoMap;
 import org.jpmml.translator.FunctionInvocation;
@@ -192,7 +190,6 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 	public void computeClassification(ValueMapBuilder valueMapBuilder, RegressionModel regressionModel, TranslationContext context){
 		RegressionModel.NormalizationMethod normalizationMethod = regressionModel.getNormalizationMethod();
 		List<RegressionTable> regressionTables = regressionModel.getRegressionTables();
-		Output output = regressionModel.getOutput();
 
 		if(regressionTables.size() == 2){
 
@@ -231,39 +228,11 @@ public class RegressionModelTranslator extends ModelTranslator<RegressionModel> 
 			throw new InvalidElementException(regressionModel);
 		}
 
-		boolean probabilistic = false;
+		ArgumentsRef argumentsRef = context.getArgumentsVariable();
 
-		if(output != null && output.hasOutputFields()){
-			List<OutputField> outputFields = output.getOutputFields();
+		JExpression modelEvaluatorExpr = context.invoke(JExpr.cast(context.ref(ModelEvaluationContext.class), (argumentsRef.getExpression()).ref("context")), "getModelEvaluator");
 
-			List<OutputField> probabilityOutputFields = outputFields.stream()
-				.filter(outputField -> {
-					ResultFeature resultFeature = outputField.getResultFeature();
-
-					switch(resultFeature){
-						case PROBABILITY:
-							return true;
-						default:
-							return false;
-					}
-
-				})
-				.collect(Collectors.toList());
-
-			probabilistic = (regressionTables.size() == probabilityOutputFields.size());
-		}
-
-		JExpression classificationExpr;
-
-		if(probabilistic){
-			classificationExpr = context._new(ProbabilityDistribution.class, valueMapBuilder);
-		} else
-
-		{
-			classificationExpr = context._new(VoteDistribution.class, valueMapBuilder);
-		}
-
-		context._return(classificationExpr);
+		context._return(context.staticInvoke(ClassificationUtil.class, "createClassification", modelEvaluatorExpr, valueMapBuilder));
 	}
 
 	static

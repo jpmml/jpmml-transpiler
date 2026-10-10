@@ -155,7 +155,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	public JMethod createEvaluateRegressionMethod(JMethod evaluateMethod, TranslationContext context){
 		M model = getModel();
 
-		TargetField targetField = getTargetField();
+		TargetField targetField = getSoleTargetField();
 
 		JMethod evaluateRegressionMethod = createEvaluatorMethod("evaluateRegression", context);
 
@@ -194,7 +194,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	public JMethod createEvaluateClassificationMethod(JMethod evaluateMethod, TranslationContext context){
 		M model = getModel();
 
-		TargetField targetField = getTargetField();
+		TargetField targetField = getSoleTargetField();
 
 		JMethod evaluateClassificationMethod = createEvaluatorMethod("evaluateClassification", context);
 
@@ -313,7 +313,7 @@ public class ModelTranslator<M extends Model> extends ModelManager<M> {
 	}
 
 	public Object[] getTargetCategories(){
-		TargetField targetField = getTargetField();
+		TargetField targetField = getSoleTargetField();
 
 		List<?> categories = targetField.getCategories();
 
