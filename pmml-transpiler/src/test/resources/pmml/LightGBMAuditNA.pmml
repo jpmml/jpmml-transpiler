@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.126.0"/>
-		<Timestamp>2026-01-16T20:25:53Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.133.1"/>
+		<Timestamp>2026-10-10T20:07:17Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -82,6 +82,22 @@
 					<Extension name="minImportance" value="35.0"/>
 					<Extension name="maxImportance" value="781.0"/>
 					<row>
+						<data:name>Employment</data:name>
+						<data:importance>35.0</data:importance>
+					</row>
+					<row>
+						<data:name>Gender</data:name>
+						<data:importance>116.0</data:importance>
+					</row>
+					<row>
+						<data:name>Age</data:name>
+						<data:importance>592.0</data:importance>
+					</row>
+					<row>
+						<data:name>Hours</data:name>
+						<data:importance>355.0</data:importance>
+					</row>
+					<row>
 						<data:name>Occupation</data:name>
 						<data:importance>94.0</data:importance>
 					</row>
@@ -90,28 +106,12 @@
 						<data:importance>56.0</data:importance>
 					</row>
 					<row>
-						<data:name>Gender</data:name>
-						<data:importance>116.0</data:importance>
-					</row>
-					<row>
-						<data:name>Hours</data:name>
-						<data:importance>355.0</data:importance>
+						<data:name>Income</data:name>
+						<data:importance>781.0</data:importance>
 					</row>
 					<row>
 						<data:name>Education</data:name>
 						<data:importance>101.0</data:importance>
-					</row>
-					<row>
-						<data:name>Employment</data:name>
-						<data:importance>35.0</data:importance>
-					</row>
-					<row>
-						<data:name>Age</data:name>
-						<data:importance>592.0</data:importance>
-					</row>
-					<row>
-						<data:name>Income</data:name>
-						<data:importance>781.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>

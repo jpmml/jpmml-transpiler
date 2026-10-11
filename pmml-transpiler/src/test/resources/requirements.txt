@@ -1,4 +1,4 @@
-lightgbm==4.6.0
-scikit-learn==1.8.0
-sklearn2pmml==0.126.0
-xgboost==3.1.0
+lightgbm==4.7.0
+scikit-learn==1.9.0
+sklearn2pmml==0.133.1
+xgboost==3.4.1

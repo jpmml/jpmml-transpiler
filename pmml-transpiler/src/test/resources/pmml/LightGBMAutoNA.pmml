@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.126.0"/>
-		<Timestamp>2026-01-16T20:26:30Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.133.1"/>
+		<Timestamp>2026-10-10T20:08:00Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -64,16 +64,12 @@
 						<data:importance>28.0</data:importance>
 					</row>
 					<row>
-						<data:name>displacement</data:name>
-						<data:importance>105.0</data:importance>
-					</row>
-					<row>
-						<data:name>model_year</data:name>
-						<data:importance>21.0</data:importance>
-					</row>
-					<row>
 						<data:name>horsepower</data:name>
 						<data:importance>100.0</data:importance>
+					</row>
+					<row>
+						<data:name>displacement</data:name>
+						<data:importance>105.0</data:importance>
 					</row>
 					<row>
 						<data:name>cylinders</data:name>
@@ -82,6 +78,10 @@
 					<row>
 						<data:name>acceleration</data:name>
 						<data:importance>77.0</data:importance>
+					</row>
+					<row>
+						<data:name>model_year</data:name>
+						<data:importance>21.0</data:importance>
 					</row>
 				</InlineTable>
 			</Extension>

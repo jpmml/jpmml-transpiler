@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.127.1"/>
-		<Timestamp>2026-02-04T09:27:18Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.133.1"/>
+		<Timestamp>2026-10-10T20:07:43Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -18,50 +18,36 @@
 	<MiningModel functionName="classification" algorithmName="sklearn.ensemble._forest.RandomForestClassifier">
 		<MiningSchema>
 			<MiningField name="Species" usageType="target"/>
-			<MiningField name="x_3"/>
-			<MiningField name="x_2"/>
-			<MiningField name="x_1"/>
 			<MiningField name="x_0"/>
+			<MiningField name="x_1"/>
+			<MiningField name="x_2"/>
+			<MiningField name="x_3"/>
 		</MiningSchema>
 		<Output>
 			<OutputField name="probability(setosa)" optype="continuous" dataType="double" feature="probability" value="setosa"/>
 			<OutputField name="probability(versicolor)" optype="continuous" dataType="double" feature="probability" value="versicolor"/>
 			<OutputField name="probability(virginica)" optype="continuous" dataType="double" feature="probability" value="virginica"/>
 		</Output>
-		<LocalTransformations>
-			<DerivedField name="double(x_3)" optype="continuous" dataType="double">
-				<FieldRef field="x_3"/>
-			</DerivedField>
-			<DerivedField name="double(x_2)" optype="continuous" dataType="double">
-				<FieldRef field="x_2"/>
-			</DerivedField>
-			<DerivedField name="double(x_1)" optype="continuous" dataType="double">
-				<FieldRef field="x_1"/>
-			</DerivedField>
-			<DerivedField name="double(x_0)" optype="continuous" dataType="double">
-				<FieldRef field="x_0"/>
-			</DerivedField>
-		</LocalTransformations>
 		<Segmentation multipleModelMethod="average" missingPredictionTreatment="returnMissing">
 			<Segment id="1">
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="double(x_3)"/>
-						<MiningField name="double(x_2)"/>
+						<MiningField name="x_2"/>
+						<MiningField name="x_3"/>
 					</MiningSchema>
 					<Node>
 						<True/>
 						<Node score="setosa" recordCount="1">
-							<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="0.7000000029802322"/>
+							<SimplePredicate field="x_3" operator="lessOrEqual" value="0.7"/>
 							<ScoreDistribution value="setosa" recordCount="1"/>
 							<ScoreDistribution value="versicolor" recordCount="0"/>
 							<ScoreDistribution value="virginica" recordCount="0"/>
 						</Node>
 						<Node>
-							<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.950000047683716"/>
+							<SimplePredicate field="x_2" operator="lessOrEqual" value="4.95"/>
 							<Node score="versicolor" recordCount="1">
-								<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.75"/>
+								<SimplePredicate field="x_2" operator="lessOrEqual" value="4.75"/>
 								<ScoreDistribution value="setosa" recordCount="0"/>
 								<ScoreDistribution value="versicolor" recordCount="1"/>
 								<ScoreDistribution value="virginica" recordCount="0"/>
@@ -74,7 +60,7 @@
 							</Node>
 						</Node>
 						<Node score="virginica" recordCount="1">
-							<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="1.75"/>
+							<SimplePredicate field="x_3" operator="lessOrEqual" value="1.75"/>
 							<ScoreDistribution value="setosa" recordCount="0"/>
 							<ScoreDistribution value="versicolor" recordCount="0.2222222222222222"/>
 							<ScoreDistribution value="virginica" recordCount="0.7777777777777778"/>
@@ -92,21 +78,21 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="double(x_3)"/>
-						<MiningField name="double(x_2)"/>
+						<MiningField name="x_2"/>
+						<MiningField name="x_3"/>
 					</MiningSchema>
 					<Node>
 						<True/>
 						<Node score="setosa" recordCount="1">
-							<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="2.449999988079071"/>
+							<SimplePredicate field="x_2" operator="lessOrEqual" value="2.4499998"/>
 							<ScoreDistribution value="setosa" recordCount="1"/>
 							<ScoreDistribution value="versicolor" recordCount="0"/>
 							<ScoreDistribution value="virginica" recordCount="0"/>
 						</Node>
 						<Node>
-							<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="1.6500000357627869"/>
+							<SimplePredicate field="x_3" operator="lessOrEqual" value="1.65"/>
 							<Node score="versicolor" recordCount="1">
-								<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.950000047683716"/>
+								<SimplePredicate field="x_2" operator="lessOrEqual" value="4.95"/>
 								<ScoreDistribution value="setosa" recordCount="0"/>
 								<ScoreDistribution value="versicolor" recordCount="1"/>
 								<ScoreDistribution value="virginica" recordCount="0"/>
@@ -119,7 +105,7 @@
 							</Node>
 						</Node>
 						<Node score="virginica" recordCount="1">
-							<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="5.049999952316284"/>
+							<SimplePredicate field="x_2" operator="lessOrEqual" value="5.0499997"/>
 							<ScoreDistribution value="setosa" recordCount="0"/>
 							<ScoreDistribution value="versicolor" recordCount="0.25"/>
 							<ScoreDistribution value="virginica" recordCount="0.75"/>
@@ -137,22 +123,22 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="double(x_3)"/>
-						<MiningField name="double(x_2)"/>
-						<MiningField name="double(x_1)"/>
+						<MiningField name="x_1"/>
+						<MiningField name="x_2"/>
+						<MiningField name="x_3"/>
 					</MiningSchema>
 					<Node>
 						<True/>
 						<Node score="setosa" recordCount="1">
-							<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="2.449999988079071"/>
+							<SimplePredicate field="x_2" operator="lessOrEqual" value="2.4499998"/>
 							<ScoreDistribution value="setosa" recordCount="1"/>
 							<ScoreDistribution value="versicolor" recordCount="0"/>
 							<ScoreDistribution value="virginica" recordCount="0"/>
 						</Node>
 						<Node>
-							<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="1.6500000357627869"/>
+							<SimplePredicate field="x_3" operator="lessOrEqual" value="1.65"/>
 							<Node score="versicolor" recordCount="1">
-								<SimplePredicate field="double(x_1)" operator="lessOrEqual" value="2.25"/>
+								<SimplePredicate field="x_1" operator="lessOrEqual" value="2.25"/>
 								<ScoreDistribution value="setosa" recordCount="0"/>
 								<ScoreDistribution value="versicolor" recordCount="0.5"/>
 								<ScoreDistribution value="virginica" recordCount="0.5"/>
@@ -165,7 +151,7 @@
 							</Node>
 						</Node>
 						<Node score="virginica" recordCount="1">
-							<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.8500001430511475"/>
+							<SimplePredicate field="x_2" operator="lessOrEqual" value="4.85"/>
 							<ScoreDistribution value="setosa" recordCount="0"/>
 							<ScoreDistribution value="versicolor" recordCount="0.2"/>
 							<ScoreDistribution value="virginica" recordCount="0.8"/>
@@ -183,22 +169,22 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="double(x_3)"/>
-						<MiningField name="double(x_2)"/>
-						<MiningField name="double(x_0)"/>
+						<MiningField name="x_0"/>
+						<MiningField name="x_2"/>
+						<MiningField name="x_3"/>
 					</MiningSchema>
 					<Node>
 						<True/>
 						<Node score="setosa" recordCount="1">
-							<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="0.800000011920929"/>
+							<SimplePredicate field="x_3" operator="lessOrEqual" value="0.8"/>
 							<ScoreDistribution value="setosa" recordCount="1"/>
 							<ScoreDistribution value="versicolor" recordCount="0"/>
 							<ScoreDistribution value="virginica" recordCount="0"/>
 						</Node>
 						<Node>
-							<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.75"/>
+							<SimplePredicate field="x_2" operator="lessOrEqual" value="4.75"/>
 							<Node score="virginica" recordCount="1">
-								<SimplePredicate field="double(x_0)" operator="lessOrEqual" value="4.950000047683716"/>
+								<SimplePredicate field="x_0" operator="lessOrEqual" value="4.95"/>
 								<ScoreDistribution value="setosa" recordCount="0"/>
 								<ScoreDistribution value="versicolor" recordCount="0"/>
 								<ScoreDistribution value="virginica" recordCount="1"/>
@@ -211,7 +197,7 @@
 							</Node>
 						</Node>
 						<Node score="virginica" recordCount="1">
-							<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="5.1499998569488525"/>
+							<SimplePredicate field="x_2" operator="lessOrEqual" value="5.1499996"/>
 							<ScoreDistribution value="setosa" recordCount="0"/>
 							<ScoreDistribution value="versicolor" recordCount="0.42857142857142855"/>
 							<ScoreDistribution value="virginica" recordCount="0.5714285714285714"/>
@@ -229,22 +215,22 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="double(x_3)"/>
-						<MiningField name="double(x_1)"/>
-						<MiningField name="double(x_0)"/>
+						<MiningField name="x_0"/>
+						<MiningField name="x_1"/>
+						<MiningField name="x_3"/>
 					</MiningSchema>
 					<Node>
 						<True/>
 						<Node>
-							<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="1.75"/>
+							<SimplePredicate field="x_3" operator="lessOrEqual" value="1.75"/>
 							<Node score="setosa" recordCount="1">
-								<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="0.800000011920929"/>
+								<SimplePredicate field="x_3" operator="lessOrEqual" value="0.8"/>
 								<ScoreDistribution value="setosa" recordCount="1"/>
 								<ScoreDistribution value="versicolor" recordCount="0"/>
 								<ScoreDistribution value="virginica" recordCount="0"/>
 							</Node>
 							<Node score="versicolor" recordCount="1">
-								<SimplePredicate field="double(x_0)" operator="lessOrEqual" value="7.099999904632568"/>
+								<SimplePredicate field="x_0" operator="lessOrEqual" value="7.1"/>
 								<ScoreDistribution value="setosa" recordCount="0"/>
 								<ScoreDistribution value="versicolor" recordCount="0.9333333333333333"/>
 								<ScoreDistribution value="virginica" recordCount="0.06666666666666667"/>
@@ -257,13 +243,13 @@
 							</Node>
 						</Node>
 						<Node score="virginica" recordCount="1">
-							<SimplePredicate field="double(x_1)" operator="lessOrEqual" value="3.149999976158142"/>
+							<SimplePredicate field="x_1" operator="lessOrEqual" value="3.1499999"/>
 							<ScoreDistribution value="setosa" recordCount="0"/>
 							<ScoreDistribution value="versicolor" recordCount="0"/>
 							<ScoreDistribution value="virginica" recordCount="1"/>
 						</Node>
 						<Node score="versicolor" recordCount="1">
-							<SimplePredicate field="double(x_0)" operator="lessOrEqual" value="6.1000001430511475"/>
+							<SimplePredicate field="x_0" operator="lessOrEqual" value="6.1"/>
 							<ScoreDistribution value="setosa" recordCount="0"/>
 							<ScoreDistribution value="versicolor" recordCount="1"/>
 							<ScoreDistribution value="virginica" recordCount="0"/>
@@ -281,21 +267,21 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="double(x_3)"/>
-						<MiningField name="double(x_2)"/>
+						<MiningField name="x_2"/>
+						<MiningField name="x_3"/>
 					</MiningSchema>
 					<Node>
 						<True/>
 						<Node score="setosa" recordCount="1">
-							<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="0.75"/>
+							<SimplePredicate field="x_3" operator="lessOrEqual" value="0.75"/>
 							<ScoreDistribution value="setosa" recordCount="1"/>
 							<ScoreDistribution value="versicolor" recordCount="0"/>
 							<ScoreDistribution value="virginica" recordCount="0"/>
 						</Node>
 						<Node>
-							<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="1.75"/>
+							<SimplePredicate field="x_3" operator="lessOrEqual" value="1.75"/>
 							<Node score="versicolor" recordCount="1">
-								<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="5.049999952316284"/>
+								<SimplePredicate field="x_2" operator="lessOrEqual" value="5.0499997"/>
 								<ScoreDistribution value="setosa" recordCount="0"/>
 								<ScoreDistribution value="versicolor" recordCount="0.9824561403508771"/>
 								<ScoreDistribution value="virginica" recordCount="0.017543859649122806"/>
@@ -308,7 +294,7 @@
 							</Node>
 						</Node>
 						<Node score="versicolor" recordCount="1">
-							<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="4.8500001430511475"/>
+							<SimplePredicate field="x_2" operator="lessOrEqual" value="4.85"/>
 							<ScoreDistribution value="setosa" recordCount="0"/>
 							<ScoreDistribution value="versicolor" recordCount="1"/>
 							<ScoreDistribution value="virginica" recordCount="0"/>
@@ -326,22 +312,22 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="double(x_3)"/>
-						<MiningField name="double(x_2)"/>
-						<MiningField name="double(x_0)"/>
+						<MiningField name="x_0"/>
+						<MiningField name="x_2"/>
+						<MiningField name="x_3"/>
 					</MiningSchema>
 					<Node>
 						<True/>
 						<Node score="setosa" recordCount="1">
-							<SimplePredicate field="double(x_2)" operator="lessOrEqual" value="2.350000023841858"/>
+							<SimplePredicate field="x_2" operator="lessOrEqual" value="2.35"/>
 							<ScoreDistribution value="setosa" recordCount="1"/>
 							<ScoreDistribution value="versicolor" recordCount="0"/>
 							<ScoreDistribution value="virginica" recordCount="0"/>
 						</Node>
 						<Node>
-							<SimplePredicate field="double(x_3)" operator="lessOrEqual" value="1.75"/>
+							<SimplePredicate field="x_3" operator="lessOrEqual" value="1.75"/>
 							<Node score="versicolor" recordCount="1">
-								<SimplePredicate field="double(x_0)" operator="lessOrEqual" value="7.099999904632568"/>
+								<SimplePredicate field="x_0" operator="lessOrEqual" value="7.1"/>
 								<ScoreDistribution value="setosa" recordCount="0"/>
 								<ScoreDistribution value="versicolor" recordCount="0.9074074074074074"/>
 								<ScoreDistribution value="virginica" recordCount="0.09259259259259259"/>
