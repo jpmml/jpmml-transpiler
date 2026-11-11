@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.133.1"/>
-		<Timestamp>2026-10-10T20:07:15Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.134.0"/>
+		<Timestamp>2026-11-11T04:04:16Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -68,7 +68,7 @@
 			<Interval closure="closedClosed" leftMargin="17" rightMargin="83"/>
 		</DataField>
 		<DataField name="Income" optype="continuous" dataType="float">
-			<Interval closure="closedClosed" leftMargin="609.719970703125" rightMargin="481259.5"/>
+			<Interval closure="closedClosed" leftMargin="609.72" rightMargin="481259.5"/>
 			<Value value="NaN" property="missing"/>
 		</DataField>
 		<DataField name="Hours" optype="continuous" dataType="float">

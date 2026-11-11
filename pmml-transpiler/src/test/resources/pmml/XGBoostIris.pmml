@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.133.1"/>
-		<Timestamp>2026-10-10T20:07:40Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.134.0"/>
+		<Timestamp>2026-11-11T04:04:41Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Species" optype="categorical" dataType="string">
@@ -11,15 +11,15 @@
 			<Value value="virginica"/>
 		</DataField>
 		<DataField name="Sepal.Length" optype="continuous" dataType="float">
-			<Interval closure="closedClosed" leftMargin="4.3" rightMargin="7.900000095367432"/>
+			<Interval closure="closedClosed" leftMargin="4.3" rightMargin="7.9"/>
 			<Value value="NaN" property="missing"/>
 		</DataField>
 		<DataField name="Sepal.Width" optype="continuous" dataType="float">
-			<Interval closure="closedClosed" leftMargin="2.0" rightMargin="4.400000095367432"/>
+			<Interval closure="closedClosed" leftMargin="2.0" rightMargin="4.4"/>
 			<Value value="NaN" property="missing"/>
 		</DataField>
 		<DataField name="Petal.Length" optype="continuous" dataType="float">
-			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="6.900000095367432"/>
+			<Interval closure="closedClosed" leftMargin="1.0" rightMargin="6.9"/>
 			<Value value="NaN" property="missing"/>
 		</DataField>
 		<DataField name="Petal.Width" optype="continuous" dataType="float">

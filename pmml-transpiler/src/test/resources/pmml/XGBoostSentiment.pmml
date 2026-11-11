@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.133.1"/>
-		<Timestamp>2026-10-10T20:07:32Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.134.0"/>
+		<Timestamp>2026-11-11T04:04:33Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Score" optype="categorical" dataType="integer">
@@ -41,509 +41,341 @@
 								<FieldRef field="Sentence"/>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), after)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), after)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">after</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), and)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), and)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">and</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), at)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), at)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">at</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), awesome)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), awesome)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">awesome</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), bad)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), bad)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">bad</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), be)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), be)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">be</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), best)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), best)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">best</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), cases)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), cases)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">cases</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), cell)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), cell)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">cell</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), comfortable)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), comfortable)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">comfortable</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), did)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), did)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">did</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), difficult)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), difficult)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">difficult</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), disappointed)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), disappointed)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">disappointed</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), disappointing)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), disappointing)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">disappointing</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), disappointment)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), disappointment)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">disappointment</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), easy)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), easy)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">easy</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), excellent)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), excellent)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">excellent</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), first)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), first)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">first</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), fits)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), fits)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">fits</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), good)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), good)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">good</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), great)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), great)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">great</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), happy)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), happy)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">happy</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), horrible)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), horrible)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">horrible</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), if)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), if)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">if</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), in)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), in)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">in</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), is)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), is)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">is</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), it)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), it)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">it</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), love)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), love)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">love</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), me)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), me)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">me</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), money)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), money)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">money</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), nice)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), nice)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">nice</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), none)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), none)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">none</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), not)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), not)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">not</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), of)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), of)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">of</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), old)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), old)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">old</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), piece)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), piece)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">piece</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), poor)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), poor)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">poor</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), price)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), price)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">price</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), recommend)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), recommend)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">recommend</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), sturdy)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), sturdy)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">sturdy</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), t)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), t)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">t</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), terrible)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), terrible)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">terrible</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), than)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), than)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">than</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), the)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), the)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">the</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), then)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), then)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">then</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), to)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), to)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">to</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), ve)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), ve)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">ve</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), very)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), very)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">very</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), was)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), was)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">was</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), waste)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), waste)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">waste</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), well)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), well)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">well</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), with)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), with)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">with</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), without)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), without)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">without</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), works)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), works)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">works</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), worst)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), worst)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">worst</Constant>
 							</Apply>
 						</DerivedField>
-						<DerivedField name="tf(lowercase(Sentence), you)" optype="continuous" dataType="double">
+						<DerivedField name="tf(lowercase(Sentence), you)" optype="continuous" dataType="float">
 							<Apply function="tf(lowercase(Sentence))">
 								<FieldRef field="lowercase(Sentence)"/>
 								<Constant dataType="string">you</Constant>
 							</Apply>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), great))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), great)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), not))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), not)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), good))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), good)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), excellent))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), excellent)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), works))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), works)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), very))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), very)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), it))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), it)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), and))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), and)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), at))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), at)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), if))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), if)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), was))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), was)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), of))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), of)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), love))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), love)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), well))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), well)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), best))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), best)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), be))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), be)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), is))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), is)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), recommend))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), recommend)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), in))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), in)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), the))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), the)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), nice))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), nice)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), easy))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), easy)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), with))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), with)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), t))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), t)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), poor))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), poor)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), bad))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), bad)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), you))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), you)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), did))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), did)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), happy))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), happy)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), money))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), money)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), worst))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), worst)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), first))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), first)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), price))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), price)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), then))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), then)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), after))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), after)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), fits))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), fits)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), disappointed))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), disappointed)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), waste))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), waste)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), me))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), me)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), terrible))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), terrible)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), than))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), than)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), comfortable))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), comfortable)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), to))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), to)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), piece))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), piece)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), disappointing))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), disappointing)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), without))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), without)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), cases))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), cases)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), difficult))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), difficult)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), awesome))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), awesome)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), sturdy))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), sturdy)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), old))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), old)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), none))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), none)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), cell))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), cell)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), disappointment))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), disappointment)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), horrible))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), horrible)"/>
-						</DerivedField>
-						<DerivedField name="float(tf(lowercase(Sentence), ve))" optype="continuous" dataType="float">
-							<FieldRef field="tf(lowercase(Sentence), ve)"/>
 						</DerivedField>
 					</LocalTransformations>
 					<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
@@ -551,90 +383,84 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), great))"/>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), excellent))"/>
-									<MiningField name="float(tf(lowercase(Sentence), works))"/>
-									<MiningField name="float(tf(lowercase(Sentence), very))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), at))"/>
-									<MiningField name="float(tf(lowercase(Sentence), if))"/>
-									<MiningField name="float(tf(lowercase(Sentence), was))"/>
-									<MiningField name="float(tf(lowercase(Sentence), of))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), at)"/>
+									<MiningField name="tf(lowercase(Sentence), excellent)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), great)"/>
+									<MiningField name="tf(lowercase(Sentence), if)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), of)"/>
+									<MiningField name="tf(lowercase(Sentence), very)"/>
+									<MiningField name="tf(lowercase(Sentence), was)"/>
+									<MiningField name="tf(lowercase(Sentence), works)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), case)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), case)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">case</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="tf(lowercase(Sentence), so)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), so)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">so</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), case))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), case)"/>
-									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), so))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), so)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="0.16363637">
 									<True/>
 									<Node score="0.3">
-										<SimplePredicate field="float(tf(lowercase(Sentence), great))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), great)" operator="lessThan" value="1.0"/>
 										<Node score="0.3">
-											<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 											<Node score="0.4758621">
-												<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 												<Node score="0.4666667">
-													<SimplePredicate field="float(tf(lowercase(Sentence), excellent))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), excellent)" operator="lessThan" value="1.0"/>
 													<Node score="0.20000002">
-														<SimplePredicate field="float(tf(lowercase(Sentence), works))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), works)" operator="lessThan" value="1.0"/>
 														<Node score="-0.12195122">
-															<SimplePredicate field="float(tf(lowercase(Sentence), very))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), very)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.15">
-												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 												<Node score="0.52500004">
-													<SimplePredicate field="float(tf(lowercase(Sentence), case))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), case)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 											<Node score="0.05454546">
-												<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 										<Node score="0.0">
-											<SimplePredicate field="float(tf(lowercase(Sentence), so))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), so)" operator="lessThan" value="1.0"/>
 											<Node score="0.0">
-												<SimplePredicate field="float(tf(lowercase(Sentence), at))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), at)" operator="lessThan" value="1.0"/>
 												<Node score="-0.16363637">
-													<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 													<Node score="-0.54418606">
-														<SimplePredicate field="float(tf(lowercase(Sentence), if))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), if)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 												<Node score="-0.27272728">
-													<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="0.15">
-										<SimplePredicate field="float(tf(lowercase(Sentence), was))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), was)" operator="lessThan" value="1.0"/>
 										<Node score="0.15">
-											<SimplePredicate field="float(tf(lowercase(Sentence), very))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), very)" operator="lessThan" value="1.0"/>
 											<Node score="0.55813956">
-												<SimplePredicate field="float(tf(lowercase(Sentence), of))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), of)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
@@ -645,65 +471,65 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), great))"/>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), was))"/>
-									<MiningField name="float(tf(lowercase(Sentence), of))"/>
-									<MiningField name="float(tf(lowercase(Sentence), love))"/>
-									<MiningField name="float(tf(lowercase(Sentence), well))"/>
-									<MiningField name="float(tf(lowercase(Sentence), best))"/>
-									<MiningField name="float(tf(lowercase(Sentence), be))"/>
-									<MiningField name="float(tf(lowercase(Sentence), is))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), be)"/>
+									<MiningField name="tf(lowercase(Sentence), best)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), great)"/>
+									<MiningField name="tf(lowercase(Sentence), is)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), love)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), of)"/>
+									<MiningField name="tf(lowercase(Sentence), was)"/>
+									<MiningField name="tf(lowercase(Sentence), well)"/>
 								</MiningSchema>
 								<Node score="0.13303041">
 									<True/>
 									<Node score="0.09918994">
-										<SimplePredicate field="float(tf(lowercase(Sentence), great))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), great)" operator="lessThan" value="1.0"/>
 										<Node score="0.16960533">
-											<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 											<Node score="0.51239705">
-												<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 												<Node score="0.08714629">
-													<SimplePredicate field="float(tf(lowercase(Sentence), love))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), love)" operator="lessThan" value="1.0"/>
 													<Node score="0.46341833">
-														<SimplePredicate field="float(tf(lowercase(Sentence), well))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), well)" operator="lessThan" value="1.0"/>
 														<Node score="-0.08427239">
-															<SimplePredicate field="float(tf(lowercase(Sentence), best))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), best)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="0.39008337">
-														<SimplePredicate field="float(tf(lowercase(Sentence), of))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), of)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.396197">
-												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 										<Node score="-0.2125637">
-											<SimplePredicate field="float(tf(lowercase(Sentence), be))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), be)" operator="lessThan" value="1.0"/>
 											<Node score="-0.2727939">
-												<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 												<Node score="-0.13336131">
-													<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 													<Node score="-0.45641467">
-														<SimplePredicate field="float(tf(lowercase(Sentence), was))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), was)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 												<Node score="-0.09534449">
-													<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 											<Node score="0.05387686">
-												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="0.4170846">
-										<SimplePredicate field="float(tf(lowercase(Sentence), was))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), was)" operator="lessThan" value="1.0"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -712,79 +538,76 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), great))"/>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), excellent))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), was))"/>
-									<MiningField name="float(tf(lowercase(Sentence), of))"/>
-									<MiningField name="float(tf(lowercase(Sentence), be))"/>
-									<MiningField name="float(tf(lowercase(Sentence), is))"/>
-									<MiningField name="float(tf(lowercase(Sentence), recommend))"/>
-									<MiningField name="float(tf(lowercase(Sentence), in))"/>
-									<MiningField name="float(tf(lowercase(Sentence), the))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), be)"/>
+									<MiningField name="tf(lowercase(Sentence), excellent)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), great)"/>
+									<MiningField name="tf(lowercase(Sentence), in)"/>
+									<MiningField name="tf(lowercase(Sentence), is)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), of)"/>
+									<MiningField name="tf(lowercase(Sentence), recommend)"/>
+									<MiningField name="tf(lowercase(Sentence), the)"/>
+									<MiningField name="tf(lowercase(Sentence), was)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), off)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), off)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">off</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), off))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), off)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="0.10891466">
 									<True/>
 									<Node score="0.08009105">
-										<SimplePredicate field="float(tf(lowercase(Sentence), great))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), great)" operator="lessThan" value="1.0"/>
 										<Node score="0.13454643">
-											<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 											<Node score="0.43732962">
-												<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 												<Node score="-0.3010928">
-													<SimplePredicate field="float(tf(lowercase(Sentence), recommend))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), recommend)" operator="lessThan" value="1.0"/>
 													<Node score="0.36116225">
-														<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 														<Node score="-0.10468692">
-															<SimplePredicate field="float(tf(lowercase(Sentence), excellent))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), excellent)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="0.13027626">
-														<SimplePredicate field="float(tf(lowercase(Sentence), off))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), off)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.08494134">
-												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 												<Node score="0.348681">
-													<SimplePredicate field="float(tf(lowercase(Sentence), in))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), in)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
 										<Node score="-0.17296104">
-											<SimplePredicate field="float(tf(lowercase(Sentence), be))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), be)" operator="lessThan" value="1.0"/>
 											<Node score="-0.14656685">
-												<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 												<Node score="-0.36527205">
-													<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 											<Node score="0.044106297">
-												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="0.112716265">
-										<SimplePredicate field="float(tf(lowercase(Sentence), was))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), was)" operator="lessThan" value="1.0"/>
 										<Node score="0.10887245">
-											<SimplePredicate field="float(tf(lowercase(Sentence), of))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), of)" operator="lessThan" value="1.0"/>
 											<Node score="0.37132195">
-												<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="2.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="2.0"/>
 											</Node>
 										</Node>
 									</Node>
@@ -795,30 +618,30 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), great))"/>
-									<MiningField name="float(tf(lowercase(Sentence), works))"/>
-									<MiningField name="float(tf(lowercase(Sentence), was))"/>
-									<MiningField name="float(tf(lowercase(Sentence), of))"/>
-									<MiningField name="float(tf(lowercase(Sentence), love))"/>
-									<MiningField name="float(tf(lowercase(Sentence), best))"/>
-									<MiningField name="float(tf(lowercase(Sentence), nice))"/>
-									<MiningField name="float(tf(lowercase(Sentence), easy))"/>
-									<MiningField name="float(tf(lowercase(Sentence), with))"/>
+									<MiningField name="tf(lowercase(Sentence), best)"/>
+									<MiningField name="tf(lowercase(Sentence), easy)"/>
+									<MiningField name="tf(lowercase(Sentence), great)"/>
+									<MiningField name="tf(lowercase(Sentence), love)"/>
+									<MiningField name="tf(lowercase(Sentence), nice)"/>
+									<MiningField name="tf(lowercase(Sentence), of)"/>
+									<MiningField name="tf(lowercase(Sentence), was)"/>
+									<MiningField name="tf(lowercase(Sentence), with)"/>
+									<MiningField name="tf(lowercase(Sentence), works)"/>
 								</MiningSchema>
 								<Node score="0.08953163">
 									<True/>
 									<Node score="0.46760678">
-										<SimplePredicate field="float(tf(lowercase(Sentence), great))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), great)" operator="lessThan" value="1.0"/>
 										<Node score="0.3681639">
-											<SimplePredicate field="float(tf(lowercase(Sentence), nice))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), nice)" operator="lessThan" value="1.0"/>
 											<Node score="0.41168267">
-												<SimplePredicate field="float(tf(lowercase(Sentence), works))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), works)" operator="lessThan" value="1.0"/>
 												<Node score="0.35763925">
-													<SimplePredicate field="float(tf(lowercase(Sentence), love))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), love)" operator="lessThan" value="1.0"/>
 													<Node score="0.37617612">
-														<SimplePredicate field="float(tf(lowercase(Sentence), best))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), best)" operator="lessThan" value="1.0"/>
 														<Node score="-0.08182566">
-															<SimplePredicate field="float(tf(lowercase(Sentence), easy))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), easy)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
@@ -826,11 +649,11 @@
 										</Node>
 									</Node>
 									<Node score="0.0966241">
-										<SimplePredicate field="float(tf(lowercase(Sentence), was))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), was)" operator="lessThan" value="1.0"/>
 										<Node score="0.08363297">
-											<SimplePredicate field="float(tf(lowercase(Sentence), of))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), of)" operator="lessThan" value="1.0"/>
 											<Node score="0.3321552">
-												<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
@@ -841,69 +664,69 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), great))"/>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), if))"/>
-									<MiningField name="float(tf(lowercase(Sentence), be))"/>
-									<MiningField name="float(tf(lowercase(Sentence), is))"/>
-									<MiningField name="float(tf(lowercase(Sentence), with))"/>
-									<MiningField name="float(tf(lowercase(Sentence), t))"/>
-									<MiningField name="float(tf(lowercase(Sentence), poor))"/>
-									<MiningField name="float(tf(lowercase(Sentence), bad))"/>
-									<MiningField name="float(tf(lowercase(Sentence), you))"/>
-									<MiningField name="float(tf(lowercase(Sentence), did))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), bad)"/>
+									<MiningField name="tf(lowercase(Sentence), be)"/>
+									<MiningField name="tf(lowercase(Sentence), did)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), great)"/>
+									<MiningField name="tf(lowercase(Sentence), if)"/>
+									<MiningField name="tf(lowercase(Sentence), is)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), poor)"/>
+									<MiningField name="tf(lowercase(Sentence), t)"/>
+									<MiningField name="tf(lowercase(Sentence), with)"/>
+									<MiningField name="tf(lowercase(Sentence), you)"/>
 								</MiningSchema>
 								<Node score="0.08042271">
 									<True/>
 									<Node score="0.16859968">
-										<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 										<Node score="0.10486618">
-											<SimplePredicate field="float(tf(lowercase(Sentence), t))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), t)" operator="lessThan" value="1.0"/>
 											<Node score="-0.37180358">
-												<SimplePredicate field="float(tf(lowercase(Sentence), great))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), great)" operator="lessThan" value="1.0"/>
 												<Node score="-0.41186076">
-													<SimplePredicate field="float(tf(lowercase(Sentence), if))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), if)" operator="lessThan" value="1.0"/>
 													<Node score="-0.3883074">
-														<SimplePredicate field="float(tf(lowercase(Sentence), poor))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), poor)" operator="lessThan" value="1.0"/>
 														<Node score="0.07060597">
-															<SimplePredicate field="float(tf(lowercase(Sentence), bad))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), bad)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.32305965">
-												<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 										<Node score="0.033961684">
-											<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 											<Node score="-0.004652727">
-												<SimplePredicate field="float(tf(lowercase(Sentence), you))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), you)" operator="lessThan" value="1.0"/>
 												<Node score="-0.3513239">
-													<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 												</Node>
 												<Node score="-0.20466745">
-													<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="-0.12742716">
-										<SimplePredicate field="float(tf(lowercase(Sentence), be))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), be)" operator="lessThan" value="1.0"/>
 										<Node score="-0.03715843">
-											<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 											<Node score="-0.10582138">
-												<SimplePredicate field="float(tf(lowercase(Sentence), did))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), did)" operator="lessThan" value="1.0"/>
 												<Node score="-0.35368967">
-													<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
 										<Node score="0.037030682">
-											<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 										</Node>
 									</Node>
 								</Node>
@@ -913,45 +736,42 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), excellent))"/>
-									<MiningField name="float(tf(lowercase(Sentence), works))"/>
-									<MiningField name="float(tf(lowercase(Sentence), love))"/>
-									<MiningField name="float(tf(lowercase(Sentence), nice))"/>
-									<MiningField name="float(tf(lowercase(Sentence), happy))"/>
+									<MiningField name="tf(lowercase(Sentence), excellent)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), happy)"/>
+									<MiningField name="tf(lowercase(Sentence), love)"/>
+									<MiningField name="tf(lowercase(Sentence), nice)"/>
+									<MiningField name="tf(lowercase(Sentence), works)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), headset)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), headset)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">headset</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), headset))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), headset)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="0.32669875">
 									<True/>
 									<Node score="0.37363026">
-										<SimplePredicate field="float(tf(lowercase(Sentence), works))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), works)" operator="lessThan" value="1.0"/>
 										<Node score="0.0947148">
-											<SimplePredicate field="float(tf(lowercase(Sentence), nice))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), nice)" operator="lessThan" value="1.0"/>
 											<Node score="0.39427555">
-												<SimplePredicate field="float(tf(lowercase(Sentence), excellent))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), excellent)" operator="lessThan" value="1.0"/>
 												<Node score="0.33937398">
-													<SimplePredicate field="float(tf(lowercase(Sentence), happy))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), happy)" operator="lessThan" value="1.0"/>
 													<Node score="0.17868955">
-														<SimplePredicate field="float(tf(lowercase(Sentence), love))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), love)" operator="lessThan" value="1.0"/>
 														<Node score="-0.066157974">
-															<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.35786986">
-												<SimplePredicate field="float(tf(lowercase(Sentence), headset))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), headset)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
@@ -962,55 +782,55 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), if))"/>
-									<MiningField name="float(tf(lowercase(Sentence), well))"/>
-									<MiningField name="float(tf(lowercase(Sentence), be))"/>
-									<MiningField name="float(tf(lowercase(Sentence), is))"/>
-									<MiningField name="float(tf(lowercase(Sentence), did))"/>
-									<MiningField name="float(tf(lowercase(Sentence), money))"/>
-									<MiningField name="float(tf(lowercase(Sentence), worst))"/>
-									<MiningField name="float(tf(lowercase(Sentence), first))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), be)"/>
+									<MiningField name="tf(lowercase(Sentence), did)"/>
+									<MiningField name="tf(lowercase(Sentence), first)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), if)"/>
+									<MiningField name="tf(lowercase(Sentence), is)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), money)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), well)"/>
+									<MiningField name="tf(lowercase(Sentence), worst)"/>
 								</MiningSchema>
 								<Node score="0.07769759">
 									<True/>
 									<Node score="-0.35620654">
-										<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 										<Node score="-0.3823661">
-											<SimplePredicate field="float(tf(lowercase(Sentence), money))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), money)" operator="lessThan" value="1.0"/>
 											<Node score="-0.07053678">
-												<SimplePredicate field="float(tf(lowercase(Sentence), worst))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), worst)" operator="lessThan" value="1.0"/>
 												<Node score="-0.30618066">
-													<SimplePredicate field="float(tf(lowercase(Sentence), first))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), first)" operator="lessThan" value="1.0"/>
 													<Node score="0.35602152">
-														<SimplePredicate field="float(tf(lowercase(Sentence), if))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), if)" operator="lessThan" value="1.0"/>
 														<Node score="0.050402764">
-															<SimplePredicate field="float(tf(lowercase(Sentence), well))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), well)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 												<Node score="-0.38930097">
-													<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="-0.09834949">
-										<SimplePredicate field="float(tf(lowercase(Sentence), be))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), be)" operator="lessThan" value="1.0"/>
 										<Node score="-0.019529965">
-											<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 											<Node score="-0.11873772">
-												<SimplePredicate field="float(tf(lowercase(Sentence), did))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), did)" operator="lessThan" value="1.0"/>
 												<Node score="-0.31604493">
-													<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
 										<Node score="0.04229288">
-											<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 										</Node>
 									</Node>
 								</Node>
@@ -1020,41 +840,41 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), works))"/>
-									<MiningField name="float(tf(lowercase(Sentence), very))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), was))"/>
-									<MiningField name="float(tf(lowercase(Sentence), best))"/>
-									<MiningField name="float(tf(lowercase(Sentence), recommend))"/>
-									<MiningField name="float(tf(lowercase(Sentence), with))"/>
-									<MiningField name="float(tf(lowercase(Sentence), price))"/>
-									<MiningField name="float(tf(lowercase(Sentence), then))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), best)"/>
+									<MiningField name="tf(lowercase(Sentence), price)"/>
+									<MiningField name="tf(lowercase(Sentence), recommend)"/>
+									<MiningField name="tf(lowercase(Sentence), then)"/>
+									<MiningField name="tf(lowercase(Sentence), very)"/>
+									<MiningField name="tf(lowercase(Sentence), was)"/>
+									<MiningField name="tf(lowercase(Sentence), with)"/>
+									<MiningField name="tf(lowercase(Sentence), works)"/>
 								</MiningSchema>
 								<Node score="0.32915193">
 									<True/>
 									<Node score="0.2805021">
-										<SimplePredicate field="float(tf(lowercase(Sentence), price))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), price)" operator="lessThan" value="1.0"/>
 										<Node score="-0.3879769">
-											<SimplePredicate field="float(tf(lowercase(Sentence), works))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), works)" operator="lessThan" value="1.0"/>
 											<Node score="0.02846584">
-												<SimplePredicate field="float(tf(lowercase(Sentence), then))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), then)" operator="lessThan" value="1.0"/>
 												<Node score="0.29597324">
-													<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 													<Node score="0.2706221">
-														<SimplePredicate field="float(tf(lowercase(Sentence), best))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), best)" operator="lessThan" value="1.0"/>
 														<Node score="-0.0665783">
-															<SimplePredicate field="float(tf(lowercase(Sentence), recommend))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), recommend)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 												<Node score="0.30551463">
-													<SimplePredicate field="float(tf(lowercase(Sentence), was))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), was)" operator="lessThan" value="1.0"/>
 													<Node score="0.077457756">
-														<SimplePredicate field="float(tf(lowercase(Sentence), very))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), very)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 												<Node score="-0.1865392">
-													<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
@@ -1066,53 +886,53 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), great))"/>
-									<MiningField name="float(tf(lowercase(Sentence), excellent))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), is))"/>
-									<MiningField name="float(tf(lowercase(Sentence), easy))"/>
-									<MiningField name="float(tf(lowercase(Sentence), with))"/>
-									<MiningField name="float(tf(lowercase(Sentence), t))"/>
-									<MiningField name="float(tf(lowercase(Sentence), you))"/>
-									<MiningField name="float(tf(lowercase(Sentence), after))"/>
-									<MiningField name="float(tf(lowercase(Sentence), fits))"/>
+									<MiningField name="tf(lowercase(Sentence), after)"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), easy)"/>
+									<MiningField name="tf(lowercase(Sentence), excellent)"/>
+									<MiningField name="tf(lowercase(Sentence), fits)"/>
+									<MiningField name="tf(lowercase(Sentence), great)"/>
+									<MiningField name="tf(lowercase(Sentence), is)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), t)"/>
+									<MiningField name="tf(lowercase(Sentence), with)"/>
+									<MiningField name="tf(lowercase(Sentence), you)"/>
 								</MiningSchema>
 								<Node score="0.07542765">
 									<True/>
 									<Node score="-0.31436872">
-										<SimplePredicate field="float(tf(lowercase(Sentence), t))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), t)" operator="lessThan" value="1.0"/>
 										<Node score="0.04202903">
-											<SimplePredicate field="float(tf(lowercase(Sentence), after))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), after)" operator="lessThan" value="1.0"/>
 											<Node score="0.3312106">
-												<SimplePredicate field="float(tf(lowercase(Sentence), great))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), great)" operator="lessThan" value="1.0"/>
 												<Node score="0.3742426">
-													<SimplePredicate field="float(tf(lowercase(Sentence), easy))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), easy)" operator="lessThan" value="1.0"/>
 													<Node score="0.27899316">
-														<SimplePredicate field="float(tf(lowercase(Sentence), fits))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), fits)" operator="lessThan" value="1.0"/>
 														<Node score="-0.013771284">
-															<SimplePredicate field="float(tf(lowercase(Sentence), excellent))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), excellent)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.28557193">
-												<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="0.0055279573">
-										<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 										<Node score="0.031742666">
-											<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 											<Node score="-0.026053293">
-												<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 												<Node score="-0.30616987">
-													<SimplePredicate field="float(tf(lowercase(Sentence), you))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), you)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 											<Node score="-0.16254684">
-												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
@@ -1123,70 +943,67 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), great))"/>
-									<MiningField name="float(tf(lowercase(Sentence), very))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), love))"/>
-									<MiningField name="float(tf(lowercase(Sentence), is))"/>
-									<MiningField name="float(tf(lowercase(Sentence), with))"/>
-									<MiningField name="float(tf(lowercase(Sentence), disappointed))"/>
-									<MiningField name="float(tf(lowercase(Sentence), waste))"/>
-									<MiningField name="float(tf(lowercase(Sentence), me))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), disappointed)"/>
+									<MiningField name="tf(lowercase(Sentence), great)"/>
+									<MiningField name="tf(lowercase(Sentence), is)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), love)"/>
+									<MiningField name="tf(lowercase(Sentence), me)"/>
+									<MiningField name="tf(lowercase(Sentence), very)"/>
+									<MiningField name="tf(lowercase(Sentence), waste)"/>
+									<MiningField name="tf(lowercase(Sentence), with)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), quality)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), quality)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">quality</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), quality))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), quality)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="-0.38333136">
 									<True/>
 									<Node score="-0.2343626">
-										<SimplePredicate field="float(tf(lowercase(Sentence), disappointed))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), disappointed)" operator="lessThan" value="1.0"/>
 										<Node score="-0.339006">
-											<SimplePredicate field="float(tf(lowercase(Sentence), very))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), very)" operator="lessThan" value="1.0"/>
 											<Node score="0.06753078">
-												<SimplePredicate field="float(tf(lowercase(Sentence), waste))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), waste)" operator="lessThan" value="1.0"/>
 												<Node score="0.2959838">
-													<SimplePredicate field="float(tf(lowercase(Sentence), great))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), great)" operator="lessThan" value="1.0"/>
 													<Node score="-0.28407925">
-														<SimplePredicate field="float(tf(lowercase(Sentence), love))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), love)" operator="lessThan" value="1.0"/>
 														<Node score="-0.010531813">
-															<SimplePredicate field="float(tf(lowercase(Sentence), me))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), me)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 												<Node score="0.07206185">
-													<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 													<Node score="0.28089303">
-														<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 												<Node score="-0.010990284">
-													<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
 										<Node score="0.053944368">
-											<SimplePredicate field="float(tf(lowercase(Sentence), very))" operator="lessThan" value="2.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), very)" operator="lessThan" value="2.0"/>
 											<Node score="-0.1627719">
-												<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 												<Node score="0.26610285">
-													<SimplePredicate field="float(tf(lowercase(Sentence), quality))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), quality)" operator="lessThan" value="1.0"/>
 													<Node score="0.11679389">
-														<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.39625546">
-												<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
@@ -1197,34 +1014,34 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), if))"/>
-									<MiningField name="float(tf(lowercase(Sentence), was))"/>
-									<MiningField name="float(tf(lowercase(Sentence), of))"/>
-									<MiningField name="float(tf(lowercase(Sentence), the))"/>
-									<MiningField name="float(tf(lowercase(Sentence), with))"/>
-									<MiningField name="float(tf(lowercase(Sentence), poor))"/>
-									<MiningField name="float(tf(lowercase(Sentence), bad))"/>
-									<MiningField name="float(tf(lowercase(Sentence), worst))"/>
-									<MiningField name="float(tf(lowercase(Sentence), then))"/>
-									<MiningField name="float(tf(lowercase(Sentence), terrible))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), bad)"/>
+									<MiningField name="tf(lowercase(Sentence), if)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), of)"/>
+									<MiningField name="tf(lowercase(Sentence), poor)"/>
+									<MiningField name="tf(lowercase(Sentence), terrible)"/>
+									<MiningField name="tf(lowercase(Sentence), the)"/>
+									<MiningField name="tf(lowercase(Sentence), then)"/>
+									<MiningField name="tf(lowercase(Sentence), was)"/>
+									<MiningField name="tf(lowercase(Sentence), with)"/>
+									<MiningField name="tf(lowercase(Sentence), worst)"/>
 								</MiningSchema>
 								<Node score="0.09289397">
 									<True/>
 									<Node score="-0.32524124">
-										<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 										<Node score="-0.3149284">
-											<SimplePredicate field="float(tf(lowercase(Sentence), poor))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), poor)" operator="lessThan" value="1.0"/>
 											<Node score="-0.3140418">
-												<SimplePredicate field="float(tf(lowercase(Sentence), bad))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), bad)" operator="lessThan" value="1.0"/>
 												<Node score="-0.34272826">
-													<SimplePredicate field="float(tf(lowercase(Sentence), worst))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), worst)" operator="lessThan" value="1.0"/>
 													<Node score="-0.28108552">
-														<SimplePredicate field="float(tf(lowercase(Sentence), terrible))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), terrible)" operator="lessThan" value="1.0"/>
 														<Node score="0.054077636">
-															<SimplePredicate field="float(tf(lowercase(Sentence), then))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), then)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
@@ -1232,23 +1049,23 @@
 										</Node>
 									</Node>
 									<Node score="-0.13230711">
-										<SimplePredicate field="float(tf(lowercase(Sentence), if))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), if)" operator="lessThan" value="1.0"/>
 										<Node score="0.012110418">
-											<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 											<Node score="-0.061659846">
-												<SimplePredicate field="float(tf(lowercase(Sentence), of))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), of)" operator="lessThan" value="1.0"/>
 												<Node score="-0.09008898">
-													<SimplePredicate field="float(tf(lowercase(Sentence), was))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), was)" operator="lessThan" value="1.0"/>
 													<Node score="-0.2974222">
-														<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
 										</Node>
 										<Node score="-2.8663417E-4">
-											<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="2.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="2.0"/>
 											<Node score="0.011086943">
-												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
@@ -1259,51 +1076,51 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), best))"/>
-									<MiningField name="float(tf(lowercase(Sentence), the))"/>
-									<MiningField name="float(tf(lowercase(Sentence), nice))"/>
-									<MiningField name="float(tf(lowercase(Sentence), with))"/>
-									<MiningField name="float(tf(lowercase(Sentence), than))"/>
-									<MiningField name="float(tf(lowercase(Sentence), comfortable))"/>
-									<MiningField name="float(tf(lowercase(Sentence), to))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), best)"/>
+									<MiningField name="tf(lowercase(Sentence), comfortable)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), nice)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), than)"/>
+									<MiningField name="tf(lowercase(Sentence), the)"/>
+									<MiningField name="tf(lowercase(Sentence), to)"/>
+									<MiningField name="tf(lowercase(Sentence), with)"/>
 								</MiningSchema>
 								<Node score="0.31485677">
 									<True/>
 									<Node score="0.33291647">
-										<SimplePredicate field="float(tf(lowercase(Sentence), nice))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), nice)" operator="lessThan" value="1.0"/>
 										<Node score="-0.060094733">
-											<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 											<Node score="0.25500938">
-												<SimplePredicate field="float(tf(lowercase(Sentence), than))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), than)" operator="lessThan" value="1.0"/>
 												<Node score="-0.0029069483">
-													<SimplePredicate field="float(tf(lowercase(Sentence), best))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), best)" operator="lessThan" value="1.0"/>
 													<Node score="0.3221932">
-														<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 														<Node score="-0.0652028">
-															<SimplePredicate field="float(tf(lowercase(Sentence), comfortable))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), comfortable)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="0.19933781">
-														<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.30909598">
-												<SimplePredicate field="float(tf(lowercase(Sentence), to))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), to)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 										<Node score="-0.12471507">
-											<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 											<Node score="-0.039451707">
-												<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 												<Node score="0.054114643">
-													<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 													<Node score="0.21785997">
-														<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
@@ -1316,43 +1133,43 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), of))"/>
-									<MiningField name="float(tf(lowercase(Sentence), be))"/>
-									<MiningField name="float(tf(lowercase(Sentence), money))"/>
-									<MiningField name="float(tf(lowercase(Sentence), first))"/>
-									<MiningField name="float(tf(lowercase(Sentence), disappointed))"/>
-									<MiningField name="float(tf(lowercase(Sentence), piece))"/>
-									<MiningField name="float(tf(lowercase(Sentence), disappointing))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), be)"/>
+									<MiningField name="tf(lowercase(Sentence), disappointed)"/>
+									<MiningField name="tf(lowercase(Sentence), disappointing)"/>
+									<MiningField name="tf(lowercase(Sentence), first)"/>
+									<MiningField name="tf(lowercase(Sentence), money)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), of)"/>
+									<MiningField name="tf(lowercase(Sentence), piece)"/>
 								</MiningSchema>
 								<Node score="-0.3332249">
 									<True/>
 									<Node score="-0.072992705">
-										<SimplePredicate field="float(tf(lowercase(Sentence), disappointed))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), disappointed)" operator="lessThan" value="1.0"/>
 										<Node score="-0.08270549">
-											<SimplePredicate field="float(tf(lowercase(Sentence), first))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), first)" operator="lessThan" value="1.0"/>
 											<Node score="-0.28144914">
-												<SimplePredicate field="float(tf(lowercase(Sentence), money))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), money)" operator="lessThan" value="1.0"/>
 												<Node score="0.076449595">
-													<SimplePredicate field="float(tf(lowercase(Sentence), piece))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), piece)" operator="lessThan" value="1.0"/>
 													<Node score="-0.38501337">
-														<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 														<Node score="0.04745836">
-															<SimplePredicate field="float(tf(lowercase(Sentence), disappointing))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), disappointing)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="-0.15889822">
-														<SimplePredicate field="float(tf(lowercase(Sentence), be))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), be)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="-0.30131382">
-												<SimplePredicate field="float(tf(lowercase(Sentence), of))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), of)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 										<Node score="-0.3134693">
-											<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 										</Node>
 									</Node>
 								</Node>
@@ -1362,48 +1179,45 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), well))"/>
-									<MiningField name="float(tf(lowercase(Sentence), recommend))"/>
-									<MiningField name="float(tf(lowercase(Sentence), to))"/>
-									<MiningField name="float(tf(lowercase(Sentence), without))"/>
-									<MiningField name="float(tf(lowercase(Sentence), cases))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), cases)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), recommend)"/>
+									<MiningField name="tf(lowercase(Sentence), to)"/>
+									<MiningField name="tf(lowercase(Sentence), well)"/>
+									<MiningField name="tf(lowercase(Sentence), without)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), any)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), any)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">any</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), any))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), any)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="0.20894903">
 									<True/>
 									<Node score="0.282658">
-										<SimplePredicate field="float(tf(lowercase(Sentence), well))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), well)" operator="lessThan" value="1.0"/>
 										<Node score="0.37961945">
-											<SimplePredicate field="float(tf(lowercase(Sentence), any))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), any)" operator="lessThan" value="1.0"/>
 											<Node score="0.06381992">
-												<SimplePredicate field="float(tf(lowercase(Sentence), without))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), without)" operator="lessThan" value="1.0"/>
 												<Node score="0.30108252">
-													<SimplePredicate field="float(tf(lowercase(Sentence), recommend))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), recommend)" operator="lessThan" value="1.0"/>
 													<Node score="0.35586885">
-														<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 														<Node score="-0.04774119">
-															<SimplePredicate field="float(tf(lowercase(Sentence), cases))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), cases)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="0.067777194">
-														<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 												<Node score="0.26531142">
-													<SimplePredicate field="float(tf(lowercase(Sentence), to))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), to)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
@@ -1415,89 +1229,83 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), works))"/>
-									<MiningField name="float(tf(lowercase(Sentence), of))"/>
-									<MiningField name="float(tf(lowercase(Sentence), is))"/>
-									<MiningField name="float(tf(lowercase(Sentence), in))"/>
-									<MiningField name="float(tf(lowercase(Sentence), the))"/>
-									<MiningField name="float(tf(lowercase(Sentence), with))"/>
-									<MiningField name="float(tf(lowercase(Sentence), t))"/>
-									<MiningField name="float(tf(lowercase(Sentence), after))"/>
-									<MiningField name="float(tf(lowercase(Sentence), to))"/>
-									<MiningField name="float(tf(lowercase(Sentence), piece))"/>
+									<MiningField name="tf(lowercase(Sentence), after)"/>
+									<MiningField name="tf(lowercase(Sentence), in)"/>
+									<MiningField name="tf(lowercase(Sentence), is)"/>
+									<MiningField name="tf(lowercase(Sentence), of)"/>
+									<MiningField name="tf(lowercase(Sentence), piece)"/>
+									<MiningField name="tf(lowercase(Sentence), t)"/>
+									<MiningField name="tf(lowercase(Sentence), the)"/>
+									<MiningField name="tf(lowercase(Sentence), to)"/>
+									<MiningField name="tf(lowercase(Sentence), with)"/>
+									<MiningField name="tf(lowercase(Sentence), works)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), doesn)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), doesn)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">doesn</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="tf(lowercase(Sentence), don)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), don)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">don</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), don))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), don)"/>
-									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), doesn))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), doesn)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="0.082387246">
 									<True/>
 									<Node score="0.2847419">
-										<SimplePredicate field="float(tf(lowercase(Sentence), t))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), t)" operator="lessThan" value="1.0"/>
 										<Node score="-0.08452511">
-											<SimplePredicate field="float(tf(lowercase(Sentence), works))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), works)" operator="lessThan" value="1.0"/>
 											<Node score="0.18814673">
-												<SimplePredicate field="float(tf(lowercase(Sentence), after))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), after)" operator="lessThan" value="1.0"/>
 												<Node score="0.017823666">
-													<SimplePredicate field="float(tf(lowercase(Sentence), in))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), in)" operator="lessThan" value="1.0"/>
 													<Node score="-0.29649207">
-														<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="2.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="2.0"/>
 														<Node score="0.05844351">
-															<SimplePredicate field="float(tf(lowercase(Sentence), piece))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), piece)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="-0.20331411">
-														<SimplePredicate field="float(tf(lowercase(Sentence), of))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), of)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 												<Node score="0.16596633">
-													<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="2.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="2.0"/>
 													<Node score="-0.26733118">
-														<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 												<Node score="-0.122440614">
-													<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 											<Node score="-0.29246458">
-												<SimplePredicate field="float(tf(lowercase(Sentence), to))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), to)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="-0.031699874">
-										<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 										<Node score="-0.27042025">
-											<SimplePredicate field="float(tf(lowercase(Sentence), don))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), don)" operator="lessThan" value="1.0"/>
 											<Node score="-0.19272684">
-												<SimplePredicate field="float(tf(lowercase(Sentence), to))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), to)" operator="lessThan" value="1.0"/>
 												<Node score="-0.0099859405">
-													<SimplePredicate field="float(tf(lowercase(Sentence), doesn))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), doesn)" operator="lessThan" value="1.0"/>
 													<Node score="0.058036752">
-														<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
 										</Node>
 										<Node score="-0.3298616">
-											<SimplePredicate field="float(tf(lowercase(Sentence), to))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), to)" operator="lessThan" value="1.0"/>
 										</Node>
 									</Node>
 								</Node>
@@ -1507,27 +1315,27 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), very))"/>
-									<MiningField name="float(tf(lowercase(Sentence), poor))"/>
-									<MiningField name="float(tf(lowercase(Sentence), bad))"/>
-									<MiningField name="float(tf(lowercase(Sentence), disappointed))"/>
-									<MiningField name="float(tf(lowercase(Sentence), terrible))"/>
-									<MiningField name="float(tf(lowercase(Sentence), difficult))"/>
+									<MiningField name="tf(lowercase(Sentence), bad)"/>
+									<MiningField name="tf(lowercase(Sentence), difficult)"/>
+									<MiningField name="tf(lowercase(Sentence), disappointed)"/>
+									<MiningField name="tf(lowercase(Sentence), poor)"/>
+									<MiningField name="tf(lowercase(Sentence), terrible)"/>
+									<MiningField name="tf(lowercase(Sentence), very)"/>
 								</MiningSchema>
 								<Node score="-0.3696162">
 									<True/>
 									<Node score="-0.2831293">
-										<SimplePredicate field="float(tf(lowercase(Sentence), difficult))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), difficult)" operator="lessThan" value="1.0"/>
 										<Node score="-0.28453472">
-											<SimplePredicate field="float(tf(lowercase(Sentence), poor))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), poor)" operator="lessThan" value="1.0"/>
 											<Node score="-0.29903224">
-												<SimplePredicate field="float(tf(lowercase(Sentence), bad))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), bad)" operator="lessThan" value="1.0"/>
 												<Node score="-0.28626493">
-													<SimplePredicate field="float(tf(lowercase(Sentence), terrible))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), terrible)" operator="lessThan" value="1.0"/>
 													<Node score="0.15378815">
-														<SimplePredicate field="float(tf(lowercase(Sentence), disappointed))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), disappointed)" operator="lessThan" value="1.0"/>
 														<Node score="0.011624031">
-															<SimplePredicate field="float(tf(lowercase(Sentence), very))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), very)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
@@ -1541,27 +1349,27 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), excellent))"/>
-									<MiningField name="float(tf(lowercase(Sentence), nice))"/>
-									<MiningField name="float(tf(lowercase(Sentence), happy))"/>
-									<MiningField name="float(tf(lowercase(Sentence), first))"/>
-									<MiningField name="float(tf(lowercase(Sentence), fits))"/>
-									<MiningField name="float(tf(lowercase(Sentence), awesome))"/>
+									<MiningField name="tf(lowercase(Sentence), awesome)"/>
+									<MiningField name="tf(lowercase(Sentence), excellent)"/>
+									<MiningField name="tf(lowercase(Sentence), first)"/>
+									<MiningField name="tf(lowercase(Sentence), fits)"/>
+									<MiningField name="tf(lowercase(Sentence), happy)"/>
+									<MiningField name="tf(lowercase(Sentence), nice)"/>
 								</MiningSchema>
 								<Node score="0.2947415">
 									<True/>
 									<Node score="-0.2820738">
-										<SimplePredicate field="float(tf(lowercase(Sentence), fits))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), fits)" operator="lessThan" value="1.0"/>
 										<Node score="0.27272904">
-											<SimplePredicate field="float(tf(lowercase(Sentence), first))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), first)" operator="lessThan" value="1.0"/>
 											<Node score="0.23330665">
-												<SimplePredicate field="float(tf(lowercase(Sentence), nice))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), nice)" operator="lessThan" value="1.0"/>
 												<Node score="0.35967734">
-													<SimplePredicate field="float(tf(lowercase(Sentence), excellent))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), excellent)" operator="lessThan" value="1.0"/>
 													<Node score="0.26264563">
-														<SimplePredicate field="float(tf(lowercase(Sentence), awesome))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), awesome)" operator="lessThan" value="1.0"/>
 														<Node score="-0.025060982">
-															<SimplePredicate field="float(tf(lowercase(Sentence), happy))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), happy)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
@@ -1575,27 +1383,27 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), works))"/>
-									<MiningField name="float(tf(lowercase(Sentence), love))"/>
-									<MiningField name="float(tf(lowercase(Sentence), best))"/>
-									<MiningField name="float(tf(lowercase(Sentence), easy))"/>
-									<MiningField name="float(tf(lowercase(Sentence), price))"/>
-									<MiningField name="float(tf(lowercase(Sentence), sturdy))"/>
+									<MiningField name="tf(lowercase(Sentence), best)"/>
+									<MiningField name="tf(lowercase(Sentence), easy)"/>
+									<MiningField name="tf(lowercase(Sentence), love)"/>
+									<MiningField name="tf(lowercase(Sentence), price)"/>
+									<MiningField name="tf(lowercase(Sentence), sturdy)"/>
+									<MiningField name="tf(lowercase(Sentence), works)"/>
 								</MiningSchema>
 								<Node score="0.25065604">
 									<True/>
 									<Node score="0.26321134">
-										<SimplePredicate field="float(tf(lowercase(Sentence), price))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), price)" operator="lessThan" value="1.0"/>
 										<Node score="0.22588508">
-											<SimplePredicate field="float(tf(lowercase(Sentence), love))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), love)" operator="lessThan" value="1.0"/>
 											<Node score="0.21559562">
-												<SimplePredicate field="float(tf(lowercase(Sentence), best))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), best)" operator="lessThan" value="1.0"/>
 												<Node score="0.21019942">
-													<SimplePredicate field="float(tf(lowercase(Sentence), works))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), works)" operator="lessThan" value="1.0"/>
 													<Node score="0.3111317">
-														<SimplePredicate field="float(tf(lowercase(Sentence), easy))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), easy)" operator="lessThan" value="1.0"/>
 														<Node score="-0.03608781">
-															<SimplePredicate field="float(tf(lowercase(Sentence), sturdy))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), sturdy)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
@@ -1609,27 +1417,27 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), worst))"/>
-									<MiningField name="float(tf(lowercase(Sentence), then))"/>
-									<MiningField name="float(tf(lowercase(Sentence), waste))"/>
-									<MiningField name="float(tf(lowercase(Sentence), disappointing))"/>
-									<MiningField name="float(tf(lowercase(Sentence), old))"/>
-									<MiningField name="float(tf(lowercase(Sentence), none))"/>
+									<MiningField name="tf(lowercase(Sentence), disappointing)"/>
+									<MiningField name="tf(lowercase(Sentence), none)"/>
+									<MiningField name="tf(lowercase(Sentence), old)"/>
+									<MiningField name="tf(lowercase(Sentence), then)"/>
+									<MiningField name="tf(lowercase(Sentence), waste)"/>
+									<MiningField name="tf(lowercase(Sentence), worst)"/>
 								</MiningSchema>
 								<Node score="-0.27322912">
 									<True/>
 									<Node score="-0.3274482">
-										<SimplePredicate field="float(tf(lowercase(Sentence), waste))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), waste)" operator="lessThan" value="1.0"/>
 										<Node score="-0.33438146">
-											<SimplePredicate field="float(tf(lowercase(Sentence), old))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), old)" operator="lessThan" value="1.0"/>
 											<Node score="-0.24646339">
-												<SimplePredicate field="float(tf(lowercase(Sentence), disappointing))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), disappointing)" operator="lessThan" value="1.0"/>
 												<Node score="-0.2634656">
-													<SimplePredicate field="float(tf(lowercase(Sentence), then))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), then)" operator="lessThan" value="1.0"/>
 													<Node score="-0.32034615">
-														<SimplePredicate field="float(tf(lowercase(Sentence), worst))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), worst)" operator="lessThan" value="1.0"/>
 														<Node score="0.031417497">
-															<SimplePredicate field="float(tf(lowercase(Sentence), none))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), none)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
@@ -1643,65 +1451,56 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), than))"/>
-									<MiningField name="float(tf(lowercase(Sentence), comfortable))"/>
-									<MiningField name="float(tf(lowercase(Sentence), to))"/>
-									<MiningField name="float(tf(lowercase(Sentence), cell))"/>
+									<MiningField name="tf(lowercase(Sentence), cell)"/>
+									<MiningField name="tf(lowercase(Sentence), comfortable)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), than)"/>
+									<MiningField name="tf(lowercase(Sentence), to)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), bluetooth)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), bluetooth)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">bluetooth</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="tf(lowercase(Sentence), far)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), far)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">far</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="tf(lowercase(Sentence), only)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), only)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">only</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), bluetooth))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), bluetooth)"/>
-									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), far))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), far)"/>
-									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), only))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), only)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="0.24326551">
 									<True/>
 									<Node score="0.2292888">
-										<SimplePredicate field="float(tf(lowercase(Sentence), cell))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), cell)" operator="lessThan" value="1.0"/>
 										<Node score="0.035036266">
-											<SimplePredicate field="float(tf(lowercase(Sentence), comfortable))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), comfortable)" operator="lessThan" value="1.0"/>
 											<Node score="-0.049337033">
-												<SimplePredicate field="float(tf(lowercase(Sentence), bluetooth))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), bluetooth)" operator="lessThan" value="1.0"/>
 												<Node score="0.25870016">
-													<SimplePredicate field="float(tf(lowercase(Sentence), than))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), than)" operator="lessThan" value="1.0"/>
 													<Node score="-0.3035861">
-														<SimplePredicate field="float(tf(lowercase(Sentence), far))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), far)" operator="lessThan" value="1.0"/>
 														<Node score="-0.021877535">
-															<SimplePredicate field="float(tf(lowercase(Sentence), only))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), only)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 												<Node score="0.24753799">
-													<SimplePredicate field="float(tf(lowercase(Sentence), to))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), to)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 											<Node score="0.3265434">
-												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>
@@ -1712,46 +1511,46 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), at))"/>
-									<MiningField name="float(tf(lowercase(Sentence), if))"/>
-									<MiningField name="float(tf(lowercase(Sentence), of))"/>
-									<MiningField name="float(tf(lowercase(Sentence), well))"/>
-									<MiningField name="float(tf(lowercase(Sentence), be))"/>
-									<MiningField name="float(tf(lowercase(Sentence), disappointment))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), at)"/>
+									<MiningField name="tf(lowercase(Sentence), be)"/>
+									<MiningField name="tf(lowercase(Sentence), disappointment)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), if)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), of)"/>
+									<MiningField name="tf(lowercase(Sentence), well)"/>
 								</MiningSchema>
 								<Node score="-0.30944103">
 									<True/>
 									<Node score="0.08246577">
-										<SimplePredicate field="float(tf(lowercase(Sentence), disappointment))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), disappointment)" operator="lessThan" value="1.0"/>
 										<Node score="-0.2435534">
-											<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 											<Node score="0.013011211">
-												<SimplePredicate field="float(tf(lowercase(Sentence), if))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), if)" operator="lessThan" value="1.0"/>
 												<Node score="0.23055458">
-													<SimplePredicate field="float(tf(lowercase(Sentence), at))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), at)" operator="lessThan" value="1.0"/>
 													<Node score="0.23709838">
-														<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 														<Node score="0.011069372">
-															<SimplePredicate field="float(tf(lowercase(Sentence), well))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), well)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 												<Node score="-0.31964248">
-													<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
 										<Node score="0.032130856">
-											<SimplePredicate field="float(tf(lowercase(Sentence), if))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), if)" operator="lessThan" value="1.0"/>
 											<Node score="0.038495306">
-												<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 												<Node score="-0.031827256">
-													<SimplePredicate field="float(tf(lowercase(Sentence), be))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), be)" operator="lessThan" value="1.0"/>
 													<Node score="-0.23816179">
-														<SimplePredicate field="float(tf(lowercase(Sentence), of))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), of)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
@@ -1764,51 +1563,48 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), recommend))"/>
-									<MiningField name="float(tf(lowercase(Sentence), with))"/>
-									<MiningField name="float(tf(lowercase(Sentence), me))"/>
-									<MiningField name="float(tf(lowercase(Sentence), to))"/>
-									<MiningField name="float(tf(lowercase(Sentence), without))"/>
-									<MiningField name="float(tf(lowercase(Sentence), difficult))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), difficult)"/>
+									<MiningField name="tf(lowercase(Sentence), me)"/>
+									<MiningField name="tf(lowercase(Sentence), recommend)"/>
+									<MiningField name="tf(lowercase(Sentence), to)"/>
+									<MiningField name="tf(lowercase(Sentence), with)"/>
+									<MiningField name="tf(lowercase(Sentence), without)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), these)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), these)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">these</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), these))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), these)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="-0.24146359">
 									<True/>
 									<Node score="0.31338573">
-										<SimplePredicate field="float(tf(lowercase(Sentence), me))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), me)" operator="lessThan" value="1.0"/>
 										<Node score="-0.30471957">
-											<SimplePredicate field="float(tf(lowercase(Sentence), without))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), without)" operator="lessThan" value="1.0"/>
 											<Node score="0.23907961">
-												<SimplePredicate field="float(tf(lowercase(Sentence), difficult))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), difficult)" operator="lessThan" value="1.0"/>
 												<Node score="0.2938057">
-													<SimplePredicate field="float(tf(lowercase(Sentence), recommend))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), recommend)" operator="lessThan" value="1.0"/>
 													<Node score="0.09812122">
-														<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 														<Node score="-0.037805904">
-															<SimplePredicate field="float(tf(lowercase(Sentence), with))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), with)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="0.04162676">
-														<SimplePredicate field="float(tf(lowercase(Sentence), these))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), these)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
 										</Node>
 									</Node>
 									<Node score="-0.07457465">
-										<SimplePredicate field="float(tf(lowercase(Sentence), to))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), to)" operator="lessThan" value="1.0"/>
 									</Node>
 								</Node>
 							</TreeModel>
@@ -1817,56 +1613,50 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), great))"/>
-									<MiningField name="float(tf(lowercase(Sentence), excellent))"/>
-									<MiningField name="float(tf(lowercase(Sentence), it))"/>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), love))"/>
-									<MiningField name="float(tf(lowercase(Sentence), awesome))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), awesome)"/>
+									<MiningField name="tf(lowercase(Sentence), excellent)"/>
+									<MiningField name="tf(lowercase(Sentence), great)"/>
+									<MiningField name="tf(lowercase(Sentence), it)"/>
+									<MiningField name="tf(lowercase(Sentence), love)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), fine)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), fine)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">fine</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="tf(lowercase(Sentence), perfectly)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), perfectly)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">perfectly</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), perfectly))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), perfectly)"/>
-									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), fine))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), fine)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="0.30984843">
 									<True/>
 									<Node score="0.30558383">
-										<SimplePredicate field="float(tf(lowercase(Sentence), awesome))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), awesome)" operator="lessThan" value="1.0"/>
 										<Node score="0.027339494">
-											<SimplePredicate field="float(tf(lowercase(Sentence), perfectly))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), perfectly)" operator="lessThan" value="1.0"/>
 											<Node score="0.20358455">
-												<SimplePredicate field="float(tf(lowercase(Sentence), great))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), great)" operator="lessThan" value="1.0"/>
 												<Node score="0.2501937">
-													<SimplePredicate field="float(tf(lowercase(Sentence), excellent))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), excellent)" operator="lessThan" value="1.0"/>
 													<Node score="0.23496458">
-														<SimplePredicate field="float(tf(lowercase(Sentence), fine))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), fine)" operator="lessThan" value="1.0"/>
 														<Node score="-0.030292293">
-															<SimplePredicate field="float(tf(lowercase(Sentence), love))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), love)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.040801972">
-												<SimplePredicate field="float(tf(lowercase(Sentence), it))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), it)" operator="lessThan" value="1.0"/>
 												<Node score="0.20708078">
-													<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
@@ -1878,59 +1668,53 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), is))"/>
-									<MiningField name="float(tf(lowercase(Sentence), t))"/>
-									<MiningField name="float(tf(lowercase(Sentence), poor))"/>
-									<MiningField name="float(tf(lowercase(Sentence), bad))"/>
-									<MiningField name="float(tf(lowercase(Sentence), you))"/>
-									<MiningField name="float(tf(lowercase(Sentence), horrible))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), bad)"/>
+									<MiningField name="tf(lowercase(Sentence), horrible)"/>
+									<MiningField name="tf(lowercase(Sentence), is)"/>
+									<MiningField name="tf(lowercase(Sentence), poor)"/>
+									<MiningField name="tf(lowercase(Sentence), t)"/>
+									<MiningField name="tf(lowercase(Sentence), you)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), been)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), been)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">been</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="tf(lowercase(Sentence), hear)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), hear)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">hear</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), been))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), been)"/>
-									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), hear))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), hear)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="-0.248106">
 									<True/>
 									<Node score="0.2811884">
-										<SimplePredicate field="float(tf(lowercase(Sentence), bad))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), bad)" operator="lessThan" value="1.0"/>
 										<Node score="0.07835134">
-											<SimplePredicate field="float(tf(lowercase(Sentence), been))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), been)" operator="lessThan" value="1.0"/>
 											<Node score="-0.2908719">
-												<SimplePredicate field="float(tf(lowercase(Sentence), t))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), t)" operator="lessThan" value="1.0"/>
 												<Node score="-0.27341267">
-													<SimplePredicate field="float(tf(lowercase(Sentence), hear))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), hear)" operator="lessThan" value="1.0"/>
 													<Node score="-0.24325287">
-														<SimplePredicate field="float(tf(lowercase(Sentence), horrible))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), horrible)" operator="lessThan" value="1.0"/>
 														<Node score="0.028887836">
-															<SimplePredicate field="float(tf(lowercase(Sentence), poor))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), poor)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.02860448">
-												<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 												<Node score="-0.05774697">
-													<SimplePredicate field="float(tf(lowercase(Sentence), you))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), you)" operator="lessThan" value="1.0"/>
 													<Node score="-0.20933437">
-														<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
@@ -1943,50 +1727,47 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), and))"/>
-									<MiningField name="float(tf(lowercase(Sentence), the))"/>
-									<MiningField name="float(tf(lowercase(Sentence), disappointed))"/>
-									<MiningField name="float(tf(lowercase(Sentence), terrible))"/>
-									<MiningField name="float(tf(lowercase(Sentence), comfortable))"/>
-									<MiningField name="float(tf(lowercase(Sentence), old))"/>
-									<MiningField name="float(tf(lowercase(Sentence), ve))"/>
+									<MiningField name="tf(lowercase(Sentence), and)"/>
+									<MiningField name="tf(lowercase(Sentence), comfortable)"/>
+									<MiningField name="tf(lowercase(Sentence), disappointed)"/>
+									<MiningField name="tf(lowercase(Sentence), old)"/>
+									<MiningField name="tf(lowercase(Sentence), terrible)"/>
+									<MiningField name="tf(lowercase(Sentence), the)"/>
+									<MiningField name="tf(lowercase(Sentence), ve)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), has)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), has)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">has</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), has))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), has)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="-0.2606851">
 									<True/>
 									<Node score="-0.28802007">
-										<SimplePredicate field="float(tf(lowercase(Sentence), terrible))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), terrible)" operator="lessThan" value="1.0"/>
 										<Node score="-0.25128904">
-											<SimplePredicate field="float(tf(lowercase(Sentence), old))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), old)" operator="lessThan" value="1.0"/>
 											<Node score="0.19339631">
-												<SimplePredicate field="float(tf(lowercase(Sentence), disappointed))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), disappointed)" operator="lessThan" value="1.0"/>
 												<Node score="0.09022385">
-													<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="2.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="2.0"/>
 													<Node score="0.31779683">
-														<SimplePredicate field="float(tf(lowercase(Sentence), has))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), has)" operator="lessThan" value="1.0"/>
 														<Node score="0.010342445">
-															<SimplePredicate field="float(tf(lowercase(Sentence), comfortable))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), comfortable)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="0.2836978">
-														<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 												<Node score="0.013768196">
-													<SimplePredicate field="float(tf(lowercase(Sentence), ve))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), ve)" operator="lessThan" value="1.0"/>
 													<Node score="-0.20300883">
-														<SimplePredicate field="float(tf(lowercase(Sentence), and))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), and)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
@@ -1999,55 +1780,49 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), be))"/>
-									<MiningField name="float(tf(lowercase(Sentence), money))"/>
-									<MiningField name="float(tf(lowercase(Sentence), worst))"/>
-									<MiningField name="float(tf(lowercase(Sentence), after))"/>
-									<MiningField name="float(tf(lowercase(Sentence), ve))"/>
+									<MiningField name="tf(lowercase(Sentence), after)"/>
+									<MiningField name="tf(lowercase(Sentence), be)"/>
+									<MiningField name="tf(lowercase(Sentence), money)"/>
+									<MiningField name="tf(lowercase(Sentence), ve)"/>
+									<MiningField name="tf(lowercase(Sentence), worst)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), junk)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), junk)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">junk</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="tf(lowercase(Sentence), that)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), that)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">that</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), junk))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), junk)"/>
-									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), that))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), that)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="-0.2154139">
 									<True/>
 									<Node score="-0.26130283">
-										<SimplePredicate field="float(tf(lowercase(Sentence), money))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), money)" operator="lessThan" value="1.0"/>
 										<Node score="-0.2352765">
-											<SimplePredicate field="float(tf(lowercase(Sentence), junk))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), junk)" operator="lessThan" value="1.0"/>
 											<Node score="0.04304819">
-												<SimplePredicate field="float(tf(lowercase(Sentence), worst))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), worst)" operator="lessThan" value="1.0"/>
 												<Node score="-0.02980374">
-													<SimplePredicate field="float(tf(lowercase(Sentence), ve))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), ve)" operator="lessThan" value="1.0"/>
 													<Node score="-0.1611669">
-														<SimplePredicate field="float(tf(lowercase(Sentence), after))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), after)" operator="lessThan" value="1.0"/>
 														<Node score="0.021891637">
-															<SimplePredicate field="float(tf(lowercase(Sentence), be))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), be)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="-0.2838194">
-														<SimplePredicate field="float(tf(lowercase(Sentence), that))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), that)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 												<Node score="0.24049707">
-													<SimplePredicate field="float(tf(lowercase(Sentence), that))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), that)" operator="lessThan" value="1.0"/>
 												</Node>
 											</Node>
 										</Node>
@@ -2059,32 +1834,32 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), good))"/>
-									<MiningField name="float(tf(lowercase(Sentence), the))"/>
-									<MiningField name="float(tf(lowercase(Sentence), nice))"/>
-									<MiningField name="float(tf(lowercase(Sentence), then))"/>
-									<MiningField name="float(tf(lowercase(Sentence), disappointing))"/>
-									<MiningField name="float(tf(lowercase(Sentence), cases))"/>
-									<MiningField name="float(tf(lowercase(Sentence), disappointment))"/>
+									<MiningField name="tf(lowercase(Sentence), cases)"/>
+									<MiningField name="tf(lowercase(Sentence), disappointing)"/>
+									<MiningField name="tf(lowercase(Sentence), disappointment)"/>
+									<MiningField name="tf(lowercase(Sentence), good)"/>
+									<MiningField name="tf(lowercase(Sentence), nice)"/>
+									<MiningField name="tf(lowercase(Sentence), the)"/>
+									<MiningField name="tf(lowercase(Sentence), then)"/>
 								</MiningSchema>
 								<Node score="0.2401944">
 									<True/>
 									<Node score="-0.29352853">
-										<SimplePredicate field="float(tf(lowercase(Sentence), nice))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), nice)" operator="lessThan" value="1.0"/>
 										<Node score="-0.22813906">
-											<SimplePredicate field="float(tf(lowercase(Sentence), disappointing))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), disappointing)" operator="lessThan" value="1.0"/>
 											<Node score="-0.2708642">
-												<SimplePredicate field="float(tf(lowercase(Sentence), then))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), then)" operator="lessThan" value="1.0"/>
 												<Node score="0.03762595">
-													<SimplePredicate field="float(tf(lowercase(Sentence), disappointment))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), disappointment)" operator="lessThan" value="1.0"/>
 													<Node score="0.26902857">
-														<SimplePredicate field="float(tf(lowercase(Sentence), good))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), good)" operator="lessThan" value="1.0"/>
 														<Node score="-0.006483823">
-															<SimplePredicate field="float(tf(lowercase(Sentence), cases))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), cases)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 													<Node score="0.20304836">
-														<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="1.0"/>
 													</Node>
 												</Node>
 											</Node>
@@ -2097,38 +1872,35 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), works))"/>
-									<MiningField name="float(tf(lowercase(Sentence), first))"/>
-									<MiningField name="float(tf(lowercase(Sentence), difficult))"/>
-									<MiningField name="float(tf(lowercase(Sentence), none))"/>
-									<MiningField name="float(tf(lowercase(Sentence), cell))"/>
+									<MiningField name="tf(lowercase(Sentence), cell)"/>
+									<MiningField name="tf(lowercase(Sentence), difficult)"/>
+									<MiningField name="tf(lowercase(Sentence), first)"/>
+									<MiningField name="tf(lowercase(Sentence), none)"/>
+									<MiningField name="tf(lowercase(Sentence), works)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), plug)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), plug)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">plug</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), plug))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), plug)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="-0.2663436">
 									<True/>
 									<Node score="0.24015985">
-										<SimplePredicate field="float(tf(lowercase(Sentence), none))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), none)" operator="lessThan" value="1.0"/>
 										<Node score="-0.26304585">
-											<SimplePredicate field="float(tf(lowercase(Sentence), works))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), works)" operator="lessThan" value="1.0"/>
 											<Node score="0.22018516">
-												<SimplePredicate field="float(tf(lowercase(Sentence), plug))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), plug)" operator="lessThan" value="1.0"/>
 												<Node score="-0.23792426">
-													<SimplePredicate field="float(tf(lowercase(Sentence), cell))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), cell)" operator="lessThan" value="1.0"/>
 													<Node score="-0.26706275">
-														<SimplePredicate field="float(tf(lowercase(Sentence), first))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), first)" operator="lessThan" value="1.0"/>
 														<Node score="0.0051431423">
-															<SimplePredicate field="float(tf(lowercase(Sentence), difficult))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), difficult)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
@@ -2142,46 +1914,40 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), best))"/>
-									<MiningField name="float(tf(lowercase(Sentence), happy))"/>
-									<MiningField name="float(tf(lowercase(Sentence), awesome))"/>
-									<MiningField name="float(tf(lowercase(Sentence), sturdy))"/>
+									<MiningField name="tf(lowercase(Sentence), awesome)"/>
+									<MiningField name="tf(lowercase(Sentence), best)"/>
+									<MiningField name="tf(lowercase(Sentence), happy)"/>
+									<MiningField name="tf(lowercase(Sentence), sturdy)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), clear)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), clear)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">clear</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="tf(lowercase(Sentence), pleased)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), pleased)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">pleased</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), pleased))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), pleased)"/>
-									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), clear))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), clear)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="0.2663057">
 									<True/>
 									<Node score="0.18575521">
-										<SimplePredicate field="float(tf(lowercase(Sentence), pleased))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), pleased)" operator="lessThan" value="1.0"/>
 										<Node score="0.20757534">
-											<SimplePredicate field="float(tf(lowercase(Sentence), best))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), best)" operator="lessThan" value="1.0"/>
 											<Node score="0.20857695">
-												<SimplePredicate field="float(tf(lowercase(Sentence), clear))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), clear)" operator="lessThan" value="1.0"/>
 												<Node score="0.25705245">
-													<SimplePredicate field="float(tf(lowercase(Sentence), happy))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), happy)" operator="lessThan" value="1.0"/>
 													<Node score="0.25828257">
-														<SimplePredicate field="float(tf(lowercase(Sentence), sturdy))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), sturdy)" operator="lessThan" value="1.0"/>
 														<Node score="-0.02657623">
-															<SimplePredicate field="float(tf(lowercase(Sentence), awesome))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), awesome)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
@@ -2195,46 +1961,40 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), not))"/>
-									<MiningField name="float(tf(lowercase(Sentence), bad))"/>
-									<MiningField name="float(tf(lowercase(Sentence), waste))"/>
-									<MiningField name="float(tf(lowercase(Sentence), horrible))"/>
+									<MiningField name="tf(lowercase(Sentence), bad)"/>
+									<MiningField name="tf(lowercase(Sentence), horrible)"/>
+									<MiningField name="tf(lowercase(Sentence), not)"/>
+									<MiningField name="tf(lowercase(Sentence), waste)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), easily)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), easily)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">easily</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="tf(lowercase(Sentence), useless)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), useless)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">useless</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), useless))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), useless)"/>
-									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), easily))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), easily)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="-0.24902181">
 									<True/>
 									<Node score="-0.22796173">
-										<SimplePredicate field="float(tf(lowercase(Sentence), useless))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), useless)" operator="lessThan" value="1.0"/>
 										<Node score="-0.26269442">
-											<SimplePredicate field="float(tf(lowercase(Sentence), bad))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), bad)" operator="lessThan" value="1.0"/>
 											<Node score="-0.22944017">
-												<SimplePredicate field="float(tf(lowercase(Sentence), easily))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), easily)" operator="lessThan" value="1.0"/>
 												<Node score="-0.2411797">
-													<SimplePredicate field="float(tf(lowercase(Sentence), waste))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), waste)" operator="lessThan" value="1.0"/>
 													<Node score="-0.08932501">
-														<SimplePredicate field="float(tf(lowercase(Sentence), horrible))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), horrible)" operator="lessThan" value="1.0"/>
 														<Node score="0.029351853">
-															<SimplePredicate field="float(tf(lowercase(Sentence), not))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), not)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
@@ -2248,53 +2008,50 @@
 							<True/>
 							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
 								<MiningSchema>
-									<MiningField name="float(tf(lowercase(Sentence), love))"/>
-									<MiningField name="float(tf(lowercase(Sentence), is))"/>
-									<MiningField name="float(tf(lowercase(Sentence), recommend))"/>
-									<MiningField name="float(tf(lowercase(Sentence), the))"/>
-									<MiningField name="float(tf(lowercase(Sentence), nice))"/>
-									<MiningField name="float(tf(lowercase(Sentence), easy))"/>
-									<MiningField name="float(tf(lowercase(Sentence), price))"/>
-									<MiningField name="float(tf(lowercase(Sentence), fits))"/>
+									<MiningField name="tf(lowercase(Sentence), easy)"/>
+									<MiningField name="tf(lowercase(Sentence), fits)"/>
+									<MiningField name="tf(lowercase(Sentence), is)"/>
+									<MiningField name="tf(lowercase(Sentence), love)"/>
+									<MiningField name="tf(lowercase(Sentence), nice)"/>
+									<MiningField name="tf(lowercase(Sentence), price)"/>
+									<MiningField name="tf(lowercase(Sentence), recommend)"/>
+									<MiningField name="tf(lowercase(Sentence), the)"/>
 									<MiningField name="lowercase(Sentence)"/>
 								</MiningSchema>
 								<LocalTransformations>
-									<DerivedField name="tf(lowercase(Sentence), highly)" optype="continuous" dataType="double">
+									<DerivedField name="tf(lowercase(Sentence), highly)" optype="continuous" dataType="float">
 										<Apply function="tf(lowercase(Sentence))">
 											<FieldRef field="lowercase(Sentence)"/>
 											<Constant dataType="string">highly</Constant>
 										</Apply>
 									</DerivedField>
-									<DerivedField name="float(tf(lowercase(Sentence), highly))" optype="continuous" dataType="float">
-										<FieldRef field="tf(lowercase(Sentence), highly)"/>
-									</DerivedField>
 								</LocalTransformations>
 								<Node score="0.22050552">
 									<True/>
 									<Node score="0.23049273">
-										<SimplePredicate field="float(tf(lowercase(Sentence), fits))" operator="lessThan" value="1.0"/>
+										<SimplePredicate field="tf(lowercase(Sentence), fits)" operator="lessThan" value="1.0"/>
 										<Node score="0.23979676">
-											<SimplePredicate field="float(tf(lowercase(Sentence), easy))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), easy)" operator="lessThan" value="1.0"/>
 											<Node score="0.19187966">
-												<SimplePredicate field="float(tf(lowercase(Sentence), recommend))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), recommend)" operator="lessThan" value="1.0"/>
 												<Node score="0.21084373">
-													<SimplePredicate field="float(tf(lowercase(Sentence), price))" operator="lessThan" value="1.0"/>
+													<SimplePredicate field="tf(lowercase(Sentence), price)" operator="lessThan" value="1.0"/>
 													<Node score="0.21221493">
-														<SimplePredicate field="float(tf(lowercase(Sentence), love))" operator="lessThan" value="1.0"/>
+														<SimplePredicate field="tf(lowercase(Sentence), love)" operator="lessThan" value="1.0"/>
 														<Node score="-0.028610714">
-															<SimplePredicate field="float(tf(lowercase(Sentence), nice))" operator="lessThan" value="1.0"/>
+															<SimplePredicate field="tf(lowercase(Sentence), nice)" operator="lessThan" value="1.0"/>
 														</Node>
 													</Node>
 												</Node>
 											</Node>
 											<Node score="0.05479785">
-												<SimplePredicate field="float(tf(lowercase(Sentence), highly))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), highly)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 										<Node score="-0.012653431">
-											<SimplePredicate field="float(tf(lowercase(Sentence), is))" operator="lessThan" value="1.0"/>
+											<SimplePredicate field="tf(lowercase(Sentence), is)" operator="lessThan" value="1.0"/>
 											<Node score="0.13588181">
-												<SimplePredicate field="float(tf(lowercase(Sentence), the))" operator="lessThan" value="1.0"/>
+												<SimplePredicate field="tf(lowercase(Sentence), the)" operator="lessThan" value="1.0"/>
 											</Node>
 										</Node>
 									</Node>

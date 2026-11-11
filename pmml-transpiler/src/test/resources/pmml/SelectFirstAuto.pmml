@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.133.1"/>
-		<Timestamp>2026-10-10T20:07:56Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.134.0"/>
+		<Timestamp>2026-11-11T04:04:56Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="mpg" optype="continuous" dataType="double"/>
@@ -49,9 +49,9 @@
 	<MiningModel functionName="regression" algorithmName="sklearn2pmml.ensemble.SelectFirstRegressor">
 		<MiningSchema>
 			<MiningField name="mpg" usageType="target"/>
-			<MiningField name="cylinders" missingValueTreatment="asIs"/>
-			<MiningField name="model_year" missingValueTreatment="asIs"/>
-			<MiningField name="origin" missingValueTreatment="asIs"/>
+			<MiningField name="cylinders" missingValueTreatment="returnInvalid"/>
+			<MiningField name="model_year" missingValueTreatment="returnInvalid"/>
+			<MiningField name="origin" missingValueTreatment="returnInvalid"/>
 			<MiningField name="displacement" missingValueTreatment="asIs"/>
 			<MiningField name="horsepower" missingValueTreatment="asIs"/>
 			<MiningField name="weight" missingValueTreatment="asIs"/>

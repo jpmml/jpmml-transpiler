@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="SkLearn2PMML package" version="0.133.1"/>
-		<Timestamp>2026-10-10T20:07:11Z</Timestamp>
+		<Application name="SkLearn2PMML package" version="0.134.0"/>
+		<Timestamp>2026-11-11T04:04:12Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="Adjusted" optype="categorical" dataType="integer">
@@ -77,11 +77,11 @@
 	<MiningModel functionName="classification" algorithmName="sklearn2pmml.ensemble.SelectFirstClassifier">
 		<MiningSchema>
 			<MiningField name="Adjusted" usageType="target"/>
-			<MiningField name="Employment" missingValueTreatment="asIs"/>
-			<MiningField name="Education" missingValueTreatment="asIs"/>
-			<MiningField name="Marital" missingValueTreatment="asIs"/>
-			<MiningField name="Occupation" missingValueTreatment="asIs"/>
-			<MiningField name="Gender" missingValueTreatment="asIs"/>
+			<MiningField name="Employment" missingValueTreatment="returnInvalid"/>
+			<MiningField name="Education" missingValueTreatment="returnInvalid"/>
+			<MiningField name="Marital" missingValueTreatment="returnInvalid"/>
+			<MiningField name="Occupation" missingValueTreatment="returnInvalid"/>
+			<MiningField name="Gender" missingValueTreatment="returnInvalid"/>
 			<MiningField name="Age" missingValueTreatment="asIs"/>
 			<MiningField name="Income" missingValueTreatment="asIs"/>
 			<MiningField name="Hours" missingValueTreatment="asIs"/>
